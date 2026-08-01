@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Naina Gupta — UI/UX Designer</title>
+<meta name="description" content="Naina Gupta, UI/UX Designer. Making the chaos around you easy to navigate — 0→1 products, case studies, and side projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=Caveat:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="top" style="position: relative; min-height: 100vh; overflow: hidden; background: #ffffff; font-family: 'DM Sans',sans-serif">
+
+  <!-- Paper-grain + faint pixel grid -->
+  <div style="position:absolute; inset:0; z-index:0; pointer-events:none;
+    background-image:repeating-linear-gradient(0deg,rgba(20,20,20,.03) 0,rgba(20,20,20,.03) 1px,transparent 1px,transparent 5px),
+                     repeating-linear-gradient(90deg,rgba(20,20,20,.03) 0,rgba(20,20,20,.03) 1px,transparent 1px,transparent 5px);"></div>
+  <!-- warm corner glow -->
+  <div style="position:absolute; top:-10%; right:-6%; width:56%; height:70%; z-index:0; pointer-events:none;
+    background:radial-gradient(ellipse at 70% 20%, rgba(255,210,74,.16) 0%, transparent 62%);"></div>
+
+  <!-- NAV -->
+  <nav style="position:absolute; top:0; left:0; right:0; z-index:10;
+    display:flex; align-items:center; justify-content:space-between; padding:26px 60px;">
+    <a href="#" style="text-decoration:none;">
+      <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:22px;
+        color:#1A1209; letter-spacing:-.5px;">naina.</span>
+    </a>
+    <div id="siteNav" style="display:flex; gap:34px; align-items:flex-end;">
+      <a class="navlink" data-nav="home" href="#top" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:5px; font-size:14px; font-weight:600; color:#1A1209; letter-spacing:.15px; transition:opacity .2s;" data-hover="opacity:.55;">Home<span class="navbar" style="display:block; width:100%; height:3px; background:#121212;"></span></a>
+      <a class="navlink" data-nav="gallery" href="gallery.html" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:5px; font-size:14px; font-weight:500; color:#2A2030; letter-spacing:.15px; transition:opacity .2s;" data-hover="opacity:.55;">Gallery<span class="navbar" style="display:block; width:100%; height:3px; background:transparent;"></span></a>
+      <a class="navlink" data-nav="contact" href="#contact" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:5px; font-size:14px; font-weight:500; color:#2A2030; letter-spacing:.15px; transition:opacity .2s;" data-hover="opacity:.55;">Contact<span class="navbar" style="display:block; width:100%; height:3px; background:transparent;"></span></a>
+    </div>
+  </nav>
+
+  <!-- CONTENT — workbench stage -->
+  <div id="wrapRef" style="position:relative; z-index:5; width:100%; overflow:hidden; display:flex; justify-content:center;">
+  <div id="stageRef" style="width: 1440px; height: 900px; flex: none; transform-origin: top center; position: relative; overflow: hidden; color: #121212">
+
+    <div id="gridRef" style="position:absolute; left:206.19px; top:167.41px; width:1027.62px; height:565.19px; opacity:.42; background-image:linear-gradient(to bottom,#6F6B5D 1px,transparent 1px),linear-gradient(to right,#6F6B5D 1px,transparent 1px); background-size:51.3805px 51.3805px; border-right:1px solid #6F6B5D; border-bottom:1px solid #6F6B5D;"></div>
+
+    <div data-knockout="1" style="position:absolute; left:313px; top:223px; font-family:'Space Grotesk',sans-serif; font-size:34px; line-height:47px; letter-spacing:-.2px; background:#FFFFFF; padding:0 8px;">MAKING THE</div>
+    <div data-knockout="1" style="position:absolute; left:313px; top:270px; font-family:'Space Grotesk',sans-serif; font-size:34px; line-height:47px; letter-spacing:-.2px; font-weight:700; background:#FFFFFF; padding:0 8px;">CHAOS</div>
+    <div data-knockout="1" style="position:absolute; left:521px; top:376px; font-family:'Space Grotesk',sans-serif; font-size:34px; line-height:47px; letter-spacing:-.2px; background:#FFFFFF; padding:0 8px;">AROUND YOU</div>
+    <div data-knockout="1" style="position:absolute; left:883px; top:583px; font-family:'Space Grotesk',sans-serif; font-size:34px; line-height:47px; letter-spacing:-.2px; background:#FFFFFF; padding:0 8px;">EASY TO <span style="font-weight:700;">NAVIGATE</span></div>
+    <div data-knockout="1" style="position:absolute; left:883px; top:630px; font-family:'Space Grotesk',sans-serif; font-size:34px; line-height:47px; letter-spacing:-.2px; background:#FFFFFF; padding:0 8px;">THROUGH</div>
+
+    <div style="position: absolute; left: 260.5px; top: 383.4px; width: 196.6px; height: 138.8px; border-radius: 8px; background: #FFFFFF; border: 1.2px solid #121212; box-shadow: 5px 6px 12px rgba(90,84,70,.28)"></div>
+
+    <div class="site-card" style="position: absolute; left: 264.5px; top: 383.5px; width: 196.6px; height: 138.8px; border-radius: 8px; background: #FFFFFF; border: 1.2px solid #121212; transform: rotate(2.745deg); overflow: hidden; box-shadow: 4px 5px 10px rgba(90,84,70,.22); cursor: pointer; z-index: 3; transition: transform .32s cubic-bezier(.2,.85,.3,1.05), box-shadow .32s ease" data-hover="transform:rotate(0deg) scale(1.14); box-shadow:10px 14px 26px rgba(90,84,70,.3); z-index:9;">
+      <div style="height:14.4px; border-bottom:1.2px solid #121212; display:flex; align-items:center; padding:0 6px; gap:3px; position:relative;">
+        <div style="width:3px; height:3px; border-radius:50%; background:#FF6B5B; border:.5px solid #121212;"></div>
+        <div style="width:3px; height:3px; border-radius:50%; background:#F9C846; border:.5px solid #121212;"></div>
+        <div style="width:3px; height:3px; border-radius:50%; background:#63E3C2; border:.5px solid #121212;"></div>
+        <div style="position:absolute; left:50%; transform:translateX(-50%); width:38.7px; height:6.2px; border-radius:3px; background:#F0ECE1; border:.6px solid #121212; font-size:3.6px; letter-spacing:.2px; display:flex; align-items:center; justify-content:center; color:#6b6659;">naina.design</div>
+      </div>
+      <div style="height:59px; background:#F9C846; border-bottom:1.2px solid #121212; padding:8px 10px 0; position:relative;">
+        <div style="display:flex; align-items:center; gap:4px;">
+          <div style="height:7px; padding:0 4px; border-radius:3.5px; background:#FFFFFF; border:.6px solid #121212; font-size:4px; font-weight:700; display:flex; align-items:center;">Framer</div>
+          <div style="height:7px; padding:0 4px; border-radius:3.5px; background:#F9C846; border:.6px solid #121212; font-size:4px; font-weight:700; color:#FFF; display:flex; align-items:center;">Animated Websites</div>
+          <div style="margin-left:auto; font-size:4px; font-weight:700;">Cart (0)</div>
+        </div>
+        <div style="margin-top:6px; font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:700; line-height:13px; letter-spacing:-.2px;">
+          <div>Design for websites</div>
+          <div style="display:flex; align-items:center; gap:3px;">
+            <span>in</span>
+            <span style="width:9px; height:9px; border-radius:2.5px; background:#F9C846; border:.6px solid #121212; display:flex; align-items:center; justify-content:center; font-size:6px; color:#FFF;">♥</span>
+            <span>Framer</span>
+          </div>
+        </div>
+      </div>
+      <div style="padding:6px 10px 0; background:#FFFFFF; height:65px; position:relative;">
+        <div style="height:10.8px; width:37px; border-radius:4px; background:#FFF; border:.6px solid #121212; font-size:4.2px; font-weight:700; display:flex; align-items:center; justify-content:center;">View my works</div>
+        <div style="position:absolute; left:0; right:0; top:24px; display:flex; flex-direction:column; gap:6px;">
+          <div style="height:.6px; background:#E3DFD5;"></div>
+          <div style="height:.6px; background:#E3DFD5;"></div>
+          <div style="height:.6px; background:#E3DFD5;"></div>
+          <div style="height:.6px; background:#E3DFD5;"></div>
+          <div style="height:.6px; background:#E3DFD5;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tidyZone" style="position:absolute; left:620px; top:470px; width:210px; height:205px; cursor:pointer;">
+      <div id="padRef" style="position:absolute; left:9.5px; top:11px; width:164.5px; height:182px; transform:rotate(-3deg); transform-origin:50% 55%; transition:transform 450ms cubic-bezier(.2,.8,.25,1);">
+        <div style="position:absolute; left:0; top:17.6px; width:164.5px; height:164.5px; box-sizing:border-box; border-radius:11px; background:#F9C846; border:2.2px solid #121212; box-shadow:5px 6px 0 #121212, 9px 10px 12px rgba(90,84,70,.2); padding:10px;">
+          <div style="width:100%; height:100%; box-sizing:border-box; border-radius:6px; background:#FAFAFA; border:1.6px solid #121212; padding:9px 10px;">
+            <div style="font-family:'Space Grotesk',sans-serif; font-size:9.5px; font-weight:700; letter-spacing:-.1px;">Things to fix today</div>
+            <div style="height:1.6px; background:#121212; margin-top:4px;"></div>
+            <div id="rowsRef" style="margin-top:9px; display:flex; flex-direction:column; gap:7.2px;">
+              <div style="display:flex; align-items:center; gap:7px;">
+                <div style="width:10.4px; height:10.4px; border-radius:1.4px; background:#C4E75A; border:1.6px solid #121212; display:flex; align-items:center; justify-content:center; font-size:8px; line-height:1; font-weight:700;">✓</div>
+                <div style="height:1.6px; width:74px; background:#121212;"></div>
+              </div>
+              <div style="display:flex; align-items:center; gap:7px;">
+                <div id="box2Ref" style="width:10.4px; height:10.4px; border-radius:1.4px; background:#FAFAFA; border:1.6px solid #121212; display:flex; align-items:center; justify-content:center; font-size:8px; line-height:1; font-weight:700; transition:background 240ms ease;"><span id="tick2Ref" style="opacity:0; transition:opacity 200ms ease 120ms;">✓</span></div>
+                <div style="height:1.6px; width:91px; background:#121212;"></div>
+              </div>
+              <div style="display:flex; align-items:center; gap:7px;">
+                <div style="width:10.4px; height:10.4px; border-radius:1.4px; background:#C4E75A; border:1.6px solid #121212; display:flex; align-items:center; justify-content:center; font-size:8px; line-height:1; font-weight:700;">✓</div>
+                <div style="height:1.6px; width:62px; background:#121212;"></div>
+              </div>
+              <div style="display:flex; align-items:center; gap:7px;">
+                <div id="box4Ref" style="width:10.4px; height:10.4px; border-radius:1.4px; background:#FAFAFA; border:1.6px solid #121212; display:flex; align-items:center; justify-content:center; font-size:8px; line-height:1; font-weight:700; transition:background 240ms ease 100ms;"><span id="tick4Ref" style="opacity:0; transition:opacity 200ms ease 220ms;">✓</span></div>
+                <div style="height:1.6px; width:79px; background:#121212;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="position:absolute; left:38.5px; top:10px; display:flex; gap:8.2px;">
+          <div style="width:6px; height:9.3px; border-radius:2.5px; background:#63E3C2; border:1.6px solid #121212;"></div>
+          <div style="width:6px; height:9.3px; border-radius:2.5px; background:#63E3C2; border:1.6px solid #121212;"></div>
+          <div style="width:6px; height:9.3px; border-radius:2.5px; background:#63E3C2; border:1.6px solid #121212;"></div>
+          <div style="width:6px; height:9.3px; border-radius:2.5px; background:#63E3C2; border:1.6px solid #121212;"></div>
+          <div style="width:6px; height:9.3px; border-radius:2.5px; background:#63E3C2; border:1.6px solid #121212;"></div>
+        </div>
+      </div>
+      <div id="badgeRef" style="position:absolute; left:160px; top:160px; width:29.6px; height:29.6px; box-sizing:border-box; border-radius:50%; background:#63E3C2; border:1.7px solid #121212; transform:rotate(15deg); display:flex; align-items:center; justify-content:center; font-size:15px; line-height:1; box-shadow:2px 3px 0 #121212; transition:transform 450ms cubic-bezier(.2,.8,.25,1), background 300ms ease;">✦</div>
+    </div>
+
+    <div id="folderZone" style="position: absolute; left: 576px; top: 196px; width: 124px; height: 116px; cursor: pointer">
+      <div style="position:absolute; left:14px; top:53px; width:109px; height:59px; border-radius:6px; background:#63E3C2; border:1.7px solid #121212; transform:rotate(-3.85deg); padding:22px 8px 0; box-sizing:border-box; box-shadow:3px 4px 10px rgba(90,84,70,.22);">
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:9.5px; font-weight:700; letter-spacing:-.1px;">Experiments</div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:4.6px; font-weight:700; letter-spacing:.4px; margin-top:3px; color:#121212;">128 NOTES</div>
+        <div style="position:absolute; right:7px; top:18px; width:14px; height:5px; border-radius:1px; background:#FF9E9E; border:1px solid #121212; transform:rotate(-16deg);"></div>
+      </div>
+      <div id="sheet1Ref" style="position:absolute; left:12px; top:34px; width:98px; height:36px; box-sizing:border-box; transform:rotate(-8deg); transform-origin:50% 100%; transition:transform 420ms cubic-bezier(.2,.8,.25,1); background:#FFFFFF; border:1.6px solid #121212; border-radius:4px; padding:5px 7px; box-shadow:3px 4px 9px rgba(90,84,70,.2);">
+        <div id="label1Ref" style="font-family:'IBM Plex Mono',monospace; font-size:6px; font-weight:500; letter-spacing:.5px; color:#B7B7B7; opacity:0; transition:opacity 260ms ease; margin-bottom:4px;">FRAMER ANIMATIONS</div>
+        <div style="display:flex; flex-direction:column; gap:3.4px;">
+          <div style="height:1.4px; width:82px; background:#C9C9C9;"></div>
+          <div style="height:1.4px; width:82px; background:#C9C9C9;"></div>
+          <div style="height:1.4px; width:58px; background:#C9C9C9;"></div>
+        </div>
+      </div>
+      <div id="sheet2Ref" style="position:absolute; left:15px; top:43px; width:95px; height:33px; box-sizing:border-box; transform:rotate(-4.5deg); transform-origin:50% 100%; transition:transform 420ms cubic-bezier(.2,.8,.25,1); background:#FFFFFF; border:1.6px solid #121212; border-radius:4px; padding:5px 7px;">
+        <div id="label2Ref" style="font-family:'IBM Plex Mono',monospace; font-size:6px; font-weight:500; letter-spacing:.5px; color:#B7B7B7; opacity:0; transition:opacity 260ms ease; margin-bottom:4px;">VISUAL EXPERIMENTS</div>
+        <div style="display:flex; flex-direction:column; gap:3.4px;">
+          <div style="height:1.4px; width:80px; background:#C9C9C9;"></div>
+          <div style="height:1.4px; width:80px; background:#C9C9C9;"></div>
+          <div style="height:1.4px; width:52px; background:#C9C9C9;"></div>
+        </div>
+      </div>
+      <div id="sheet3Ref" style="position:absolute; left:17px; top:50px; width:92px; height:31px; box-sizing:border-box; transform:rotate(-1.5deg); transform-origin:50% 100%; transition:transform 420ms cubic-bezier(.2,.8,.25,1); background:#FFFFFF; border:1.6px solid #121212; border-radius:4px; padding:5px 7px;">
+        <div id="label3Ref" style="font-family:'IBM Plex Mono',monospace; font-size:6.2px; font-weight:700; letter-spacing:.4px; color:#121212; opacity:0; transition:opacity 260ms ease; margin-bottom:4px;">CLAUDE VIBECODING</div>
+        <div style="display:flex; flex-direction:column; gap:3.4px;">
+          <div style="height:1.4px; width:78px; background:#C9C9C9;"></div>
+          <div style="height:1.4px; width:78px; background:#C9C9C9;"></div>
+          <div style="height:1.4px; width:48px; background:#C9C9C9;"></div>
+        </div>
+      </div>
+      <div style="position:absolute; left:11px; top:56px; width:107px; height:56px; border-radius:6px; background:#63E3C2; border:1.7px solid #121212; transform:rotate(-3.85deg); padding:22px 8px 0; box-sizing:border-box; box-shadow:3px 4px 10px rgba(90,84,70,.22);">
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:9.5px; font-weight:700; letter-spacing:-.1px;">Experiments</div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:4.6px; font-weight:700; letter-spacing:.4px; margin-top:3px; color:#121212;">128 NOTES</div>
+        <div style="position:absolute; right:7px; top:18px; width:14px; height:5px; border-radius:1px; background:#FF9E9E; border:1px solid #121212; transform:rotate(-16deg);"></div>
+      </div>
+    </div>
+
+    <div style="position: absolute; left: 880px; top: 223.6px; width: 232.4px; height: 147.9px; border-radius: 15px; background: #3A2054; border: 2.1px solid #121212; box-shadow: 11px 13px 0 #C5C0B4, 14px 16px 16px rgba(90,84,70,.22)">
+      <div style="position:absolute; left:11.7px; top:11.7px; width:56px; height:56px; border-radius:50%; background:#221233; display:flex; align-items:center; justify-content:center;">
+        <div class="vinyl" style="width:42px; height:42px; border-radius:50%; border:1px solid #3E2757; display:flex; align-items:center; justify-content:center;">
+          <div style="width:30px; height:30px; border-radius:50%; border:1px solid #3E2757; display:flex; align-items:center; justify-content:center;">
+            <div style="width:20px; height:20px; border-radius:50%; border:1px solid #3E2757; display:flex; align-items:center; justify-content:center;">
+              <div style="width:13px; height:13px; border-radius:50%; background:#F9C846; border:1px solid #121212;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="position:absolute; left:78px; top:11.5px; width:138.9px; height:56.5px; box-sizing:border-box; border-radius:8px; background:#221233; border:1.6px solid #000; padding:8px 10px;">
+        <div id="trackIdx" style="font-family:'IBM Plex Mono',monospace; font-size:6.6px; letter-spacing:1.6px; color:#8A7AA0;">TRACK 1 / 4</div>
+        <div id="trackName" style="font-family:'Space Grotesk',sans-serif; font-size:13.5px; font-weight:700; color:#FFFFFF; letter-spacing:-.2px; margin-top:4px;">chai &amp; lofi</div>
+        <div style="display:flex; gap:2.1px; margin-top:6px;">
+          <div style="width:4.2px; height:3.2px; border-radius:.6px; background:#63E3C2;"></div>
+          <div style="width:4.2px; height:3.2px; border-radius:.6px; background:#63E3C2;"></div>
+          <div style="width:4.2px; height:3.2px; border-radius:.6px; background:#63E3C2;"></div>
+          <div style="width:4.2px; height:3.2px; border-radius:.6px; background:#4A3A5E;"></div>
+          <div style="width:4.2px; height:3.2px; border-radius:.6px; background:#4A3A5E;"></div>
+        </div>
+      </div>
+      <div style="position:absolute; left:67px; top:80px; display:flex; align-items:center; gap:10px;">
+        <div id="prevBtn" style="width:23px; height:21px; border-radius:6px; background:#FAFAFA; border:1.6px solid #121212; box-shadow:2px 3px 0 #121212; display:flex; align-items:center; justify-content:center; gap:.5px; cursor:pointer;">
+          <div style="width:1.6px; height:8px; background:#121212;"></div>
+          <div style="font-size:9px; line-height:1;">◁</div>
+        </div>
+        <div id="playBtn" style="width:33px; height:25px; border-radius:7px; background:#F9C846; border:1.6px solid #121212; box-shadow:2px 3px 0 #121212; display:flex; align-items:center; justify-content:center; font-size:12px; line-height:1; cursor:pointer;">▷</div>
+        <div id="nextBtn" style="width:23px; height:21px; border-radius:6px; background:#FAFAFA; border:1.6px solid #121212; box-shadow:2px 3px 0 #121212; display:flex; align-items:center; justify-content:center; gap:.5px; cursor:pointer;">
+          <div style="font-size:9px; line-height:1;">▷</div>
+          <div style="width:1.6px; height:8px; background:#121212;"></div>
+        </div>
+      </div>
+      <div style="position:absolute; left:0; right:0; top:116px; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:7.4px; font-weight:500; letter-spacing:1.8px; color:#9D86B8;">NAINA FM • MY PLAYLIST</div>
+    </div>
+
+    <!-- wordle-style illustration — the answer is CTRLZ -->
+    <div style="position: absolute; left: 366px; top: 583px; z-index: 4; transform: rotate(-1.5deg); width: 143px">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:7.5px; letter-spacing:1.4px; text-transform:uppercase; color:rgba(20,20,20,.5);">Daily undo</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:7.5px; letter-spacing:1.4px; color:rgba(20,20,20,.5);">3/6</span>
+      </div>
+      <div style="display:grid; grid-template-rows:repeat(3,26px); gap:4px;">
+        <div style="display:grid; grid-template-columns:repeat(5,26px); gap:4px;">
+          <div style="display:flex; align-items:center; justify-content:center; background:#FFFFFF; border:2px solid #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:rgba(20,20,20,.45);">E</div>
+          
+          <div style="display:flex; align-items:center; justify-content:center; background:#FFFFFF; border:2px solid #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:rgba(20,20,20,.45);">S</div><div style="display:flex; align-items:center; justify-content:center; background:#F9C846; border:2px solid #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:#121212;">C</div>
+          <div style="display:flex; align-items:center; justify-content:center; background:#FFFFFF; border:2px solid #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:rgba(20,20,20,.45);">A</div>
+          <div style="display:flex; align-items:center; justify-content:center; background:#FFFFFF; border:2px solid #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:rgba(20,20,20,.45);">P</div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(5,26px); gap:4px;">
+          <div style="display:flex; align-items:center; justify-content:center; background:#C4E75A; border:2px solid #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:#121212;">C</div>
+          <div style="display:flex; align-items:center; justify-content:center; background:#F9C846; border:2px solid #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:#121212;">R</div>
+          <div style="display:flex; align-items:center; justify-content:center; background:#F9C846; border:2px solid #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:#121212;">T</div>
+          <div style="display:flex; align-items:center; justify-content:center; background:#C4E75A; border:2px solid #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:#121212;">L</div>
+          <div style="display:flex; align-items:center; justify-content:center; background:#C4E75A; border:2px solid #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:#121212;">Z</div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(5,26px); gap:4px;">
+          <div style="display:flex; align-items:center; justify-content:center; background:#C4E75A; border:2px solid #121212; box-shadow:2px 2px 0 #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:#121212;">C</div>
+          <div style="display:flex; align-items:center; justify-content:center; background:#C4E75A; border:2px solid #121212; box-shadow:2px 2px 0 #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:#121212;">T</div>
+          <div style="display:flex; align-items:center; justify-content:center; background:#C4E75A; border:2px solid #121212; box-shadow:2px 2px 0 #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:#121212;">R</div>
+          <div style="display:flex; align-items:center; justify-content:center; background:#C4E75A; border:2px solid #121212; box-shadow:2px 2px 0 #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:#121212;">L</div>
+          <div style="display:flex; align-items:center; justify-content:center; background:#C4E75A; border:2px solid #121212; box-shadow:2px 2px 0 #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:#121212;">Z</div>
+        </div>
+      </div>
+      <div style="margin-top:7px; font-family:'Caveat',cursive; font-size:16px; color:#4A2A6B; transform:rotate(-1deg);">my most-used shortcut</div>
+    </div>
+
+    <a href="#contact" class="brut-search" style="position:absolute; left:1058px; top:428px; width:132px; text-decoration:none; display:flex; align-items:center; gap:8px;
+      background:#FFFFFF; border:2.4px solid #121212; border-radius:2px; padding:9px 11px; box-shadow:5px 6px 0 #121212;
+      transition:transform .12s ease, box-shadow .12s ease;" data-hover="transform:translate(3px,4px); box-shadow:1px 1px 0 #121212;">
+      <span style="width:12px; height:12px; flex:none; border:2.2px solid #121212; border-radius:50%; position:relative;">
+        <span style="position:absolute; right:-4px; bottom:-4px; width:7px; height:2.2px; background:#121212; transform:rotate(45deg);"></span>
+      </span>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; font-weight:500; letter-spacing:.6px; text-transform:uppercase; color:#121212;">Find me</span>
+    </a>
+
+    <div data-knockout="1" style="position:absolute; left:206px; top:126px; background:#FFFFFF; padding:0 8px; font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:#4A3A5A;">
+      Naina Gupta &nbsp;·&nbsp; UI / UX Designer &nbsp;·&nbsp; 0→1 Products
+    </div>
+
+    <a href="#work" style="position:absolute; left:206px; top:766px; text-decoration:none; display:inline-flex; align-items:center; gap:7px; padding:11px 22px; background:#FFFFFF; color:#2A1840; font-size:14px; font-weight:600; border-radius:3px; letter-spacing:.1px; border:2px solid #2A1840; box-shadow:4px 4px 0 #FBF8F3, 6px 6px 0 #2A1840; transition:transform .1s ease;" data-hover="transform:translate(3px,3px); box-shadow:1px 1px 0 #2A1840;">
+      View Work →
+    </a>
+
+  </div>
+  </div>
+
+
+</div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECTION 2 — PROJECT SHOWCASE
+  ════════════════════════════════════════════════════════════ -->
+  <div id="work" style="position:relative; z-index:20; background:#FFFFFF;
+    padding:120px 64px 140px; font-family:'DM Sans',sans-serif; overflow:hidden;">
+
+    <!-- Subtle pixel-grid texture on section bg -->
+    <div style="position:absolute;inset:0;pointer-events:none;z-index:0;
+      background-image:repeating-linear-gradient(0deg,rgba(20,20,20,.03) 0,rgba(20,20,20,.03) 1px,transparent 1px,transparent 5px),
+                       repeating-linear-gradient(90deg,rgba(20,20,20,.03) 0,rgba(20,20,20,.03) 1px,transparent 1px,transparent 5px);"></div>
+
+    <div style="position:relative;z-index:1;max-width:1040px;margin:0 auto;">
+
+      <!-- Section header -->
+      <div style="margin-bottom:64px; text-align:center;">
+        <p style="margin:0 0 12px; font-size:11px; font-weight:600; letter-spacing:3px;
+          text-transform:uppercase; color:#6A4A8A;">Selected Work · Checkpoint 2025</p>
+        <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700;
+          font-size:clamp(30px,3.4vw,46px); letter-spacing:-1.5px; color:#1A1209; line-height:1.04;">
+          Projects I've shipped.
+        </h2>
+      </div>
+
+      <!-- Collectible card grid -->
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:28px;">
+
+        <!-- ══ Card 1 — GOLD ══ -->
+        <div class="proj-card">
+          <!-- peek character (behind) -->
+          <div class="peek" style="position:absolute; left:50%; top:0; z-index:0; width:74px; height:62px;
+            background:#63E3C2; border:3px solid #121212; border-radius:18px 18px 12px 12px;
+            box-shadow:0 5px 0 rgba(20,20,20,.18);">
+            <div style="position:absolute; top:-11px; left:9px; width:16px; height:16px; background:#63E3C2; border:3px solid #121212; border-radius:5px 5px 0 0; transform:rotate(-14deg);"></div>
+            <div style="position:absolute; top:-11px; right:9px; width:16px; height:16px; background:#63E3C2; border:3px solid #121212; border-radius:5px 5px 0 0; transform:rotate(14deg);"></div>
+            <div style="position:absolute; top:20px; left:16px; width:11px; height:11px; background:#fff; border:2px solid #121212; border-radius:50%;"><div style="width:4px;height:4px;background:#121212;border-radius:50%;margin:2px 0 0 3px;"></div></div>
+            <div style="position:absolute; top:20px; right:16px; width:11px; height:11px; background:#fff; border:2px solid #121212; border-radius:50%;"><div style="width:4px;height:4px;background:#121212;border-radius:50%;margin:2px 0 0 1px;"></div></div>
+            <div style="position:absolute; top:36px; left:50%; transform:translateX(-50%); width:14px; height:7px; border:2px solid #121212; border-top:none; border-radius:0 0 8px 8px;"></div>
+          </div>
+          <a class="card" href="case-study.html" style="position:relative; z-index:1; text-decoration:none; display:block; background:#F9C846;
+            border:3px solid #121212; border-radius:14px; padding:13px 13px 15px; box-shadow:0 6px 0 #121212;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:11px;">
+              <div style="width:52px; height:10px; border-radius:2px; overflow:hidden;
+                background:repeating-linear-gradient(115deg,#121212 0,#121212 3px,transparent 3px,transparent 6px);"></div>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:1px; color:#121212;">LVL 01</span>
+            </div>
+            <div style="border-radius:8px; overflow:hidden; border:2px solid #121212; background:#FDE3A0; aspect-ratio:3/4;">
+              <img src="assets/cs-thumb-v2.png" alt="Compport org structure planning" style="width:100%; height:100%; object-fit:cover; display:block;">
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin:11px 0 3px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:.5px; color:#121212;">HRMS · ORG PLANNING</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; color:#121212;">1/4</span>
+            </div>
+            <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700;
+              font-size:20px; letter-spacing:-.6px; color:#121212; line-height:1;">Compport</h3>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:500; letter-spacing:1.1px; text-transform:uppercase; color:#121212; border-bottom:1.5px solid #121212; padding-bottom:2px;">Read case study →</span>
+              <div style="width:20px; height:20px; border-radius:4px; background:#121212;
+                display:flex; align-items:center; justify-content:center;">
+                <span style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:700; color:#F9C846;">N</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- ══ Card 2 — LIME ══ -->
+        <div class="proj-card">
+          <div class="peek" style="position:absolute; left:50%; top:0; z-index:0; width:74px; height:62px;
+            background:#A66BFF; border:3px solid #121212; border-radius:18px 18px 12px 12px;
+            box-shadow:0 5px 0 rgba(20,20,20,.18);">
+            <div style="position:absolute; top:-11px; left:9px; width:16px; height:16px; background:#A66BFF; border:3px solid #121212; border-radius:5px 5px 0 0; transform:rotate(-14deg);"></div>
+            <div style="position:absolute; top:-11px; right:9px; width:16px; height:16px; background:#A66BFF; border:3px solid #121212; border-radius:5px 5px 0 0; transform:rotate(14deg);"></div>
+            <div style="position:absolute; top:20px; left:16px; width:11px; height:11px; background:#fff; border:2px solid #121212; border-radius:50%;"><div style="width:4px;height:4px;background:#121212;border-radius:50%;margin:2px 0 0 3px;"></div></div>
+            <div style="position:absolute; top:20px; right:16px; width:11px; height:11px; background:#fff; border:2px solid #121212; border-radius:50%;"><div style="width:4px;height:4px;background:#121212;border-radius:50%;margin:2px 0 0 1px;"></div></div>
+            <div style="position:absolute; top:36px; left:50%; transform:translateX(-50%); width:14px; height:7px; border:2px solid #121212; border-top:none; border-radius:0 0 8px 8px;"></div>
+          </div>
+          <a class="card" href="#" style="position:relative; z-index:1; text-decoration:none; display:block; background:#C4E75A;
+            border:3px solid #121212; border-radius:14px; padding:13px 13px 15px; box-shadow:0 6px 0 #121212;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:11px;">
+              <div style="width:52px; height:10px; border-radius:2px; overflow:hidden;
+                background:repeating-linear-gradient(115deg,#121212 0,#121212 3px,transparent 3px,transparent 6px);"></div>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:1px; color:#121212;">LVL 02</span>
+            </div>
+            <div style="border-radius:8px; overflow:hidden; border:2px solid #121212; background:#E0F2A6;
+              background-image:repeating-linear-gradient(0deg,rgba(20,20,20,.05) 0,rgba(20,20,20,.05) 1px,transparent 1px,transparent 5px),
+                               repeating-linear-gradient(90deg,rgba(20,20,20,.05) 0,rgba(20,20,20,.05) 1px,transparent 1px,transparent 5px);
+              aspect-ratio:3/4; display:flex; align-items:center; justify-content:center;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:1px; color:rgba(20,20,20,.35); text-transform:uppercase;">pixel art</span>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin:11px 0 3px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:.5px; color:#121212;">SHOP · #2048</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; color:#121212;">2/4</span>
+            </div>
+            <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700;
+              font-size:20px; letter-spacing:-.6px; color:#121212; line-height:1;">Stashh</h3>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px;">
+              <div style="display:flex; gap:6px;">
+                <div style="width:16px; height:16px; border:1.5px solid #121212; border-radius:50%;"></div>
+                <div style="width:16px; height:16px; border:1.5px solid #121212; border-radius:2px;
+                  background:repeating-linear-gradient(90deg,#121212 0,#121212 1.5px,transparent 1.5px,transparent 4px);"></div>
+                <div style="width:16px; height:16px; border:1.5px solid #121212; border-radius:50%;
+                  background:radial-gradient(circle,#121212 2px,transparent 2.5px);"></div>
+              </div>
+              <div style="width:20px; height:20px; border-radius:4px; background:#121212;
+                display:flex; align-items:center; justify-content:center;">
+                <span style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:700; color:#C4E75A;">N</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- ══ Card 3 — AQUA ══ -->
+        <div class="proj-card">
+          <div class="peek" style="position:absolute; left:50%; top:0; z-index:0; width:74px; height:62px;
+            background:#FF7EB6; border:3px solid #121212; border-radius:18px 18px 12px 12px;
+            box-shadow:0 5px 0 rgba(20,20,20,.18);">
+            <div style="position:absolute; top:-11px; left:9px; width:16px; height:16px; background:#FF7EB6; border:3px solid #121212; border-radius:5px 5px 0 0; transform:rotate(-14deg);"></div>
+            <div style="position:absolute; top:-11px; right:9px; width:16px; height:16px; background:#FF7EB6; border:3px solid #121212; border-radius:5px 5px 0 0; transform:rotate(14deg);"></div>
+            <div style="position:absolute; top:20px; left:16px; width:11px; height:11px; background:#fff; border:2px solid #121212; border-radius:50%;"><div style="width:4px;height:4px;background:#121212;border-radius:50%;margin:2px 0 0 3px;"></div></div>
+            <div style="position:absolute; top:20px; right:16px; width:11px; height:11px; background:#fff; border:2px solid #121212; border-radius:50%;"><div style="width:4px;height:4px;background:#121212;border-radius:50%;margin:2px 0 0 1px;"></div></div>
+            <div style="position:absolute; top:36px; left:50%; transform:translateX(-50%); width:14px; height:7px; border:2px solid #121212; border-top:none; border-radius:0 0 8px 8px;"></div>
+          </div>
+          <a class="card" href="#" style="position:relative; z-index:1; text-decoration:none; display:block; background:#63E3C2;
+            border:3px solid #121212; border-radius:14px; padding:13px 13px 15px; box-shadow:0 6px 0 #121212;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:11px;">
+              <div style="width:52px; height:10px; border-radius:2px; overflow:hidden;
+                background:repeating-linear-gradient(115deg,#121212 0,#121212 3px,transparent 3px,transparent 6px);"></div>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:1px; color:#121212;">LVL 03</span>
+            </div>
+            <div style="border-radius:8px; overflow:hidden; border:2px solid #121212; background:#B4F0E0;
+              background-image:repeating-linear-gradient(0deg,rgba(20,20,20,.05) 0,rgba(20,20,20,.05) 1px,transparent 1px,transparent 5px),
+                               repeating-linear-gradient(90deg,rgba(20,20,20,.05) 0,rgba(20,20,20,.05) 1px,transparent 1px,transparent 5px);
+              aspect-ratio:3/4; display:flex; align-items:center; justify-content:center;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:1px; color:rgba(20,20,20,.35); text-transform:uppercase;">pixel art</span>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin:11px 0 3px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:.5px; color:#121212;">HEALTH · #0912</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; color:#121212;">3/4</span>
+            </div>
+            <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700;
+              font-size:20px; letter-spacing:-.6px; color:#121212; line-height:1;">MedBook</h3>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px;">
+              <div style="display:flex; gap:6px;">
+                <div style="width:16px; height:16px; border:1.5px solid #121212; border-radius:50%;"></div>
+                <div style="width:16px; height:16px; border:1.5px solid #121212; border-radius:2px;
+                  background:repeating-linear-gradient(90deg,#121212 0,#121212 1.5px,transparent 1.5px,transparent 4px);"></div>
+                <div style="width:16px; height:16px; border:1.5px solid #121212; border-radius:50%;
+                  background:radial-gradient(circle,#121212 2px,transparent 2.5px);"></div>
+              </div>
+              <div style="width:20px; height:20px; border-radius:4px; background:#121212;
+                display:flex; align-items:center; justify-content:center;">
+                <span style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:700; color:#63E3C2;">N</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+  <!-- SECTION 2.5 — EXPERIMENTS TICKER -->
+  <div id="gallery" style="position:relative; z-index:20; background:#FFFFFF; padding:96px 0 108px; font-family:'DM Sans',sans-serif; overflow:hidden;">
+    <div style="position:absolute;inset:0;pointer-events:none;z-index:0; background-image:repeating-linear-gradient(0deg,rgba(20,20,20,.03) 0,rgba(20,20,20,.03) 1px,transparent 1px,transparent 5px), repeating-linear-gradient(90deg,rgba(20,20,20,.03) 0,rgba(20,20,20,.03) 1px,transparent 1px,transparent 5px);"></div>
+
+    <div style="position:relative; z-index:1; max-width:1080px; margin:0 auto 54px; padding:0 64px; text-align:center;">
+      <p style="margin:0 0 12px; font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:#6A4A8A;">Side Quests</p>
+      <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(30px,3.4vw,46px); letter-spacing:-1.5px; color:#1A1209; line-height:1.04;">Checking My Experimental Nerve</h2>
+      <p style="margin:16px 0 0; font-size:13px; color:#5A5060; letter-spacing:.3px;">Unbriefed, unpaid, unreasonably fun. Hover to stop the belt.</p>
+    </div>
+
+    <div style="position:relative; z-index:1; display:flex; flex-direction:column; gap:26px;">
+      <div style="position:absolute; inset:0 auto 0 0; width:110px; z-index:3; pointer-events:none; background:linear-gradient(90deg,#FFFFFF 12%,rgba(255,255,255,0));"></div>
+      <div style="position:absolute; inset:0 0 0 auto; width:110px; z-index:3; pointer-events:none; background:linear-gradient(270deg,#FFFFFF 12%,rgba(255,255,255,0));"></div>
+
+      <div style="display:flex; gap:26px; width:max-content; animation:tickerL 42s linear infinite;" data-hover="animation-play-state:paused;">
+        <div class="exp-tile" style="width:264px; flex:none; background:#F9C846; border:3px solid #121212; border-radius:14px; box-shadow:0 6px 0 #121212; padding:12px 12px 14px; transform:rotate(-1.4deg); transition:transform .3s cubic-bezier(.2,.85,.3,1.05), box-shadow .3s ease;" data-hover="transform:rotate(0deg) translateY(-6px) scale(1.03); box-shadow:0 12px 0 #121212;">
+          <div style="border:2px solid #121212; border-radius:8px; overflow:hidden; background:#FFF7DF; height:176px; display:flex; align-items:center; justify-content:center;"><img src="assets/experiments.png" alt="experiment" style="max-width:86%; max-height:86%; display:block;"></div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1px; color:#121212;"><span>NO. 01</span><span>PIXEL SCENE</span></div>
+        </div>
+        <div class="exp-tile" style="width:264px; flex:none; background:#C4E75A; border:3px solid #121212; border-radius:14px; box-shadow:0 6px 0 #121212; padding:12px 12px 14px; transform:rotate(1.8deg); transition:transform .3s cubic-bezier(.2,.85,.3,1.05), box-shadow .3s ease;" data-hover="transform:rotate(0deg) translateY(-6px) scale(1.03); box-shadow:0 12px 0 #121212;">
+          <div style="border:2px solid #121212; border-radius:8px; overflow:hidden; background:#F4FBDD; height:176px; display:flex; align-items:center; justify-content:center;"><img src="assets/crochet.png" alt="crochet" style="max-width:86%; max-height:86%; display:block;"></div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1px; color:#121212;"><span>NO. 02</span><span>CROCHET LOGS</span></div>
+        </div>
+        <div class="exp-tile" style="width:264px; flex:none; background:#63E3C2; border:3px solid #121212; border-radius:14px; box-shadow:0 6px 0 #121212; padding:12px 12px 14px; transform:rotate(-2.2deg); transition:transform .3s cubic-bezier(.2,.85,.3,1.05), box-shadow .3s ease;" data-hover="transform:rotate(0deg) translateY(-6px) scale(1.03); box-shadow:0 12px 0 #121212;">
+          <div style="border:2px solid #121212; border-radius:8px; overflow:hidden; background:#E3FAF3; height:176px; display:flex; align-items:center; justify-content:center;"><img src="assets/lilies.png" alt="lilies" style="max-width:86%; max-height:86%; display:block;"></div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1px; color:#121212;"><span>NO. 03</span><span>LILY STUDY</span></div>
+        </div>
+        <div class="exp-tile" style="width:264px; flex:none; background:#A66BFF; border:3px solid #121212; border-radius:14px; box-shadow:0 6px 0 #121212; padding:12px 12px 14px; transform:rotate(1.2deg); transition:transform .3s cubic-bezier(.2,.85,.3,1.05), box-shadow .3s ease;" data-hover="transform:rotate(0deg) translateY(-6px) scale(1.03); box-shadow:0 12px 0 #121212;">
+          <div style="border:2px solid #121212; border-radius:8px; overflow:hidden; background:#F1E8FF; height:176px; display:flex; align-items:center; justify-content:center;"><img src="assets/chaipaglu.png" alt="chai" style="max-width:86%; max-height:86%; display:block;"></div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1px; color:#121212;"><span>NO. 04</span><span>CHAI PAGLU</span></div>
+        </div>
+        <div class="exp-tile" style="width:264px; flex:none; background:#FF7EB6; border:3px solid #121212; border-radius:14px; box-shadow:0 6px 0 #121212; padding:12px 12px 14px; transform:rotate(-1deg); transition:transform .3s cubic-bezier(.2,.85,.3,1.05), box-shadow .3s ease;" data-hover="transform:rotate(0deg) translateY(-6px) scale(1.03); box-shadow:0 12px 0 #121212;">
+          <div style="border:2px solid #121212; border-radius:8px; overflow:hidden; background:#FFEAF3; height:176px; display:flex; align-items:center; justify-content:center;"><img src="assets/folder.png" alt="folder" style="max-width:86%; max-height:86%; display:block;"></div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1px; color:#121212;"><span>NO. 05</span><span>TRAVEL JUNK</span></div>
+        </div>
+        <div class="exp-tile" style="width:264px; flex:none; background:#FFFFFF; border:3px solid #121212; border-radius:14px; box-shadow:0 6px 0 #121212; padding:12px 12px 14px; transform:rotate(2deg); transition:transform .3s cubic-bezier(.2,.85,.3,1.05), box-shadow .3s ease;" data-hover="transform:rotate(0deg) translateY(-6px) scale(1.03); box-shadow:0 12px 0 #121212;">
+          <div style="border:2px solid #121212; border-radius:8px; overflow:hidden; background:#F2EFE7; height:176px; display:flex; align-items:center; justify-content:center;"><img src="assets/me.png" alt="self portrait" style="width:100%; height:100%; object-fit:cover; display:block;"></div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1px; color:#121212;"><span>NO. 06</span><span>SELF, 35MM</span></div>
+        </div>
+        <div class="exp-tile" style="width:264px; flex:none; background:#F9C846; border:3px solid #121212; border-radius:14px; box-shadow:0 6px 0 #121212; padding:12px 12px 14px; transform:rotate(-1.4deg); transition:transform .3s cubic-bezier(.2,.85,.3,1.05), box-shadow .3s ease;" data-hover="transform:rotate(0deg) translateY(-6px) scale(1.03); box-shadow:0 12px 0 #121212;">
+          <div style="border:2px solid #121212; border-radius:8px; overflow:hidden; background:#FFF7DF; height:176px; display:flex; align-items:center; justify-content:center;"><img src="assets/experiments.png" alt="experiment" style="max-width:86%; max-height:86%; display:block;"></div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1px; color:#121212;"><span>NO. 01</span><span>PIXEL SCENE</span></div>
+        </div>
+        <div class="exp-tile" style="width:264px; flex:none; background:#C4E75A; border:3px solid #121212; border-radius:14px; box-shadow:0 6px 0 #121212; padding:12px 12px 14px; transform:rotate(1.8deg); transition:transform .3s cubic-bezier(.2,.85,.3,1.05), box-shadow .3s ease;" data-hover="transform:rotate(0deg) translateY(-6px) scale(1.03); box-shadow:0 12px 0 #121212;">
+          <div style="border:2px solid #121212; border-radius:8px; overflow:hidden; background:#F4FBDD; height:176px; display:flex; align-items:center; justify-content:center;"><img src="assets/crochet.png" alt="crochet" style="max-width:86%; max-height:86%; display:block;"></div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1px; color:#121212;"><span>NO. 02</span><span>CROCHET LOGS</span></div>
+        </div>
+        <div class="exp-tile" style="width:264px; flex:none; background:#63E3C2; border:3px solid #121212; border-radius:14px; box-shadow:0 6px 0 #121212; padding:12px 12px 14px; transform:rotate(-2.2deg); transition:transform .3s cubic-bezier(.2,.85,.3,1.05), box-shadow .3s ease;" data-hover="transform:rotate(0deg) translateY(-6px) scale(1.03); box-shadow:0 12px 0 #121212;">
+          <div style="border:2px solid #121212; border-radius:8px; overflow:hidden; background:#E3FAF3; height:176px; display:flex; align-items:center; justify-content:center;"><img src="assets/lilies.png" alt="lilies" style="max-width:86%; max-height:86%; display:block;"></div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1px; color:#121212;"><span>NO. 03</span><span>LILY STUDY</span></div>
+        </div>
+        <div class="exp-tile" style="width:264px; flex:none; background:#A66BFF; border:3px solid #121212; border-radius:14px; box-shadow:0 6px 0 #121212; padding:12px 12px 14px; transform:rotate(1.2deg); transition:transform .3s cubic-bezier(.2,.85,.3,1.05), box-shadow .3s ease;" data-hover="transform:rotate(0deg) translateY(-6px) scale(1.03); box-shadow:0 12px 0 #121212;">
+          <div style="border:2px solid #121212; border-radius:8px; overflow:hidden; background:#F1E8FF; height:176px; display:flex; align-items:center; justify-content:center;"><img src="assets/chaipaglu.png" alt="chai" style="max-width:86%; max-height:86%; display:block;"></div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1px; color:#121212;"><span>NO. 04</span><span>CHAI PAGLU</span></div>
+        </div>
+        <div class="exp-tile" style="width:264px; flex:none; background:#FF7EB6; border:3px solid #121212; border-radius:14px; box-shadow:0 6px 0 #121212; padding:12px 12px 14px; transform:rotate(-1deg); transition:transform .3s cubic-bezier(.2,.85,.3,1.05), box-shadow .3s ease;" data-hover="transform:rotate(0deg) translateY(-6px) scale(1.03); box-shadow:0 12px 0 #121212;">
+          <div style="border:2px solid #121212; border-radius:8px; overflow:hidden; background:#FFEAF3; height:176px; display:flex; align-items:center; justify-content:center;"><img src="assets/folder.png" alt="folder" style="max-width:86%; max-height:86%; display:block;"></div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1px; color:#121212;"><span>NO. 05</span><span>TRAVEL JUNK</span></div>
+        </div>
+        <div class="exp-tile" style="width:264px; flex:none; background:#FFFFFF; border:3px solid #121212; border-radius:14px; box-shadow:0 6px 0 #121212; padding:12px 12px 14px; transform:rotate(2deg); transition:transform .3s cubic-bezier(.2,.85,.3,1.05), box-shadow .3s ease;" data-hover="transform:rotate(0deg) translateY(-6px) scale(1.03); box-shadow:0 12px 0 #121212;">
+          <div style="border:2px solid #121212; border-radius:8px; overflow:hidden; background:#F2EFE7; height:176px; display:flex; align-items:center; justify-content:center;"><img src="assets/me.png" alt="self portrait" style="width:100%; height:100%; object-fit:cover; display:block;"></div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1px; color:#121212;"><span>NO. 06</span><span>SELF, 35MM</span></div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:26px; width:max-content; animation:tickerR 54s linear infinite;" data-hover="animation-play-state:paused;">
+        <div style="display:flex; align-items:center; gap:14px; flex:none; padding:10px 20px; border:2.5px solid #121212; border-radius:30px; background:#FFFFFF; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:#1A1209;">Pixel art at 1am<span style="width:9px; height:9px; background:#F9C846; border:1.5px solid #121212;"></span></div>
+        <div style="display:flex; align-items:center; gap:14px; flex:none; padding:10px 20px; border:2.5px solid #121212; border-radius:30px; background:#FFFFFF; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:#1A1209;">Crochet as a design system<span style="width:9px; height:9px; background:#C4E75A; border:1.5px solid #121212;"></span></div>
+        <div style="display:flex; align-items:center; gap:14px; flex:none; padding:10px 20px; border:2.5px solid #121212; border-radius:30px; background:#FFFFFF; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:#1A1209;">Film rolls, mostly unlabelled<span style="width:9px; height:9px; background:#63E3C2; border:1.5px solid #121212;"></span></div>
+        <div style="display:flex; align-items:center; gap:14px; flex:none; padding:10px 20px; border:2.5px solid #121212; border-radius:30px; background:#FFFFFF; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:#1A1209;">Type made from chai stains<span style="width:9px; height:9px; background:#A66BFF; border:1.5px solid #121212;"></span></div>
+        <div style="display:flex; align-items:center; gap:14px; flex:none; padding:10px 20px; border:2.5px solid #121212; border-radius:30px; background:#FFFFFF; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:#1A1209;">Pixel art at 1am<span style="width:9px; height:9px; background:#F9C846; border:1.5px solid #121212;"></span></div>
+        <div style="display:flex; align-items:center; gap:14px; flex:none; padding:10px 20px; border:2.5px solid #121212; border-radius:30px; background:#FFFFFF; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:#1A1209;">Crochet as a design system<span style="width:9px; height:9px; background:#C4E75A; border:1.5px solid #121212;"></span></div>
+        <div style="display:flex; align-items:center; gap:14px; flex:none; padding:10px 20px; border:2.5px solid #121212; border-radius:30px; background:#FFFFFF; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:#1A1209;">Film rolls, mostly unlabelled<span style="width:9px; height:9px; background:#63E3C2; border:1.5px solid #121212;"></span></div>
+        <div style="display:flex; align-items:center; gap:14px; flex:none; padding:10px 20px; border:2.5px solid #121212; border-radius:30px; background:#FFFFFF; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:#1A1209;">Type made from chai stains<span style="width:9px; height:9px; background:#A66BFF; border:1.5px solid #121212;"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 — SKILLS WORD-SEARCH -->
+  <div id="skills" style="position:relative; z-index:20; background:#FFFFFF; padding:100px 64px 120px; font-family:'DM Sans',sans-serif; overflow:hidden;">
+    <div style="position:absolute;inset:0;pointer-events:none;z-index:0; background-image:repeating-linear-gradient(0deg,rgba(20,20,20,.03) 0,rgba(20,20,20,.03) 1px,transparent 1px,transparent 5px), repeating-linear-gradient(90deg,rgba(20,20,20,.03) 0,rgba(20,20,20,.03) 1px,transparent 1px,transparent 5px);"></div>
+    <div style="position:relative;z-index:1;max-width:1080px;margin:0 auto;">
+      <div style="margin-bottom:68px; text-align:center;">
+        <p style="margin:0 0 12px; font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:#6A4A8A;">Core Skills · Find the Words</p>
+        <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(30px,3.4vw,46px); letter-spacing:-1.5px; color:#1A1209; line-height:1.04;">Find what I bring to the table.</h2>
+        <p style="margin:16px 0 0; font-size:13px; color:#5A5060; letter-spacing:.3px;">Drag across the grid to circle each hidden skill — five to find.</p>
+      </div>
+      <div style="position:relative; max-width:760px; margin:0 auto;">
+
+        <!-- Floating pixel elements (in whitespace, repel from cursor) -->
+        <div class="pixel-float" style="top:-30px; left:-88px;"><svg width="56" height="42" viewBox="0 0 56 42"><rect x="4" y="6" width="22" height="22" fill="none" stroke="#63E3C2" stroke-width="3"></rect><circle cx="15" cy="17" r="3" fill="#63E3C2"></circle><rect x="26" y="26" width="10" height="4" fill="#63E3C2" transform="rotate(45 31 28)"></rect></svg></div>
+        <div class="pixel-float" style="top:96px; left:-104px;"><svg width="58" height="40" viewBox="0 0 58 40"><rect x="4" y="6" width="30" height="22" fill="none" stroke="#C4E75A" stroke-width="3" rx="2"></rect><rect x="8" y="10" width="6" height="6" fill="#C4E75A"></rect><rect x="18" y="10" width="12" height="3" fill="#C4E75A" opacity=".6"></rect><rect x="8" y="20" width="16" height="3" fill="#C4E75A" opacity=".6"></rect></svg></div>
+        <div class="pixel-float" style="bottom:20px; left:-92px;"><svg width="60" height="30" viewBox="0 0 60 30"><rect x="4" y="6" width="14" height="14" fill="#F9C846" stroke="#121212" stroke-width="2"></rect><rect x="22" y="6" width="14" height="14" fill="#63E3C2" stroke="#121212" stroke-width="2"></rect><rect x="40" y="6" width="14" height="14" fill="#F9C846" stroke="#121212" stroke-width="2"></rect></svg></div>
+        <div class="pixel-float" style="top:-24px; right:-96px;"><svg width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="10" r="5" fill="none" stroke="#63E3C2" stroke-width="3"></circle><path d="M 23 16 L 23 28 M 14 21 L 32 21 M 14 28 L 18 40 M 32 28 L 28 40" stroke="#63E3C2" stroke-width="3" fill="none" stroke-linecap="round"></path></svg></div>
+        <div class="pixel-float" style="top:120px; right:-108px;"><svg width="62" height="40" viewBox="0 0 62 40"><polyline points="6,32 18,18 28,26 40,6" fill="none" stroke="#F9C846" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline><circle cx="40" cy="6" r="4" fill="#F9C846"></circle><polyline points="34,6 40,6 40,12" fill="none" stroke="#F9C846" stroke-width="3" stroke-linecap="round"></polyline></svg></div>
+        <div class="pixel-float" style="bottom:8px; right:-84px;"><svg width="40" height="40" viewBox="0 0 40 40"><path d="M20 4 L24 16 L36 20 L24 24 L20 36 L16 24 L4 20 L16 16 Z" fill="#F9C846" stroke="#121212" stroke-width="2"></path></svg></div>
+
+        <!-- Uniform 15-column word-search -->
+        <div id="wsGrid" style="position:relative; display:flex; flex-direction:column; align-items:center; gap:4px;">
+          <div style="display:flex; gap:10px;"><span class="wc">Q</span><span class="wc">W</span><span class="wc">E</span><span class="wc">R</span><span class="wc">T</span><span class="wc">Y</span><span class="wc">U</span><span class="wc">I</span><span class="wc">O</span><span class="wc">P</span><span class="wc">A</span><span class="wc">S</span><span class="wc">D</span><span class="wc">F</span><span class="wc">G</span></div>
+          <div style="display:flex; gap:10px;"><span class="wc">Z</span><span class="wc">X</span><span class="wc skill-letter" data-word="ux">U</span><span class="wc skill-letter" data-word="ux">X</span><span class="wc skill-letter" data-word="ux">R</span><span class="wc skill-letter" data-word="ux">E</span><span class="wc skill-letter" data-word="ux">S</span><span class="wc skill-letter" data-word="ux">E</span><span class="wc skill-letter" data-word="ux">A</span><span class="wc skill-letter" data-word="ux">R</span><span class="wc skill-letter" data-word="ux">C</span><span class="wc skill-letter" data-word="ux">H</span><span class="wc">B</span><span class="wc">N</span><span class="wc">M</span></div>
+          <div style="display:flex; gap:10px;"><span class="wc">L</span><span class="wc">K</span><span class="wc">J</span><span class="wc">H</span><span class="wc">G</span><span class="wc">F</span><span class="wc">D</span><span class="wc">S</span><span class="wc">A</span><span class="wc">P</span><span class="wc">O</span><span class="wc">I</span><span class="wc">U</span><span class="wc">Y</span><span class="wc">T</span></div>
+          <div style="display:flex; gap:10px;"><span class="wc">M</span><span class="wc">N</span><span class="wc">B</span><span class="wc skill-letter" data-word="proto">P</span><span class="wc skill-letter" data-word="proto">R</span><span class="wc skill-letter" data-word="proto">O</span><span class="wc skill-letter" data-word="proto">T</span><span class="wc skill-letter" data-word="proto">O</span><span class="wc skill-letter" data-word="proto">T</span><span class="wc skill-letter" data-word="proto">Y</span><span class="wc skill-letter" data-word="proto">P</span><span class="wc skill-letter" data-word="proto">I</span><span class="wc skill-letter" data-word="proto">N</span><span class="wc skill-letter" data-word="proto">G</span><span class="wc">V</span></div>
+          <div style="display:flex; gap:10px;"><span class="wc">C</span><span class="wc">X</span><span class="wc">Z</span><span class="wc">A</span><span class="wc">Q</span><span class="wc">W</span><span class="wc">S</span><span class="wc">E</span><span class="wc">D</span><span class="wc">R</span><span class="wc">F</span><span class="wc">T</span><span class="wc">G</span><span class="wc">Y</span><span class="wc">H</span></div>
+          <div style="display:flex; gap:10px;"><span class="wc">K</span><span class="wc skill-letter" data-word="design">D</span><span class="wc skill-letter" data-word="design">E</span><span class="wc skill-letter" data-word="design">S</span><span class="wc skill-letter" data-word="design">I</span><span class="wc skill-letter" data-word="design">G</span><span class="wc skill-letter" data-word="design">N</span><span class="wc skill-letter" data-word="design">S</span><span class="wc skill-letter" data-word="design">Y</span><span class="wc skill-letter" data-word="design">S</span><span class="wc skill-letter" data-word="design">T</span><span class="wc skill-letter" data-word="design">E</span><span class="wc skill-letter" data-word="design">M</span><span class="wc skill-letter" data-word="design">S</span><span class="wc">L</span></div>
+          <div style="display:flex; gap:10px;"><span class="wc">P</span><span class="wc">O</span><span class="wc">I</span><span class="wc">U</span><span class="wc">Y</span><span class="wc">T</span><span class="wc">R</span><span class="wc">E</span><span class="wc">W</span><span class="wc">Q</span><span class="wc">A</span><span class="wc">S</span><span class="wc">D</span><span class="wc">F</span><span class="wc">G</span></div>
+          <div style="display:flex; gap:10px;"><span class="wc">H</span><span class="wc skill-letter" data-word="access">A</span><span class="wc skill-letter" data-word="access">C</span><span class="wc skill-letter" data-word="access">C</span><span class="wc skill-letter" data-word="access">E</span><span class="wc skill-letter" data-word="access">S</span><span class="wc skill-letter" data-word="access">S</span><span class="wc skill-letter" data-word="access">I</span><span class="wc skill-letter" data-word="access">B</span><span class="wc skill-letter" data-word="access">I</span><span class="wc skill-letter" data-word="access">L</span><span class="wc skill-letter" data-word="access">I</span><span class="wc skill-letter" data-word="access">T</span><span class="wc skill-letter" data-word="access">Y</span><span class="wc">J</span></div>
+          <div style="display:flex; gap:10px;"><span class="wc">N</span><span class="wc">B</span><span class="wc">V</span><span class="wc">C</span><span class="wc">X</span><span class="wc">Z</span><span class="wc">L</span><span class="wc">K</span><span class="wc">J</span><span class="wc">H</span><span class="wc">G</span><span class="wc">F</span><span class="wc">D</span><span class="wc">S</span><span class="wc">A</span></div>
+          <div style="display:flex; gap:10px;"><span class="wc">W</span><span class="wc skill-letter" data-word="growth">G</span><span class="wc skill-letter" data-word="growth">R</span><span class="wc skill-letter" data-word="growth">O</span><span class="wc skill-letter" data-word="growth">W</span><span class="wc skill-letter" data-word="growth">T</span><span class="wc skill-letter" data-word="growth">H</span><span class="wc skill-letter" data-word="growth">M</span><span class="wc skill-letter" data-word="growth">I</span><span class="wc skill-letter" data-word="growth">N</span><span class="wc skill-letter" data-word="growth">D</span><span class="wc skill-letter" data-word="growth">S</span><span class="wc skill-letter" data-word="growth">E</span><span class="wc skill-letter" data-word="growth">T</span><span class="wc">P</span></div>
+        </div>
+      </div>
+      <div style="margin-top:44px; display:flex; flex-wrap:wrap; justify-content:center; gap:12px;">
+        <span class="word-chip" data-chip="ux"><span class="dot" style="background:#63E3C2;"></span>UX Research</span>
+        <span class="word-chip" data-chip="proto"><span class="dot" style="background:#C4E75A;"></span>Prototyping</span>
+        <span class="word-chip" data-chip="design"><span class="dot" style="background:#F9C846;"></span>Design Systems</span>
+        <span class="word-chip" data-chip="access"><span class="dot" style="background:#A66BFF;"></span>Accessibility</span>
+        <span class="word-chip" data-chip="growth"><span class="dot" style="background:#FF7EB6;"></span>Growth Mindset</span>
+      </div>
+      <div style="margin-top:44px; text-align:center;">
+        <p style="font-size: 13px; color: #5A5060; letter-spacing: .3px; line-height: 1.6; max-width: 500px; margin: 0 auto"><span style="font-size: 12px; letter-spacing: normal; text-align: start;">Someone at a kirana store fumbled through a QR payment for two minutes straight. Reminded me why "simple" is a design decision, not a default.</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 4 — JOURNAL (opens like a book)
+  ═══════════════════════════════════════════ -->
+  <div id="journal" style="position:relative; z-index:20; background:#FFFFFF; padding:110px 40px 130px; font-family:'DM Sans',sans-serif; overflow:hidden;">
+    <div style="position:absolute;inset:0;pointer-events:none;z-index:0;
+      background-image:repeating-linear-gradient(0deg,rgba(20,20,20,.03) 0,rgba(20,20,20,.03) 1px,transparent 1px,transparent 5px),
+                       repeating-linear-gradient(90deg,rgba(20,20,20,.03) 0,rgba(20,20,20,.03) 1px,transparent 1px,transparent 5px);"></div>
+    <div style="position:relative; z-index:1; max-width:1040px; margin:0 auto;">
+
+      <div style="text-align:center; margin-bottom:52px;">
+        <p style="margin:0 0 12px; font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:#6A4A8A;">About · Tap the Book to Open</p>
+        <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(30px,3.4vw,46px); letter-spacing:-1.5px; color:#1A1209; line-height:1.04;">A peek into my world.</h2>
+      </div>
+
+      <div id="journalBook" style="position:relative; height:660px; perspective:2400px; display:flex; justify-content:center;">
+
+        <!-- ── OPEN SPREAD ── -->
+        <div class="spread" style="position:absolute; top:0; left:50%; width:940px; height:620px; display:flex; cursor:pointer;
+          filter:drop-shadow(0 26px 44px rgba(20,20,20,.22));">
+
+          <!-- LEFT PAGE — journey -->
+          <div style="flex:1; background:#FFFFFF; border:2.5px solid #121212; border-right:none; border-radius:12px 0 0 12px;
+            padding:40px 38px; position:relative; overflow:hidden;
+            background-image:radial-gradient(rgba(58,32,84,.09) 1px, transparent 1px); background-size:14px 14px;">
+            <div style="position:absolute; top:0; right:0; width:26px; height:100%; background:linear-gradient(90deg, transparent, rgba(20,20,20,.09));"></div>
+
+            <h3 style="margin: 0 0 32px; font-family: 'Space Grotesk',sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -.8px; color: #1A1209">My Journey</h3>
+            
+
+            <div style="position:relative; padding-left:4px;">
+              <div style="position:absolute; left:9px; top:8px; bottom:14px; width:2px; background:#121212; opacity:.16;"></div>
+
+              <div style="position:relative; padding-left:34px; padding-bottom:22px;">
+                <div style="position:absolute; left:2px; top:3px; width:15px; height:15px; border-radius:50%; background:#F9C846; border:2.5px solid #121212; box-shadow:0 0 0 4px #FBF8F3;"></div>
+                <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px;">
+                  <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px; color:#1A1209;">Goldenflitch Studios</div>
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#6A4A8A; letter-spacing:.3px; white-space:nowrap;">JAN 2024 — PRESENT</div>
+                </div>
+                <div style="font-size: 13px; color: #5A5060; margin-top: 2px">UI/UX Designer · Gurugram</div>
+              </div>
+
+              <div style="position:relative; padding-left:34px; padding-bottom:22px;">
+                <div style="position:absolute; left:2px; top:3px; width:15px; height:15px; border-radius:50%; background:#63E3C2; border:2.5px solid #121212; box-shadow:0 0 0 4px #FBF8F3;"></div>
+                <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px;">
+                  <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px; color:#1A1209;">Zeliot Connected Services</div>
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#6A4A8A; letter-spacing:.3px; white-space:nowrap;">JUN — AUG 2023</div>
+                </div>
+                <div style="font-size: 13px; color: #5A5060; margin-top: 2px">Visual Design Intern · Bengaluru</div>
+              </div>
+
+              <div style="position:relative; padding-left:34px;">
+                <div style="position:absolute; left:2px; top:3px; width:15px; height:15px; border-radius:50%; background:#F9C846; border:2.5px solid #121212; box-shadow:0 0 0 4px #FBF8F3;"></div>
+                <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px;">
+                  <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px; color:#1A1209;">BakeOFun</div>
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#6A4A8A; letter-spacing:.3px; white-space:nowrap;">JUL — DEC 2021</div>
+                </div>
+                <div style="font-size: 13px; color: #5A5060; margin-top: 2px">Content Strategist · Remote</div>
+              </div>
+            </div><div style="margin-top: 24px; padding-top: 22px; border-top: 1.5px dashed rgba(20,20,20,.16)">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:#6A4A8A; margin-bottom:10px;">Education</div>
+              <div style="position:relative; padding-left:38px;">
+                <div style="position:absolute; left:2px; top:3px; width:15px; height:15px; border-radius:50%; background:#63E3C2; border:2.5px solid #121212; box-shadow:0 0 0 4px #FBF8F3;"></div>
+                <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px;">
+                  <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px; color:#1A1209;">NIFT- Communication Design</div>
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#6A4A8A; letter-spacing:.3px; white-space:nowrap;">2020-2024</div>
+                </div>
+                <div style="font-size: 13px; color: #5A5060; margin-top: 2px">Best Graduation Project · Meritorious Rank 1</div>
+              </div>
+            </div>
+
+            
+
+            <!-- Today note (mac-window style) -->
+            <div style="position: relative; margin: 22px 0 0 64px; background: #FFFFFF; border: 2px solid #121212; border-radius: 8px; padding: 12px 12px; box-shadow: 3px 3px 0 rgba(20,20,20,.14); max-width: 360px">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                <div style="display:flex; gap:5px;">
+                  <span style="width:8px; height:8px; border-radius:50%; background:#FF6B5B; display:block;"></span>
+                  <span style="width:8px; height:8px; border-radius:50%; background:#F9C846; display:block;"></span>
+                  <span style="width:8px; height:8px; border-radius:50%; background:#63E3C2; display:block;"></span>
+                </div>
+                <div style="width:13px; height:13px; position:relative;">
+                  <div style="position:absolute; top:1px; left:5px; width:3px; height:11px; background:#4A2A6B; border-radius:2px; transform:rotate(20deg);"></div>
+                  <div style="position:absolute; top:1px; left:1px; width:6px; height:6px; background:#4A2A6B; border-radius:50% 50% 50% 0; transform:rotate(-45deg);"></div>
+                  <div style="position:absolute; top:1px; left:6px; width:6px; height:6px; background:#4A2A6B; border-radius:50% 50% 0 50%; transform:rotate(45deg);"></div>
+                </div>
+              </div>
+              <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:12px; color:#1A1209; margin-bottom:4px;">This is me!</div>
+              <div style="font-size:12px; line-height:1.5; color:#5A5060;"><p>I'm a UI/UX designer who enjoys taking products from 0 to 1, breaking down complex problems, shaping product direction, and designing experiences that are practical, scalable, and easy to use.</p></div>
+            </div>
+
+
+          </div>
+
+          <!-- RIGHT PAGE — things I like -->
+          <div style="flex:1; background:#FFFFFF; border:2.5px solid #121212; border-left:none; border-radius:0 12px 12px 0;
+            padding:40px 38px; position:relative; overflow:hidden;
+            background-image:radial-gradient(rgba(58,32,84,.09) 1px, transparent 1px); background-size:14px 14px;">
+            <div style="position:absolute; top:0; left:0; width:26px; height:100%; background:linear-gradient(270deg, transparent, rgba(20,20,20,.09));"></div>
+
+            <h3 style="margin:0 0 4px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:26px; letter-spacing:-.8px; color:#1A1209; text-align:right;">Things I Like</h3>
+            <p style="margin:0 0 18px; font-family:'Caveat',cursive; font-size:20px; color:#4A2A6B; text-align:right; transform:rotate(1.5deg);">← my little joys</p>
+
+            <!-- scattered desktop-file collage -->
+            <div id="likesCollage" style="position:relative; height:430px; cursor:default;">
+
+              <div class="polaroid" style="position:absolute; top:0; left:46%; width:96px; transform:rotate(-1deg); z-index:4; text-align:center;">
+                <img src="assets/folder.png" alt="folder" style="width:74px; height:auto; display:block; margin:0 auto; filter:drop-shadow(2px 3px 4px rgba(20,20,20,.22));">
+                <div style="margin-top:8px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#4A4055; letter-spacing:.2px;">junk from travel</div>
+              </div>
+
+              <div class="polaroid" style="position:absolute; top:22px; left:-6px; width:126px; transform:rotate(-4deg); z-index:3;">
+                <img src="assets/lilies.png" alt="lilies" style="width:112px; height:auto; display:block; filter:drop-shadow(2px 3px 4px rgba(20,20,20,.18));">
+                <div style="margin-top:4px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#4A4055; letter-spacing:.2px;">lilies.png</div>
+              </div>
+
+              <div class="polaroid" style="position:absolute; top:112px; right:-2px; width:104px; transform:rotate(3deg); z-index:5; text-align:center;">
+                <img src="assets/crochet.png" alt="crochet" style="width:88px; height:auto; display:block; margin:0 auto; filter:drop-shadow(2px 3px 4px rgba(20,20,20,.2));">
+                <div style="margin-top:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#4A4055; letter-spacing:.2px;">crochet.knt</div>
+              </div>
+
+              <div class="polaroid photo" style="position:absolute; top:128px; left:50%; margin-left:-88px; width:176px; transform:rotate(-1.5deg); z-index:6;
+                background:#fff; border:2.5px solid #121212; border-radius:5px; padding:9px 9px 8px; box-shadow:5px 6px 0 rgba(20,20,20,.16);">
+                <div style="position:absolute; top:-30px; left:50%; transform:translateX(-50%); padding:5px 11px; background:#2E1C42; color:#F1EDE3;
+                  font-family:'IBM Plex Mono',monospace; font-size:11px; border-radius:7px; white-space:nowrap;">@naina.gpt</div>
+                <img src="assets/me.png" alt="Naina" style="width:100%; height:178px; object-fit:cover; border-radius:2px; display:block;">
+              </div>
+
+              <div class="polaroid" style="position:absolute; bottom:14px; left:4px; width:130px; transform:rotate(-2deg); z-index:4;">
+                <img src="assets/experiments.png" alt="experiments" style="width:98px; height:auto; display:block; filter:drop-shadow(2px 3px 5px rgba(20,20,20,.22));">
+                <div style="margin-top:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#4A4055; letter-spacing:.2px;">experiments.md</div>
+              </div>
+
+              <div class="polaroid" style="position:absolute; bottom:6px; right:0; width:112px; transform:rotate(4deg); z-index:4; text-align:center;">
+                <img src="assets/chaipaglu.png" alt="chai" style="width:96px; height:auto; display:block; margin:0 auto; filter:drop-shadow(2px 3px 4px rgba(20,20,20,.2));">
+                <div style="margin-top:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#4A4055; letter-spacing:.2px;">chaipaglu.png</div>
+              </div>
+
+            </div>
+          </div>
+
+          <div style="position:absolute; left:50%; top:0; transform:translateX(-50%); width:6px; height:100%; z-index:5;
+            background:linear-gradient(90deg, rgba(20,20,20,.18), rgba(20,20,20,.32), rgba(20,20,20,.18));"></div>
+          <div style="position:absolute; left:50%; top:-4px; transform:translateX(-50%); width:26px; height:82px; background:#3A2054; z-index:6;
+            clip-path:polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%); box-shadow:0 4px 8px rgba(0,0,0,.2);"></div>
+          <div class="jrnl-tab" style="position:absolute; bottom:16px; right:16px; z-index:7; cursor:pointer;
+            display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:#3A2054; color:#F1EDE3;
+            font-size:11px; font-weight:600; letter-spacing:.5px; border:2px solid #121212; border-radius:20px;">Close ✕</div>
+        </div>
+
+        <!-- ── CLOSED COVER ── -->
+        <div class="cover" style="position:absolute; top:0; left:50%; width:432px; height:620px; cursor:pointer; z-index:10;
+          background:linear-gradient(135deg,#553A78,#3A2054); border:3px solid #121212; border-radius:12px;
+          box-shadow:0 16px 0 #121212, 0 34px 54px rgba(0,0,0,.28);
+          display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; overflow:hidden;">
+          <div style="position:absolute; top:10px; bottom:10px; right:-7px; width:8px; border-radius:0 4px 4px 0;
+            background:repeating-linear-gradient(0deg,#F1EDE3 0,#F1EDE3 2px,#D9D2C4 2px,#D9D2C4 4px);"></div>
+          <div style="position:absolute; top:0; right:70px; width:22px; height:120px; background:#F9C846; border:2px solid #121212; border-top:none;
+            clip-path:polygon(0 0,100% 0,100% 100%,50% 80%,0 100%);"></div>
+
+          <div style="width:64px; height:64px; border-radius:50%; background:#F9C846; border:3px solid #121212;
+            display:flex; align-items:center; justify-content:center; box-shadow:0 5px 0 #121212;">
+            <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:24px; color:#121212;">NG</span>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:'Caveat',cursive; font-size:52px; line-height:1; color:#F1EDE3;">The Journal</div>
+          </div>
+          <div style="width:56px; height:2px; background:rgba(255,210,74,.7);"></div>
+          <div style="position:absolute; bottom:16px; right:18px; max-width:150px; text-align:right;
+            font-family:'Caveat',cursive; font-size:19px; line-height:1.2; color:rgba(244,241,235,.82); transform:rotate(-2deg);">Write, you'll be a much better designer ✎</div>
+          <div class="cover-hint" style="position: absolute; left: 17px; display: inline-flex; align-items: center; gap: 7px; padding: 9px 18px; background: #FFFFFF; color: #2A1840; font-family: 'DM Sans',sans-serif; font-size: 13px; font-weight: 600; border: 2px solid #121212; border-radius: 22px; box-shadow: 3px 3px 0 #121212; white-space: nowrap; top: 559px">
+            Click to open →
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 — CONTACT -->
+  <div id="contact" style="position:relative; z-index:20; background:#3A2054; padding:104px 64px 96px; font-family:'DM Sans',sans-serif; overflow:hidden;">
+    <div style="position:absolute; inset:0; pointer-events:none; opacity:.5;
+      background-image:repeating-linear-gradient(0deg,rgba(244,241,235,.07) 0,rgba(244,241,235,.07) 1px,transparent 1px,transparent 5px),
+                       repeating-linear-gradient(90deg,rgba(244,241,235,.07) 0,rgba(244,241,235,.07) 1px,transparent 1px,transparent 5px);"></div>
+
+    <div style="position:relative; max-width:1080px; margin:0 auto; display:flex; flex-direction:column; gap:52px;">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:500; letter-spacing:2.4px; text-transform:uppercase; color:#63E3C2;">Limited time offer</div>
+        <h2 style="margin:12px 0 22px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,3vw,40px); line-height:1.1; letter-spacing:-1.2px; color:#F1EDE3;">Hire me and avail a 10%<br>discount on Amazon.</h2>
+
+        <div id="dodgeZoneRef" style="position: relative; height: 230px; max-width: 1200px; background: #FFFFFF; border: 2.6px solid #121212; box-shadow: 8px 9px 0 #121212; overflow: hidden; background-image: repeating-linear-gradient(0deg,rgba(20,20,20,.05) 0,rgba(20,20,20,.05) 1px,transparent 1px,transparent 5px),
+                           repeating-linear-gradient(90deg,rgba(20,20,20,.05) 0,rgba(20,20,20,.05) 1px,transparent 1px,transparent 5px); width: 100%">
+          <div style="position:absolute; top:12px; left:14px; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:1.6px; text-transform:uppercase; color:rgba(20,20,20,.42);">Coupon · NAINA10</div>
+          <div id="dodgeBtnRef" style="position:absolute; left:22px; top:112px; display:inline-flex; align-items:center; gap:8px; padding:13px 22px;
+              background:#FF7EB6; border:2.6px solid #121212; box-shadow:5px 6px 0 #121212; cursor:pointer; user-select:none; white-space:nowrap;
+              font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; color:#121212;
+              transition:left .3s cubic-bezier(.2,.9,.25,1.1), top .3s cubic-bezier(.2,.9,.25,1.1), transform .3s ease;">
+            Avail discount →
+          </div>
+
+          <div id="winNoteRef" style="position:absolute; bottom:14px; right:18px; opacity:0; transition:opacity .4s ease;
+            font-family:'Caveat',cursive; font-size:24px; color:#4A2A6B; transform:rotate(-3deg); pointer-events:none;">okay you win ✎</div>
+
+          <div id="caughtRef" style="position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:24px; background:rgba(58,32,84,.82); z-index:999;">
+            <div style="max-width:440px; background:#FFFFFF; border:3px solid #121212; box-shadow:10px 12px 0 #121212; padding:34px 36px 36px; text-align:center;">
+              <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:30px; letter-spacing:-.9px; color:#121212;">Let's connect first.</div>
+              <div style="margin-top:10px; font-size:15px; line-height:1.55; color:#5A5060;">The discount is a bit of a myth. The conversation isn't.</div>
+              <div style="display:flex; gap:12px; justify-content:center; margin-top:24px; flex-wrap:wrap;">
+                <a href="https://linkedin.com" style="text-decoration:none; display:inline-flex; align-items:center; gap:7px; padding:10px 18px; background:#A66BFF; border:2.4px solid #121212; box-shadow:4px 5px 0 #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color:#121212; transition:transform .12s ease, box-shadow .12s ease;" data-hover="transform:translate(3px,4px); box-shadow:1px 1px 0 #121212;">Message me on LinkedIn →</a>
+                <div id="dismissBtn" style="cursor:pointer; display:inline-flex; align-items:center; padding:10px 14px; border:2.4px solid #121212; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1.4px; text-transform:uppercase; color:#121212;">Close</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><div style="display:flex; flex-direction:column; gap:20px;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(24px,2.4vw,32px); line-height:1.12; letter-spacing:-.9px; color:#F1EDE3;">Let's connect before we talk about the discount.</div>
+        <div style="display:flex; gap:14px; flex-wrap:wrap;">
+        <a href="mailto:guptanaina308@gmail.com" style="flex:1; min-width:230px; text-decoration:none; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:16px 20px; background:#FFFFFF; border:2.4px solid #121212; border-radius:2px; box-shadow:6px 7px 0 #121212; transition:transform .12s ease, box-shadow .12s ease;" data-hover="transform:translate(4px,5px); box-shadow:1px 1px 0 #121212;" target="_blank" rel="noopener noreferrer">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:1.8px; text-transform:uppercase; color:#6A4A8A;">Email</span>
+          <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; color:#121212;">guptanaina308@gmail.com</span>
+        </a>
+        <a href="https://www.linkedin.com/in/nainaaaguptaaa?utm_source=share_via&amp;utm_content=profile&amp;utm_medium=member_android" style="flex:1; min-width:230px; text-decoration:none; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:16px 20px; background:#FFFFFF; border:2.4px solid #121212; border-radius:2px; box-shadow:6px 7px 0 #121212; transition:transform .12s ease, box-shadow .12s ease;" data-hover="transform:translate(4px,5px); box-shadow:1px 1px 0 #121212;" target="_blank" rel="noopener noreferrer">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:1.8px; text-transform:uppercase; color:#6A4A8A;">LinkedIn</span>
+          <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; color:#121212;">/in/nainagupta</span>
+        </a>
+        <div style="flex:1; min-width:230px; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:16px 20px; background:#63E3C2; border:2.4px solid #121212; border-radius:2px; box-shadow:6px 7px 0 #121212;">
+          <span style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 9.5px; letter-spacing: 1.8px; text-transform: uppercase; color: rgb(58, 32, 84);">Based in</span>
+          <span style="font-family: &quot;Space Grotesk&quot;, sans-serif; font-weight: 700; font-size: 16px; color: rgb(18, 18, 18);">Delhi NCR · Bengaluru</span>
+        </div>
+        </div>
+      </div>
+
+      
+
+    </div>
+  </div>
+
+
+<script src="main.js"></script>
+</body>
+</html>
