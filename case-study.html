@@ -164,7 +164,9 @@
 
     <div style="display:grid; grid-template-columns:200px 1fr; gap:56px; align-items:start;">
       <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1.8px; text-transform:uppercase; color:#8A8792; padding-top:9px;">04 — Decisions</div>
-      <div style="max-width:760px; display:flex; flex-direction:column;">
+      <div style="max-width:760px;">
+        <p style="margin:0 0 34px; font-size:16.5px; line-height:1.8; color:#5C5A63; text-wrap:pretty;">Four calls shaped the module. Each one traded a familiar, "safe" pattern for something that felt riskier to build — because the familiar pattern was the thing users associated with the problem in the first place.</p>
+        <div style="display:flex; flex-direction:column;">
         <div style="display:grid; grid-template-columns:1fr 1.35fr; gap:36px; padding:26px 0; border-top:1px solid rgba(23,22,27,.12);">
           <div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:1.6px; text-transform:uppercase; color:#A5A2AC;">Rejected</div>
@@ -172,7 +174,7 @@
           </div>
           <div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:1.6px; text-transform:uppercase; color:#5C5A63;">Shipped</div>
-            <p style="margin:10px 0 0; font-size:15px; line-height:1.7; color:#17161B;">A visual org chart with inline editing. Users equated spreadsheets with the problem — the UI had to feel fundamentally different to earn trust.</p>
+            <p style="margin:10px 0 0; font-size:15px; line-height:1.7; color:#17161B;">A visual org chart with inline editing. Users equated spreadsheets with the problem itself — the interface had to feel fundamentally different to earn their trust. Tables are built for reading rows of data; they don't show relationships. A cell that reads "Manager: Sarah" doesn't tell you Engineering's backfill depends on Finance's sign-off — a linked org chart does, at a glance.</p>
           </div>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1.35fr; gap:36px; padding:26px 0; border-top:1px solid rgba(23,22,27,.12);">
@@ -182,7 +184,17 @@
           </div>
           <div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:1.6px; text-transform:uppercase; color:#5C5A63;">Shipped</div>
-            <p style="margin:10px 0 0; font-size:15px; line-height:1.7; color:#17161B;">A real-time workspace with role-based access. The email review cycle was the single biggest time sink; removing it was the point.</p>
+            <p style="margin:10px 0 0; font-size:15px; line-height:1.7; color:#17161B;">A real-time workspace with role-based access. The email review cycle was Meera's single biggest time sink — four to five rounds per cycle, with no reliable way to tell which attachment was current. Making the workspace live meant Finance and Team Leads could react to a change the moment it was made, not three email threads later.</p>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1.35fr; gap:36px; padding:26px 0; border-top:1px solid rgba(23,22,27,.12);">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:1.6px; text-transform:uppercase; color:#A5A2AC;">Rejected</div>
+            <p style="margin:10px 0 0; font-size:15px; line-height:1.7; color:#A5A2AC;">Hidden dependencies, discovered at execution.</p>
+          </div>
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:1.6px; text-transform:uppercase; color:#5C5A63;">Shipped</div>
+            <p style="margin:10px 0 0; font-size:15px; line-height:1.7; color:#17161B;">A conflict panel, surfaced during planning. Cross-functional teams carried invisible assumptions about each other's moves — Engineering assuming a budget line Product had already claimed for a new hire. A visible panel, with the affected roles linked by a red dependency line, meant the clash got resolved on the canvas instead of blowing up mid-restructure.</p>
           </div>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1.35fr; gap:36px; padding:26px 0; border-top:1px solid rgba(23,22,27,.12); border-bottom:1px solid rgba(23,22,27,.12);">
@@ -192,8 +204,9 @@
           </div>
           <div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:1.6px; text-transform:uppercase; color:#5C5A63;">Shipped</div>
-            <p style="margin:10px 0 0; font-size:15px; line-height:1.7; color:#17161B;">Contextual history on each node. Nobody should leave their workflow to prove compliance.</p>
+            <p style="margin:10px 0 0; font-size:15px; line-height:1.7; color:#17161B;">Contextual history on each node. Compliance teams need to know who approved a change, when, and under what conditions — usually under time pressure. A separate log forces someone out of their workflow to go find that answer; pinning the history to the node itself means the context travels with the change instead of living in a module nobody opens until an audit.</p>
           </div>
+        </div>
         </div>
       </div>
     </div>
@@ -214,10 +227,6 @@
         <img src="assets/cs-proto-1.gif" alt="Prototype: editing the org structure" style="width:100%; display:block; border-radius:4px; background:#FFFFFF;">
         <p style="margin:20px auto 0; max-width:760px; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.8px; color:#8A8792;">Fig 03 — editing the structure, with the cost delta updating live.</p>
       </div>
-      <div>
-        <img src="assets/cs-proto-2.gif" alt="Prototype: compare mode" style="width:100%; display:block; border-radius:4px; background:#FFFFFF;">
-        <p style="margin:20px auto 0; max-width:760px; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.8px; color:#8A8792;">Fig 04 — compare mode: a scenario held against the current structure.</p>
-      </div>
     </div>
   </div>
 
@@ -227,20 +236,20 @@
       <div style="height:520px; background:#F1EEE8; border-radius:4px; overflow:hidden;">
         <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; text-align:center; padding:24px; box-sizing:border-box; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.6px; color:#A5A2AC; border:1.5px dashed rgba(23,22,27,.25);">Full-width shot — audit trail panel on a node</div>
       </div>
-      <p style="margin:20px auto 0; max-width:760px; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.8px; color:#8A8792;">Fig 05 — contextual history: who moved whom, when, and why.</p>
+      <p style="margin:20px auto 0; max-width:760px; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.8px; color:#8A8792;">Fig 04 — contextual history: who moved whom, when, and why.</p>
     </div>
     <div style="max-width:1320px; margin:64px auto 0; padding:0 40px; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:26px;">
       <div>
         <div style="height:420px; background:#F1EEE8; border-radius:4px; overflow:hidden;">
           <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; text-align:center; padding:24px; box-sizing:border-box; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.6px; color:#A5A2AC; border:1.5px dashed rgba(23,22,27,.25);">Scenario comparison screen</div>
         </div>
-        <p style="margin:16px 0 0; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.8px; color:#8A8792;">Fig 06 — three scenarios, one cost table.</p>
+        <p style="margin:16px 0 0; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.8px; color:#8A8792;">Fig 05 — three scenarios, one cost table.</p>
       </div>
       <div>
         <div style="height:420px; background:#F1EEE8; border-radius:4px; overflow:hidden;">
           <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; text-align:center; padding:24px; box-sizing:border-box; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.6px; color:#A5A2AC; border:1.5px dashed rgba(23,22,27,.25);">Review &amp; approval flow</div>
         </div>
-        <p style="margin:16px 0 0; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.8px; color:#8A8792;">Fig 07 — review and sign-off, in platform.</p>
+        <p style="margin:16px 0 0; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.8px; color:#8A8792;">Fig 06 — review and sign-off, in platform.</p>
       </div>
     </div>
   </div>
