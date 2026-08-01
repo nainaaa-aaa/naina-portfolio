@@ -13,8 +13,18 @@
   html, body { margin: 0; padding: 0; background: #FFFFFF; overflow: hidden; overscroll-behavior: none; }
   a { color: #4A2A6B; }
   a:hover { color: #A66BFF; }
-  #viewRef { cursor: grab; }
+  /* The canvas is a drag surface, so panning must never start a text or
+     image selection. Links and the recenter button still work normally. */
+  #viewRef {
+    cursor: grab;
+    -webkit-user-select: none;
+    user-select: none;
+  }
   #viewRef.dragging { cursor: grabbing; }
+  #viewRef img {
+    -webkit-user-drag: none;
+    user-drag: none;
+  }
   #recenterBtn:focus-visible { outline: 3px solid #A66BFF; outline-offset: 3px; }
   @media (prefers-reduced-motion: reduce) {
     #fieldRef, #headingRef { transition: none !important; }

@@ -82,9 +82,17 @@
       raf = requestAnimationFrame(glide);
     };
 
+    // Never let a pan turn into a native image drag (the translucent
+    // "ghost" the browser drags around). CSS covers selection; this
+    // covers the drag gesture itself.
+    view.addEventListener("dragstart", (e) => e.preventDefault());
+
     // --- drag to pan, in any direction ---
     view.addEventListener("pointerdown", (e) => {
       if (e.target.closest("a, button")) return;
+      // Suppress the default selection gesture that would otherwise
+      // highlight captions and images as the pointer moves.
+      e.preventDefault();
       dragging = true;
       last = { x: e.clientX, y: e.clientY };
       vel = { x: 0, y: 0 };
