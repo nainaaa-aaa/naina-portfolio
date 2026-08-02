@@ -1,0 +1,274 @@
+/* ============================================================
+   Small-screen layer.
+
+   The pages are authored with inline styles, and the home page's
+   hero is an absolutely-positioned 1440x900 stage. Inline styles
+   beat stylesheet rules, so most overrides here need !important —
+   that's a consequence of the authoring style, not a preference.
+
+   Everything is inside a max-width query, so desktop rendering is
+   byte-for-byte unchanged.
+
+   Breakpoints
+     900px — two-column section grids collapse
+     760px — the hero switches to the JS-built stacked layout
+     560px — single column everywhere, tightest padding
+   ============================================================ */
+
+/* ── nav: 60px of side padding is a sixth of a phone screen ── */
+@media (max-width: 760px) {
+  nav {
+    padding: 18px 20px !important;
+    gap: 14px;
+  }
+  #siteNav {
+    gap: 18px !important;
+  }
+  #siteNav a {
+    font-size: 13px !important;
+  }
+}
+
+/* ============================================================
+   HOME — hero
+   The stage is hidden and main.js moves the real prop nodes into
+   #mobileHero, so every interaction (radio, notepad, folder)
+   keeps working on the same DOM nodes.
+   ============================================================ */
+@media (max-width: 760px) {
+  #stageRef { display: none !important; }
+  #wrapRef { height: auto !important; display: block !important; }
+
+  #mobileHero {
+    padding: 104px 22px 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #mobileHero .mh-eyebrow {
+    position: static !important;
+    background: none !important;
+    padding: 0 !important;
+    margin: 0 0 18px;
+    font-size: 10px !important;
+    letter-spacing: 2.2px !important;
+    line-height: 1.6;
+  }
+
+  #mobileHero .mh-head { margin: 0 0 34px; }
+  #mobileHero .mh-head > div {
+    position: static !important;
+    background: none !important;
+    padding: 0 !important;
+    font-size: clamp(29px, 8.6vw, 42px) !important;
+    line-height: 1.12 !important;
+    letter-spacing: -1px !important;
+  }
+
+  #mobileHero .mh-props {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  #mobileHero .mh-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 14px;
+    width: 100%;
+  }
+  /* The slot reserves the post-scale footprint; the box holds the
+     prop at its native size and is scaled down into the slot. */
+  #mobileHero .mh-slot { position: relative; flex: none; }
+  #mobileHero .mh-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: top left;
+  }
+  #mobileHero .mh-box > * {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    margin: 0 !important;
+  }
+
+  #mobileHero .mh-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin-top: 40px;
+  }
+  #mobileHero .mh-cta > * {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+  }
+}
+
+/* ============================================================
+   HOME — sections
+   ============================================================ */
+@media (max-width: 900px) {
+  /* project cards: three across never fits a phone */
+  [style*="grid-template-columns:repeat(3,1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  [style*="grid-template-columns:repeat(3,1fr)"] {
+    grid-template-columns: 1fr !important;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 760px) {
+  #work    { padding: 72px 22px 84px !important; }
+  #gallery { padding: 64px 0 76px !important; }
+  #skills  { padding: 68px 16px 80px !important; }
+  #journal { padding: 72px 18px 84px !important; }
+  #contact { padding: 72px 22px 68px !important; }
+}
+
+/* ── word search: 15 columns of 34px + 10px gaps = 650px ── */
+@media (max-width: 760px) {
+  #wsGrid > div { gap: 3px !important; }
+  #wsGrid .wc {
+    width: 19px;
+    height: 26px;
+    font-size: 11px;
+    border-radius: 5px;
+  }
+  /* the decorative sprites live in the margins the phone doesn't have */
+  #skills .pixel-float { display: none; }
+  .word-chip { font-size: 12px; padding: 7px 13px; }
+  .word-chip .dot { width: 10px; height: 10px; }
+}
+
+@media (max-width: 400px) {
+  #wsGrid > div { gap: 2px !important; }
+  #wsGrid .wc { width: 17px; height: 24px; font-size: 10px; }
+}
+
+/* ── journal: a 940px two-page spread becomes two stacked pages ── */
+@media (max-width: 760px) {
+  #journalBook {
+    height: auto !important;
+    perspective: none !important;
+    display: block !important;
+  }
+  #journalBook .cover {
+    position: relative !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: 340px;
+    height: 460px !important;
+    margin: 0 auto;
+    transform: none !important;
+  }
+  #journalBook.open .cover {
+    display: none !important;
+  }
+  /* Collapsed until opened, so the tap-to-open interaction survives. */
+  #journalBook .spread {
+    position: static !important;
+    left: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    flex-direction: column;
+    transform: none !important;
+    filter: none !important;
+    display: none !important;
+  }
+  #journalBook.open .spread {
+    display: flex !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  /* Stacked pages need their seam borders back. */
+  #journalBook .spread > div[style*="flex:1"] {
+    border: 2.5px solid #121212 !important;
+    border-radius: 12px !important;
+    padding: 26px 20px !important;
+  }
+  #journalBook .spread > div[style*="flex:1"]:first-child {
+    margin-bottom: 16px;
+  }
+  /* the page-edge gradients, spine and ribbon are spread-only furniture */
+  #journalBook .spread > div[style*="linear-gradient(90deg"],
+  #journalBook .spread > div[style*="clip-path"] {
+    display: none !important;
+  }
+  #journalBook .spread h3 { font-size: 21px !important; }
+  /* the collage is positioned for a 470px page half */
+  #likesCollage {
+    transform: scale(.74);
+    transform-origin: top center;
+    height: 322px !important;
+  }
+  .jrnl-tab { bottom: auto !important; top: 10px; right: 10px !important; }
+}
+
+/* ── contact ── */
+@media (max-width: 760px) {
+  #contact [style*="width:440px"],
+  #contact [style*="width: 440px"] {
+    width: 100% !important;
+    max-width: 100%;
+  }
+}
+
+/* ============================================================
+   GALLERY — keep the infinite canvas, size it for a phone
+   ============================================================ */
+@media (max-width: 760px) {
+  #headingRef {
+    width: 88vw !important;
+    margin-left: -44vw !important;
+  }
+  #headingRef h1 { font-size: clamp(30px, 10vw, 48px) !important; }
+  #recenterBtn {
+    right: 16px !important;
+    bottom: 16px !important;
+    padding: 11px 15px !important;
+    font-size: 10px !important;
+  }
+  #coordRef, [data-coord-readout] {
+    left: 16px !important;
+    bottom: 16px !important;
+    font-size: 9px !important;
+  }
+  /* The lattice zoom itself is applied by gallery.js (#latticeRef), which
+     also feeds the scaled tile size into the wrap modulus. */
+}
+
+/* ============================================================
+   CASE STUDY
+   (the page also carries its own copy of these rules inline;
+   kept here so the shared sheet is complete)
+   ============================================================ */
+@media (max-width: 900px) {
+  [style*="grid-template-columns:200px 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  [style*="grid-template-columns:1fr 1.35fr"],
+  [style*="grid-template-columns:1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+}
+
+/* ── belt and braces: nothing should be able to widen the page ── */
+@media (max-width: 760px) {
+  img, svg, video { max-width: 100%; }
+}

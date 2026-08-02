@@ -28,12 +28,23 @@
     });
   }
 
+  // Below this width the 1440x900 hero stage is replaced by the stacked
+  // layout built in initMobileHero(). Keep in sync with responsive.css.
+  const MOBILE_Q = "(max-width: 760px)";
+  const isMobile = () => window.matchMedia(MOBILE_Q).matches;
+
   // ── hero stage scaling ──
   function initStageFit() {
     const wrap = document.getElementById("wrapRef");
     const stage = document.getElementById("stageRef");
     if (!wrap || !stage) return;
     const fitStage = () => {
+      // On mobile the stage is display:none and #mobileHero owns the
+      // height, so stop forcing a 900*scale height onto the wrapper.
+      if (isMobile()) {
+        wrap.style.height = "";
+        return;
+      }
       const scale = Math.min(1.2, wrap.clientWidth / 1200);
       stage.style.transform = "scale(" + scale + ")";
       wrap.style.height = 900 * scale + "px";
@@ -41,6 +52,117 @@
     fitStage();
     window.addEventListener("resize", fitStage);
     setInterval(fitStage, 500);
+  }
+
+  // ── mobile hero ──
+  // The stage positions everything absolutely inside 1440x900, which can
+  // only be fitted to a phone by scaling it to ~31% — illegible. Instead
+  // the real prop nodes are moved into a stacked column and each is
+  // scaled up to the column width. Moving (not cloning) the nodes means
+  // the radio, notepad and folder handlers keep working untouched.
+  function initMobileHero() {
+    const wrap = document.getElementById("wrapRef");
+    const stage = document.getElementById("stageRef");
+    if (!wrap || !stage) return;
+
+    // [selector, native width, native height, full-width?]
+    const PROPS = [
+      ["#radioCard", 232.4, 147.9, true],
+      [".site-card", 196.6, 138.8, true],
+      ["#tidyZone", 210, 205, true],
+      ["#folderZone", 124, 116, false],
+      ["#wordleCard", 143, 196, false]
+    ];
+    const MAX_SCALE = 1.9;
+
+    let host = null;
+    let slots = [];
+
+    const build = () => {
+      if (host) return;
+      host = document.createElement("div");
+      host.id = "mobileHero";
+
+      const eyebrow = document.getElementById("heroEyebrow");
+      if (eyebrow) {
+        eyebrow.classList.add("mh-eyebrow");
+        host.appendChild(eyebrow);
+      }
+
+      // the five headline slabs, in stage reading order
+      const head = document.createElement("div");
+      head.className = "mh-head";
+      stage.querySelectorAll("[data-knockout]").forEach((el) => head.appendChild(el));
+      host.appendChild(head);
+
+      const props = document.createElement("div");
+      props.className = "mh-props";
+      let row = null;
+      PROPS.forEach(([sel, w, h, full]) => {
+        const node = stage.querySelector(sel) || document.querySelector(sel);
+        if (!node) return;
+        const slot = document.createElement("div");
+        slot.className = "mh-slot";
+        const box = document.createElement("div");
+        box.className = "mh-box";
+        box.style.width = w + "px";
+        box.style.height = h + "px";
+        box.appendChild(node);
+        slot.appendChild(box);
+        if (full) {
+          props.appendChild(slot);
+          row = null;
+        } else {
+          if (!row) {
+            row = document.createElement("div");
+            row.className = "mh-row";
+            props.appendChild(row);
+          }
+          row.appendChild(slot);
+        }
+        slots.push({ slot: slot, box: box, w: w, h: h, full: full });
+      });
+      host.appendChild(props);
+
+      const cta = document.createElement("div");
+      cta.className = "mh-cta";
+      const viewWork = stage.querySelector('a[href="#work"]');
+      const findMe = stage.querySelector(".brut-search");
+      if (viewWork) cta.appendChild(viewWork);
+      if (findMe) cta.appendChild(findMe);
+      if (cta.children.length) host.appendChild(cta);
+
+      wrap.appendChild(host);
+    };
+
+    const layout = () => {
+      if (!host) return;
+      const cs = window.getComputedStyle(host);
+      const avail =
+        host.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      if (avail <= 0) return;
+      slots.forEach((s) => {
+        const target = s.full ? avail : (avail - 14) / 2;
+        const k = Math.min(MAX_SCALE, target / s.w);
+        s.box.style.transform = "scale(" + k + ")";
+        s.slot.style.width = s.w * k + "px";
+        s.slot.style.height = s.h * k + "px";
+      });
+    };
+
+    const sync = () => {
+      if (isMobile()) {
+        build();
+        layout();
+      }
+      // Deliberately one-way: a phone doesn't cross this breakpoint except
+      // on rotation, and tearing the stage back down would mean restoring
+      // every inline left/top we overrode. A desktop browser resized below
+      // 760px gets the mobile hero until it reloads.
+    };
+
+    sync();
+    window.addEventListener("resize", sync);
   }
 
   // ── "tidy" sticky-note hover ──
@@ -328,17 +450,45 @@
       if (chip) chip.classList.add("done");
     };
 
+    const beginSel = (cell) => {
+      selecting = true; startCell = cell; paintSel(cell._r, cell._c, cell._c);
+    };
+    const extendSel = (cell) => {
+      if (!selecting || !cell || !startCell || cell._r !== startCell._r) return;
+      paintSel(startCell._r, Math.min(startCell._c, cell._c), Math.max(startCell._c, cell._c));
+    };
+
     if (grid) {
       grid.addEventListener("mousedown", (e) => {
         const cell = e.target.closest(".wc"); if (!cell) return;
-        selecting = true; startCell = cell; paintSel(cell._r, cell._c, cell._c);
+        beginSel(cell);
         e.preventDefault();
       });
       grid.addEventListener("mouseover", (e) => {
-        if (!selecting) return;
-        const cell = e.target.closest(".wc"); if (!cell || cell._r !== startCell._r) return;
-        paintSel(startCell._r, Math.min(startCell._c, cell._c), Math.max(startCell._c, cell._c));
+        const cell = e.target.closest(".wc");
+        if (cell) extendSel(cell);
       });
+
+      // Touch: a finger fires no mouseover, and the touchmove target stays
+      // the element the gesture started on — so the cell under the finger
+      // has to be resolved by hit-testing each move.
+      const cellFromTouch = (t) => {
+        const el = document.elementFromPoint(t.clientX, t.clientY);
+        return el ? el.closest(".wc") : null;
+      };
+      grid.addEventListener("touchstart", (e) => {
+        const cell = cellFromTouch(e.touches[0]); if (!cell) return;
+        beginSel(cell);
+        // stop the drag from scrolling the page while tracing a word
+        e.preventDefault();
+      }, { passive: false });
+      grid.addEventListener("touchmove", (e) => {
+        if (!selecting) return;
+        extendSel(cellFromTouch(e.touches[0]));
+        e.preventDefault();
+      }, { passive: false });
+      grid.addEventListener("touchend", () => onSkillUp());
+      grid.addEventListener("touchcancel", () => onSkillUp());
     }
 
     const clearHints = () => {
@@ -456,6 +606,7 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     initHoverStyles();
+    initMobileHero();
     initStageFit();
     initTidyHover();
     initFolderHover();

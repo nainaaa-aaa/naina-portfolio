@@ -5,6 +5,11 @@
   const W = 1980;
   const H = 1420;
 
+  // The tile is authored for a desktop viewport. On a phone the whole
+  // lattice is scaled down so more than one card is on screen at a time.
+  const MOBILE_Q = "(max-width: 760px)";
+  const tileScale = () => (window.matchMedia(MOBILE_Q).matches ? 0.72 : 1);
+
   function initInfiniteGallery() {
     const view = document.getElementById("viewRef");
     const field = document.getElementById("fieldRef");
@@ -16,8 +21,21 @@
 
     // 3x3 lattice of the authored tile, so the artwork wraps seamlessly in
     // both axes. The heading lives outside #fieldRef and is never cloned.
+    //
+    // The lattice sits in its own element so #fieldRef can keep doing pure
+    // translation in screen pixels while the zoom lives on the wrapper —
+    // one transform per element, no compositing order to get wrong.
+    let lattice = document.getElementById("latticeRef");
     if (!field.dataset.tiled) {
       field.dataset.tiled = "1";
+      lattice = document.createElement("div");
+      lattice.id = "latticeRef";
+      lattice.style.position = "absolute";
+      lattice.style.left = "0";
+      lattice.style.top = "0";
+      lattice.style.transformOrigin = "0 0";
+      field.appendChild(lattice);
+      lattice.appendChild(tile);
       const frag = document.createDocumentFragment();
       for (let i = -1; i <= 1; i++) {
         for (let j = -1; j <= 1; j++) {
@@ -30,7 +48,7 @@
           frag.appendChild(clone);
         }
       }
-      field.appendChild(frag);
+      lattice.appendChild(frag);
     }
 
     // pos is the pan offset. pos = (0,0) is "home": the tile's centre and the
@@ -41,12 +59,18 @@
     let last = null;
     let raf = null;
 
-    // Constant that lines the tile's centre up with the viewport's centre.
-    // Recomputed on resize so "centred" holds at any window size.
+    // Lines the tile's centre up with the viewport's centre, and holds the
+    // lattice's on-screen size. Both are recomputed on resize so "centred"
+    // and the wrap modulus stay correct at any window size or zoom level.
     let cx = 0, cy = 0;
+    let sw = W, sh = H;
     const measure = () => {
-      cx = window.innerWidth / 2 - W / 2;
-      cy = window.innerHeight / 2 - H / 2;
+      const k = tileScale();
+      lattice.style.transform = k === 1 ? "" : "scale(" + k + ")";
+      sw = W * k;
+      sh = H * k;
+      cx = window.innerWidth / 2 - sw / 2;
+      cy = window.innerHeight / 2 - sh / 2;
     };
 
     // Wrap into (-m, 0] so the lattice always covers the viewport.
@@ -57,7 +81,7 @@
 
     const apply = () => {
       field.style.transform =
-        "translate(" + wrap(pos.x + cx, W).toFixed(1) + "px," + wrap(pos.y + cy, H).toFixed(1) + "px)";
+        "translate(" + wrap(pos.x + cx, sw).toFixed(1) + "px," + wrap(pos.y + cy, sh).toFixed(1) + "px)";
       if (heading) {
         heading.style.transform =
           "translate(" + pos.x.toFixed(1) + "px, calc(-50% + " + pos.y.toFixed(1) + "px))";
