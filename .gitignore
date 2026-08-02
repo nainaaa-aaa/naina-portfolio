@@ -1,2 +1,6 @@
 .DS_Store
 .claude/
+
+# Original full-size gallery photos live here untouched; the site serves the
+# web-optimised copies in assets/gallery/ instead.
+assets/Gallery Images/
