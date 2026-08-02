@@ -248,26 +248,6 @@
      also feeds the scaled tile size into the wrap modulus. */
 }
 
-/* ============================================================
-   CASE STUDY
-   (the page also carries its own copy of these rules inline;
-   kept here so the shared sheet is complete)
-   ============================================================ */
-@media (max-width: 900px) {
-  [style*="grid-template-columns:200px 1fr"] {
-    grid-template-columns: 1fr !important;
-    gap: 14px !important;
-  }
-}
-
-@media (max-width: 640px) {
-  [style*="grid-template-columns:1fr 1.35fr"],
-  [style*="grid-template-columns:1fr 1fr"] {
-    grid-template-columns: 1fr !important;
-    gap: 14px !important;
-  }
-}
-
 /* ── belt and braces: nothing should be able to widen the page ── */
 @media (max-width: 760px) {
   img, svg, video { max-width: 100%; }
