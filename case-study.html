@@ -37,8 +37,10 @@
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
   /* ── shell ─────────────────────────────────────────────── */
-  .wrap { max-width: 748px;  margin: 0 auto; padding: 0 24px; }
-  .wide { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 900px;  margin: 0 auto; padding: 0 32px; }
+  .wide { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  /* prose keeps a readable measure even as the column widens */
+  .sec > p, .sec > .sub, .standfirst { max-width: 720px; }
 
   .rail { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--hair); z-index: 40; }
   .rail > i {
@@ -282,14 +284,6 @@
   .ia .col > b { display: block; padding-bottom: 10px; border-bottom: 2.5px solid var(--accent); font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: -.3px; }
   .ia .col span { display: block; padding: 9px 0; border-bottom: 1px solid rgba(23,22,27,.1); font-size: 13.5px; color: var(--muted); }
 
-  /* ── before / after ────────────────────────────────────── */
-  .swap { margin: 26px 0 0; }
-  .swap .r { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 15px 0; border-top: 1px solid var(--hair); align-items: baseline; }
-  .swap .r:last-child { border-bottom: 1px solid var(--hair); }
-  .swap .was { font-size: 14.5px; color: #A5A2AC; text-decoration: line-through; text-decoration-color: rgba(255,107,91,.6); }
-  .swap .now { font-size: 15px; color: var(--ink); }
-  .swap .now::before { content: "→ "; color: var(--mint); font-weight: 700; }
-
   /* ── learnings ─────────────────────────────────────────── */
   .learn { display: grid; grid-template-columns: repeat(auto-fit, minmax(206px, 1fr)); gap: 14px; margin: 26px 0 0; }
   .lrn { padding: 24px 22px; border-radius: 10px; background: #FFFFFF; border: 1.5px solid var(--hair); border-top: 4px solid var(--accent); }
@@ -330,6 +324,13 @@
   .metric .delta { margin: 24px 0 0; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.14); display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
   .metric .delta b { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 30px; letter-spacing: -1.2px; color: var(--yellow); }
   .metric .delta span { flex: 1 1 240px; font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,.66); }
+  .metric .swaps { margin-top: 26px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.14); }
+  .metric .swaps .lbl2 { margin: 0 0 6px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 1.6px; text-transform: uppercase; color: rgba(255,255,255,.5); }
+  .metric .swaps .r { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 13px 0; border-top: 1px solid rgba(255,255,255,.09); align-items: baseline; }
+  .metric .swaps .r:first-of-type { border-top: none; }
+  .metric .swaps .was { font-size: 14px; color: rgba(255,255,255,.42); text-decoration: line-through; text-decoration-color: rgba(255,107,91,.55); }
+  .metric .swaps .now { font-size: 14.5px; color: #FFFFFF; }
+  .metric .swaps .now::before { content: "→ "; color: var(--mint); font-weight: 700; }
 
   /* ── learnings card ───────────────────────────────────── */
   .lessons { margin: 28px 0 0; padding: 32px 30px 30px; border-radius: 16px; background: var(--tint); border: 1.5px solid var(--hair); }
@@ -357,7 +358,6 @@
     .fig-band { padding: 44px 0 48px; margin-top: 56px; }
     .fig { margin-top: 40px; perspective: none; }
     .fig-frame { transform: none !important; box-shadow: 0 12px 26px rgba(23,22,27,.12); }
-    .swap .r { grid-template-columns: 1fr; gap: 4px; }
     .scene { padding: 22px 18px 20px; }
     .persona, .hmw { padding: 24px 20px; }
     .chain { gap: 6px; padding: 12px; }
@@ -368,6 +368,7 @@
     .metric .track { height: 40px; }
     .metric .fill { font-size: 16px; }
     .metric .fill.now { min-width: 128px; }
+    .metric .swaps .r { grid-template-columns: 1fr; gap: 2px; }
     .lessons { padding: 24px 20px; }
     .diagram { padding: 16px 12px; }
     .gallery { gap: 34px; }
@@ -566,6 +567,16 @@
   <p>Three people. One org chart. <mark class="hl">Never the same version of it.</mark></p>
 </section>
 
+<!-- ══════════ FIG — the persona map ══════════ -->
+<div class="fig-band" style="margin-top:44px;">
+  <div class="wide">
+    <figure class="fig" data-tilt>
+      <div class="fig-frame" style="background:#FFFFFF;"><img src="assets/cs-personas.png" alt="Persona and pain-point map for HR Manager, Team Lead and Finance Head" loading="lazy"></div>
+      <figcaption>Fig 02 — the workshop persona map, by role. The shared challenges along the bottom rail became the feature brief.</figcaption>
+    </figure>
+  </div>
+</div>
+
 <!-- ══════════ 04 PROBLEM STATEMENT ══════════ -->
 <section class="sec wrap" style="--accent:var(--purple); --accent-soft:rgba(166,107,255,.26);">
   <p class="eyebrow"><b>04</b> The problem statement</p>
@@ -600,38 +611,9 @@
   </div>
 </div>
 
-<!-- ══════════ 06 RESEARCH ══════════ -->
-<section class="sec wrap" style="--accent:var(--lime); --accent-soft:rgba(196,231,90,.5);">
-  <p class="eyebrow"><b>06</b> What the research said</p>
-  <h2>Six stakeholders described the same failure six ways.</h2>
-  <p class="sub">Nobody asked for a prettier chart. Every single conversation came back to one shared surface, and a record of what happened on it.</p>
-
-  <div class="rlabel">Stakeholder interviews</div>
-  <div class="voices">
-    <div class="voice" style="--accent:var(--mint)"><p>"We need one place where HR, Finance and Team Leads see the same data."</p><div class="who">VP, Finance</div></div>
-    <div class="voice" style="--accent:var(--coral)"><p>"Audit trail is non-negotiable. Every change must be traceable to a person."</p><div class="who">CHRO</div></div>
-    <div class="voice" style="--accent:var(--yellow)"><p>"I want to model three scenarios side by side before committing to one."</p><div class="who">HR Director</div></div>
-    <div class="voice" style="--accent:var(--purple)"><p>"The biggest time waste is reconciling versions after every meeting."</p><div class="who">HR Manager</div></div>
-    <div class="voice" style="--accent:var(--pink)"><p>"Team leads need to see proposed changes before they're finalised."</p><div class="who">VP, Engineering</div></div>
-    <div class="voice" style="--accent:var(--lime)"><p>"We need real-time budget impact as changes are made — not after."</p><div class="who">CFO</div></div>
-  </div>
-
-  <div class="rlabel">And the workshop map that came out of it</div>
-</section>
-
-<!-- ══════════ FIG 02 ══════════ -->
-<div class="fig-band" style="margin-top:34px;">
-  <div class="wide">
-    <figure class="fig" data-tilt>
-      <div class="fig-frame" style="background:#FFFFFF;"><img src="assets/cs-personas.png" alt="Persona and pain-point map for HR Manager, Team Lead and Finance Head" loading="lazy"></div>
-      <figcaption>Fig 02 — the workshop persona map, by role. The shared challenges along the bottom rail became the feature brief.</figcaption>
-    </figure>
-  </div>
-</div>
-
-<!-- ══════════ 07 OPPORTUNITIES ══════════ -->
+<!-- ══════════ 06 OPPORTUNITIES ══════════ -->
 <section class="sec wrap" style="--accent:var(--pink); --accent-soft:rgba(255,126,182,.34);">
-  <p class="eyebrow"><b>07</b> Where we could win</p>
+  <p class="eyebrow"><b>06</b> Where we could win</p>
   <h2>Five bets, ranked by friction removed.</h2>
   <p class="sub">In that order — because if the first one fails, none of the others matter.</p>
   <div class="bets">
@@ -645,7 +627,7 @@
 
 <!-- ══════════ 08 FORKS ══════════ -->
 <section class="sec wrap" id="forks" style="--accent:var(--coral); --accent-soft:rgba(255,107,91,.28);">
-  <p class="eyebrow"><b>08</b> Four forks in the road</p>
+  <p class="eyebrow"><b>07</b> Four forks in the road</p>
   <h2>Every time, the safe option was the thing users hated.</h2>
   <p class="sub">Which made shipping the safe option <mark class="hl">the actual risk</mark>. Here's where we went instead, and why.</p>
 
@@ -693,7 +675,7 @@
 
 <!-- ══════════ 09 BUILD ══════════ -->
 <section class="sec wrap" id="build" style="--accent:var(--mint); --accent-soft:rgba(99,227,194,.34);">
-  <p class="eyebrow"><b>09</b> The build</p>
+  <p class="eyebrow"><b>08</b> The build</p>
   <h2>One canvas: structure, cost and consequence, together.</h2>
   <p class="sub">Two weeks, four designers. I owned the chart canvas, the node states and the compare flow.</p>
   <p>Drag a person, open a vacancy, promote a lead — <mark class="hl">the modified cost figure updates against current cost in the same breath</mark>, and the legend explains every state change in plain language. No decoder ring needed.</p>
@@ -738,7 +720,7 @@
 
 <!-- ══════════ 10 WHAT CHANGED ══════════ -->
 <section class="sec wrap" style="--accent:var(--lime); --accent-soft:rgba(196,231,90,.5);">
-  <p class="eyebrow"><b>10</b> What it was built to change</p>
+  <p class="eyebrow"><b>09</b> What it was built to change</p>
   <h2>Back to Meera's Wednesday.</h2>
   <p class="sub">Same request from the CFO. Same deadline. Here's the new route.</p>
 
@@ -751,15 +733,14 @@
     <div class="bar"><span class="lbl">Before</span><div class="track"><div class="fill was">5–6 weeks</div></div></div>
     <div class="bar"><span class="lbl">Designed for</span><div class="track"><div class="fill now">under 2 weeks</div></div></div>
     <div class="delta"><b>~65% shorter</b><span>The stretch of calendar Meera used to lose to reconciliation — the target the module was built to close.</span></div>
-  </div>
-
-  <p class="sub" style="margin:44px 0 0;">And five more things that changed shape.</p>
-  <div class="swap">
-    <div class="r"><div class="was">12+ spreadsheet versions</div><div class="now">Single source of truth</div></div>
-    <div class="r"><div class="was">No audit trail, compliance risk</div><div class="now">Every change auto-documented</div></div>
-    <div class="r"><div class="was">Cross-functional data silos</div><div class="now">Real-time collaboration</div></div>
-    <div class="r"><div class="was">Email review, 4–5 rounds</div><div class="now">In-platform review &amp; approval</div></div>
-    <div class="r"><div class="was">5+ hrs/month rebuilding charts</div><div class="now">Auto-generated from live data</div></div>
+    <div class="swaps">
+      <p class="lbl2">And everything else that changed shape</p>
+      <div class="r"><span class="was">12+ spreadsheet versions</span><span class="now">Single source of truth</span></div>
+      <div class="r"><span class="was">No audit trail, compliance risk</span><span class="now">Every change auto-documented</span></div>
+      <div class="r"><span class="was">Cross-functional data silos</span><span class="now">Real-time collaboration</span></div>
+      <div class="r"><span class="was">Email review, 4–5 rounds</span><span class="now">In-platform review &amp; approval</span></div>
+      <div class="r"><span class="was">5+ hrs/month rebuilding charts</span><span class="now">Auto-generated from live data</span></div>
+    </div>
   </div>
 
   <p class="note">These are the targets the module was designed against, drawn from the baseline in stakeholder interviews. I left the engagement before the feature reached production — so post-launch numbers exist, but they aren't mine to claim.</p>
@@ -767,7 +748,7 @@
 
 <!-- ══════════ 11 LEARNINGS ══════════ -->
 <section class="sec wrap" style="--accent:var(--purple); --accent-soft:rgba(166,107,255,.26);">
-  <p class="eyebrow"><b>11</b> What I took away</p>
+  <p class="eyebrow"><b>10</b> What I took away</p>
   <h2>Two good weeks, and one lesson I'd rather have learned earlier.</h2>
 
   <div class="lessons">
