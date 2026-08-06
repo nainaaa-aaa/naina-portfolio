@@ -312,6 +312,36 @@
   .fig-pair .fig { margin-top: 0; }
   .fig-pair figcaption { text-align: left; margin-left: 0; }
 
+  /* ── explanatory diagram ──────────────────────────────── */
+  .diagram { margin: 32px 0 0; padding: 24px 22px 20px; background: #FFFFFF; border: 1.5px solid var(--hair); border-radius: 14px; }
+  .diagram svg { width: 100%; height: auto; display: block; }
+  .diagram figcaption { margin: 18px auto 0; max-width: 560px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; line-height: 1.65; letter-spacing: .4px; color: var(--faint); }
+
+  /* ── headline metric ──────────────────────────────────── */
+  .metric { margin: 30px 0 0; padding: 32px 30px 30px; border-radius: 16px; background: var(--ink); color: #FFFFFF; }
+  .metric .cap { margin: 0 0 22px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,.55); }
+  .metric .bar { display: grid; grid-template-columns: 112px 1fr; gap: 16px; align-items: center; margin-bottom: 13px; }
+  .metric .bar:last-of-type { margin-bottom: 0; }
+  .metric .bar .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,.5); text-align: right; }
+  .metric .track { height: 46px; border-radius: 9px; background: rgba(255,255,255,.07); overflow: hidden; }
+  .metric .fill { height: 100%; border-radius: 9px; display: flex; align-items: center; padding: 0 18px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 18px; letter-spacing: -.4px; white-space: nowrap; }
+  .metric .fill.was { width: 100%; background: rgba(255,255,255,.13); color: rgba(255,255,255,.9); }
+  .metric .fill.now { width: 36%; min-width: 152px; background: var(--mint); color: var(--ink); }
+  .metric .delta { margin: 24px 0 0; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.14); display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .metric .delta b { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 30px; letter-spacing: -1.2px; color: var(--yellow); }
+  .metric .delta span { flex: 1 1 240px; font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,.66); }
+
+  /* ── learnings card ───────────────────────────────────── */
+  .lessons { margin: 28px 0 0; padding: 32px 30px 30px; border-radius: 16px; background: var(--tint); border: 1.5px solid var(--hair); }
+  .lessons .close { margin: 28px 0 0; padding-top: 26px; border-top: 1px solid var(--hair); font-size: 19px; line-height: 1.55; color: var(--ink); }
+
+  /* ── unified gallery band ─────────────────────────────── */
+  .gallery-title { margin: 0 0 36px; text-align: center; }
+  .gallery-title b { display: block; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(22px, 3.4vw, 28px); letter-spacing: -.8px; }
+  .gallery-title span { display: block; margin-top: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 1.8px; text-transform: uppercase; color: var(--faint); }
+  .gallery { display: flex; flex-direction: column; gap: 48px; }
+  .gallery .fig { margin-top: 0; }
+
   /* ── footer ────────────────────────────────────────────── */
   .end { margin: 96px 0 0; padding: 40px 0 100px; border-top: 1px solid var(--hair); }
   .end-in { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px; }
@@ -332,6 +362,15 @@
     .persona, .hmw { padding: 24px 20px; }
     .chain { gap: 6px; padding: 12px; }
     .chain i { font-size: 13px; }
+    .metric { padding: 24px 20px; }
+    .metric .bar { grid-template-columns: 1fr; gap: 7px; }
+    .metric .bar .lbl { text-align: left; }
+    .metric .track { height: 40px; }
+    .metric .fill { font-size: 16px; }
+    .metric .fill.now { min-width: 128px; }
+    .lessons { padding: 24px 20px; }
+    .diagram { padding: 16px 12px; }
+    .gallery { gap: 34px; }
   }
 </style>
 </head>
@@ -398,6 +437,53 @@
       <p>A single live org canvas. Drag a role and the modified cost updates against current cost in the same breath. Conflicts surface while you plan instead of at execution, and the audit trail lives on the node — not in a module nobody opens.</p>
     </div>
   </div>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 1000 336" role="img" aria-label="A dozen scattered, conflicting spreadsheets replaced by one live org canvas where structure, cost and audit trail live together">
+      <!-- the tangle behind the pile -->
+      <g fill="none" stroke="#FF6B5B" stroke-width="2" opacity="0.45">
+        <path d="M125 92 C 205 58, 175 152, 261 128"/>
+        <path d="M151 190 C 118 150, 240 118, 233 84"/>
+        <path d="M205 138 C 268 182, 128 202, 125 92"/>
+      </g>
+      <!-- five spreadsheet cards, jumbled -->
+      <g stroke="#17161B" stroke-width="2">
+        <g transform="translate(70,50) rotate(-9)"><rect width="110" height="84" rx="6" fill="#FFFFFF"/><path d="M0 16 H110" stroke-width="1.5"/><g stroke="#E3DFD5" stroke-width="1"><path d="M0 34 H110"/><path d="M0 50 H110"/><path d="M0 66 H110"/><path d="M37 16 V84"/><path d="M74 16 V84"/></g></g>
+        <g transform="translate(178,42) rotate(8)"><rect width="110" height="84" rx="6" fill="#FFFFFF"/><path d="M0 16 H110" stroke-width="1.5"/><g stroke="#E3DFD5" stroke-width="1"><path d="M0 34 H110"/><path d="M0 50 H110"/><path d="M0 66 H110"/><path d="M37 16 V84"/><path d="M74 16 V84"/></g></g>
+        <g transform="translate(96,150) rotate(-5)"><rect width="110" height="84" rx="6" fill="#FFFFFF"/><path d="M0 16 H110" stroke-width="1.5"/><g stroke="#E3DFD5" stroke-width="1"><path d="M0 34 H110"/><path d="M0 50 H110"/><path d="M0 66 H110"/><path d="M37 16 V84"/><path d="M74 16 V84"/></g></g>
+        <g transform="translate(206,152) rotate(10)"><rect width="110" height="84" rx="6" fill="#FFFFFF"/><path d="M0 16 H110" stroke-width="1.5"/><g stroke="#E3DFD5" stroke-width="1"><path d="M0 34 H110"/><path d="M0 50 H110"/><path d="M0 66 H110"/><path d="M37 16 V84"/><path d="M74 16 V84"/></g></g>
+        <g transform="translate(150,96) rotate(2)"><rect width="110" height="84" rx="6" fill="#FFFFFF"/><path d="M0 16 H110" stroke-width="1.5"/><g stroke="#E3DFD5" stroke-width="1"><path d="M0 34 H110"/><path d="M0 50 H110"/><path d="M0 66 H110"/><path d="M37 16 V84"/><path d="M74 16 V84"/></g></g>
+      </g>
+      <!-- error badges on the pile -->
+      <g>
+        <circle cx="256" cy="56" r="9" fill="#FF6B5B" stroke="#17161B" stroke-width="2"/><text x="256" y="60.5" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="12" fill="#FFFFFF">!</text>
+        <circle cx="132" cy="224" r="9" fill="#FF6B5B" stroke="#17161B" stroke-width="2"/><text x="132" y="228.5" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="12" fill="#FFFFFF">!</text>
+      </g>
+      <!-- the arrow -->
+      <path d="M372 168 H424" stroke="#17161B" stroke-width="3" stroke-linecap="round"/>
+      <path d="M424 168 l-13 -8 v16 z" fill="#17161B"/>
+      <!-- the canvas -->
+      <rect x="478" y="66" width="470" height="216" rx="16" fill="#63E3C2"/>
+      <rect x="470" y="58" width="470" height="216" rx="16" fill="#FFFFFF" stroke="#17161B" stroke-width="2.5"/>
+      <rect x="490" y="76" width="176" height="28" rx="14" fill="#F1EEE8" stroke="#17161B" stroke-width="1.5"/>
+      <text x="504" y="94.5" font-family="'IBM Plex Mono',monospace" font-size="12" fill="#17161B">cost 2.5M → 3.2M</text>
+      <g stroke="#17161B" stroke-width="2" fill="none">
+        <path d="M705 150 V176"/><path d="M565 176 H845"/><path d="M565 176 V196"/><path d="M705 176 V196"/><path d="M845 176 V196"/>
+      </g>
+      <g stroke="#17161B" stroke-width="2">
+        <rect x="657" y="118" width="96" height="32" rx="7" fill="#DCE8FF"/>
+        <rect x="520" y="196" width="90" height="30" rx="7" fill="#E4F0DD"/>
+        <rect x="660" y="196" width="90" height="30" rx="7" fill="#FFF1C9"/>
+        <rect x="800" y="196" width="90" height="30" rx="7" fill="#FCE0EC"/>
+      </g>
+      <circle cx="748" cy="196" r="8" fill="#C4E75A" stroke="#17161B" stroke-width="1.5"/>
+      <path d="M744 196 l3 3 l5 -6" fill="none" stroke="#17161B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- labels -->
+      <text x="192" y="314" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="12" letter-spacing="1" fill="#8A8792">TWELVE FILES, EMAILED AROUND</text>
+      <text x="705" y="314" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="12" letter-spacing="1" fill="#17161B">ONE LIVE CANVAS</text>
+    </svg>
+    <figcaption>The whole project in one picture — a dozen conflicting files collapse into a single canvas where structure, cost and the audit trail finally live together.</figcaption>
+  </figure>
 </section>
 
 <p class="handoff">Still reading? Brilliant. 👇<span>The whole story, from a human pyramid to a shipped canvas.</span></p>
@@ -568,28 +654,28 @@
       <div class="no">Fork 01 · how you enter a change</div>
       <div class="pair">
         <div class="side no-go"><div class="tag">✕ We said no to</div><p>Tabular, spreadsheet-style data entry.</p></div>
-        <div class="side went"><div class="tag">✓ We shipped</div><p>A visual org chart with inline editing. Users equated spreadsheets with the problem itself — the interface had to <em>feel</em> different to earn any trust. And tables are built for reading rows; they don't show relationships. A cell reading "Manager: Sarah" won't tell you Engineering's backfill depends on Finance signing off. A linked chart does, at a glance.</p></div>
+        <div class="side went"><div class="tag">✓ We shipped</div><p>A visual org chart with inline editing. Users equated spreadsheets with the problem, so the interface had to <em>feel</em> different — and unlike a row of cells, a linked chart shows the dependencies at a glance.</p></div>
       </div>
     </div>
     <div class="call">
       <div class="no">Fork 02 · how review happens</div>
       <div class="pair">
         <div class="side no-go"><div class="tag">✕ We said no to</div><p>A manual "save &amp; send for review" handoff.</p></div>
-        <div class="side went"><div class="tag">✓ We shipped</div><p>A real-time workspace with role-based access. The email review cycle was Meera's single biggest time sink — four to five rounds a cycle, and no reliable way to tell which attachment was live. Going live meant Finance and team leads could react the moment a change was made, not three threads later.</p></div>
+        <div class="side went"><div class="tag">✓ We shipped</div><p>A real-time workspace with role-based access. The email review cycle was Meera's biggest time sink; going live let Finance and team leads react the moment a change was made, not three threads later.</p></div>
       </div>
     </div>
     <div class="call">
       <div class="no">Fork 03 · when conflicts appear</div>
       <div class="pair">
         <div class="side no-go"><div class="tag">✕ We said no to</div><p>Hidden dependencies, discovered at execution.</p></div>
-        <div class="side went"><div class="tag">✓ We shipped</div><p>A conflict panel, surfaced <em>during</em> planning. Cross-functional teams carried invisible assumptions about each other's moves — Engineering counting on a budget line Product had already claimed. A visible panel, with affected roles joined by a red dependency line, meant the clash got settled on the canvas instead of blowing up mid-restructure.</p></div>
+        <div class="side went"><div class="tag">✓ We shipped</div><p>A conflict panel, surfaced <em>during</em> planning. Affected roles get joined by a red dependency line, so a clash gets settled on the canvas instead of blowing up mid-restructure.</p></div>
       </div>
     </div>
     <div class="call">
       <div class="no">Fork 04 · where history lives</div>
       <div class="pair">
         <div class="side no-go"><div class="tag">✕ We said no to</div><p>A standalone audit-log module.</p></div>
-        <div class="side went"><div class="tag">✓ We shipped</div><p>Contextual history on each node. Compliance needs to know who approved a change, when, and under what conditions — usually under time pressure. A separate log makes someone leave their workflow to go find that. Pinning history to the node means the context travels with the change. Remember Meera's Friday? This is that fix.</p></div>
+        <div class="side went"><div class="tag">✓ We shipped</div><p>Contextual history on each node. Compliance can see who approved a change and when without leaving their workflow — the context travels with the change. <em>Remember Meera's Friday? This is that fix.</em></p></div>
       </div>
     </div>
   </div>
@@ -623,37 +709,30 @@
   </div>
 </section>
 
-<!-- ══════════ FIG 04 ══════════ -->
+<!-- ══════════ GALLERY — inside the module ══════════ -->
 <div class="fig-band">
   <div class="wide">
-    <figure class="fig" data-tilt>
-      <div class="fig-frame"><img src="assets/cs-node-panels.jpg" alt="Two screens side by side: the recommend and terminate panel on a node, and the same node's job history" loading="lazy"></div>
-      <figcaption>Fig 04 — forks 01 and 04, side by side. Left: acting on a node without leaving the canvas. Right: the audit trail living on the node instead of in a separate module.</figcaption>
-    </figure>
-  </div>
-</div>
-
-<!-- ══════════ FIG 05 ══════════ -->
-<div class="fig-band" style="margin-top:0;">
-  <div class="wide">
-    <figure class="fig" data-tilt>
-      <div class="fig-frame" style="background:#FFFFFF;"><img src="assets/cs-proto-1.gif" alt="Prototype: editing the org structure" loading="lazy"></div>
-      <figcaption>Fig 05 — editing the structure, with the cost delta updating live.</figcaption>
-    </figure>
-  </div>
-</div>
-
-<!-- ══════════ FIG 06 / 07 ══════════ -->
-<div class="wide" style="margin-top:72px;">
-  <div class="fig-pair">
-    <figure class="fig" data-tilt>
-      <div class="fig-frame"><img src="assets/cs-geo-world.jpg" alt="Geo view: headcount clusters pinned across a world map" loading="lazy"></div>
-      <figcaption>Fig 06 — the roll-up: every region, headcount on the pin.</figcaption>
-    </figure>
-    <figure class="fig" data-tilt>
-      <div class="fig-frame"><img src="assets/cs-geo-location.jpg" alt="Geo view zoomed to one Abu Dhabi office, with its department and people panel open" loading="lazy"></div>
-      <figcaption>Fig 07 — one site, drilled in: departments and the people behind the pin.</figcaption>
-    </figure>
+    <p class="gallery-title"><b>Inside the module</b><span>Four screens from the build</span></p>
+    <div class="gallery">
+      <figure class="fig" data-tilt>
+        <div class="fig-frame"><img src="assets/cs-node-panels.jpg" alt="Two screens side by side: the recommend and terminate panel on a node, and the same node's job history" loading="lazy"></div>
+        <figcaption>Fig 04 — forks 01 and 04, side by side. Left: acting on a node without leaving the canvas. Right: the audit trail living on the node instead of in a separate module.</figcaption>
+      </figure>
+      <figure class="fig" data-tilt>
+        <div class="fig-frame" style="background:#FFFFFF;"><img src="assets/cs-proto-1.gif" alt="Prototype: editing the org structure" loading="lazy"></div>
+        <figcaption>Fig 05 — editing the structure, with the cost delta updating live.</figcaption>
+      </figure>
+      <div class="fig-pair">
+        <figure class="fig" data-tilt>
+          <div class="fig-frame"><img src="assets/cs-geo-world.jpg" alt="Geo view: headcount clusters pinned across a world map" loading="lazy"></div>
+          <figcaption>Fig 06 — the roll-up: every region, headcount on the pin.</figcaption>
+        </figure>
+        <figure class="fig" data-tilt>
+          <div class="fig-frame"><img src="assets/cs-geo-location.jpg" alt="Geo view zoomed to one Abu Dhabi office, with its department and people panel open" loading="lazy"></div>
+          <figcaption>Fig 07 — one site, drilled in: departments and the people behind the pin.</figcaption>
+        </figure>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -663,12 +742,19 @@
   <h2>Back to Meera's Wednesday.</h2>
   <p class="sub">Same request from the CFO. Same deadline. Here's the new route.</p>
 
-  <div class="chain good" style="margin-bottom:22px;">
+  <div class="chain good">
     <i>🖥️ Open the canvas</i><i>👆 Drag the role</i><i>💰 Read the delta</i><i>📤 Send it</i>
   </div>
 
+  <div class="metric">
+    <p class="cap">Time to plan one restructure</p>
+    <div class="bar"><span class="lbl">Before</span><div class="track"><div class="fill was">5–6 weeks</div></div></div>
+    <div class="bar"><span class="lbl">Designed for</span><div class="track"><div class="fill now">under 2 weeks</div></div></div>
+    <div class="delta"><b>~65% shorter</b><span>The stretch of calendar Meera used to lose to reconciliation — the target the module was built to close.</span></div>
+  </div>
+
+  <p class="sub" style="margin:44px 0 0;">And five more things that changed shape.</p>
   <div class="swap">
-    <div class="r"><div class="was">5–6 week planning cycles</div><div class="now">Under 2 weeks</div></div>
     <div class="r"><div class="was">12+ spreadsheet versions</div><div class="now">Single source of truth</div></div>
     <div class="r"><div class="was">No audit trail, compliance risk</div><div class="now">Every change auto-documented</div></div>
     <div class="r"><div class="was">Cross-functional data silos</div><div class="now">Real-time collaboration</div></div>
@@ -684,25 +770,26 @@
   <p class="eyebrow"><b>11</b> What I took away</p>
   <h2>Two good weeks, and one lesson I'd rather have learned earlier.</h2>
 
-  <div class="learn">
-    <div class="lrn" style="--accent:var(--coral)">
-      <div class="ico">😅</div>
-      <b>Test on the ugliest data first</b>
-      <p>A 2,000-person chart with matrix reporting doesn't stay legible at the zoom levels I designed for — and I found that out on the last day of the sprint. Next time the ugliest real dataset comes <em>before</em> the visual system, not after.</p>
+  <div class="lessons">
+    <div class="learn">
+      <div class="lrn" style="--accent:var(--coral)">
+        <div class="ico">😅</div>
+        <b>Test on the ugliest data first</b>
+        <p>A 2,000-person chart with matrix reporting doesn't stay legible at the zoom levels I designed for — and I found that out on the last day of the sprint. Next time the ugliest real dataset comes <em>before</em> the visual system, not after.</p>
+      </div>
+      <div class="lrn" style="--accent:var(--yellow)">
+        <div class="ico">🧭</div>
+        <b>Familiar isn't the same as safe</b>
+        <p>Every fork here rejected the pattern people already knew. That felt risky each time. But the familiar pattern was the thing users had learned to associate with the problem — so shipping it would have been the bigger gamble.</p>
+      </div>
+      <div class="lrn" style="--accent:var(--mint)">
+        <div class="ico">🤝</div>
+        <b>Design for the people not in the room</b>
+        <p>Meera was the primary persona, but the module only works because Vikram and Priya can see it too. The best fix in the whole project — history on the node — was for someone who never touches the canvas.</p>
+      </div>
     </div>
-    <div class="lrn" style="--accent:var(--yellow)">
-      <div class="ico">🧭</div>
-      <b>Familiar isn't the same as safe</b>
-      <p>Every fork here rejected the pattern people already knew. That felt risky each time. But the familiar pattern was the thing users had learned to associate with the problem — so shipping it would have been the bigger gamble.</p>
-    </div>
-    <div class="lrn" style="--accent:var(--mint)">
-      <div class="ico">🤝</div>
-      <b>Design for the people not in the room</b>
-      <p>Meera was the primary persona, but the module only works because Vikram and Priya can see it too. The best fix in the whole project — history on the node — was for someone who never touches the canvas.</p>
-    </div>
+    <p class="close">Meera didn't need a better spreadsheet. <mark class="hl">She needed to stop using one entirely.</mark></p>
   </div>
-
-  <p style="margin-top:36px; font-size:19px !important; line-height:1.6 !important; color:var(--ink) !important;">Meera didn't need a better spreadsheet. <mark class="hl">She needed to stop using one entirely.</mark></p>
 </section>
 
 <!-- ══════════ FOOTER ══════════ -->
