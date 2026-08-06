@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Compport — Case Study — Naina Gupta</title>
-<meta name="description" content="How I designed the org structure planning module for Compport, an enterprise HRMS platform — from spreadsheet chaos to a single visual canvas.">
+<meta name="description" content="Nobody should need twelve spreadsheets to move one person. How I designed the org structure planning module for Compport, an enterprise HRMS platform.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink: #17161B;
@@ -31,24 +31,16 @@
   *, *::before, *::after { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
-    margin: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'DM Sans', sans-serif;
-    -webkit-font-smoothing: antialiased;
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased;
   }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
   /* ── shell ─────────────────────────────────────────────── */
-  .wrap  { max-width: 748px;  margin: 0 auto; padding: 0 24px; }
-  .wide  { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 748px;  margin: 0 auto; padding: 0 24px; }
+  .wide { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
 
-  .rail {
-    position: fixed; top: 0; left: 0; right: 0; height: 3px;
-    background: var(--hair); z-index: 40;
-  }
+  .rail { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--hair); z-index: 40; }
   .rail > i {
     display: block; height: 100%;
     background: linear-gradient(90deg, var(--yellow), var(--pink), var(--purple));
@@ -56,282 +48,228 @@
   }
 
   nav.top {
-    position: relative; z-index: 30;
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 16px; padding: 26px 32px;
+    position: relative; z-index: 30; display: flex; align-items: center;
+    justify-content: space-between; gap: 16px; padding: 26px 32px;
   }
   nav.top .mark {
-    font-family: 'Space Grotesk', sans-serif; font-weight: 600;
-    font-size: 21px; letter-spacing: -.4px; color: var(--ink); text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 21px;
+    letter-spacing: -.4px; color: var(--ink); text-decoration: none;
   }
   nav.top .links { display: flex; gap: 28px; }
-  nav.top .links a {
-    text-decoration: none; font-size: 13.5px; color: var(--muted);
-    letter-spacing: .2px; transition: color .2s;
-  }
+  nav.top .links a { text-decoration: none; font-size: 13.5px; color: var(--muted); transition: color .2s; }
   nav.top .links a:hover { color: var(--ink); }
 
   /* ── type ──────────────────────────────────────────────── */
   .kicker {
-    margin: 0 0 20px;
-    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 500;
-    letter-spacing: 2.4px; text-transform: uppercase; color: var(--faint);
+    margin: 0 0 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px;
+    font-weight: 500; letter-spacing: 2.4px; text-transform: uppercase; color: var(--faint);
   }
   h1 {
-    margin: 0;
-    font-family: 'Space Grotesk', sans-serif; font-weight: 500;
-    font-size: clamp(34px, 6.4vw, 62px); line-height: 1.03;
-    letter-spacing: -2.2px;
-  }
-  .standfirst {
-    margin: 26px 0 0;
-    font-size: clamp(16px, 2.2vw, 18px); line-height: 1.72; color: var(--muted);
-    text-wrap: pretty;
-  }
-
-  h2 {
-    margin: 0 0 14px;
-    font-family: 'Space Grotesk', sans-serif; font-weight: 500;
-    font-size: clamp(26px, 4.6vw, 37px); line-height: 1.12; letter-spacing: -1.3px;
+    margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 500;
+    font-size: clamp(33px, 6vw, 58px); line-height: 1.06; letter-spacing: -2px;
     text-wrap: balance;
   }
-  h3 {
-    margin: 0 0 14px;
-    font-family: 'Space Grotesk', sans-serif; font-weight: 500;
-    font-size: 21px; letter-spacing: -.6px;
+  h2 {
+    margin: 0 0 16px; font-family: 'Space Grotesk', sans-serif; font-weight: 500;
+    font-size: clamp(25px, 4.4vw, 35px); line-height: 1.14; letter-spacing: -1.2px;
+    text-wrap: balance;
   }
-  .sub {
-    margin: 0 0 30px;
-    font-size: clamp(16px, 2.1vw, 18.5px); line-height: 1.6; color: var(--ink);
-    opacity: .74; text-wrap: pretty;
-  }
-  .sec p { margin: 0 0 17px; font-size: 16.5px; line-height: 1.78; color: var(--muted); text-wrap: pretty; }
+  h3 { margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 20px; letter-spacing: -.5px; }
+  .sub { margin: 0 0 28px; font-size: clamp(16px, 2.1vw, 18.5px); line-height: 1.6; color: var(--ink); opacity: .76; text-wrap: pretty; }
+  .sec p { margin: 0 0 16px; font-size: 16.5px; line-height: 1.76; color: var(--muted); text-wrap: pretty; }
   .sec p:last-child { margin-bottom: 0; }
+  .big { font-size: 19px !important; line-height: 1.62 !important; color: var(--ink) !important; }
 
-  /* Marker-pen highlight — the scan layer. Sits behind the text so the
-     ink colour never changes and contrast is unaffected. */
-  mark.hl {
-    background: linear-gradient(transparent 56%, var(--accent-soft) 56%);
-    color: inherit; padding: 0 1px;
-  }
-  strong { font-weight: 500; color: var(--ink); }
+  mark.hl { background: linear-gradient(transparent 56%, var(--accent-soft) 56%); color: inherit; padding: 0 1px; }
+  strong { font-weight: 600; color: var(--ink); }
 
   /* ── section head ──────────────────────────────────────── */
-  .sec { padding: 74px 0 0; scroll-margin-top: 24px; }
-  .sec:first-of-type { padding-top: 60px; }
+  .sec { padding: 82px 0 0; scroll-margin-top: 20px; }
   .eyebrow {
-    display: inline-flex; align-items: center; gap: 10px;
-    margin: 0 0 18px;
-    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 600;
-    letter-spacing: 2px; text-transform: uppercase; color: var(--ink);
+    display: flex; align-items: center; gap: 12px; margin: 0 0 20px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 2.4px; text-transform: uppercase; color: var(--ink);
   }
-  .eyebrow::before {
-    content: ""; width: 11px; height: 11px; border-radius: 3px;
+  .eyebrow b {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 30px; height: 24px; padding: 0 7px; border-radius: 4px;
     background: var(--accent); border: 1.5px solid var(--ink);
+    font-size: 12px; letter-spacing: 0;
   }
 
-  /* ── TL;DR ─────────────────────────────────────────────── */
-  .tldr {
-    margin: 52px 0 0; padding: 30px 30px 28px;
-    background: #FFFFFF; border: 2px solid var(--ink); border-radius: 10px;
-    box-shadow: 7px 8px 0 var(--yellow), 7px 8px 0 1.5px var(--ink);
+  /* ── doors: the tiered entry ───────────────────────────── */
+  .door-q {
+    margin: 0 0 6px; font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+    font-size: clamp(23px, 3.4vw, 30px); letter-spacing: -.9px;
   }
-  .tldr-label {
-    display: inline-flex; align-items: center; gap: 9px; margin: 0 0 22px;
-    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 600;
-    letter-spacing: 2px; text-transform: uppercase; color: var(--ink);
-  }
-  .tldr-label::before { content: "⚡"; font-size: 13px; }
-  .tldr dl { margin: 0; display: grid; gap: 18px; }
-  .tldr dt {
-    font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600;
-    letter-spacing: 1.6px; text-transform: uppercase; color: var(--faint);
-    margin-bottom: 6px;
-  }
-  .tldr dd { margin: 0; font-size: 16px; line-height: 1.66; color: var(--ink); text-wrap: pretty; }
-  .tldr .row { padding-left: 16px; border-left: 3px solid var(--accent); }
-  .tldr .row.problem { --accent: var(--coral); }
-  .tldr .row.attempt { --accent: var(--purple); }
-  .tldr .row.result  { --accent: var(--mint); }
+  .door-a { margin: 0 0 26px; font-size: 16px; color: var(--muted); }
 
+  .oneline {
+    margin: 0; padding: 26px 26px 24px; border-radius: 10px;
+    background: var(--ink); color: #FFFFFF;
+    font-size: clamp(17px, 2.4vw, 20px); line-height: 1.55; text-wrap: pretty;
+  }
+  .oneline em { font-style: normal; color: var(--yellow); }
+
+  .cards2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px; margin: 22px 0 0; }
+  .bigcard { padding: 24px 24px 26px; border-radius: 10px; border: 2px solid var(--ink); background: #FFFFFF; }
+  .bigcard.problem { box-shadow: 6px 7px 0 var(--coral); }
+  .bigcard.answer  { box-shadow: 6px 7px 0 var(--mint); }
+  .bigcard .ico { font-size: 24px; line-height: 1; }
+  .bigcard h4 {
+    margin: 12px 0 12px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px;
+    font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--faint);
+  }
+  .bigcard p { margin: 0; font-size: 15.5px; line-height: 1.66; color: var(--ink); text-wrap: pretty; }
+
+  .jump { display: flex; flex-wrap: wrap; gap: 12px; margin: 26px 0 0; }
   .btn {
-    display: inline-flex; align-items: center; gap: 10px; margin-top: 26px;
-    padding: 13px 22px; text-decoration: none;
-    background: var(--ink); color: var(--paper); border-radius: 4px;
+    display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px;
+    text-decoration: none; background: var(--ink); color: var(--paper); border-radius: 4px;
     font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
     letter-spacing: 1.4px; text-transform: uppercase;
     transition: transform .14s ease, box-shadow .14s ease;
-    box-shadow: 0 0 0 rgba(23,22,27,.4);
   }
   .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(23,22,27,.22); }
+  .btn.ghost { background: #FFFFFF; color: var(--ink); border: 2px solid var(--ink); }
   .btn .arrow { transition: transform .2s ease; }
   .btn:hover .arrow { transform: translateY(2px); }
 
+  .handoff {
+    margin: 76px 0 0; text-align: center;
+    font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+    font-size: clamp(20px, 3vw, 26px); letter-spacing: -.8px;
+  }
+  .handoff span { display: block; margin-top: 8px; font-family: 'DM Sans', sans-serif; font-weight: 400; font-size: 15px; color: var(--faint); letter-spacing: 0; }
+
   /* ── meta strip ────────────────────────────────────────── */
   .meta {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 28px; margin: 46px 0 0; padding-top: 24px; border-top: 1px solid var(--hair);
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 26px; margin: 44px 0 0; padding-top: 24px; border-top: 1px solid var(--hair);
   }
-  .meta dt {
-    font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 500;
-    letter-spacing: 1.6px; text-transform: uppercase; color: var(--faint);
-  }
+  .meta dt { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 500; letter-spacing: 1.6px; text-transform: uppercase; color: var(--faint); }
   .meta dd { margin: 8px 0 0; font-size: 15px; }
 
-  /* ── figures ───────────────────────────────────────────── */
-  .fig { margin: 56px 0 0; perspective: 1500px; }
-  .fig-frame {
-    transform: rotateX(var(--tilt-deg, 20deg)) scale(var(--tilt-scale, 1.05));
-    transform-origin: 50% 92%;
-    border-radius: 6px; overflow: hidden;
-    will-change: transform;
-    box-shadow: 0 24px 48px rgba(23,22,27,.14);
-  }
-  .fig img { width: 100%; display: block; }
-  .fig figcaption {
-    margin: 22px auto 0; max-width: 620px; text-align: center;
-    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px;
-    line-height: 1.7; letter-spacing: .6px; color: var(--faint);
-  }
-  .fig-band { margin: 76px 0 0; padding: 62px 0 66px; background: var(--tint); }
-  .fig-band .fig { margin-top: 0; }
-  .fig-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 26px; }
-  .fig-pair .fig { margin-top: 0; }
-  .fig-pair figcaption { text-align: left; margin-left: 0; }
-
-  /* ── stats ─────────────────────────────────────────────── */
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 30px; margin: 34px 0 0; }
-  .stat .n {
-    font-family: 'Space Grotesk', sans-serif; font-weight: 500;
-    font-size: 40px; letter-spacing: -1.8px; line-height: 1;
-  }
-  .stat .n u { text-decoration: none; box-shadow: inset 0 -10px 0 var(--accent-soft); }
-  .stat p { margin: 12px 0 0; font-size: 13.5px; line-height: 1.6; color: var(--faint); }
-  .source { margin: 24px 0 0 !important; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .5px; color: #A5A2AC !important; }
-
-  /* ── quotes ────────────────────────────────────────────── */
-  blockquote {
-    margin: 34px 0 0; padding: 4px 0 4px 24px;
-    border-left: 3px solid var(--accent);
-  }
-  blockquote p {
-    margin: 0 !important;
+  /* ── the hook ──────────────────────────────────────────── */
+  .hook { text-align: center; }
+  .hook p {
+    margin: 0 auto 22px; max-width: 560px; color: var(--ink) !important;
     font-family: 'Space Grotesk', sans-serif; font-weight: 400;
-    font-size: clamp(19px, 2.6vw, 22px); line-height: 1.48; letter-spacing: -.5px;
-    color: var(--ink) !important;
+    font-size: clamp(20px, 3.1vw, 27px); line-height: 1.42; letter-spacing: -.8px;
   }
-  blockquote footer {
-    margin-top: 13px;
-    font-family: 'IBM Plex Mono', monospace; font-size: 10px;
-    letter-spacing: 1.4px; text-transform: uppercase; color: var(--faint);
-  }
-
-  .voices { display: grid; grid-template-columns: repeat(auto-fit, minmax(268px, 1fr)); gap: 16px; margin: 32px 0 0; }
-  .voice {
-    padding: 22px 20px 20px; background: #FFFFFF;
-    border: 1.5px solid var(--hair); border-top: 3px solid var(--accent); border-radius: 6px;
-  }
-  .voice p { margin: 0 !important; font-size: 15px !important; line-height: 1.62; color: var(--ink) !important; }
-  .voice .who {
-    margin-top: 13px;
-    font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600;
-    letter-spacing: 1.5px; text-transform: uppercase; color: var(--faint);
+  .hook .em { font-size: 46px; line-height: 1; display: block; margin-bottom: 22px; }
+  .hook .drop { margin: 30px auto; font-size: 26px; color: var(--faint); }
+  .hook .land {
+    display: inline-block; padding: 16px 26px; border-radius: 10px;
+    background: var(--yellow); border: 2px solid var(--ink); box-shadow: 5px 6px 0 var(--ink);
+    font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+    font-size: clamp(20px, 3vw, 26px); letter-spacing: -.8px;
   }
 
-  /* ── personas ──────────────────────────────────────────── */
-  .people { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 24px; margin: 32px 0 0; }
-  .person { padding: 18px 0 0; border-top: 2.5px solid var(--accent); }
-  .person .role {
-    font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600;
-    letter-spacing: 1.5px; text-transform: uppercase; color: var(--faint);
+  /* ── scenarios ─────────────────────────────────────────── */
+  .scene { margin: 40px 0 0; padding: 28px 26px 26px; border-radius: 12px; background: #FFFFFF; border: 1.5px solid var(--hair); }
+  .days { display: flex; gap: 6px; margin-bottom: 20px; }
+  .days i {
+    flex: 1; max-width: 40px; height: 32px; border-radius: 5px; font-style: normal;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
+    background: var(--tint); color: #B6B2AC;
   }
-  .person .name { margin-top: 9px; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 18.5px; letter-spacing: -.5px; }
-  .person .job { margin-top: 3px; font-size: 13px; color: var(--faint); }
-  .person p { margin: 13px 0 0 !important; font-size: 14.5px !important; line-height: 1.68; }
+  .days i.on { background: var(--accent); border: 1.5px solid var(--ink); color: var(--ink); }
+  .scene p { margin: 0 0 14px; font-size: 16.5px; line-height: 1.7; color: var(--ink); }
+  .scene p.aside { color: var(--muted); }
+  .scene .ask { margin: 20px 0 12px; font-weight: 600; color: var(--ink); }
 
-  .cols2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px; margin: 40px 0 0; }
-  .listhead {
-    font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600;
-    letter-spacing: 1.5px; text-transform: uppercase; color: var(--faint);
+  .chain {
+    display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px;
+    margin: 0 0 12px; padding: 14px 15px; border-radius: 8px; background: var(--tint);
   }
-  ul.rule { margin: 13px 0 0; padding: 0; list-style: none; }
-  ul.rule li { padding: 10px 0; border-top: 1px solid rgba(23,22,27,.1); font-size: 14.5px; line-height: 1.6; }
-  ul.rule.want li { color: var(--ink); }
-  ul.rule.hurt li { color: var(--muted); }
+  .chain i {
+    font-style: normal; font-size: 14px; line-height: 1.45; color: var(--muted);
+    display: inline-flex; align-items: center;
+  }
+  .chain i + i::before { content: "→"; margin: 0 9px 0 1px; color: #B6B2AC; }
+  .chain.bad { background: rgba(255,107,91,.11); }
+  .chain.bad i { color: #8A3A2E; }
+  .chain.good { background: rgba(196,231,90,.28); }
+  .chain.good i { color: var(--ink); }
 
-  .pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 0; }
-  .pills span {
-    padding: 7px 13px; border: 1.5px solid var(--hair); border-radius: 3px;
-    font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 500;
-    letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted);
+  .refrain {
+    margin: 18px 0 0 !important; font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 19px; letter-spacing: -.5px; color: var(--ink) !important;
+  }
+  .note {
+    margin: 22px 0 0 !important; font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px !important; line-height: 1.7 !important; letter-spacing: .3px;
+    color: #A5A2AC !important;
   }
 
-  /* ── empathy map ───────────────────────────────────────── */
-  .empathy { display: grid; grid-template-columns: repeat(auto-fit, minmax(276px, 1fr)); gap: 14px; margin: 26px 0 0; }
-  .quad { padding: 22px 22px 24px; border-radius: 8px; border: 1.5px solid var(--ink); }
-  .quad.says   { background: rgba(99,227,194,.16); }
-  .quad.thinks { background: rgba(166,107,255,.13); }
-  .quad.feels  { background: rgba(255,126,182,.14); }
-  .quad.does   { background: rgba(249,200,70,.20); }
-  .quad h4 {
-    margin: 0 0 14px;
-    font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600;
-    letter-spacing: 2.2px; text-transform: uppercase; color: var(--ink);
+  /* ── persona ───────────────────────────────────────────── */
+  .persona { margin: 30px 0 0; padding: 30px 28px; border-radius: 12px; border: 2px solid var(--ink); background: #FFFFFF; box-shadow: 6px 7px 0 var(--yellow); }
+  .persona .top { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .persona .av {
+    width: 62px; height: 62px; flex: none; border-radius: 50%;
+    background: var(--yellow); border: 2px solid var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 21px;
   }
-  .quad ul { margin: 0; padding: 0; list-style: none; }
-  .quad li { position: relative; padding-left: 16px; margin-bottom: 10px; font-size: 14.5px; line-height: 1.58; color: var(--muted); }
-  .quad li:last-child { margin-bottom: 0; }
-  .quad li::before { content: ""; position: absolute; left: 0; top: 9px; width: 6px; height: 2px; background: var(--ink); opacity: .45; }
+  .persona .nm { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 24px; letter-spacing: -.8px; }
+  .persona .rl { margin-top: 3px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--faint); }
+  .persona dl { margin: 24px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+  .persona dt { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--faint); margin-bottom: 6px; }
+  .persona dd { margin: 0; font-size: 14.5px; line-height: 1.62; color: var(--muted); }
+  .persona blockquote { margin: 24px 0 0; padding: 16px 18px; border-radius: 8px; background: var(--tint); border-left: 3px solid var(--yellow); }
+  .persona blockquote p { margin: 0 !important; font-size: 16px !important; line-height: 1.6; color: var(--ink) !important; font-style: italic; }
 
-  /* ── journey ───────────────────────────────────────────── */
-  .flow { margin: 30px 0 0; padding-top: 20px; border-top: 2px solid var(--accent); }
-  .flow + .flow { margin-top: 34px; }
-  .flow-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; margin-bottom: 18px; }
-  .flow-head b {
-    font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600;
-    letter-spacing: 1.8px; text-transform: uppercase;
+  /* ── HMW ───────────────────────────────────────────────── */
+  .hmw {
+    margin: 26px 0 0; padding: 32px 30px; border-radius: 12px;
+    background: var(--purple); border: 2px solid var(--ink); box-shadow: 6px 7px 0 var(--ink);
   }
-  .flow-head span { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .4px; color: #A5A2AC; }
-  .steps { display: flex; flex-wrap: wrap; gap: 8px; }
-  .steps i {
-    flex: 1 1 128px; min-width: 128px; padding: 13px 14px; border-radius: 4px;
-    font-style: normal; font-size: 13.5px; line-height: 1.45;
+  .hmw p {
+    margin: 0 !important; color: #FFFFFF !important;
+    font-family: 'Space Grotesk', sans-serif; font-weight: 500;
+    font-size: clamp(19px, 2.8vw, 25px) !important; line-height: 1.4 !important; letter-spacing: -.7px;
   }
-  .steps i.ok   { background: rgba(196,231,90,.30); color: var(--ink); }
-  .steps i.meh  { background: var(--tint); color: var(--muted); }
-  .steps i.pain { background: rgba(255,107,91,.16); color: #8A3A2E; }
 
-  /* ── ranked list ───────────────────────────────────────── */
-  .bets { margin: 30px 0 0; }
-  .bet { display: grid; grid-template-columns: 40px 1fr; gap: 20px; padding: 20px 0; border-top: 1px solid var(--hair); }
+  /* ── goals ─────────────────────────────────────────────── */
+  .goals { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; margin: 26px 0 0; }
+  .goal { padding: 24px 22px; border-radius: 10px; background: #FFFFFF; border: 1.5px solid var(--hair); border-top: 4px solid var(--accent); }
+  .goal .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--faint); }
+  .goal p { margin: 12px 0 0 !important; font-size: 15.5px !important; line-height: 1.62; color: var(--ink) !important; }
+
+  /* ── research ──────────────────────────────────────────── */
+  .rlabel { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--faint); margin: 34px 0 14px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 26px; margin: 20px 0 0; }
+  .stat .n { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 42px; letter-spacing: -1.8px; line-height: 1; }
+  .stat .n u { text-decoration: none; box-shadow: inset 0 -11px 0 var(--accent-soft); }
+  .stat p { margin: 12px 0 0 !important; font-size: 13.5px !important; line-height: 1.6; color: var(--faint) !important; }
+  .source { margin: 22px 0 0 !important; font-family: 'IBM Plex Mono', monospace; font-size: 10px !important; letter-spacing: .4px; color: #A5A2AC !important; }
+
+  .voices { display: grid; grid-template-columns: repeat(auto-fit, minmax(266px, 1fr)); gap: 14px; margin: 18px 0 0; }
+  .voice { padding: 20px 18px 18px; background: #FFFFFF; border: 1.5px solid var(--hair); border-top: 3px solid var(--accent); border-radius: 6px; }
+  .voice p { margin: 0 !important; font-size: 15px !important; line-height: 1.6; color: var(--ink) !important; }
+  .voice .who { margin-top: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--faint); }
+
+  /* ── bets ──────────────────────────────────────────────── */
+  .bets { margin: 26px 0 0; }
+  .bet { display: grid; grid-template-columns: 38px 1fr; gap: 18px; padding: 19px 0; border-top: 1px solid var(--hair); }
   .bet:last-child { border-bottom: 1px solid var(--hair); }
   .bet .idx { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: var(--accent); }
-  .bet b { display: block; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 17px; letter-spacing: -.4px; }
-  .bet p { margin: 6px 0 0 !important; font-size: 14.5px !important; line-height: 1.62; color: var(--faint) !important; }
+  .bet b { display: block; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 17px; letter-spacing: -.4px; }
+  .bet p { margin: 6px 0 0 !important; font-size: 14.5px !important; line-height: 1.6; color: var(--faint) !important; }
 
-  /* ── IA ────────────────────────────────────────────────── */
-  .ia { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 18px; margin: 30px 0 0; }
-  .ia .col > b {
-    display: block; padding-bottom: 11px; border-bottom: 2.5px solid var(--accent);
-    font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 15px; letter-spacing: -.3px;
-  }
-  .ia .col span { display: block; padding: 9px 0; border-bottom: 1px solid rgba(23,22,27,.1); font-size: 13.5px; line-height: 1.5; color: var(--muted); }
-
-  /* ── decisions ─────────────────────────────────────────── */
-  .calls { margin: 30px 0 0; display: grid; gap: 16px; }
-  .call { border: 1.5px solid var(--hair); border-radius: 8px; overflow: hidden; background: #FFFFFF; }
-  .call .no { background: var(--tint); padding: 11px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--muted); }
+  /* ── forks ─────────────────────────────────────────────── */
+  .calls { margin: 26px 0 0; display: grid; gap: 16px; }
+  .call { border: 1.5px solid var(--hair); border-radius: 10px; overflow: hidden; background: #FFFFFF; }
+  .call .no { background: var(--tint); padding: 12px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--muted); }
   .call .pair { display: grid; grid-template-columns: 1fr; }
   .call .side { padding: 20px 20px 22px; }
   .call .side.no-go { background: rgba(255,107,91,.07); border-bottom: 1.5px solid var(--hair); }
-  .call .side .tag {
-    display: inline-flex; align-items: center; gap: 7px; margin-bottom: 10px;
-    font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600;
-    letter-spacing: 1.5px; text-transform: uppercase;
-  }
+  .call .side .tag { display: inline-flex; align-items: center; gap: 7px; margin-bottom: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; }
   .call .no-go .tag { color: #B4503F; }
   .call .went .tag { color: #2E7D5B; }
-  .call .side p { margin: 0 !important; font-size: 15px !important; line-height: 1.68; }
+  .call .side p { margin: 0 !important; font-size: 15px !important; line-height: 1.66; }
   .call .no-go p { color: var(--muted) !important; }
   .call .went p { color: var(--ink) !important; }
   @media (min-width: 720px) {
@@ -339,38 +277,61 @@
     .call .side.no-go { border-bottom: none; border-right: 1.5px solid var(--hair); }
   }
 
+  /* ── IA ────────────────────────────────────────────────── */
+  .ia { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 18px; margin: 24px 0 0; }
+  .ia .col > b { display: block; padding-bottom: 10px; border-bottom: 2.5px solid var(--accent); font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: -.3px; }
+  .ia .col span { display: block; padding: 9px 0; border-bottom: 1px solid rgba(23,22,27,.1); font-size: 13.5px; color: var(--muted); }
+
   /* ── before / after ────────────────────────────────────── */
-  .swap { margin: 30px 0 0; }
+  .swap { margin: 26px 0 0; }
   .swap .r { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 15px 0; border-top: 1px solid var(--hair); align-items: baseline; }
   .swap .r:last-child { border-bottom: 1px solid var(--hair); }
   .swap .was { font-size: 14.5px; color: #A5A2AC; text-decoration: line-through; text-decoration-color: rgba(255,107,91,.6); }
   .swap .now { font-size: 15px; color: var(--ink); }
   .swap .now::before { content: "→ "; color: var(--mint); font-weight: 700; }
 
+  /* ── learnings ─────────────────────────────────────────── */
+  .learn { display: grid; grid-template-columns: repeat(auto-fit, minmax(206px, 1fr)); gap: 14px; margin: 26px 0 0; }
+  .lrn { padding: 24px 22px; border-radius: 10px; background: #FFFFFF; border: 1.5px solid var(--hair); border-top: 4px solid var(--accent); }
+  .lrn .ico { font-size: 22px; line-height: 1; }
+  .lrn b { display: block; margin: 12px 0 10px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; letter-spacing: -.3px; }
+  .lrn p { margin: 0 !important; font-size: 14.5px !important; line-height: 1.62; color: var(--muted) !important; }
+
+  /* ── figures ───────────────────────────────────────────── */
+  .fig { margin: 56px 0 0; perspective: 1500px; }
+  .fig-frame {
+    transform: rotateX(var(--tilt-deg, 20deg)) scale(var(--tilt-scale, 1.05));
+    transform-origin: 50% 92%; border-radius: 6px; overflow: hidden;
+    will-change: transform; box-shadow: 0 24px 48px rgba(23,22,27,.14);
+  }
+  .fig img { width: 100%; display: block; }
+  .fig figcaption { margin: 22px auto 0; max-width: 620px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; line-height: 1.7; letter-spacing: .6px; color: var(--faint); }
+  .fig-band { margin: 76px 0 0; padding: 62px 0 66px; background: var(--tint); }
+  .fig-band .fig { margin-top: 0; }
+  .fig-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 26px; }
+  .fig-pair .fig { margin-top: 0; }
+  .fig-pair figcaption { text-align: left; margin-left: 0; }
+
   /* ── footer ────────────────────────────────────────────── */
   .end { margin: 96px 0 0; padding: 40px 0 100px; border-top: 1px solid var(--hair); }
   .end-in { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px; }
   .end .lead { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.8px; text-transform: uppercase; color: #A5A2AC; }
-  .end a.big {
-    display: block; margin-top: 12px; text-decoration: none;
-    font-family: 'Space Grotesk', sans-serif; font-weight: 500;
-    font-size: clamp(24px, 4vw, 30px); letter-spacing: -1.2px; color: var(--ink);
-  }
+  .end a.big { display: block; margin-top: 12px; text-decoration: none; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: clamp(24px, 4vw, 30px); letter-spacing: -1.2px; color: var(--ink); }
 
   /* ── small screens ─────────────────────────────────────── */
   @media (max-width: 640px) {
     nav.top { padding: 18px 20px; }
     nav.top .links { gap: 18px; }
     .wrap, .wide { padding: 0 20px; }
-    .sec { padding-top: 58px; }
-    .tldr { padding: 24px 20px 22px; box-shadow: 5px 6px 0 var(--yellow), 5px 6px 0 1.5px var(--ink); }
+    .sec { padding-top: 62px; }
     .fig-band { padding: 44px 0 48px; margin-top: 56px; }
-    .fig { margin-top: 40px; }
-    .swap .r { grid-template-columns: 1fr; gap: 4px; }
-    /* A tilted figure on a narrow screen mostly reads as a wobble, and the
-       perspective eats vertical space that a phone does not have. */
-    .fig { perspective: none; }
+    .fig { margin-top: 40px; perspective: none; }
     .fig-frame { transform: none !important; box-shadow: 0 12px 26px rgba(23,22,27,.12); }
+    .swap .r { grid-template-columns: 1fr; gap: 4px; }
+    .scene { padding: 22px 18px 20px; }
+    .persona, .hmw { padding: 24px 20px; }
+    .chain { gap: 6px; padding: 12px; }
+    .chain i { font-size: 13px; }
   }
 </style>
 </head>
@@ -387,42 +348,163 @@
   </div>
 </nav>
 
-<!-- ══ HERO ══ -->
-<header class="wrap" style="padding-top:48px;">
-  <a href="index.html#work" style="text-decoration:none; display:inline-flex; gap:9px; margin-bottom:44px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:1.4px; text-transform:uppercase; color:var(--faint);">← All projects</a>
+<!-- ══════════ HERO ══════════ -->
+<header class="wrap" style="padding-top:44px;">
+  <a href="index.html#work" style="text-decoration:none; display:inline-flex; gap:9px; margin-bottom:40px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:1.4px; text-transform:uppercase; color:var(--faint);">← All projects</a>
   <p class="kicker">Compport · Enterprise SaaS · 2026</p>
-  <h1>Org planning, without the twelve spreadsheets.</h1>
-  <p class="standfirst">Compport is a financial HRMS platform for compensation and workforce budgets. Its enterprise clients planned restructures across disconnected spreadsheets and slide decks — <mark class="hl" style="--accent-soft:rgba(255,107,91,.24)">no single source of truth, no audit trail, no shared view</mark>. I designed the org structure planning module from scratch; no legacy UI existed.</p>
-
-  <!-- ══ TL;DR ══ -->
-  <aside class="tldr">
-    <p class="tldr-label">The short version</p>
-    <dl>
-      <div class="row problem">
-        <dt>The problem</dt>
-        <dd>HR ran restructures across <strong>12+ spreadsheets emailed round a company</strong>. Nobody knew which file was current, and nothing recorded who changed what.</dd>
-      </div>
-      <div class="row attempt">
-        <dt>What we tried</dt>
-        <dd>One visual canvas instead of cells: <strong>drag the org chart, watch the cost delta move live</strong>, and let every change log itself onto the node it happened to.</dd>
-      </div>
-      <div class="row result">
-        <dt>Where it landed</dt>
-        <dd>In moderated testing, <strong>5–6 week planning cycles came down to under two</strong>, and 9 of 10 testers completed a restructure unaided.</dd>
-      </div>
-    </dl>
-    <a class="btn" href="#decisions">Skip to the design decisions <span class="arrow">↓</span></a>
-  </aside>
+  <h1>Nobody should need twelve spreadsheets to move one person.</h1>
 
   <dl class="meta">
+    <div><dt>Product</dt><dd>Org structure planning</dd></div>
     <div><dt>Role</dt><dd>UI/UX designer</dd></div>
+    <div><dt>Timeline</dt><dd>2 weeks</dd></div>
     <div><dt>Team</dt><dd>4 designers, 1 PM</dd></div>
-    <div><dt>Timeline</dt><dd>2 weeks, this feature</dd></div>
-    <div><dt>Tools</dt><dd>Figma · FigJam · Miro</dd></div>
+    <div><dt>I owned</dt><dd>Chart canvas, node states, compare flow</dd></div>
   </dl>
 </header>
 
-<!-- ══ FIG 01 ══ -->
+<!-- ══════════ DOOR 1 — 30 SECONDS ══════════ -->
+<section class="wrap" style="padding-top:76px;">
+  <p class="door-q">Got 30 seconds? ⏱️</p>
+  <p class="door-a">Here's the whole thing in one breath.</p>
+  <p class="oneline">We replaced twelve emailed spreadsheets with <em>one visual canvas</em> — where you drag a person, and the budget moves with them. Every change logs itself onto the node it happened to.</p>
+
+  <p class="rlabel" style="margin-top:34px;">And here's why it needed doing</p>
+  <div class="stats" style="--accent-soft:rgba(255,107,91,.28);">
+    <div class="stat"><div class="n"><u>51%</u></div><p>of HR teams still run workforce planning on spreadsheets.</p></div>
+    <div class="stat"><div class="n"><u>76%</u></div><p>say a visual org view is essential — 68% still build it by hand.</p></div>
+    <div class="stat"><div class="n"><u>88%</u></div><p>of spreadsheets contain errors. These ones decide headcount.</p></div>
+  </div>
+  <p class="source">OrgChart, State of Workforce Planning 2026 · ContinuumCloud 2026</p>
+
+  <div class="jump">
+    <a class="btn" href="#forks">Take me to the hard calls <span class="arrow">↓</span></a>
+    <a class="btn ghost" href="#build">Just show me the screens <span class="arrow">↓</span></a>
+  </div>
+</section>
+
+<!-- ══════════ DOOR 2 — SUMMARY ══════════ -->
+<section class="wrap" style="padding-top:64px;">
+  <p class="door-q">Still here? Two cards, then. 🃏</p>
+  <div class="cards2">
+    <div class="bigcard problem">
+      <div class="ico">🤔</div>
+      <h4>The problem</h4>
+      <p>Enterprise HR teams ran restructures across a dozen spreadsheets emailed around the company. Nobody could say which file was current. Nothing recorded who moved whom, or why — and Finance found out last.</p>
+    </div>
+    <div class="bigcard answer">
+      <div class="ico">💡</div>
+      <h4>What we built</h4>
+      <p>A single live org canvas. Drag a role and the modified cost updates against current cost in the same breath. Conflicts surface while you plan instead of at execution, and the audit trail lives on the node — not in a module nobody opens.</p>
+    </div>
+  </div>
+</section>
+
+<p class="handoff">Still reading? Brilliant. 👇<span>The whole story, from a human pyramid to a shipped canvas.</span></p>
+
+<!-- ══════════ 01 CONTEXT ══════════ -->
+<section class="sec wrap hook" style="--accent:var(--pink); --accent-soft:rgba(255,126,182,.34);">
+  <p class="eyebrow" style="justify-content:center;"><b>01</b> Let's set the context</p>
+  <span class="em">🤸</span>
+  <p>Picture a human pyramid.</p>
+  <p>Everyone is standing on somebody's shoulders. Everyone knows <em>exactly</em> whose.</p>
+  <p>Now — take one person out of the bottom row.</p>
+  <p>Everything above them rebalances. Some of it holds. Some of it really doesn't.</p>
+  <div class="drop">↓</div>
+  <p>Now do it with <strong>2,000 people</strong>. On paper. From memory.<br>While twelve other people are also quietly moving someone.</p>
+  <div class="land">That's a restructure. 😬</div>
+</section>
+
+<!-- ══════════ 02 PROBLEM SCENARIO ══════════ -->
+<section class="sec wrap" style="--accent:var(--coral); --accent-soft:rgba(255,107,91,.28);">
+  <p class="eyebrow"><b>02</b> The problem scenario</p>
+  <h2>Meet the person holding the pyramid.</h2>
+  <p class="sub">Meera runs the annual restructure at a 2,000-person manufacturing firm. Here are two ordinary weeks in her job.</p>
+
+  <div class="scene">
+    <div class="days"><i>S</i><i>M</i><i>T</i><i class="on">W</i><i>T</i><i>F</i><i>S</i></div>
+    <p><strong>It's Wednesday.</strong> The CFO wants the headcount cost for the Engineering reorg — today, ideally.</p>
+    <p class="aside">Meera opens the shared folder. There are four files. Two of them are called <em>final</em>. She isn't sure which one Finance has been working from since Monday.</p>
+    <p class="ask">So what are her options? 🤷‍♀️</p>
+    <div class="chain bad">
+      <i>📂 Open all four</i><i>👀 Diff them by eye</i><i>☎️ Ring Finance</i><i>🕐 Wait</i><i>😮‍💨 Start the actual work</i>
+    </div>
+    <div class="chain bad">
+      <i>🤞 Pick the newest file</i><i>📤 Send the number</i><i>😰 Hope it's the right one</i>
+    </div>
+    <p class="refrain">All of that — before a single decision gets made!</p>
+  </div>
+
+  <div class="scene">
+    <div class="days"><i>S</i><i>M</i><i>T</i><i>W</i><i>T</i><i class="on">F</i><i>S</i></div>
+    <p><strong>It's Friday.</strong> Compliance asks a simple question: who approved moving that role out of Priya's team, and when?</p>
+    <p class="aside">There is no record. The approval happened in an email thread, three versions of the file ago.</p>
+    <p class="ask">Again — what can she actually do? 🤷‍♀️</p>
+    <div class="chain bad">
+      <i>🔍 Search her inbox</i><i>📧 Find three threads</i><i>🤔 Guess which was the sign-off</i><i>😬 Answer anyway</i>
+    </div>
+    <div class="chain bad">
+      <i>☎️ Ring the four people who were in the room</i><i>🙏 Ask them to remember</i>
+    </div>
+    <p class="refrain">Again — before a single decision gets made!</p>
+  </div>
+
+  <p class="note">Both scenarios are illustrative — built from the pain points in stakeholder interviews, not transcripts of one specific day.</p>
+
+  <p style="margin-top:34px;">And this is the part that stings: across a full cycle, <mark class="hl">this reconciliation ate more than 40 hours</mark> before anyone made a call. Half of HR leaders spend five or more hours a month just rebuilding charts. Teams lose about <strong>3.6 hours a week</strong> to fixing spreadsheet mistakes — roughly 22 working days a year, per person.</p>
+  <p class="source">DOSS Research 2026</p>
+</section>
+
+<!-- ══════════ 03 PERSONA ══════════ -->
+<section class="sec wrap" style="--accent:var(--yellow); --accent-soft:rgba(249,200,70,.44);">
+  <p class="eyebrow"><b>03</b> Meet the persona</p>
+  <h2>Meera Iyer, and the two people she can never quite reach.</h2>
+
+  <div class="persona">
+    <div class="top">
+      <div class="av">MI</div>
+      <div>
+        <div class="nm">Meera Iyer, 34</div>
+        <div class="rl">HR Manager · our primary persona</div>
+      </div>
+    </div>
+    <dl>
+      <div><dt>Her job</dt><dd>Owns the annual restructure for a 2,000-person manufacturing firm. Juggles 12+ spreadsheets a cycle.</dd></div>
+      <div><dt>Behaviour</dt><dd>Methodical, detail-oriented, risk-averse. Colour-codes version labels into the file names — because nothing else will.</dd></div>
+      <div><dt>What she wants</dt><dd>To finish planning in under two weeks instead of five or six, and to answer a compliance question without opening her inbox.</dd></div>
+    </dl>
+    <blockquote><p>"I spend more time managing spreadsheets than managing people. By the time I reconcile every file, the data is already outdated."</p></blockquote>
+  </div>
+
+  <p style="margin-top:34px;">She isn't the only one in the dark. <strong>Vikram</strong>, the VP of Finance, has to approve the budget impact of every structural change — but receives it as an attachment he has no way to verify. <strong>Priya</strong>, an engineering team lead, hears about restructuring <em>after</em> it's decided, with no visibility into how it hits her team until it's far too late to push back.</p>
+  <p>Three people. One org chart. <mark class="hl">Never the same version of it.</mark></p>
+</section>
+
+<!-- ══════════ 04 PROBLEM STATEMENT ══════════ -->
+<section class="sec wrap" style="--accent:var(--purple); --accent-soft:rgba(166,107,255,.26);">
+  <p class="eyebrow"><b>04</b> The problem statement</p>
+  <div class="hmw">
+    <p>How might we give Meera one place to plan a restructure — where Finance and her team leads see the same thing she does, and every change explains itself?</p>
+  </div>
+</section>
+
+<!-- ══════════ 05 GOALS ══════════ -->
+<section class="sec wrap" style="--accent:var(--mint); --accent-soft:rgba(99,227,194,.34);">
+  <p class="eyebrow"><b>05</b> Project goals</p>
+  <h2>Two things to get right.</h2>
+  <div class="goals">
+    <div class="goal" style="--accent:var(--mint)">
+      <div class="lbl">🎯 Goal 1</div>
+      <p>Let people reach the org information they need without hunting for it across files, folders and inboxes.</p>
+    </div>
+    <div class="goal" style="--accent:var(--purple)">
+      <div class="lbl">🎯 Goal 2</div>
+      <p>Make the consequences of a change visible <em>as it's made</em> — cost, conflicts, and who signed off — to cut anxiety and build trust in the number.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FIG 01 ══════════ -->
 <div class="fig-band">
   <div class="wide">
     <figure class="fig" data-tilt>
@@ -432,26 +514,13 @@
   </div>
 </div>
 
-<!-- ══ 01 DISCOVER ══ -->
-<section class="sec wrap" style="--accent:var(--coral); --accent-soft:rgba(255,107,91,.24);">
-  <p class="eyebrow">01 · Discover</p>
-  <h2>Restructuring was happening in email attachments.</h2>
-  <p class="sub">Not in a tool. In a folder of files called <em>final_v3_ACTUAL.xlsx</em>.</p>
-  <p>HR teams ran chart changes, role additions, budget reallocation and reporting-line shifts across dozens of spreadsheets shared over email. <mark class="hl">Nobody could say which version was current, draft, or approved</mark> — and nothing recorded who changed what, or why.</p>
-  <p>Half of HR leaders spend five or more hours a month just updating charts. A full cycle burned <strong>40+ hours of reconciliation</strong> before anyone made a decision.</p>
-  <div class="stats">
-    <div class="stat"><div class="n"><u>51%</u></div><p>of HR teams still use spreadsheets as a core workforce-planning tool.</p></div>
-    <div class="stat"><div class="n"><u>76%</u></div><p>call visual workforce representation essential — 68% still build it by hand.</p></div>
-    <div class="stat"><div class="n"><u>88%</u></div><p>of spreadsheets contain errors, leading to flawed headcount decisions.</p></div>
-  </div>
-  <p class="source">Sources — OrgChart, State of Workforce Planning 2026 · ContinuumCloud 2026</p>
-</section>
-
-<!-- ══ 02 VOICES ══ -->
-<section class="sec wrap" style="--accent:var(--purple); --accent-soft:rgba(166,107,255,.26);">
-  <p class="eyebrow">02 · Voices</p>
+<!-- ══════════ 06 RESEARCH ══════════ -->
+<section class="sec wrap" style="--accent:var(--lime); --accent-soft:rgba(196,231,90,.5);">
+  <p class="eyebrow"><b>06</b> What the research said</p>
   <h2>Six stakeholders described the same failure six ways.</h2>
-  <p class="sub">Nobody asked for a prettier chart. Every conversation circled back to one shared surface, and a record of what happened on it.</p>
+  <p class="sub">Nobody asked for a prettier chart. Every single conversation came back to one shared surface, and a record of what happened on it.</p>
+
+  <div class="rlabel">Stakeholder interviews</div>
   <div class="voices">
     <div class="voice" style="--accent:var(--mint)"><p>"We need one place where HR, Finance and Team Leads see the same data."</p><div class="who">VP, Finance</div></div>
     <div class="voice" style="--accent:var(--coral)"><p>"Audit trail is non-negotiable. Every change must be traceable to a person."</p><div class="who">CHRO</div></div>
@@ -460,148 +529,25 @@
     <div class="voice" style="--accent:var(--pink)"><p>"Team leads need to see proposed changes before they're finalised."</p><div class="who">VP, Engineering</div></div>
     <div class="voice" style="--accent:var(--lime)"><p>"We need real-time budget impact as changes are made — not after."</p><div class="who">CFO</div></div>
   </div>
+
+  <div class="rlabel">And the workshop map that came out of it</div>
 </section>
 
-<!-- ══ FIG 02 ══ -->
-<div class="fig-band">
+<!-- ══════════ FIG 02 ══════════ -->
+<div class="fig-band" style="margin-top:34px;">
   <div class="wide">
     <figure class="fig" data-tilt>
       <div class="fig-frame" style="background:#FFFFFF;"><img src="assets/cs-personas.png" alt="Persona and pain-point map for HR Manager, Team Lead and Finance Head" loading="lazy"></div>
-      <figcaption>Fig 02 — the early workshop persona map, by role. The shared challenges along the bottom rail became the feature brief.</figcaption>
+      <figcaption>Fig 02 — the workshop persona map, by role. The shared challenges along the bottom rail became the feature brief.</figcaption>
     </figure>
   </div>
 </div>
 
-<!-- ══ 03 DEFINE ══ -->
-<section class="sec wrap" style="--accent:var(--mint); --accent-soft:rgba(99,227,194,.34);">
-  <p class="eyebrow">03 · Define</p>
-  <h2>Three users, one shared blind spot.</h2>
-  <p class="sub">The planner owns the restructure, the approver owns the budget, the executor lives with the result — and <mark class="hl">none of them saw the same data at the same time</mark>.</p>
-
-  <div class="people">
-    <div class="person" style="--accent:var(--yellow)">
-      <div class="role">The planner · primary</div>
-      <div class="name">Meera Iyer, 34</div>
-      <div class="job">HR Manager · 2,000-person firm</div>
-      <p>Owns annual restructuring. Juggles 12+ spreadsheets per cycle and can never see the full org picture at once.</p>
-    </div>
-    <div class="person" style="--accent:var(--mint)">
-      <div class="role">The approver</div>
-      <div class="name">Vikram Desai, 46</div>
-      <div class="job">VP of Finance</div>
-      <p>Must review the budget impact of every structural change, but receives updates as attachments with no way to verify them.</p>
-    </div>
-    <div class="person" style="--accent:var(--purple)">
-      <div class="role">The executor</div>
-      <div class="name">Priya Nair, 29</div>
-      <div class="job">Engineering Team Lead</div>
-      <p>Hears about restructuring after it's decided — no visibility into how it hits her team until it's too late to push back.</p>
-    </div>
-  </div>
-
-  <blockquote style="--accent:var(--yellow)">
-    <p>"I spend more time managing spreadsheets than managing people. By the time I reconcile every file, the data is already outdated."</p>
-    <footer>Meera Iyer · the planner</footer>
-  </blockquote>
-
-  <div class="cols2">
-    <div>
-      <div class="listhead">Goals</div>
-      <ul class="rule want">
-        <li>Finish planning in under 2 weeks — it takes 5–6</li>
-        <li>One source of truth for org changes</li>
-        <li>Clean audit trails for compliance</li>
-        <li>Let Finance and Team Leads in without version chaos</li>
-      </ul>
-    </div>
-    <div>
-      <div class="listhead">Pain points</div>
-      <ul class="rule hurt">
-        <li>40+ hours per cycle reconciling versions</li>
-        <li>No way to track who approved what, and when</li>
-        <li>5+ hours a month rebuilding charts in slides</li>
-        <li>Can't run what-ifs without cloning the file</li>
-      </ul>
-    </div>
-  </div>
-  <div class="pills"><span>Methodical</span><span>Detail-oriented</span><span>Process-driven</span><span>Risk-averse</span></div>
-
-  <h3 style="margin-top:56px;">Empathy map — Meera</h3>
-  <p class="sub" style="margin-bottom:0;">What she says out loud versus what she's actually managing around. <mark class="hl">The gap between <em>says</em> and <em>feels</em> is where the module had to do its work.</mark></p>
-  <div class="empathy">
-    <div class="quad says">
-      <h4>Says</h4>
-      <ul>
-        <li>"Every change must be documented and traceable."</li>
-        <li>"I can't send this to Finance until the numbers are right."</li>
-        <li>"Which version of this is the approved one?"</li>
-      </ul>
-    </div>
-    <div class="quad thinks">
-      <h4>Thinks</h4>
-      <ul>
-        <li>Undocumented changes are a compliance risk waiting to land</li>
-        <li>One data error could drive a wrong headcount decision</li>
-        <li>There's a better way — but no time to go find it</li>
-      </ul>
-    </div>
-    <div class="quad feels">
-      <h4>Feels</h4>
-      <ul>
-        <li>Overwhelmed by the volume of manual coordination</li>
-        <li>Anxious about audit readiness</li>
-        <li>Frustrated that strategy time goes to reconciliation</li>
-      </ul>
-    </div>
-    <div class="quad does">
-      <h4>Does</h4>
-      <ul>
-        <li>Cross-references 12+ spreadsheets before every meeting</li>
-        <li>Colour-codes version labels into the file names</li>
-        <li>Rebuilds the org chart from scratch each quarter</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ══ 04 JOURNEY ══ -->
-<section class="sec wrap" style="--accent:var(--yellow); --accent-soft:rgba(249,200,70,.42);">
-  <p class="eyebrow">04 · Journey</p>
-  <h2>Seven steps in, four of them are rework.</h2>
-  <p class="sub">The step count barely changes between the two rows. What changes is that <mark class="hl">nothing in the second row is a version-control chore</mark>.</p>
-
-  <div class="flow" style="--accent:var(--coral)">
-    <div class="flow-head"><b>Current state</b><span>neutral → frustration → peaks at reconciliation → ends anxious</span></div>
-    <div class="steps">
-      <i class="meh">Receive directive</i>
-      <i class="meh">Gather 5+ sources</i>
-      <i class="meh">Build the spreadsheet model</i>
-      <i class="meh">Email Finance</i>
-      <i class="pain">New version, repeat ×4–5</i>
-      <i class="pain">Rebuild the chart in slides</i>
-      <i class="pain">Present, hope nothing's missed</i>
-    </div>
-  </div>
-
-  <div class="flow" style="--accent:var(--lime)">
-    <div class="flow-head"><b>Ideal state</b><span>neutral → calm → building confidence → ends with clarity</span></div>
-    <div class="steps">
-      <i class="meh">Receive directive</i>
-      <i class="meh">Upload current org data</i>
-      <i class="ok">Chart auto-generates</i>
-      <i class="ok">Model scenarios</i>
-      <i class="ok">Real-time review</i>
-      <i class="ok">Approve with audit trail</i>
-      <i class="ok">Present with confidence</i>
-    </div>
-  </div>
-</section>
-
-<!-- ══ 05 OPPORTUNITIES ══ -->
-<section class="sec wrap" style="--accent:var(--lime); --accent-soft:rgba(196,231,90,.5);">
-  <p class="eyebrow">05 · Opportunities</p>
+<!-- ══════════ 07 OPPORTUNITIES ══════════ -->
+<section class="sec wrap" style="--accent:var(--pink); --accent-soft:rgba(255,126,182,.34);">
+  <p class="eyebrow"><b>07</b> Where we could win</p>
   <h2>Five bets, ranked by friction removed.</h2>
-  <p class="sub">Research and stakeholder insight pointed at five things worth building. In that order.</p>
+  <p class="sub">In that order — because if the first one fails, none of the others matter.</p>
   <div class="bets">
     <div class="bet"><div class="idx">01</div><div><b>Single source of truth</b><p>One workspace where every stakeholder sees the same live data.</p></div></div>
     <div class="bet"><div class="idx">02</div><div><b>Visual org planning</b><p>Manipulate the structure by dragging nodes, not editing cells.</p></div></div>
@@ -611,20 +557,45 @@
   </div>
 </section>
 
-<!-- ══ 06 ARCHITECTURE ══ -->
-<section class="sec wrap" style="--accent:var(--purple); --accent-soft:rgba(166,107,255,.26);">
-  <p class="eyebrow">06 · Architecture</p>
-  <h2>The IA mirrors how Meera thinks.</h2>
-  <p class="sub">Big picture first, then planning, then budget, then the record of what happened.</p>
-  <div class="ia">
-    <div class="col" style="--accent:var(--mint)"><b>Org chart view</b><span>Current structure</span><span>Proposed changes</span><span>Comparison view</span></div>
-    <div class="col" style="--accent:var(--yellow)"><b>Planning workspace</b><span>Scenario A</span><span>Scenario B</span><span>Scenario C</span><span>Merge / finalise</span></div>
-    <div class="col" style="--accent:var(--pink)"><b>Budget overview</b><span>Department view</span><span>Role-level costs</span><span>Impact summary</span></div>
-    <div class="col" style="--accent:var(--purple)"><b>Audit log</b><span>Change timeline</span><span>Filter by user</span><span>Filter by department</span><span>Export</span></div>
+<!-- ══════════ 08 FORKS ══════════ -->
+<section class="sec wrap" id="forks" style="--accent:var(--coral); --accent-soft:rgba(255,107,91,.28);">
+  <p class="eyebrow"><b>08</b> Four forks in the road</p>
+  <h2>Every time, the safe option was the thing users hated.</h2>
+  <p class="sub">Which made shipping the safe option <mark class="hl">the actual risk</mark>. Here's where we went instead, and why.</p>
+
+  <div class="calls">
+    <div class="call">
+      <div class="no">Fork 01 · how you enter a change</div>
+      <div class="pair">
+        <div class="side no-go"><div class="tag">✕ We said no to</div><p>Tabular, spreadsheet-style data entry.</p></div>
+        <div class="side went"><div class="tag">✓ We shipped</div><p>A visual org chart with inline editing. Users equated spreadsheets with the problem itself — the interface had to <em>feel</em> different to earn any trust. And tables are built for reading rows; they don't show relationships. A cell reading "Manager: Sarah" won't tell you Engineering's backfill depends on Finance signing off. A linked chart does, at a glance.</p></div>
+      </div>
+    </div>
+    <div class="call">
+      <div class="no">Fork 02 · how review happens</div>
+      <div class="pair">
+        <div class="side no-go"><div class="tag">✕ We said no to</div><p>A manual "save &amp; send for review" handoff.</p></div>
+        <div class="side went"><div class="tag">✓ We shipped</div><p>A real-time workspace with role-based access. The email review cycle was Meera's single biggest time sink — four to five rounds a cycle, and no reliable way to tell which attachment was live. Going live meant Finance and team leads could react the moment a change was made, not three threads later.</p></div>
+      </div>
+    </div>
+    <div class="call">
+      <div class="no">Fork 03 · when conflicts appear</div>
+      <div class="pair">
+        <div class="side no-go"><div class="tag">✕ We said no to</div><p>Hidden dependencies, discovered at execution.</p></div>
+        <div class="side went"><div class="tag">✓ We shipped</div><p>A conflict panel, surfaced <em>during</em> planning. Cross-functional teams carried invisible assumptions about each other's moves — Engineering counting on a budget line Product had already claimed. A visible panel, with affected roles joined by a red dependency line, meant the clash got settled on the canvas instead of blowing up mid-restructure.</p></div>
+      </div>
+    </div>
+    <div class="call">
+      <div class="no">Fork 04 · where history lives</div>
+      <div class="pair">
+        <div class="side no-go"><div class="tag">✕ We said no to</div><p>A standalone audit-log module.</p></div>
+        <div class="side went"><div class="tag">✓ We shipped</div><p>Contextual history on each node. Compliance needs to know who approved a change, when, and under what conditions — usually under time pressure. A separate log makes someone leave their workflow to go find that. Pinning history to the node means the context travels with the change. Remember Meera's Friday? This is that fix.</p></div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ══ FIG 03 ══ -->
+<!-- ══════════ FIG 03 ══════════ -->
 <div class="fig-band">
   <div class="wide">
     <figure class="fig" data-tilt>
@@ -634,65 +605,36 @@
   </div>
 </div>
 
-<!-- ══ 07 DECISIONS ══ -->
-<section class="sec wrap" id="decisions" style="--accent:var(--pink); --accent-soft:rgba(255,126,182,.34);">
-  <p class="eyebrow">07 · Decisions</p>
-  <h2>Four calls, each one trading a safe pattern for a risky one.</h2>
-  <p class="sub">Every time, <mark class="hl">the familiar pattern was the thing users associated with the problem</mark> — so shipping it would have been the actual risk.</p>
+<!-- ══════════ 09 BUILD ══════════ -->
+<section class="sec wrap" id="build" style="--accent:var(--mint); --accent-soft:rgba(99,227,194,.34);">
+  <p class="eyebrow"><b>09</b> The build</p>
+  <h2>One canvas: structure, cost and consequence, together.</h2>
+  <p class="sub">Two weeks, four designers. I owned the chart canvas, the node states and the compare flow.</p>
+  <p>Drag a person, open a vacancy, promote a lead — <mark class="hl">the modified cost figure updates against current cost in the same breath</mark>, and the legend explains every state change in plain language. No decoder ring needed.</p>
+  <p>The structure reads geographically too. Clients running 600+ headcount per site kept asking the one thing the chart couldn't answer: <em>where</em> does this restructure actually land? Toggling to the geo view swaps hierarchy for footprint — a world roll-up, down to a single office and its department split.</p>
 
-  <div class="calls">
-    <div class="call">
-      <div class="no">Decision 01 · the interface model</div>
-      <div class="pair">
-        <div class="side no-go"><div class="tag">✕ Rejected</div><p>Tabular, spreadsheet-style data entry.</p></div>
-        <div class="side went"><div class="tag">✓ Shipped</div><p>A visual org chart with inline editing. Users equated spreadsheets with the problem itself — the interface had to feel fundamentally different to earn their trust. Tables are built for reading rows; they don't show relationships. A cell reading "Manager: Sarah" doesn't tell you Engineering's backfill depends on Finance's sign-off. A linked chart does, at a glance.</p></div>
-      </div>
-    </div>
-    <div class="call">
-      <div class="no">Decision 02 · the review loop</div>
-      <div class="pair">
-        <div class="side no-go"><div class="tag">✕ Rejected</div><p>A manual "save &amp; send for review" handoff.</p></div>
-        <div class="side went"><div class="tag">✓ Shipped</div><p>A real-time workspace with role-based access. The email review cycle was Meera's single biggest time sink — four to five rounds per cycle, with no reliable way to tell which attachment was current. Making the workspace live meant Finance and Team Leads could react the moment a change was made, not three threads later.</p></div>
-      </div>
-    </div>
-    <div class="call">
-      <div class="no">Decision 03 · conflicting moves</div>
-      <div class="pair">
-        <div class="side no-go"><div class="tag">✕ Rejected</div><p>Hidden dependencies, discovered at execution.</p></div>
-        <div class="side went"><div class="tag">✓ Shipped</div><p>A conflict panel, surfaced during planning. Cross-functional teams carried invisible assumptions about each other's moves — Engineering assuming a budget line Product had already claimed. A visible panel, with affected roles linked by a red dependency line, meant the clash got resolved on the canvas instead of blowing up mid-restructure.</p></div>
-      </div>
-    </div>
-    <div class="call">
-      <div class="no">Decision 04 · where history lives</div>
-      <div class="pair">
-        <div class="side no-go"><div class="tag">✕ Rejected</div><p>A standalone audit-log module.</p></div>
-        <div class="side went"><div class="tag">✓ Shipped</div><p>Contextual history on each node. Compliance teams need to know who approved a change, when, and under what conditions — usually under time pressure. A separate log forces someone out of their workflow to find that answer; pinning history to the node means the context travels with the change.</p></div>
-      </div>
-    </div>
+  <div class="rlabel">And the shape underneath it all</div>
+  <p style="font-size:15.5px !important;">The IA mirrors how Meera thinks: big picture first, then planning, then budget, then the record of what happened.</p>
+  <div class="ia">
+    <div class="col" style="--accent:var(--mint)"><b>Org chart view</b><span>Current structure</span><span>Proposed changes</span><span>Comparison view</span></div>
+    <div class="col" style="--accent:var(--yellow)"><b>Planning workspace</b><span>Scenario A</span><span>Scenario B</span><span>Scenario C</span><span>Merge / finalise</span></div>
+    <div class="col" style="--accent:var(--pink)"><b>Budget overview</b><span>Department view</span><span>Role-level costs</span><span>Impact summary</span></div>
+    <div class="col" style="--accent:var(--purple)"><b>Audit log</b><span>Change timeline</span><span>Filter by user</span><span>Filter by department</span><span>Export</span></div>
   </div>
 </section>
 
-<!-- ══ FIG 04 ══ -->
+<!-- ══════════ FIG 04 ══════════ -->
 <div class="fig-band">
   <div class="wide">
     <figure class="fig" data-tilt>
       <div class="fig-frame"><img src="assets/cs-node-panels.jpg" alt="Two screens side by side: the recommend and terminate panel on a node, and the same node's job history" loading="lazy"></div>
-      <figcaption>Fig 04 — decisions 01 and 04, side by side. Left: acting on a node without leaving the canvas. Right: the audit trail living on the node instead of in a separate module.</figcaption>
+      <figcaption>Fig 04 — forks 01 and 04, side by side. Left: acting on a node without leaving the canvas. Right: the audit trail living on the node instead of in a separate module.</figcaption>
     </figure>
   </div>
 </div>
 
-<!-- ══ 08 THE BUILD ══ -->
-<section class="sec wrap" style="--accent:var(--mint); --accent-soft:rgba(99,227,194,.34);">
-  <p class="eyebrow">08 · The build</p>
-  <h2>One canvas: structure, cost and consequence together.</h2>
-  <p class="sub">Two weeks, four designers. I owned the chart canvas, the node states and the compare flow.</p>
-  <p>Drag a person, open a vacancy, promote a lead — <mark class="hl">the modified cost figure updates against current cost in the same breath</mark>, and the legend explains every state change in plain language.</p>
-  <p>The same structure also reads geographically. Clients running 600+ headcount per site kept asking a question the chart couldn't answer — <em>where</em> does this restructure land? Toggling to the geo view swaps hierarchy for footprint, from a world roll-up down to a single office and its department split.</p>
-</section>
-
-<!-- ══ FIG 05 ══ -->
-<div class="fig-band">
+<!-- ══════════ FIG 05 ══════════ -->
+<div class="fig-band" style="margin-top:0;">
   <div class="wide">
     <figure class="fig" data-tilt>
       <div class="fig-frame" style="background:#FFFFFF;"><img src="assets/cs-proto-1.gif" alt="Prototype: editing the org structure" loading="lazy"></div>
@@ -701,8 +643,8 @@
   </div>
 </div>
 
-<!-- ══ FIG 06 / 07 ══ -->
-<div class="wide" style="margin-top:76px;">
+<!-- ══════════ FIG 06 / 07 ══════════ -->
+<div class="wide" style="margin-top:72px;">
   <div class="fig-pair">
     <figure class="fig" data-tilt>
       <div class="fig-frame"><img src="assets/cs-geo-world.jpg" alt="Geo view: headcount clusters pinned across a world map" loading="lazy"></div>
@@ -715,11 +657,16 @@
   </div>
 </div>
 
-<!-- ══ 09 DELIVER ══ -->
+<!-- ══════════ 10 WHAT CHANGED ══════════ -->
 <section class="sec wrap" style="--accent:var(--lime); --accent-soft:rgba(196,231,90,.5);">
-  <p class="eyebrow">09 · Deliver</p>
-  <h2>What changed for Meera.</h2>
-  <p class="sub">Six things she used to do by hand, and what replaced each of them.</p>
+  <p class="eyebrow"><b>10</b> What it was built to change</p>
+  <h2>Back to Meera's Wednesday.</h2>
+  <p class="sub">Same request from the CFO. Same deadline. Here's the new route.</p>
+
+  <div class="chain good" style="margin-bottom:22px;">
+    <i>🖥️ Open the canvas</i><i>👆 Drag the role</i><i>💰 Read the delta</i><i>📤 Send it</i>
+  </div>
+
   <div class="swap">
     <div class="r"><div class="was">5–6 week planning cycles</div><div class="now">Under 2 weeks</div></div>
     <div class="r"><div class="was">12+ spreadsheet versions</div><div class="now">Single source of truth</div></div>
@@ -728,27 +675,37 @@
     <div class="r"><div class="was">Email review, 4–5 rounds</div><div class="now">In-platform review &amp; approval</div></div>
     <div class="r"><div class="was">5+ hrs/month rebuilding charts</div><div class="now">Auto-generated from live data</div></div>
   </div>
-  <div class="stats">
-    <div class="stat"><div class="n"><u>−68%</u></div><p>planning cycle time in moderated testing</p></div>
-    <div class="stat"><div class="n"><u>9/10</u></div><p>testers completed a restructure unaided</p></div>
-    <div class="stat"><div class="n"><u>0</u></div><p>manual version files in the new flow</p></div>
+
+  <p class="note">These are the targets the module was designed against, drawn from the baseline in stakeholder interviews. I left the engagement before the feature reached production — so post-launch numbers exist, but they aren't mine to claim.</p>
+</section>
+
+<!-- ══════════ 11 LEARNINGS ══════════ -->
+<section class="sec wrap" style="--accent:var(--purple); --accent-soft:rgba(166,107,255,.26);">
+  <p class="eyebrow"><b>11</b> What I took away</p>
+  <h2>Two good weeks, and one lesson I'd rather have learned earlier.</h2>
+
+  <div class="learn">
+    <div class="lrn" style="--accent:var(--coral)">
+      <div class="ico">😅</div>
+      <b>Test on the ugliest data first</b>
+      <p>A 2,000-person chart with matrix reporting doesn't stay legible at the zoom levels I designed for — and I found that out on the last day of the sprint. Next time the ugliest real dataset comes <em>before</em> the visual system, not after.</p>
+    </div>
+    <div class="lrn" style="--accent:var(--yellow)">
+      <div class="ico">🧭</div>
+      <b>Familiar isn't the same as safe</b>
+      <p>Every fork here rejected the pattern people already knew. That felt risky each time. But the familiar pattern was the thing users had learned to associate with the problem — so shipping it would have been the bigger gamble.</p>
+    </div>
+    <div class="lrn" style="--accent:var(--mint)">
+      <div class="ico">🤝</div>
+      <b>Design for the people not in the room</b>
+      <p>Meera was the primary persona, but the module only works because Vikram and Priya can see it too. The best fix in the whole project — history on the node — was for someone who never touches the canvas.</p>
+    </div>
   </div>
-  <p class="source">Projected from prototype testing — I left the engagement before the feature reached production, so post-launch numbers aren't mine to claim.</p>
+
+  <p style="margin-top:36px; font-size:19px !important; line-height:1.6 !important; color:var(--ink) !important;">Meera didn't need a better spreadsheet. <mark class="hl">She needed to stop using one entirely.</mark></p>
 </section>
 
-<!-- ══ 10 WHAT I'D REDO ══ -->
-<section class="sec wrap" style="--accent:var(--yellow); --accent-soft:rgba(249,200,70,.42);">
-  <p class="eyebrow">10 · What I'd redo</p>
-  <h2>Two weeks bought a strong canvas and a thin edge-case story.</h2>
-  <p class="sub">The part I got wrong is the part I found on the last day.</p>
-  <p>A 2,000-person chart with matrix reporting <mark class="hl">doesn't stay legible at the zoom levels I designed for</mark>, and I only discovered that at the end of the sprint.</p>
-  <p>Next time I'd prototype on the ugliest real dataset available <em>before</em> agreeing on the visual system, not after.</p>
-  <blockquote style="--accent:var(--purple)">
-    <p>Meera didn't need a better spreadsheet. She needed to stop using one entirely.</p>
-  </blockquote>
-</section>
-
-<!-- ══ FOOTER ══ -->
+<!-- ══════════ FOOTER ══════════ -->
 <div class="wrap end">
   <div class="end-in">
     <div>
