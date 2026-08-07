@@ -152,21 +152,16 @@
   .meta dt { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 500; letter-spacing: 1.6px; text-transform: uppercase; color: var(--faint); }
   .meta dd { margin: 8px 0 0; font-size: 15px; }
 
-  /* ── the hook ──────────────────────────────────────────── */
-  .hook { text-align: center; }
-  .hook p {
-    margin: 0 auto 22px; max-width: 560px; color: var(--ink) !important;
-    font-family: 'Space Grotesk', sans-serif; font-weight: 400;
-    font-size: clamp(20px, 3.1vw, 27px); line-height: 1.42; letter-spacing: -.8px;
+  /* ── the hook, as a card (body font throughout) ────────── */
+  .context {
+    margin: 8px 0 0; padding: 32px 32px 34px; background: #FFFFFF;
+    border: 1.5px solid var(--hair); border-top: 4px solid var(--accent); border-radius: 14px;
   }
-  .hook .em { font-size: 46px; line-height: 1; display: block; margin-bottom: 22px; }
-  .hook .drop { margin: 30px auto; font-size: 26px; color: var(--faint); }
-  .hook .land {
-    display: inline-block; padding: 16px 26px; border-radius: 10px;
-    background: var(--yellow); border: 2px solid var(--ink); box-shadow: 5px 6px 0 var(--ink);
-    font-family: 'Space Grotesk', sans-serif; font-weight: 600;
-    font-size: clamp(20px, 3vw, 26px); letter-spacing: -.8px;
-  }
+  .context .pyramid { display: block; width: 100%; max-width: 440px; height: auto; margin: 2px auto 26px; }
+  .context-body { max-width: 620px; margin: 0 auto; }
+  .context-body p { margin: 0 0 16px; font-size: 16.5px; line-height: 1.76; color: var(--muted); }
+  .context-body p:first-child { font-size: 18px; color: var(--ink); }
+  .context-punch { margin: 22px 0 0 !important; font-size: 20px !important; font-weight: 600; color: var(--ink) !important; }
 
   /* ── scenarios ─────────────────────────────────────────── */
   .scene { margin: 40px 0 0; padding: 28px 26px 26px; border-radius: 12px; background: #FFFFFF; border: 1.5px solid var(--hair); }
@@ -360,6 +355,7 @@
     .fig-frame { transform: none !important; box-shadow: 0 12px 26px rgba(23,22,27,.12); }
     .scene { padding: 22px 18px 20px; }
     .persona, .hmw { padding: 24px 20px; }
+    .context { padding: 24px 20px 26px; }
     .chain { gap: 6px; padding: 12px; }
     .chain i { font-size: 13px; }
     .metric { padding: 24px 20px; }
@@ -490,16 +486,31 @@
 <p class="handoff">Still reading? Brilliant. 👇<span>The whole story, from a human pyramid to a shipped canvas.</span></p>
 
 <!-- ══════════ 01 CONTEXT ══════════ -->
-<section class="sec wrap hook" style="--accent:var(--pink); --accent-soft:rgba(255,126,182,.34);">
-  <p class="eyebrow" style="justify-content:center;"><b>01</b> Let's set the context</p>
-  <span class="em">🤸</span>
-  <p>Picture a human pyramid.</p>
-  <p>Everyone is standing on somebody's shoulders. Everyone knows <em>exactly</em> whose.</p>
-  <p>Now — take one person out of the bottom row.</p>
-  <p>Everything above them rebalances. Some of it holds. Some of it really doesn't.</p>
-  <div class="drop">↓</div>
-  <p>Now do it with <strong>2,000 people</strong>. On paper. From memory.<br>While twelve other people are also quietly moving someone.</p>
-  <div class="land">That's a restructure. 😬</div>
+<section class="sec wrap" style="--accent:var(--pink); --accent-soft:rgba(255,126,182,.34);">
+  <p class="eyebrow"><b>01</b> Let's set the context</p>
+  <div class="context">
+    <svg class="pyramid" viewBox="95 80 330 195" role="img" aria-label="A human pyramid — three people on the bottom row, two standing on their shoulders, one balanced on top">
+      <!-- ground -->
+      <line x1="120" y1="263" x2="400" y2="263" stroke="#E3DFD5" stroke-width="2.5" stroke-dasharray="2 7" stroke-linecap="round"/>
+      <g stroke="#17161B" stroke-width="2.5" stroke-linejoin="round">
+        <!-- bottom row -->
+        <path d="M123 260 Q120 218 140 216 Q160 218 157 260 Z" fill="#FF6B5B"/><circle cx="140" cy="210" r="13" fill="#FF6B5B"/>
+        <path d="M243 260 Q240 218 260 216 Q280 218 277 260 Z" fill="#F9C846"/><circle cx="260" cy="210" r="13" fill="#F9C846"/>
+        <path d="M363 260 Q360 218 380 216 Q400 218 397 260 Z" fill="#63E3C2"/><circle cx="380" cy="210" r="13" fill="#63E3C2"/>
+        <!-- middle row -->
+        <path d="M183 208 Q180 166 200 164 Q220 166 217 208 Z" fill="#A66BFF"/><circle cx="200" cy="158" r="13" fill="#A66BFF"/>
+        <path d="M303 208 Q300 166 320 164 Q340 166 337 208 Z" fill="#C4E75A"/><circle cx="320" cy="158" r="13" fill="#C4E75A"/>
+        <!-- top -->
+        <path d="M243 150 Q240 108 260 106 Q280 108 277 150 Z" fill="#FF7EB6"/><circle cx="260" cy="100" r="13" fill="#FF7EB6"/>
+      </g>
+    </svg>
+    <div class="context-body">
+      <p>Picture a human pyramid. Everyone is standing on somebody's shoulders — and everyone knows <em>exactly</em> whose.</p>
+      <p>Now take one person out of the bottom row. Everything above them rebalances. Some of it holds. Some of it really doesn't.</p>
+      <p>Now do it with <strong>2,000 people</strong>. On paper. From memory. While twelve other people are also quietly moving someone.</p>
+      <p class="context-punch">That's a <mark class="hl">restructure</mark>. 😬</p>
+    </div>
+  </div>
 </section>
 
 <!-- ══════════ 02 PROBLEM SCENARIO ══════════ -->
