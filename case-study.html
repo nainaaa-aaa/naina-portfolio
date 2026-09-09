@@ -23,15 +23,17 @@
     --pink:   #FF7EB6;
     --lime:   #C4E75A;
     --coral:  #FF6B5B;
+    --blue:   #3355FF;
+    --green:  #2BD97C;
 
-    --accent: var(--purple);
-    --accent-soft: rgba(166,107,255,.26);
+    --accent: var(--blue);
+    --accent-soft: rgba(51,85,255,.22);
   }
 
   *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
   body {
-    margin: 0; background: var(--paper); color: var(--ink);
+    margin: 0; padding-top: 54px; background: var(--paper); color: var(--ink);
     font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased;
   }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
@@ -45,13 +47,16 @@
   .rail { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--hair); z-index: 40; }
   .rail > i {
     display: block; height: 100%;
-    background: linear-gradient(90deg, var(--yellow), var(--pink), var(--purple));
+    background: linear-gradient(90deg, var(--blue), var(--green));
     transform: scaleX(0); transform-origin: 0 50%;
   }
 
   nav.top {
-    position: relative; z-index: 30; display: flex; align-items: center;
-    justify-content: space-between; gap: 16px; padding: 26px 32px;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 14px 32px;
+    background: rgba(251,250,248,.82); backdrop-filter: saturate(1.15) blur(11px);
+    -webkit-backdrop-filter: saturate(1.15) blur(11px); border-bottom: 1px solid var(--hair);
   }
   nav.top .mark {
     font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 21px;
@@ -82,13 +87,16 @@
   .sec p:last-child { margin-bottom: 0; }
   .big { font-size: 19px !important; line-height: 1.62 !important; color: var(--ink) !important; }
 
-  mark.hl { background: linear-gradient(transparent 56%, var(--accent-soft) 56%); color: inherit; padding: 0 1px; }
+  /* highlights always mean "important note" — one colour, blue, everywhere */
+  mark.hl { background: linear-gradient(transparent 56%, rgba(51,85,255,.22) 56%); color: inherit; padding: 0 1px; }
   strong { font-weight: 600; color: var(--ink); }
 
   /* ── section head ──────────────────────────────────────── */
-  .sec { padding: 82px 0 0; scroll-margin-top: 20px; }
+  .sec { padding: 60px 0 0; scroll-margin-top: 76px; }
+  /* each section opens with a rule in its own semantic colour */
   .eyebrow {
     display: flex; align-items: center; gap: 12px; margin: 0 0 20px;
+    padding-top: 30px; border-top: 2px solid var(--accent);
     font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
     letter-spacing: 2.4px; text-transform: uppercase; color: var(--ink);
   }
@@ -116,7 +124,7 @@
   .cards2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px; margin: 22px 0 0; }
   .bigcard { padding: 24px 24px 26px; border-radius: 10px; border: 2px solid var(--ink); background: #FFFFFF; }
   .bigcard.problem { box-shadow: 6px 7px 0 var(--coral); }
-  .bigcard.answer  { box-shadow: 6px 7px 0 var(--mint); }
+  .bigcard.answer  { box-shadow: 6px 7px 0 var(--green); }
   .bigcard .ico { font-size: 24px; line-height: 1; }
   .bigcard h4 {
     margin: 12px 0 12px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px;
@@ -149,6 +157,10 @@
     display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 26px; margin: 44px 0 0; padding-top: 24px; border-top: 1px solid var(--hair);
   }
+  .legend { display: flex; flex-wrap: wrap; align-items: center; gap: 11px 22px; margin: 30px 0 0; padding: 15px 20px; border: 1px solid var(--hair); border-radius: 12px; background: #FFFFFF; }
+  .legend .lgt { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--faint); }
+  .legend .lg { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .legend .lg::before { content: ""; width: 13px; height: 13px; border-radius: 4px; background: var(--c); border: 1.5px solid var(--ink); flex: none; }
   .meta dt { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 500; letter-spacing: 1.6px; text-transform: uppercase; color: var(--faint); }
   .meta dd { margin: 8px 0 0; font-size: 15px; }
 
@@ -380,6 +392,7 @@
   <div class="links">
     <a href="index.html">Home</a>
     <a href="gallery.html">Gallery</a>
+    <a href="assets/Naina-Gupta-Resume.pdf" target="_blank" rel="noopener">Resume</a>
     <a href="index.html#contact">Contact</a>
   </div>
 </nav>
@@ -397,6 +410,14 @@
     <div><dt>Team</dt><dd>4 designers, 1 PM</dd></div>
     <div><dt>I owned</dt><dd>Chart canvas, node states, compare flow</dd></div>
   </dl>
+
+  <div class="legend">
+    <span class="lgt">Reading the colours</span>
+    <span class="lg" style="--c:var(--blue)">Concept &amp; decisions</span>
+    <span class="lg" style="--c:var(--yellow)">The analogy &amp; examples</span>
+    <span class="lg" style="--c:var(--green)">What got better</span>
+    <span class="lg" style="--c:var(--coral)">The problem</span>
+  </div>
 </header>
 
 <!-- ══════════ DOOR 1 — 30 SECONDS ══════════ -->
@@ -486,7 +507,7 @@
 <p class="handoff">Still reading? Brilliant. 👇<span>The whole story, from a human pyramid to a shipped canvas.</span></p>
 
 <!-- ══════════ 01 CONTEXT ══════════ -->
-<section class="sec wrap" style="--accent:var(--pink); --accent-soft:rgba(255,126,182,.34);">
+<section class="sec wrap" style="--accent:var(--yellow); --accent-soft:rgba(249,200,70,.42);">
   <p class="eyebrow"><b>01</b> Let's set the context</p>
   <div class="context">
     <svg class="pyramid" viewBox="95 80 330 195" role="img" aria-label="A human pyramid — three people on the bottom row, two standing on their shoulders, one balanced on top">
@@ -554,7 +575,7 @@
 </section>
 
 <!-- ══════════ 03 PERSONA ══════════ -->
-<section class="sec wrap" style="--accent:var(--yellow); --accent-soft:rgba(249,200,70,.44);">
+<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
   <p class="eyebrow"><b>03</b> Meet the persona</p>
   <h2>Meera Iyer, and the two people she can never quite reach.</h2>
 
@@ -589,7 +610,7 @@
 </div>
 
 <!-- ══════════ 04 PROBLEM STATEMENT ══════════ -->
-<section class="sec wrap" style="--accent:var(--purple); --accent-soft:rgba(166,107,255,.26);">
+<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
   <p class="eyebrow"><b>04</b> The problem statement</p>
   <div class="hmw">
     <p>How might we give Meera one place to plan a restructure — where Finance and her team leads see the same thing she does, and every change explains itself?</p>
@@ -597,15 +618,15 @@
 </section>
 
 <!-- ══════════ 05 GOALS ══════════ -->
-<section class="sec wrap" style="--accent:var(--mint); --accent-soft:rgba(99,227,194,.34);">
+<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
   <p class="eyebrow"><b>05</b> Project goals</p>
   <h2>Two things to get right.</h2>
   <div class="goals">
-    <div class="goal" style="--accent:var(--mint)">
+    <div class="goal" style="--accent:var(--blue)">
       <div class="lbl">🎯 Goal 1</div>
       <p>Let people reach the org information they need without hunting for it across files, folders and inboxes.</p>
     </div>
-    <div class="goal" style="--accent:var(--purple)">
+    <div class="goal" style="--accent:var(--green)">
       <div class="lbl">🎯 Goal 2</div>
       <p>Make the consequences of a change visible <em>as it's made</em> — cost, conflicts, and who signed off — to cut anxiety and build trust in the number.</p>
     </div>
@@ -623,7 +644,7 @@
 </div>
 
 <!-- ══════════ 06 OPPORTUNITIES ══════════ -->
-<section class="sec wrap" style="--accent:var(--pink); --accent-soft:rgba(255,126,182,.34);">
+<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
   <p class="eyebrow"><b>06</b> Where we could win</p>
   <h2>Five bets, ranked by friction removed.</h2>
   <p class="sub">In that order — because if the first one fails, none of the others matter.</p>
@@ -637,7 +658,7 @@
 </section>
 
 <!-- ══════════ 08 FORKS ══════════ -->
-<section class="sec wrap" id="forks" style="--accent:var(--coral); --accent-soft:rgba(255,107,91,.28);">
+<section class="sec wrap" id="forks" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
   <p class="eyebrow"><b>07</b> Four forks in the road</p>
   <h2>Every time, the safe option was the thing users hated.</h2>
   <p class="sub">Which made shipping the safe option <mark class="hl">the actual risk</mark>. Here's where we went instead, and why.</p>
@@ -685,7 +706,7 @@
 </div>
 
 <!-- ══════════ 09 BUILD ══════════ -->
-<section class="sec wrap" id="build" style="--accent:var(--mint); --accent-soft:rgba(99,227,194,.34);">
+<section class="sec wrap" id="build" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
   <p class="eyebrow"><b>08</b> The build</p>
   <h2>One canvas: structure, cost and consequence, together.</h2>
   <p class="sub">Two weeks, four designers. I owned the chart canvas, the node states and the compare flow.</p>
@@ -695,10 +716,10 @@
   <div class="rlabel">And the shape underneath it all</div>
   <p style="font-size:15.5px !important;">The IA mirrors how Meera thinks: big picture first, then planning, then budget, then the record of what happened.</p>
   <div class="ia">
-    <div class="col" style="--accent:var(--mint)"><b>Org chart view</b><span>Current structure</span><span>Proposed changes</span><span>Comparison view</span></div>
-    <div class="col" style="--accent:var(--yellow)"><b>Planning workspace</b><span>Scenario A</span><span>Scenario B</span><span>Scenario C</span><span>Merge / finalise</span></div>
-    <div class="col" style="--accent:var(--pink)"><b>Budget overview</b><span>Department view</span><span>Role-level costs</span><span>Impact summary</span></div>
-    <div class="col" style="--accent:var(--purple)"><b>Audit log</b><span>Change timeline</span><span>Filter by user</span><span>Filter by department</span><span>Export</span></div>
+    <div class="col" style="--accent:var(--blue)"><b>Org chart view</b><span>Current structure</span><span>Proposed changes</span><span>Comparison view</span></div>
+    <div class="col" style="--accent:var(--blue)"><b>Planning workspace</b><span>Scenario A</span><span>Scenario B</span><span>Scenario C</span><span>Merge / finalise</span></div>
+    <div class="col" style="--accent:var(--blue)"><b>Budget overview</b><span>Department view</span><span>Role-level costs</span><span>Impact summary</span></div>
+    <div class="col" style="--accent:var(--blue)"><b>Audit log</b><span>Change timeline</span><span>Filter by user</span><span>Filter by department</span><span>Export</span></div>
   </div>
 </section>
 
@@ -730,7 +751,7 @@
 </div>
 
 <!-- ══════════ 10 WHAT CHANGED ══════════ -->
-<section class="sec wrap" style="--accent:var(--lime); --accent-soft:rgba(196,231,90,.5);">
+<section class="sec wrap" style="--accent:var(--green); --accent-soft:rgba(43,217,124,.30);">
   <p class="eyebrow"><b>09</b> What it was built to change</p>
   <h2>Back to Meera's Wednesday.</h2>
   <p class="sub">Same request from the CFO. Same deadline. Here's the new route.</p>
@@ -758,7 +779,7 @@
 </section>
 
 <!-- ══════════ 11 LEARNINGS ══════════ -->
-<section class="sec wrap" style="--accent:var(--purple); --accent-soft:rgba(166,107,255,.26);">
+<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
   <p class="eyebrow"><b>10</b> What I took away</p>
   <h2>Two good weeks, and one lesson I'd rather have learned earlier.</h2>
 
@@ -774,7 +795,7 @@
         <b>Familiar isn't the same as safe</b>
         <p>Every fork here rejected the pattern people already knew. That felt risky each time. But the familiar pattern was the thing users had learned to associate with the problem — so shipping it would have been the bigger gamble.</p>
       </div>
-      <div class="lrn" style="--accent:var(--mint)">
+      <div class="lrn" style="--accent:var(--green)">
         <div class="ico">🤝</div>
         <b>Design for the people not in the room</b>
         <p>Meera was the primary persona, but the module only works because Vikram and Priya can see it too. The best fix in the whole project — history on the node — was for someone who never touches the canvas.</p>

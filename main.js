@@ -77,6 +77,15 @@
 
     let host = null;
     let slots = [];
+    // Every node we relocate, with where it came from, so the move is
+    // fully reversible. All hero props are position:absolute inside the
+    // stage, so restoring them is just appendChild back to that parent —
+    // DOM order doesn't affect their rendering.
+    let moved = [];
+    const relocate = (node, target) => {
+      moved.push({ node: node, parent: node.parentNode });
+      target.appendChild(node);
+    };
 
     const build = () => {
       if (host) return;
@@ -86,13 +95,13 @@
       const eyebrow = document.getElementById("heroEyebrow");
       if (eyebrow) {
         eyebrow.classList.add("mh-eyebrow");
-        host.appendChild(eyebrow);
+        relocate(eyebrow, host);
       }
 
       // the five headline slabs, in stage reading order
       const head = document.createElement("div");
       head.className = "mh-head";
-      stage.querySelectorAll("[data-knockout]").forEach((el) => head.appendChild(el));
+      stage.querySelectorAll("[data-knockout]").forEach((el) => relocate(el, head));
       host.appendChild(head);
 
       const props = document.createElement("div");
@@ -107,7 +116,7 @@
         box.className = "mh-box";
         box.style.width = w + "px";
         box.style.height = h + "px";
-        box.appendChild(node);
+        relocate(node, box);
         slot.appendChild(box);
         if (full) {
           props.appendChild(slot);
@@ -128,11 +137,25 @@
       cta.className = "mh-cta";
       const viewWork = stage.querySelector('a[href="#work"]');
       const findMe = stage.querySelector(".brut-search");
-      if (viewWork) cta.appendChild(viewWork);
-      if (findMe) cta.appendChild(findMe);
+      if (viewWork) relocate(viewWork, cta);
+      if (findMe) relocate(findMe, cta);
       if (cta.children.length) host.appendChild(cta);
 
       wrap.appendChild(host);
+    };
+
+    // Put every relocated node back where it came from, and drop the
+    // mobile scaffold, so widening the viewport restores the real stage.
+    const teardown = () => {
+      if (!host) return;
+      moved.forEach(({ node, parent }) => {
+        if (node.id === "heroEyebrow") node.classList.remove("mh-eyebrow");
+        if (parent) parent.appendChild(node);
+      });
+      moved = [];
+      slots = [];
+      host.remove();
+      host = null;
     };
 
     const layout = () => {
@@ -154,11 +177,9 @@
       if (isMobile()) {
         build();
         layout();
+      } else {
+        teardown();
       }
-      // Deliberately one-way: a phone doesn't cross this breakpoint except
-      // on rotation, and tearing the stage back down would mean restoring
-      // every inline left/top we overrode. A desktop browser resized below
-      // 760px gets the mobile hero until it reloads.
     };
 
     sync();
@@ -594,7 +615,7 @@
     const zones = [
       { key: "contact", el: document.getElementById("contact") },
       { key: "gallery", el: document.getElementById("gallery") },
-    ].filter((z) => z.el);
+    ].filter((z) => z.el && z.el.offsetParent !== null); // skip hidden sections
     const onNavScroll = () => {
       const mid = window.innerHeight * 0.42;
       const hit = zones.find((z) => z.el.getBoundingClientRect().top <= mid);

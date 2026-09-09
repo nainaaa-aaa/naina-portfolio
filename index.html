@@ -22,16 +22,18 @@
   <div style="position:absolute; top:-10%; right:-6%; width:56%; height:70%; z-index:0; pointer-events:none;
     background:radial-gradient(ellipse at 70% 20%, rgba(255,210,74,.16) 0%, transparent 62%);"></div>
 
-  <!-- NAV -->
-  <nav style="position:absolute; top:0; left:0; right:0; z-index:10;
-    display:flex; align-items:center; justify-content:space-between; padding:26px 60px;">
-    <a href="#" style="text-decoration:none;">
+  <!-- NAV (fixed so it stays visible on scroll) -->
+  <nav style="position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between; padding:16px 60px;
+    background:rgba(255,253,247,.82); backdrop-filter:saturate(1.15) blur(11px); -webkit-backdrop-filter:saturate(1.15) blur(11px); border-bottom:1px solid rgba(20,20,20,.09);">
+    <a href="#top" style="text-decoration:none;">
       <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:22px;
         color:#1A1209; letter-spacing:-.5px;">naina.</span>
     </a>
-    <div id="siteNav" style="display:flex; gap:34px; align-items:flex-end;">
+    <div id="siteNav" style="display:flex; gap:30px; align-items:flex-end;">
       <a class="navlink" data-nav="home" href="#top" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:5px; font-size:14px; font-weight:600; color:#1A1209; letter-spacing:.15px; transition:opacity .2s;" data-hover="opacity:.55;">Home<span class="navbar" style="display:block; width:100%; height:3px; background:#121212;"></span></a>
       <a class="navlink" data-nav="gallery" href="gallery.html" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:5px; font-size:14px; font-weight:500; color:#2A2030; letter-spacing:.15px; transition:opacity .2s;" data-hover="opacity:.55;">Gallery<span class="navbar" style="display:block; width:100%; height:3px; background:transparent;"></span></a>
+      <a class="navlink" data-nav="resume" href="assets/Naina-Gupta-Resume.pdf" target="_blank" rel="noopener" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:5px; font-size:14px; font-weight:500; color:#2A2030; letter-spacing:.15px; transition:opacity .2s;" data-hover="opacity:.55;">Resume<span class="navbar" style="display:block; width:100%; height:3px; background:transparent;"></span></a>
       <a class="navlink" data-nav="contact" href="#contact" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:5px; font-size:14px; font-weight:500; color:#2A2030; letter-spacing:.15px; transition:opacity .2s;" data-hover="opacity:.55;">Contact<span class="navbar" style="display:block; width:100%; height:3px; background:transparent;"></span></a>
     </div>
   </nav>
@@ -272,7 +274,7 @@
       </div>
 
       <!-- Collectible card grid -->
-      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:28px;">
+      <div style="display:grid; grid-template-columns:repeat(2,minmax(0,328px)); justify-content:center; gap:28px;">
 
         <!-- ══ Card 1 — GOLD ══ -->
         <div class="proj-card">
@@ -298,7 +300,7 @@
             </div>
             <div style="display:flex; align-items:center; justify-content:space-between; margin:11px 0 3px;">
               <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:.5px; color:#121212;">HRMS · ORG PLANNING</span>
-              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; color:#121212;">1/4</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; color:#121212;">1/2</span>
             </div>
             <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700;
               font-size:20px; letter-spacing:-.6px; color:#121212; line-height:1;">Compport</h3>
@@ -312,93 +314,38 @@
           </a>
         </div>
 
-        <!-- ══ Card 2 — LIME ══ -->
+        <!-- ══ Card 2 — ALTKRED ══ -->
         <div class="proj-card">
           <div class="peek" style="position:absolute; left:50%; top:0; z-index:0; width:74px; height:62px;
-            background:#A66BFF; border:3px solid #121212; border-radius:18px 18px 12px 12px;
+            background:#3355FF; border:3px solid #121212; border-radius:18px 18px 12px 12px;
             box-shadow:0 5px 0 rgba(20,20,20,.18);">
-            <div style="position:absolute; top:-11px; left:9px; width:16px; height:16px; background:#A66BFF; border:3px solid #121212; border-radius:5px 5px 0 0; transform:rotate(-14deg);"></div>
-            <div style="position:absolute; top:-11px; right:9px; width:16px; height:16px; background:#A66BFF; border:3px solid #121212; border-radius:5px 5px 0 0; transform:rotate(14deg);"></div>
+            <div style="position:absolute; top:-11px; left:9px; width:16px; height:16px; background:#3355FF; border:3px solid #121212; border-radius:5px 5px 0 0; transform:rotate(-14deg);"></div>
+            <div style="position:absolute; top:-11px; right:9px; width:16px; height:16px; background:#3355FF; border:3px solid #121212; border-radius:5px 5px 0 0; transform:rotate(14deg);"></div>
             <div style="position:absolute; top:20px; left:16px; width:11px; height:11px; background:#fff; border:2px solid #121212; border-radius:50%;"><div style="width:4px;height:4px;background:#121212;border-radius:50%;margin:2px 0 0 3px;"></div></div>
             <div style="position:absolute; top:20px; right:16px; width:11px; height:11px; background:#fff; border:2px solid #121212; border-radius:50%;"><div style="width:4px;height:4px;background:#121212;border-radius:50%;margin:2px 0 0 1px;"></div></div>
             <div style="position:absolute; top:36px; left:50%; transform:translateX(-50%); width:14px; height:7px; border:2px solid #121212; border-top:none; border-radius:0 0 8px 8px;"></div>
           </div>
-          <a class="card" href="#" style="position:relative; z-index:1; text-decoration:none; display:block; background:#C4E75A;
+          <a class="card" href="case-study-altkred.html" style="position:relative; z-index:1; text-decoration:none; display:block; background:#2BD97C;
             border:3px solid #121212; border-radius:14px; padding:13px 13px 15px; box-shadow:0 6px 0 #121212;">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:11px;">
               <div style="width:52px; height:10px; border-radius:2px; overflow:hidden;
                 background:repeating-linear-gradient(115deg,#121212 0,#121212 3px,transparent 3px,transparent 6px);"></div>
               <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:1px; color:#121212;">LVL 02</span>
             </div>
-            <div style="border-radius:8px; overflow:hidden; border:2px solid #121212; background:#E0F2A6;
-              background-image:repeating-linear-gradient(0deg,rgba(20,20,20,.05) 0,rgba(20,20,20,.05) 1px,transparent 1px,transparent 5px),
-                               repeating-linear-gradient(90deg,rgba(20,20,20,.05) 0,rgba(20,20,20,.05) 1px,transparent 1px,transparent 5px);
-              aspect-ratio:3/4; display:flex; align-items:center; justify-content:center;">
-              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:1px; color:rgba(20,20,20,.35); text-transform:uppercase;">pixel art</span>
+            <div style="border-radius:8px; overflow:hidden; border:2px solid #121212; background:#D8FBE8; aspect-ratio:3/4;">
+              <img src="assets/cs-thumb-altkred.png" alt="Altkred — factoring settlement and insurance-claim flow board" style="width:100%; height:100%; object-fit:cover; display:block;">
             </div>
             <div style="display:flex; align-items:center; justify-content:space-between; margin:11px 0 3px;">
-              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:.5px; color:#121212;">SHOP · #2048</span>
-              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; color:#121212;">2/4</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:.5px; color:#121212;">FINTECH · FACTORING</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; color:#121212;">2/2</span>
             </div>
             <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700;
-              font-size:20px; letter-spacing:-.6px; color:#121212; line-height:1;">Stashh</h3>
+              font-size:20px; letter-spacing:-.6px; color:#121212; line-height:1;">Altkred</h3>
             <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px;">
-              <div style="display:flex; gap:6px;">
-                <div style="width:16px; height:16px; border:1.5px solid #121212; border-radius:50%;"></div>
-                <div style="width:16px; height:16px; border:1.5px solid #121212; border-radius:2px;
-                  background:repeating-linear-gradient(90deg,#121212 0,#121212 1.5px,transparent 1.5px,transparent 4px);"></div>
-                <div style="width:16px; height:16px; border:1.5px solid #121212; border-radius:50%;
-                  background:radial-gradient(circle,#121212 2px,transparent 2.5px);"></div>
-              </div>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:500; letter-spacing:1.1px; text-transform:uppercase; color:#121212; border-bottom:1.5px solid #121212; padding-bottom:2px;">Read case study →</span>
               <div style="width:20px; height:20px; border-radius:4px; background:#121212;
                 display:flex; align-items:center; justify-content:center;">
-                <span style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:700; color:#C4E75A;">N</span>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <!-- ══ Card 3 — AQUA ══ -->
-        <div class="proj-card">
-          <div class="peek" style="position:absolute; left:50%; top:0; z-index:0; width:74px; height:62px;
-            background:#FF7EB6; border:3px solid #121212; border-radius:18px 18px 12px 12px;
-            box-shadow:0 5px 0 rgba(20,20,20,.18);">
-            <div style="position:absolute; top:-11px; left:9px; width:16px; height:16px; background:#FF7EB6; border:3px solid #121212; border-radius:5px 5px 0 0; transform:rotate(-14deg);"></div>
-            <div style="position:absolute; top:-11px; right:9px; width:16px; height:16px; background:#FF7EB6; border:3px solid #121212; border-radius:5px 5px 0 0; transform:rotate(14deg);"></div>
-            <div style="position:absolute; top:20px; left:16px; width:11px; height:11px; background:#fff; border:2px solid #121212; border-radius:50%;"><div style="width:4px;height:4px;background:#121212;border-radius:50%;margin:2px 0 0 3px;"></div></div>
-            <div style="position:absolute; top:20px; right:16px; width:11px; height:11px; background:#fff; border:2px solid #121212; border-radius:50%;"><div style="width:4px;height:4px;background:#121212;border-radius:50%;margin:2px 0 0 1px;"></div></div>
-            <div style="position:absolute; top:36px; left:50%; transform:translateX(-50%); width:14px; height:7px; border:2px solid #121212; border-top:none; border-radius:0 0 8px 8px;"></div>
-          </div>
-          <a class="card" href="#" style="position:relative; z-index:1; text-decoration:none; display:block; background:#63E3C2;
-            border:3px solid #121212; border-radius:14px; padding:13px 13px 15px; box-shadow:0 6px 0 #121212;">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:11px;">
-              <div style="width:52px; height:10px; border-radius:2px; overflow:hidden;
-                background:repeating-linear-gradient(115deg,#121212 0,#121212 3px,transparent 3px,transparent 6px);"></div>
-              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:1px; color:#121212;">LVL 03</span>
-            </div>
-            <div style="border-radius:8px; overflow:hidden; border:2px solid #121212; background:#B4F0E0;
-              background-image:repeating-linear-gradient(0deg,rgba(20,20,20,.05) 0,rgba(20,20,20,.05) 1px,transparent 1px,transparent 5px),
-                               repeating-linear-gradient(90deg,rgba(20,20,20,.05) 0,rgba(20,20,20,.05) 1px,transparent 1px,transparent 5px);
-              aspect-ratio:3/4; display:flex; align-items:center; justify-content:center;">
-              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:1px; color:rgba(20,20,20,.35); text-transform:uppercase;">pixel art</span>
-            </div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin:11px 0 3px;">
-              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:.5px; color:#121212;">HEALTH · #0912</span>
-              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; color:#121212;">3/4</span>
-            </div>
-            <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700;
-              font-size:20px; letter-spacing:-.6px; color:#121212; line-height:1;">MedBook</h3>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px;">
-              <div style="display:flex; gap:6px;">
-                <div style="width:16px; height:16px; border:1.5px solid #121212; border-radius:50%;"></div>
-                <div style="width:16px; height:16px; border:1.5px solid #121212; border-radius:2px;
-                  background:repeating-linear-gradient(90deg,#121212 0,#121212 1.5px,transparent 1.5px,transparent 4px);"></div>
-                <div style="width:16px; height:16px; border:1.5px solid #121212; border-radius:50%;
-                  background:radial-gradient(circle,#121212 2px,transparent 2.5px);"></div>
-              </div>
-              <div style="width:20px; height:20px; border-radius:4px; background:#121212;
-                display:flex; align-items:center; justify-content:center;">
-                <span style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:700; color:#63E3C2;">N</span>
+                <span style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:700; color:#2BD97C;">N</span>
               </div>
             </div>
           </a>
@@ -410,8 +357,8 @@
     </div>
   </div>
 
-  <!-- SECTION 2.5 — EXPERIMENTS TICKER -->
-  <div id="gallery" style="position:relative; z-index:20; background:#FFFFFF; padding:96px 0 108px; font-family:'DM Sans',sans-serif; overflow:hidden;">
+  <!-- SECTION 2.5 — EXPERIMENTS TICKER (hidden for now) -->
+  <div id="gallery" hidden style="position:relative; z-index:20; background:#FFFFFF; padding:96px 0 108px; font-family:'DM Sans',sans-serif; overflow:hidden;">
     <div style="position:absolute;inset:0;pointer-events:none;z-index:0; background-image:repeating-linear-gradient(0deg,rgba(20,20,20,.03) 0,rgba(20,20,20,.03) 1px,transparent 1px,transparent 5px), repeating-linear-gradient(90deg,rgba(20,20,20,.03) 0,rgba(20,20,20,.03) 1px,transparent 1px,transparent 5px);"></div>
 
     <div style="position:relative; z-index:1; max-width:1080px; margin:0 auto 54px; padding:0 64px; text-align:center;">

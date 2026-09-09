@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Altkred — Case Study — Naina Gupta</title>
+<meta name="description" content="Cash in two days on an invoice due in ninety. How I designed Altkred, an invoice-financing marketplace for Indian SMEs — onboarding to settlement.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!--
+  ─────────────────────────────────────────────────────────────
+  DROPPING IN REAL SCREENS
+  Every mockup slot looks like this:
+
+      <div class="ph">LABEL<small>1600 × 1000</small></div>
+
+  Replace that one line with:
+
+      <img class="ph" src="assets/your-export.png" alt="...">
+
+  Nothing else changes — the frame, tilt and caption all stay.
+  ─────────────────────────────────────────────────────────────
+-->
+
+<style>
+  :root {
+    --ink: #17161B;
+    --muted: #5C5A63;
+    --faint: #8A8792;
+    --hair: rgba(23,22,27,.12);
+    --paper: #FBFAF8;
+    --tint: #F1EEE8;
+
+    --yellow: #F9C846;
+    --mint:   #63E3C2;
+    --purple: #A66BFF;
+    --pink:   #FF7EB6;
+    --lime:   #C4E75A;
+    --coral:  #FF6B5B;
+
+    /* Altkred's own two */
+    --blue:   #3355FF;
+    --green:  #2BD97C;
+
+    --accent: var(--blue);
+    --accent-soft: rgba(51,85,255,.22);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  body {
+    margin: 0; padding-top: 54px; background: var(--paper); color: var(--ink);
+    font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased;
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  /* ── shell ─────────────────────────────────────────────── */
+  .wrap { max-width: 860px;  margin: 0 auto; padding: 0 32px; }
+  .wide { max-width: 1300px; margin: 0 auto; padding: 0 32px; }
+
+  .rail { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--hair); z-index: 60; }
+  .rail > i {
+    display: block; height: 100%;
+    background: linear-gradient(90deg, var(--blue), var(--green));
+    transform: scaleX(0); transform-origin: 0 50%;
+  }
+
+  nav.top {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 14px 32px;
+    background: rgba(251,250,248,.82); backdrop-filter: saturate(1.15) blur(11px);
+    -webkit-backdrop-filter: saturate(1.15) blur(11px); border-bottom: 1px solid var(--hair);
+  }
+  nav.top .mark {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 21px;
+    letter-spacing: -.4px; color: var(--ink); text-decoration: none;
+  }
+  nav.top .links { display: flex; gap: 28px; }
+  nav.top .links a { text-decoration: none; font-size: 13.5px; color: var(--muted); transition: color .2s; }
+  nav.top .links a:hover { color: var(--ink); }
+
+  /* ── type ──────────────────────────────────────────────── */
+  .kicker {
+    margin: 0 0 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px;
+    font-weight: 500; letter-spacing: 2.4px; text-transform: uppercase; color: var(--faint);
+  }
+  h1 {
+    margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 500;
+    font-size: clamp(34px, 6.2vw, 60px); line-height: 1.04; letter-spacing: -2.2px;
+    text-wrap: balance;
+  }
+  h2 {
+    margin: 0 0 14px; font-family: 'Space Grotesk', sans-serif; font-weight: 500;
+    font-size: clamp(26px, 4.6vw, 38px); line-height: 1.1; letter-spacing: -1.4px;
+    text-wrap: balance;
+  }
+  .standfirst { margin: 26px 0 0; font-size: clamp(17px, 2.3vw, 20px); line-height: 1.55; color: var(--muted); max-width: 640px; text-wrap: pretty; }
+  .sub { margin: 0 0 30px; font-size: clamp(16px, 2.1vw, 18.5px); line-height: 1.6; color: var(--ink); opacity: .74; max-width: 660px; text-wrap: pretty; }
+  p { text-wrap: pretty; }
+  .sec p { margin: 0 0 16px; font-size: 16.5px; line-height: 1.76; color: var(--muted); max-width: 660px; }
+  .sec p:last-child { margin-bottom: 0; }
+  /* highlights always mean "important note" — one colour, blue, everywhere */
+  mark.hl { background: linear-gradient(transparent 56%, rgba(51,85,255,.22) 56%); color: inherit; padding: 0 1px; }
+  strong { font-weight: 600; color: var(--ink); }
+
+  .sec { padding: 64px 0 0; scroll-margin-top: 76px; }
+  /* every section opens with a rule in its own semantic colour, so the
+     boundary between one section and the next is unmistakable */
+  .eyebrow {
+    display: flex; align-items: center; gap: 12px; margin: 0 0 22px;
+    padding-top: 30px; border-top: 2px solid var(--accent);
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 2.4px; text-transform: uppercase; color: var(--ink);
+  }
+  .eyebrow b {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 30px; height: 24px; padding: 0 7px; border-radius: 4px;
+    background: var(--accent); border: 1.5px solid var(--ink); color: #FFFFFF;
+    font-size: 12px; letter-spacing: 0;
+  }
+
+  /* ── meta strip ────────────────────────────────────────── */
+  .meta {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+    gap: 26px; margin: 46px 0 0; padding-top: 24px; border-top: 1px solid var(--hair);
+  }
+  .meta dt { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 500; letter-spacing: 1.6px; text-transform: uppercase; color: var(--faint); }
+  .meta dd { margin: 8px 0 0; font-size: 15px; }
+
+  /* ── glossary "?" ──────────────────────────────────────── */
+  .q {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 15px; height: 15px; margin-left: 3px; padding: 0;
+    vertical-align: 3px; border: 1px solid var(--hair); border-radius: 50%;
+    background: #FFFFFF; color: var(--faint); cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600; line-height: 1;
+    transition: background .16s ease, color .16s ease, border-color .16s ease;
+  }
+  .q:hover, .q:focus-visible, .q[aria-expanded="true"] {
+    background: var(--ink); color: #FFFFFF; border-color: var(--ink); outline: none;
+  }
+  .pop {
+    position: absolute; z-index: 55; width: min(320px, calc(100vw - 32px));
+    padding: 16px 18px 17px; border-radius: 10px;
+    background: var(--ink); color: #FFFFFF;
+    box-shadow: 0 18px 40px rgba(23,22,27,.3);
+    font-size: 14px; line-height: 1.62;
+  }
+  .pop b {
+    display: block; margin-bottom: 7px; color: var(--green);
+    font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600;
+    letter-spacing: 1.8px; text-transform: uppercase;
+  }
+  .glossary-note {
+    margin: 30px 0 0; padding: 13px 16px; border-radius: 8px;
+    background: var(--tint); border: 1px dashed var(--hair);
+    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; line-height: 1.7;
+    letter-spacing: .3px; color: var(--muted);
+  }
+
+  /* ── the primer ────────────────────────────────────────── */
+  .primer { margin: 30px 0 0; padding: 34px 32px 32px; background: #FFFFFF; border: 2px solid var(--ink); border-radius: 16px; box-shadow: 7px 8px 0 var(--blue); }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0; margin: 0; }
+  .step { position: relative; padding: 0 22px 0 0; }
+  .step + .step { padding-left: 26px; border-left: 1px solid var(--hair); }
+  .step .n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%; background: var(--blue); color: #FFFFFF;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
+  }
+  .step b { display: block; margin: 14px 0 8px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 17px; letter-spacing: -.4px; }
+  .step p { margin: 0 !important; font-size: 14.5px !important; line-height: 1.62; color: var(--muted) !important; }
+  .primer .flip { margin: 30px 0 0; padding: 20px 22px; border-radius: 10px; background: rgba(51,85,255,.09); border-left: 3px solid var(--blue); }
+  .primer .flip p { margin: 0 !important; font-size: 15px !important; line-height: 1.66; color: var(--ink) !important; max-width: none; }
+
+  /* ── stat band ─────────────────────────────────────────── */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; margin: 34px 0 0; }
+  .stat .n { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(34px, 4.6vw, 44px); letter-spacing: -1.8px; line-height: 1; }
+  .stat .n u { text-decoration: none; box-shadow: inset 0 -11px 0 var(--accent-soft); }
+  .stat p { margin: 13px 0 0 !important; font-size: 13.5px !important; line-height: 1.6; color: var(--faint) !important; }
+  .source { margin: 24px 0 0 !important; font-family: 'IBM Plex Mono', monospace; font-size: 10px !important; letter-spacing: .4px; color: #A5A2AC !important; }
+
+  /* ── the two-sided problem ─────────────────────────────── */
+  .sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(288px, 1fr)); gap: 16px; margin: 30px 0 0; }
+  .sideq { padding: 26px 24px 28px; border-radius: 12px; background: #FFFFFF; border: 2px solid var(--ink); }
+  /* both cards are people → yellow, per the legend */
+  .sideq.a { box-shadow: 6px 7px 0 var(--yellow); }
+  .sideq.b { box-shadow: 6px 7px 0 var(--yellow); }
+  .sideq .who { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--faint); }
+  .sideq h3 { margin: 12px 0 12px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; letter-spacing: -.5px; line-height: 1.25; }
+  .sideq p { margin: 0 0 14px !important; font-size: 15px !important; line-height: 1.66; color: var(--muted) !important; max-width: none; }
+  .sideq p:last-child { margin-bottom: 0 !important; }
+  .sideq .said { margin-top: 16px !important; padding: 13px 15px; border-radius: 8px; background: var(--tint); font-style: italic; color: var(--ink) !important; }
+
+  /* ── persona cards ─────────────────────────────────────── */
+  .personas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .personas img { width: 100%; height: auto; display: block; }
+  @media (max-width: 1000px) { .personas { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
+  @media (max-width: 540px)  { .personas { grid-template-columns: 1fr; max-width: 340px; margin: 0 auto; } }
+
+  /* ── journeys ──────────────────────────────────────────── */
+  .journey { padding: 64px 0 0; }
+  .jnum {
+    display: flex; align-items: center; gap: 10px; margin: 0 0 16px;
+    padding-top: 30px; border-top: 2px solid var(--accent);
+    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 600;
+    letter-spacing: 2.2px; text-transform: uppercase; color: var(--faint);
+  }
+  .jnum .part { color: var(--accent); }
+  .jnum i { font-style: normal; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; background: var(--accent); color: #FFFFFF; font-size: 11px; }
+  .journey h2 { max-width: 700px; }
+  .journey > .wrap > p { font-size: 16.5px; line-height: 1.76; color: var(--muted); max-width: 660px; margin: 0 0 16px; }
+
+  .call {
+    margin: 30px 0 0; padding: 22px 24px 24px; border-radius: 12px;
+    background: #FFFFFF; border: 1.5px solid var(--hair); border-left: 4px solid var(--accent);
+    max-width: 680px;
+  }
+  .call .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--faint); }
+  .call .x { margin: 12px 0 10px !important; font-size: 15px !important; line-height: 1.6; color: var(--muted) !important; }
+  .call .x s { text-decoration-color: var(--coral); }
+  .call .y { margin: 0 !important; font-size: 15.5px !important; line-height: 1.68; color: var(--ink) !important; }
+  .call .y::before { content: "→ "; color: var(--green); font-weight: 700; }
+
+  /* ── mockup slots ──────────────────────────────────────── */
+  .band { margin: 44px 0 0; padding: 60px 0 62px; background: var(--tint); }
+  .band.plain { background: transparent; padding: 0; margin-top: 40px; }
+  .shot { margin: 0; perspective: 1600px; }
+  .shot + .shot { margin-top: 44px; }
+  .browser {
+    transform: rotateX(var(--tilt-deg, 18deg)) scale(var(--tilt-scale, 1.04));
+    transform-origin: 50% 92%;
+    border-radius: 10px; overflow: hidden; background: #FFFFFF;
+    border: 1.5px solid var(--hair); box-shadow: 0 26px 52px rgba(23,22,27,.15);
+    will-change: transform;
+  }
+  .browser .bar { display: flex; align-items: center; gap: 7px; padding: 11px 14px; background: #EFEDE9; border-bottom: 1px solid var(--hair); }
+  .browser .bar i { width: 9px; height: 9px; border-radius: 50%; background: #CFCCC5; }
+  .browser .bar span { margin-left: 12px; padding: 3px 12px; border-radius: 20px; background: #FFFFFF; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #A5A2AC; }
+  .ph {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; aspect-ratio: 16/10; background:
+      repeating-linear-gradient(135deg, rgba(51,85,255,.045) 0 12px, transparent 12px 24px), #F7F7F9;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 1.8px; text-transform: uppercase; color: #B4B1BA; text-align: center; padding: 20px;
+  }
+  .ph small { font-size: 9.5px; font-weight: 400; letter-spacing: 1px; color: #C9C6CE; }
+  /* product screens are capped so they don't dominate the page; the top of
+     each screen is what matters, so the crop is anchored to the top */
+  img.ph { display: block; width: 100%; aspect-ratio: auto; height: auto; max-height: 440px; object-fit: cover; object-position: top center; background: none; padding: 0; }
+  /* wide reference boards (flow boards, moodboard) are meant to be seen whole */
+  .wideboard img.ph { max-height: none; object-fit: contain; }
+
+  /* two screens per row */
+  .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; margin: 0; }
+  .grid2 > .shot { margin: 0; }
+  .grid2 > .shot:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .grid2 figcaption { text-align: left; margin-left: 0; }
+
+  /* the evidence panel + takeaway in the problem section */
+  .evidence { margin: 30px 0 0; padding: 26px 26px 22px; border: 1.5px solid var(--hair); border-radius: 14px; background: #FFFFFF; }
+  .evidence .ev-label { margin: 0 0 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--faint); }
+  .evidence .stats { margin: 0; }
+  .evidence .source { margin: 20px 0 0 !important; }
+  .takeaway { margin: 22px 0 0; padding: 22px 24px; border-radius: 12px; background: var(--tint); border-left: 4px solid var(--blue); }
+  .takeaway p { margin: 0 !important; font-size: 18px !important; line-height: 1.6; color: var(--ink) !important; max-width: none; }
+  .shot figcaption {
+    margin: 22px auto 0; max-width: 620px; text-align: center;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; line-height: 1.75;
+    letter-spacing: .55px; color: var(--faint);
+  }
+  .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; }
+  .pair .shot + .shot { margin-top: 0; }
+  .pair figcaption { text-align: left; margin-left: 0; }
+  .pair .ph { aspect-ratio: 4/3; }
+
+  /* ── the recovery ladder ───────────────────────────────── */
+  .ladder { margin: 30px 0 0; display: grid; gap: 10px; max-width: 680px; }
+  .rung { display: grid; grid-template-columns: 30px 1fr; gap: 16px; align-items: start; padding: 15px 18px; border-radius: 9px; background: #FFFFFF; border: 1.5px solid var(--hair); }
+  .rung i { font-style: normal; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; background: var(--tint); font-size: 14px; }
+  .rung b { display: block; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15.5px; letter-spacing: -.3px; }
+  .rung span { display: block; margin-top: 4px; font-size: 14px; line-height: 1.6; color: var(--muted); }
+  .rung.last { background: var(--ink); border-color: var(--ink); }
+  .rung.last b { color: #FFFFFF; }
+  .rung.last span { color: rgba(255,255,255,.62); }
+  .rung.last i { background: rgba(255,255,255,.12); }
+
+  /* ── outcome ───────────────────────────────────────────── */
+  .metric { margin: 32px 0 0; padding: 34px 32px 32px; border-radius: 16px; background: var(--ink); color: #FFFFFF; }
+  .metric .cap { margin: 0 0 24px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,.55); }
+  .metric .bar { display: grid; grid-template-columns: 118px 1fr; gap: 16px; align-items: center; margin-bottom: 13px; }
+  .metric .bar .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,.5); text-align: right; }
+  .metric .track { height: 48px; border-radius: 9px; background: rgba(255,255,255,.07); overflow: hidden; }
+  .metric .fill { height: 100%; border-radius: 9px; display: flex; align-items: center; padding: 0 18px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 18px; letter-spacing: -.4px; white-space: nowrap; }
+  .metric .fill.was { width: 100%; background: rgba(255,255,255,.13); color: rgba(255,255,255,.9); }
+  .metric .fill.now { width: 22%; min-width: 146px; background: var(--green); color: var(--ink); }
+  .metric .swaps { margin-top: 28px; padding-top: 26px; border-top: 1px solid rgba(255,255,255,.14); }
+  .metric .swaps .lbl2 { margin: 0 0 8px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 1.6px; text-transform: uppercase; color: rgba(255,255,255,.5); }
+  .metric .swaps .r { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 14px 0; border-top: 1px solid rgba(255,255,255,.09); align-items: baseline; }
+  .metric .swaps .was { font-size: 14px; color: rgba(255,255,255,.42); text-decoration: line-through; text-decoration-color: rgba(255,107,91,.55); }
+  .metric .swaps .now { font-size: 14.5px; color: #FFFFFF; }
+  .metric .swaps .now::before { content: "→ "; color: var(--green); font-weight: 700; }
+  .note { margin: 24px 0 0 !important; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px !important; line-height: 1.75 !important; letter-spacing: .3px; color: #A5A2AC !important; max-width: 620px; }
+
+  /* ── learnings ─────────────────────────────────────────── */
+  .learn { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin: 30px 0 0; }
+  .lrn { padding: 26px 24px; border-radius: 12px; background: #FFFFFF; border: 1.5px solid var(--hair); border-top: 4px solid var(--accent); }
+  .lrn b { display: block; margin: 0 0 11px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16.5px; letter-spacing: -.3px; line-height: 1.3; }
+  .lrn p { margin: 0 !important; font-size: 14.5px !important; line-height: 1.66; color: var(--muted) !important; max-width: none; }
+  .closer { margin: 40px 0 0; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(21px, 3.2vw, 28px); line-height: 1.34; letter-spacing: -1px; color: var(--ink); max-width: 680px; }
+
+  /* ── footer ────────────────────────────────────────────── */
+  .end { margin: 110px 0 0; padding: 44px 0 100px; border-top: 1px solid var(--hair); }
+  .end-in { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px; }
+  .end .lead { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.8px; text-transform: uppercase; color: #A5A2AC; }
+  .end a.big { display: block; margin-top: 12px; text-decoration: none; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: clamp(24px, 4vw, 30px); letter-spacing: -1.2px; color: var(--ink); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px;
+    text-decoration: none; background: var(--ink); color: var(--paper); border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 1.4px; text-transform: uppercase;
+    transition: transform .14s ease, box-shadow .14s ease;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(23,22,27,.22); }
+
+  /* ── colour legend (states what the colours mean) ─────── */
+  .legend { display: flex; flex-wrap: wrap; align-items: center; gap: 11px 22px; margin: 34px 0 0; padding: 15px 20px; border: 1px solid var(--hair); border-radius: 12px; background: #FFFFFF; }
+  .legend .lgt { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--faint); }
+  .legend .lg { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .legend .lg::before { content: ""; width: 13px; height: 13px; border-radius: 4px; background: var(--c); border: 1.5px solid var(--ink); flex: none; }
+
+  /* ── the approach: principles + phase overview ─────────── */
+  .pgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(224px, 1fr)); gap: 16px; margin: 30px 0 0; }
+  .pcard { padding: 22px 22px 24px; border-radius: 12px; background: #FFFFFF; border: 1.5px solid var(--hair); border-top: 4px solid var(--accent); }
+  .pcard .who { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--faint); }
+  .pcard b { display: block; margin: 10px 0 8px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16.5px; letter-spacing: -.3px; line-height: 1.25; }
+  .pcard p { margin: 0 !important; font-size: 14px !important; line-height: 1.62; color: var(--muted) !important; max-width: none; }
+  .phases { display: grid; grid-template-columns: repeat(auto-fit, minmax(152px, 1fr)); gap: 10px; margin: 36px 0 0; }
+  .phase { padding: 16px 16px 18px; border-radius: 10px; background: var(--tint); border: 1px solid var(--hair); }
+  .phase .pn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1px; color: var(--blue); }
+  .phase b { display: block; margin: 7px 0 4px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15.5px; letter-spacing: -.3px; }
+  .phase span { font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+
+  /* ── small screens ─────────────────────────────────────── */
+  @media (max-width: 720px) {
+    nav.top { padding: 18px 20px; }
+    nav.top .links { gap: 18px; }
+    .wrap, .wide { padding: 0 20px; }
+    .sec, .journey { padding-top: 66px; }
+    .band { padding: 40px 0 44px; margin-top: 32px; }
+    .shot { perspective: none; }
+    .browser { transform: none !important; box-shadow: 0 12px 26px rgba(23,22,27,.12); }
+    .shot + .shot { margin-top: 32px; }
+    .primer { padding: 24px 20px 26px; }
+    .step + .step { padding-left: 0; border-left: none; border-top: 1px solid var(--hair); padding-top: 24px; margin-top: 24px; }
+    .step { padding-right: 0; }
+    .metric { padding: 24px 20px; }
+    .metric .bar { grid-template-columns: 1fr; gap: 7px; }
+    .metric .bar .lbl { text-align: left; }
+    .metric .swaps .r { grid-template-columns: 1fr; gap: 2px; }
+    .sideq { padding: 22px 20px 24px; }
+    .grid2 { grid-template-columns: 1fr; gap: 20px; }
+    img.ph { max-height: 380px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="rail"><i id="readProgress"></i></div>
+
+<nav class="top">
+  <a class="mark" href="index.html">naina.</a>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="assets/Naina-Gupta-Resume.pdf" target="_blank" rel="noopener">Resume</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<header class="wrap" style="padding-top:44px;">
+  <a href="index.html#work" style="text-decoration:none; display:inline-flex; gap:9px; margin-bottom:40px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:1.4px; text-transform:uppercase; color:var(--faint);">← All projects</a>
+  <p class="kicker">Altkred · Invoice financing · 2026</p>
+  <h1>Cash in two days, on an invoice due in ninety.</h1>
+  <p class="standfirst">Altkred lets Indian SMEs sell unpaid invoices to financiers who bid for them. I designed the whole thing: signing up, bidding, getting paid — and what happens when a payment fails.</p>
+
+  <dl class="meta">
+    <div><dt>Product</dt><dd>Factoring &amp; reverse-factoring marketplace</dd></div>
+    <div><dt>Role</dt><dd>Product designer, end to end</dd></div>
+    <div><dt>Timeline</dt><dd>4 months</dd></div>
+    <div><dt>Status</dt><dd>In build</dd></div>
+    <div><dt>I owned</dt><dd>Research, flows, IA, every screen</dd></div>
+  </dl>
+
+  <div class="legend">
+    <span class="lgt">Reading the colours</span>
+    <span class="lg" style="--c:var(--blue)">Concept &amp; decisions</span>
+    <span class="lg" style="--c:var(--yellow)">The people &amp; examples</span>
+    <span class="lg" style="--c:var(--green)">What gets better</span>
+    <span class="lg" style="--c:var(--coral)">The problem &amp; failures</span>
+  </div>
+</header>
+
+<!-- ══════════ 01 THE PRIMER ══════════ -->
+<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
+  <p class="eyebrow"><b>01</b> Thirty seconds on the subject</p>
+  <h2>Factoring is selling an invoice. It isn't a loan.</h2>
+  <p class="sub">That one difference explains nearly every decision on this page.</p>
+
+  <div class="primer">
+    <div class="steps">
+      <div class="step">
+        <span class="n">1</span>
+        <b>The invoice exists</b>
+        <p>An SME delivers goods. The buyer accepts them and says: we'll pay ₹38 lakh in 90 days.</p>
+      </div>
+      <div class="step">
+        <span class="n">2</span>
+        <b>A financier buys it</b>
+        <p>They pay the SME ₹37.2 lakh today. The ₹80,000 gap is their fee<button class="q" data-term="discount-rate" aria-label="What is a discount rate?" aria-expanded="false">?</button>.</p>
+      </div>
+      <div class="step">
+        <span class="n">3</span>
+        <b>The buyer pays them</b>
+        <p>On day 90 the buyer pays the full ₹38 lakh — to the financier now, not the SME.</p>
+      </div>
+    </div>
+    <div class="flip">
+      <p><strong>That's it. No loan, no collateral</strong> — the financier bought something, they didn't lend against it. <strong>Reverse factoring<button class="q" data-term="reverse-factoring" aria-label="What is reverse factoring?" aria-expanded="false">?</button></strong> is the same trade started by the buyer: a big company lists invoices it has approved, and its suppliers take the cash early. The big company's credit is what makes the rate cheap.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════ 02 THE PROBLEM ══════════ -->
+<section class="sec wrap" style="--accent:var(--coral); --accent-soft:rgba(255,107,91,.28);">
+  <p class="eyebrow"><b>02</b> Why it needed building</p>
+  <h2>Two people who should be doing business, and can't.</h2>
+  <p class="sub">One has done the work and can't get paid. The other has money and no safe way to lend it.</p>
+
+  <div class="sides">
+    <div class="sideq a">
+      <div class="who">The seller</div>
+      <h3>He's already spent money he hasn't been paid.</h3>
+      <p>Rakesh makes auto parts near Pune. Sixty staff. About ₹2 crore of his money is always sitting in unpaid invoices<button class="q" data-term="receivable" aria-label="What is a receivable?" aria-expanded="false">?</button>.</p>
+      <p>He paid for steel in March. He paid wages in March and April. The invoice pays out in June.</p>
+      <p>To bridge it he can pledge his factory, or give his buyer a 3% discount. The bank has said no twice.</p>
+      <p class="said">"I don't need a loan. I've done the work and they've accepted the goods. I need the money when I need it."</p>
+    </div>
+    <div class="sideq b">
+      <div class="who">The financier</div>
+      <h3>She'd fund it tomorrow, if she could see it.</h3>
+      <p>Ananya lends to SMEs at an NBFC. She has ₹40 crore to put out this quarter.</p>
+      <p>But she can't check the goods arrived. She can't check the buyer accepted the invoice. And if he doesn't pay on day 90, she has no way to collect.</p>
+      <p>So she passes.</p>
+      <p class="said">"I'm not avoiding this market. I'm avoiding an invoice I can't verify and a payment I can't enforce."</p>
+    </div>
+  </div>
+
+  <div class="evidence">
+    <p class="ev-label">The gap, in three numbers</p>
+    <div class="stats">
+      <div class="stat"><div class="n"><u>14%</u></div><p>of Indian SMEs can borrow from a bank at all.</p></div>
+      <div class="stat"><div class="n"><u>₹7.34L cr</u></div><p>of SME money is stuck in unpaid invoices. The law<button class="q" data-term="msmed" aria-label="What is the 45-day rule?" aria-expanded="false">?</button> says 45 days.</p></div>
+      <div class="stat"><div class="n"><u>&lt;1%</u></div><p>of SMEs use TReDS<button class="q" data-term="treds" aria-label="What is TReDS?" aria-expanded="false">?</button>, the government-backed alternative.</p></div>
+    </div>
+    <p class="source">Deloitte, State of Financial Services in India 2025 · MSME delayed-payment estimates, Mar 2024 · TReDS registration data, Mar 2025</p>
+  </div>
+
+  <div class="takeaway">
+    <p>All three come down to one thing. <mark class="hl">An invoice is only worth money to a stranger if it can prove itself.</mark> That's what I was designing for.</p>
+  </div>
+</section>
+
+<!-- ══════════ 03 WHO'S ON IT ══════════ -->
+<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
+  <p class="eyebrow"><b>03</b> Who's on the platform</p>
+  <h2>Four people, and no main one.</h2>
+  <p class="sub" style="margin-bottom:0;">I spent two weeks trying to pick a primary user. Every version was worse. All four have to work in the same screens.</p>
+</section>
+
+<div class="wide" style="margin-top:36px;">
+  <div class="personas">
+    <img src="assets/cs-altkred-persona-seller.png" alt="Seller persona card — role: business owner. Goal: raise capital quickly. Need: privacy and simplicity. The SME needs cash, has nothing to pledge, and should never see the machinery." loading="lazy">
+    <img src="assets/cs-altkred-persona-financier.png" alt="Financier persona card — role: bank or NBFC. Goal: lend with confidence. Need: risk clarity and control. Has the money, needs to judge the invoice in one screen and be sure of getting paid back." loading="lazy">
+    <img src="assets/cs-altkred-persona-buyer.png" alt="Buyer persona card — role: large buyer. Goal: get what they ordered. Need: smooth and traceable. Owes the money either way, and will accept exactly one new step." loading="lazy">
+    <img src="assets/cs-altkred-persona-rm.png" alt="RM persona card — role: relationship manager. Goal: keep deals moving. Need: visibility and backups. Altkred's own staff, the human backup for the day the automation fails." loading="lazy">
+  </div>
+</div>
+
+<!-- ══════════ 04 THE APPROACH ══════════ -->
+<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
+  <p class="eyebrow"><b>04</b> The approach</p>
+  <h2>With no main user, each of the four got a rule.</h2>
+  <p class="sub">The four don't just share a marketplace — they share the same screens. So the design couldn't favour one without breaking another. Each persona became a rule the whole interface had to keep at once.</p>
+
+  <div class="pgrid">
+    <div class="pcard">
+      <div class="who">The seller</div>
+      <b>Never show the machinery</b>
+      <p>The SME sees a number and a date. Risk scoring, insurance, bid mechanics — all real, all hidden. Simplicity is the feature.</p>
+    </div>
+    <div class="pcard">
+      <div class="who">The financier</div>
+      <b>Everything to judge it, on one screen</b>
+      <p>Buyer, amount, due date, proof of delivery, and how reliably that buyer has paid — enough to price it without leaving the view.</p>
+    </div>
+    <div class="pcard">
+      <div class="who">The buyer</div>
+      <b>Exactly one new step</b>
+      <p>One payment permission, asked once, inside a flow they're already in. Ask for anything more and they simply don't do it.</p>
+    </div>
+    <div class="pcard">
+      <div class="who">The RM</div>
+      <b>A way out of every dead end</b>
+      <p>When the automation fails, a human always has a logged action to take — never a support ticket and a shrug.</p>
+    </div>
+  </div>
+
+  <p style="margin:42px 0 0;">Those four rules only resolve in one order — the order the money actually moves. So that's how the product is built, and how the rest of this page reads: <mark class="hl">get on, price it, move it, close it.</mark> Four parts follow, one per stage.</p>
+
+  <div class="phases">
+    <div class="phase"><div class="pn">Part 01</div><b>Get on</b><span>Verified before the cash is urgent.</span></div>
+    <div class="phase"><div class="pn">Part 02</div><b>Price it</b><span>Financiers bid; the seller picks.</span></div>
+    <div class="phase"><div class="pn">Part 03</div><b>Move it</b><span>Funds out in about 48 hours.</span></div>
+    <div class="phase"><div class="pn">Part 04</div><b>Close it</b><span>Day 90 collects — or recovers.</span></div>
+  </div>
+</section>
+
+<!-- ══════════ JOURNEY 01 — ONBOARDING ══════════ -->
+<div class="journey" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
+  <div class="wrap">
+    <p class="jnum"><i>01</i> Getting on</p>
+    <h2>Verified before the money is urgent.</h2>
+    <p>Nobody does paperwork well when they're desperate for cash. So all of it happens first — company details, documents, bank setup. The marketplace stays visible but switched off until it's done.</p>
+
+    <div class="call">
+      <div class="lbl">The call · the payment key</div>
+      <p class="x"><s>Hide the payment key<button class="q" data-term="secret-key" aria-label="What is the payment key?" aria-expanded="false">?</button> in settings and let financiers find it.</s></p>
+      <p class="y">Grey out <em>Place Bid</em> on the home page until it's added, and say why right there. Without the key we can't take money from their account — so they could win an invoice they're unable to pay for.</p>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="wide">
+      <div class="grid2">
+      <figure class="shot" data-tilt>
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>/onboarding/kyb-documents</span></div>
+          <img class="ph" src="assets/cs-altkred-kyb.png" alt="KYB documents screen: identity proof, address proof and certificates uploaded, each with a verified or unsuccessful state" loading="lazy">
+        </div>
+        <figcaption>Six steps down the left, documents in the middle. A failed check says what failed — "the name entered doesn't match the form details" — instead of just turning red.</figcaption>
+      </figure>
+      <figure class="shot" data-tilt>
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>/marketplace/FA-Antino-89234768</span></div>
+          <img class="ph" src="assets/cs-altkred-bid-blocked.png" alt="Asset detail screen with bidding disabled and a panel listing the four pending setup steps" loading="lazy">
+        </div>
+        <figcaption>The blocked state. The whole asset is readable, bidding is off, and the panel names every setup step still outstanding.</figcaption>
+      </figure>
+      <figure class="shot" data-tilt>
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>/transactions/configuration</span></div>
+          <img class="ph" src="assets/cs-altkred-secret-key.png" alt="Transaction configuration screen with the payment secret key added and verified" loading="lazy">
+        </div>
+        <figcaption>And the screen that unblocks it — with a "why is this required?" link, because nobody hands over a key they don't understand.</figcaption>
+      </figure>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ JOURNEY 02 — MARKETPLACE & BID ══════════ -->
+<div class="journey" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
+  <div class="wrap">
+    <p class="jnum"><i>02</i> Pricing it</p>
+    <h2>Three financiers competing for one invoice, on one screen.</h2>
+    <p>Each listed invoice shows the buyer, the amount, the due date<button class="q" data-term="tenure" aria-label="What is tenure?" aria-expanded="false">?</button>, proof of delivery — and how reliably that buyer has paid in the past. That last one matters most. An invoice is only as good as the person who owes it.</p>
+    <p>Financiers bid against each other. So the seller picks from several offers instead of taking the only one.</p>
+
+    <div class="call">
+      <div class="lbl">The call · how a bid is priced</div>
+      <p class="x"><s>One "interest rate" box on the bid form.</s></p>
+      <p class="y">Four separate choices instead: the rate and how long for, who pays the interest, the late penalty, and whether it's insured<button class="q" data-term="insurance" aria-label="What is credit insurance here?" aria-expanded="false">?</button>. A bid isn't a number. It's a decision about who carries the risk — and that's exactly what both sides argue about later.</p>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="wide">
+      <div class="grid2">
+      <figure class="shot" data-tilt>
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>/marketplace</span></div>
+          <img class="ph" src="assets/cs-altkred-marketplace.png" alt="Marketplace listing live factoring assets with tenure, due date, insurance cover and the current bid spread" loading="lazy">
+        </div>
+        <figcaption>Live assets. Tenure, due date, insurance cover, and the bid spread so far — lowest, highest, average — so a financier knows where to come in.</figcaption>
+      </figure>
+      <figure class="shot" data-tilt>
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>/marketplace/FA-Antino-89234768/bids</span></div>
+          <img class="ph" src="assets/cs-altkred-place-bid.png" alt="Place bid form with discount rate, duration, interest payment on, default penalty and an insurance option, with the interest maths resolving beside it" loading="lazy">
+        </div>
+        <figcaption>The four levers, with the maths resolving live beside them: interest, who pays it, what the seller receives, what's owed at maturity. Other financiers' bids sit underneath.</figcaption>
+      </figure>
+      <figure class="shot" data-tilt>
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>/asset-management/FA-Antino-89234768/bids</span></div>
+          <img class="ph" src="assets/cs-altkred-bids-received.png" alt="Seller's view of bids received, each showing rate, amounts and insurance terms, with a select-bid action" loading="lazy">
+        </div>
+        <figcaption>The seller's side. Every bid received in full — rate, what lands in the account, what's owed back, insurance terms — and one to send for signatory approval.</figcaption>
+      </figure>
+      <figure class="shot" data-tilt>
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>/asset-management/FA-Antino-89234768/bids</span></div>
+          <img class="ph" src="assets/cs-altkred-bid-selected.png" alt="Selected bid awaiting buyer acceptance, with a status panel and a note that other bids will be auto-rejected" loading="lazy">
+        </div>
+        <figcaption>Selected, and moving down the approval chain. The panel is explicit that confirming this one auto-rejects the rest — that's not a thing to discover afterwards.</figcaption>
+      </figure>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ JOURNEY 03 — FUNDING ══════════ -->
+<div class="journey" style="--accent:var(--green); --accent-soft:rgba(43,217,124,.34);">
+  <div class="wrap">
+    <p class="jnum"><i>03</i> Moving it</p>
+    <h2>Money out in 48 hours, without a single email.</h2>
+    <p>Four things happen once a bid is accepted. The buyer signs a payment permission<button class="q" data-term="emandate" aria-label="What is an e-mandate?" aria-expanded="false">?</button>. Interest is deducted. Insurance is paid. The funds land.</p>
+    <p>Every one of those is a place the money can stop.</p>
+
+    <div class="call">
+      <div class="lbl">The call · when to ask the buyer</div>
+      <p class="x"><s>Ask the buyer to set up the payment permission after the bid is won.</s></p>
+      <p class="y">Ask inside the bid approval instead — one screen, one action. Chase a buyer for it afterwards and you never get it. And without it, there's no way to collect on day 90.</p>
+    </div>
+  </div>
+
+  <div class="wrap" style="margin-top:30px;">
+    <p style="font-size:15px; color:var(--faint);">Funding screens are still in build — the decision above is the part that mattered.</p>
+  </div>
+</div>
+
+<!-- ══════════ JOURNEY 04 — SETTLEMENT ══════════ -->
+<div class="journey" style="--accent:var(--coral); --accent-soft:rgba(255,107,91,.28);">
+  <div class="wrap">
+    <p class="jnum"><i>04</i> Closing it</p>
+    <h2>Day 90 collects itself — and has somewhere to go when it doesn't.</h2>
+    <p>On the due date the payment pulls automatically<button class="q" data-term="autodebit" aria-label="What is auto-debit here?" aria-expanded="false">?</button>. Usually it works. The rest of the time is where this product is really decided.</p>
+    <p>The happy path is about a fifth of the screens. <mark class="hl">A dead end here is somebody's payroll</mark> — so nothing ends in "contact support".</p>
+
+    <div class="ladder">
+      <div class="rung"><i>💳</i><div><b>The payment pulls</b><span>It clears. We're done.</span></div></div>
+      <div class="rung"><i>🔁</i><div><b>It bounces — try again</b><span>One automatic retry, with the date shown on screen.</span></div></div>
+      <div class="rung"><i>🧾</i><div><b>The buyer paid another way</b><span>An RM records the bank transfer against the invoice, with proof attached.</span></div></div>
+      <div class="rung"><i>🔗</i><div><b>An RM sends a payment link</b><span>Made and sent from the same screen as the failure.</span></div></div>
+      <div class="rung"><i>🚦</i><div><b>An RM changes the status</b><span>A manual override, logged. Someone is accountable for it.</span></div></div>
+      <div class="rung last"><i>🛡️</i><div><b>Or the buyer never pays</b><span>If the financier is insured, the RM files the claim from that same screen. If not, the screen says so plainly and closes.</span></div></div>
+    </div>
+
+    <div class="call">
+      <div class="lbl">The call · where a default goes</div>
+      <p class="x"><s>Put insurance claims in a separate admin module.</s></p>
+      <p class="y">Keep them inside settlement. The worst outcome deserves the clearest screen — and the person handling it is already looking at the failed payment.</p>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="wide">
+      <figure class="shot wideboard" data-tilt>
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>figjam · settlement &amp; claim</span></div>
+          <img class="ph" src="assets/cs-altkred-flow-detail.png" alt="Flow board detail: the payment retry ladder, RM override, and the settlement lane forking into positive and negative insurance claims" loading="lazy">
+        </div>
+        <figcaption>The ladder as it was actually mapped. Every failed debit routes to a retry, then an RM action, then either a claim or a clean close.</figcaption>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 04 THE MAP ══════════ -->
+<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
+  <p class="eyebrow"><b>05</b> Underneath all of it</p>
+  <h2>The screens were the easy half.</h2>
+  <p>The board below covers <em>one</em> set of conditions. Change a single one — who pays the interest, whether it's insured, factoring or reverse factoring — and the whole branch structure changes shape.</p>
+  <p>Mapping those first is why the interface didn't double in size when reverse factoring arrived.</p>
+</section>
+
+<div class="band plain">
+  <div class="wide">
+    <figure class="shot wideboard" data-tilt>
+      <div class="browser">
+        <div class="bar"><i></i><i></i><i></i><span>figjam · place bid, fund disbursal &amp; settlement</span></div>
+        <img class="ph" src="assets/cs-altkred-flowboard.png" alt="The full place-bid, fund-disbursal and settlement flow board in four lanes: secret key, bid place and review, fund disbursal payment, and settlement" loading="lazy">
+      </div>
+      <figcaption>One condition set, end to end, in four lanes. There are several of these.</figcaption>
+    </figure>
+  </div>
+</div>
+
+<!-- ══════════ THE SYSTEM ══════════ -->
+<div class="band">
+  <div class="wide">
+    <figure class="shot wideboard" style="perspective:none; margin:0;">
+      <div class="browser" style="transform:none;">
+        <div class="bar"><i></i><i></i><i></i><span>figma · moodboard &amp; visual direction</span></div>
+        <img class="ph" src="assets/cs-altkred-moodboard.png" alt="Altkred moodboard: the blue and green palette, Standerd for headings and General Sans for body, and the fintech UI and brand references it was built from" loading="lazy">
+      </div>
+      <figcaption>Where the blue and green came from — the visual direction, set after the competitor teardown. Standerd for headings, General Sans for body.</figcaption>
+    </figure>
+  </div>
+</div>
+
+<!-- ══════════ 05 OUTCOME ══════════ -->
+<section class="sec wrap" style="--accent:var(--green); --accent-soft:rgba(43,217,124,.30);">
+  <p class="eyebrow"><b>06</b> What it changes</p>
+  <h2>Back to Rakesh's Friday.</h2>
+  <p class="sub">Same payroll, same invoice, same buyer. List it, take the best bid, get paid.</p>
+
+  <div class="metric">
+    <p class="cap">Accepted invoice → cash in hand</p>
+    <div class="bar"><span class="lbl">Before</span><div class="track"><div class="fill was">60–90 days</div></div></div>
+    <div class="bar"><span class="lbl">Designed for</span><div class="track"><div class="fill now">2 days</div></div></div>
+    <div class="swaps">
+      <p class="lbl2">And everything else that changed shape</p>
+      <div class="r"><span class="was">The factory pledged as collateral</span><span class="now">The invoice is the security</span></div>
+      <div class="r"><span class="was">One buyer's discount, take it or leave it</span><span class="now">Financiers bidding against each other</span></div>
+      <div class="r"><span class="was">Collection chased at maturity</span><span class="now">Mandate signed at bid execution</span></div>
+      <div class="r"><span class="was">A bounced debit ends in a phone call</span><span class="now">Retry, external payment or link — on screen</span></div>
+      <div class="r"><span class="was">A default is the financier's problem alone</span><span class="now">Insured assets settle as a claim</span></div>
+    </div>
+  </div>
+
+  <p class="note">Altkred is still in build. These are the targets the flows were designed against, taken from the baseline in discovery — not measured outcomes. I'll put real numbers here when there are some.</p>
+</section>
+
+<!-- ══════════ 06 LEARNINGS ══════════ -->
+<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
+  <p class="eyebrow"><b>07</b> What I'd do differently</p>
+  <h2>Three things, and the first one cost me six weeks.</h2>
+
+  <div class="learn">
+    <div class="lrn" style="--accent:var(--coral)">
+      <b>Draw the failures first</b>
+      <p>I designed the happy path in week one, then spent six weeks on what happens when a payment bounces. Starting at the bounce would have made the happy path better. That's where a payments product earns trust.</p>
+    </div>
+    <div class="lrn" style="--accent:var(--yellow)">
+      <b>Stop ranking the users</b>
+      <p>I kept trying to pick a main user and kept getting a worse flow. The personas only became useful once I accepted that all four had to fit the same screens.</p>
+    </div>
+    <div class="lrn" style="--accent:var(--green)">
+      <b>Read the law before the competitors</b>
+      <p>I started with a competitor teardown. It told me what the category looks like. What actually shaped the product was the 45-day rule and a 2021 law that opened this market to thousands of lenders instead of seven.</p>
+    </div>
+  </div>
+
+  <p class="closer">Rakesh never needed a loan. He needed someone to treat his invoice like the money it already was.</p>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<div class="wrap end">
+  <div class="end-in">
+    <div>
+      <div class="lead">Keep going</div>
+      <a class="big" href="index.html#work">Back to all projects →</a>
+    </div>
+    <a class="btn" href="index.html#contact">Work with me</a>
+  </div>
+</div>
+
+<script src="casestudy.js"></script>
+<script>
+/* ── glossary popovers ────────────────────────────────────────
+   Subtle "?" buttons that explain a term without sending the
+   reader anywhere. One popover at a time; Esc and outside-click
+   close it; it flips above the button when there's no room below.
+------------------------------------------------------------- */
+(() => {
+  "use strict";
+
+  const TERMS = {
+    "discount-rate": ["The fee",
+      "What the financier charges, as a percentage of the invoice. On ₹38 lakh at 0.79% for 90 days, the seller gets ₹37.2 lakh now and the financier collects ₹38 lakh on day 90."],
+    "reverse-factoring": ["Reverse factoring",
+      "The same trade, started by the buyer. A big company lists the invoices it has approved. Its suppliers take the cash early. Because it's the big company's credit being financed, small suppliers get a much cheaper rate."],
+    "receivable": ["Unpaid invoice",
+      "Money a customer owes you for work you've already delivered. An asset on paper, and nothing in your bank account until they pay."],
+    "tenure": ["Due date",
+      "How long the financier waits to be paid back — usually 30, 60 or 90 days, matched to the buyer's terms. Longer wait, higher fee."],
+    "emandate": ["Payment permission",
+      "A one-time approval from the buyer's bank that lets an agreed amount be taken on an agreed date. Without it, collecting on day 90 means asking nicely."],
+    "autodebit": ["Automatic payment",
+      "The scheduled pull against that permission. It either clears or it bounces. Designing for the bounce is most of the work here."],
+    "insurance": ["Credit insurance",
+      "Cover the financier can buy in case the buyer never pays. Built into the bid, it's what lets them fund a seller with no track record."],
+    "secret-key": ["Payment key",
+      "A code the financier sets up with the payment provider. Without it we can't take money from their account — so they can't fund a bid they've won."],
+    "treds": ["TReDS",
+      "Government-regulated exchanges where small businesses can sell invoices owed by large buyers. They work. Fewer than 1% of Indian SMEs are on one."],
+    "msmed": ["The 45-day rule",
+      "Indian law says a buyer must pay a small supplier within 45 days. In practice, large companies routinely take 60, 90 or 120."]
+  };
+
+  let open = null, openBtn = null;
+
+  const close = () => {
+    if (!open) return;
+    open.remove();
+    if (openBtn) openBtn.setAttribute("aria-expanded", "false");
+    open = null; openBtn = null;
+  };
+
+  const place = (btn, pop) => {
+    const r = btn.getBoundingClientRect();
+    const w = pop.offsetWidth, h = pop.offsetHeight;
+    const room = window.innerHeight - r.bottom;
+    const below = room > h + 20;
+
+    let left = r.left + r.width / 2 - w / 2 + window.scrollX;
+    left = Math.max(12 + window.scrollX, Math.min(left, window.scrollX + window.innerWidth - w - 12));
+    const top = below ? r.bottom + window.scrollY + 11 : r.top + window.scrollY - h - 11;
+
+    pop.style.left = left + "px";
+    pop.style.top = top + "px";
+    pop.dataset.side = below ? "bottom" : "top";
+
+    const arrow = r.left + r.width / 2 + window.scrollX - left - 5.5;
+    pop.style.setProperty("--ax", Math.max(12, Math.min(arrow, w - 23)) + "px");
+    pop.querySelector("i").style.left = pop.style.getPropertyValue("--ax");
+  };
+
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".q");
+    if (!btn) { if (open && !e.target.closest(".pop")) close(); return; }
+    e.preventDefault();
+
+    const was = openBtn === btn;
+    close();
+    if (was) return;
+
+    const entry = TERMS[btn.dataset.term];
+    if (!entry) return;
+
+    const pop = document.createElement("div");
+    pop.className = "pop";
+    pop.setAttribute("role", "dialog");
+    pop.innerHTML = "<b></b><span></span>";
+    pop.querySelector("b").textContent = entry[0];
+    pop.querySelector("span").textContent = entry[1];
+    // arrow needs to be positionable, so it's a real element
+    const arrow = document.createElement("i");
+    arrow.style.cssText = "position:absolute;width:11px;height:11px;background:var(--ink);transform:rotate(45deg);font-style:normal;";
+    pop.appendChild(arrow);
+    document.body.appendChild(pop);
+
+    place(btn, pop);
+    arrow.style.top = pop.dataset.side === "bottom" ? "-5px" : "auto";
+    arrow.style.bottom = pop.dataset.side === "top" ? "-5px" : "auto";
+
+    btn.setAttribute("aria-expanded", "true");
+    open = pop; openBtn = btn;
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && open) { const b = openBtn; close(); b && b.focus(); }
+  });
+  window.addEventListener("resize", close);
+  window.addEventListener("scroll", () => { if (open && openBtn) place(openBtn, open); }, { passive: true });
+})();
+</script>
+</body>
+</html>

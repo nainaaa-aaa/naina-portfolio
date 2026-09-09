@@ -27,6 +27,14 @@
   #siteNav a {
     font-size: 13px !important;
   }
+  /* gallery's own nav: keep four links on one row at 375px */
+  .gnav-links {
+    gap: 14px !important;
+    padding: 4px 7px !important;
+  }
+  .gnav-links a {
+    font-size: 12.5px !important;
+  }
 }
 
 /* ============================================================
@@ -113,15 +121,17 @@
    HOME — sections
    ============================================================ */
 @media (max-width: 900px) {
-  /* project cards: three across never fits a phone */
-  [style*="grid-template-columns:repeat(3,1fr)"] {
+  /* project cards: never more than two across below this */
+  [style*="grid-template-columns:repeat(3,1fr)"],
+  [style*="grid-template-columns:repeat(2,minmax(0,328px))"] {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 20px !important;
   }
 }
 
 @media (max-width: 640px) {
-  [style*="grid-template-columns:repeat(3,1fr)"] {
+  [style*="grid-template-columns:repeat(3,1fr)"],
+  [style*="grid-template-columns:repeat(2,minmax(0,328px))"] {
     grid-template-columns: 1fr !important;
     max-width: 320px;
     margin: 0 auto;
