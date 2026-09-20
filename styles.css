@@ -133,6 +133,30 @@ site-nav { --nav-bg: rgba(255,253,247,.86); }
     #radioCard.playing .eq span:nth-child(5){ animation-duration:.8s; }
     .vinyl { animation: spin 3.4s linear infinite; animation-play-state: paused; }
     #radioCard.playing .vinyl { animation-play-state: running; }
+    /* ── radio display: one line, never wrapping ───────────────
+       The panel is a fixed 139px wide. A title that wrapped pushed
+       the equaliser and the buttons off the bottom of the radio, so
+       the name is held on one line and scrolled when it is too long
+       to fit. Short titles just sit still. */
+    #trackName { overflow:hidden; white-space:nowrap; }
+    #trackName a { color:#FFFFFF; text-decoration:none; display:block; }
+    #trackName a:hover { color:#F9C846; }
+    #trackName a:focus-visible { outline:2px solid #F9C846; outline-offset:2px; border-radius:2px; }
+    #trackName .mq { display:inline-block; white-space:nowrap; will-change:transform; }
+    #trackName .cp { display:inline-block; padding-right:26px; }
+    #trackName .cp.dup { display:none; }
+    /* only when it actually overflows, set by main.js */
+    #trackName.scrolling .cp.dup { display:inline-block; }
+    #trackName.scrolling .mq { animation: marquee 8s linear infinite; }
+    #radioCard:hover #trackName.scrolling .mq { animation-play-state: paused; }
+    @keyframes marquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+    /* no motion: fall back to a clean truncation */
+    @media (prefers-reduced-motion: reduce) {
+      #trackName.scrolling .mq { animation: none; }
+      #trackName.scrolling .cp.dup { display:none; }
+      #trackName .cp { padding-right:0; max-width:100%; overflow:hidden; text-overflow:ellipsis; }
+    }
+
     .rbtn { cursor:pointer; user-select:none; }
     .rbtn:active { transform: translateY(1px); }
     .tile { transition: transform .2s cubic-bezier(.2,.85,.3,1.1); }

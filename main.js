@@ -318,14 +318,29 @@
       id: "IPfJnp1guPc",              // Khalid — Young Dumb & Broke (Official Video)
       name: "Young Dumb & Broke",
       artist: "Khalid",
+      start: 20,                      // skip the intro and open on the hook
     };
     const SEEK = 15;                  // seconds the side buttons jump
 
     const nameEl = document.getElementById("trackName");
     const idxEl = document.getElementById("trackIdx");
     const wrap = document.getElementById("radioCard");
-    if (nameEl) nameEl.textContent = TRACK.name;
     if (idxEl) idxEl.textContent = TRACK.artist.toUpperCase();
+
+    // Scroll the title only if it cannot fit. Measured rather than assumed,
+    // because the panel is a fixed width and the font loads late.
+    const fitTitle = () => {
+      if (!nameEl) return;
+      const copy = nameEl.querySelector(".cp");
+      if (!copy) return;
+      nameEl.classList.remove("scrolling");
+      if (copy.getBoundingClientRect().width - 26 > nameEl.clientWidth + 0.5) {
+        nameEl.classList.add("scrolling");
+      }
+    };
+    fitTitle();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitTitle);
+    window.addEventListener("resize", fitTitle);
 
     let player = null;       // the YT.Player once the API has loaded
     let ready = false;
@@ -359,7 +374,7 @@
 
       player = new window.YT.Player(host, {
         videoId: TRACK.id,
-        playerVars: { playsinline: 1, rel: 0, modestbranding: 1 },
+        playerVars: { playsinline: 1, rel: 0, modestbranding: 1, start: TRACK.start },
         events: {
           onReady: () => {
             ready = true;
@@ -374,8 +389,10 @@
             // embedding can be refused (region, rights, blocked host) — say so
             // rather than leaving a dead button
             setIcon(false);
-            if (nameEl) nameEl.textContent = "Couldn't play here";
-            if (idxEl) idxEl.textContent = "OPEN ON YOUTUBE";
+            const copies = nameEl ? nameEl.querySelectorAll(".cp") : [];
+            copies.forEach((c) => { c.textContent = "Play on YouTube Music"; });
+            if (idxEl) idxEl.textContent = "COULDN'T PLAY HERE";
+            fitTitle();
           },
         },
       });
@@ -385,8 +402,11 @@
       if (!player) { wantPlay = true; setIcon(true); build(); return; }
       if (!ready) { wantPlay = true; return; }
       const S = window.YT.PlayerState;
-      if (player.getPlayerState() === S.PLAYING) player.pauseVideo();
-      else player.playVideo();
+      if (player.getPlayerState() === S.PLAYING) { player.pauseVideo(); return; }
+      // `start` only applies on load, so a replay after the track ends has
+      // to be sent back to the hook explicitly
+      if (player.getPlayerState() === S.ENDED) player.seekTo(TRACK.start, true);
+      player.playVideo();
     });
 
     // one track, so the side buttons scrub instead of changing song
