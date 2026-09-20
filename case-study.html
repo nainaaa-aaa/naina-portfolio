@@ -319,6 +319,77 @@
   .fig-pair figcaption { text-align: left; margin-left: 0; }
   .gallery figcaption, .fig-band figcaption { max-width: 760px; }
 
+  /* ── stage headers: the case study's top-level chunks ──── */
+  /* Stages are the case study's top-level chunks, so they get the most
+     air above them and the largest type after the page title. */
+  .stage { padding: 172px 0 0; scroll-margin-top: 88px; }
+  .stage-head { padding-top: 40px; border-top: 3px solid var(--accent); }
+  .stage-n {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 40px; height: 31px; padding: 0 10px; border-radius: 6px;
+    background: var(--accent); color: var(--accent-ink, var(--ink));
+    border: 1.5px solid var(--ink);
+    font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600;
+  }
+  .stage-head h2 {
+    /* the floor has to stay under h1's so the page title still leads on
+       a phone, where both clamps bottom out */
+    margin: 20px 0 0; font-size: clamp(27px, 5.2vw, 54px);
+    line-height: 1.06; letter-spacing: -1.6px;
+  }
+  .stage-head .lede {
+    margin: 18px 0 0; max-width: 680px;
+    font-size: clamp(16.5px, 2.2vw, 19.5px); line-height: 1.6; color: var(--muted);
+  }
+
+  /* a labelled part inside a stage */
+  .part { margin: 70px 0 0; }
+  .part > .slabel {
+    margin: 0 0 16px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px;
+    font-weight: 600; letter-spacing: 2.2px; text-transform: uppercase; color: var(--faint);
+  }
+  .part > h3 {
+    margin: 0 0 14px; font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+    font-size: clamp(20px, 2.5vw, 25px); letter-spacing: -.6px; line-height: 1.22;
+  }
+  .part > p { margin: 0 0 16px; font-size: 16.5px; line-height: 1.76; color: var(--muted); max-width: 680px; }
+  .part > p:last-child { margin-bottom: 0; }
+
+  /* ── the brief: what this thing actually is ────────────── */
+  .brief { margin: 30px 0 0; }
+  .brief p { font-size: 18px; line-height: 1.7; color: var(--ink); max-width: 700px; margin: 0 0 16px; }
+  .brief p:last-child { margin-bottom: 0; }
+
+  /* ── tl;dr: the shortcut for anyone who just wants screens ─ */
+  .tldr {
+    margin: 44px 0 0; padding: 32px 34px 34px; border-radius: 16px;
+    background: var(--ink); color: #FFFFFF;
+  }
+  .tldr .lbl {
+    margin: 0 0 18px; font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+    font-weight: 600; letter-spacing: 2.4px; text-transform: uppercase; color: var(--green);
+  }
+  .tldr ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 13px; max-width: 760px; }
+  .tldr li {
+    position: relative; padding-left: 24px;
+    font-size: 16.5px; line-height: 1.6; color: rgba(255,255,255,.88);
+  }
+  .tldr li::before {
+    content: ""; position: absolute; left: 0; top: 9px;
+    width: 9px; height: 9px; border-radius: 2px; background: var(--green);
+  }
+  .tldr li b { color: #FFFFFF; font-weight: 600; }
+  .tldr .go {
+    display: inline-flex; align-items: center; gap: 10px; margin: 26px 0 0;
+    padding: 14px 24px; border-radius: 6px; background: var(--green); color: var(--ink);
+    text-decoration: none; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px;
+    font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase;
+    transition: transform .14s ease;
+  }
+  .tldr .go:hover { transform: translateY(-2px); }
+  .tldr .go .arrow { transition: transform .2s ease; }
+  .tldr .go:hover .arrow { transform: translateY(2px); }
+
   /* ── explanatory diagram ──────────────────────────────── */
   .diagram { margin: 32px 0 0; padding: 24px 22px 20px; background: #FFFFFF; border: 1.5px solid var(--hair); border-radius: 14px; }
   .diagram svg { width: 100%; height: auto; display: block; }
@@ -372,6 +443,9 @@
     nav.top .links { gap: 18px; }
     .wrap, .wide { padding: 0 20px; }
     .sec { padding-top: 66px; }
+    .stage { padding-top: 104px; }
+    .part { margin-top: 42px; }
+    .tldr { padding: 24px 20px 26px; }
     .fig-band { padding: 44px 0 48px; margin-top: 56px; }
     .fig { margin-top: 40px; perspective: none; }
     .fig figcaption, .diagram figcaption { font-size: 14.5px; }
@@ -423,29 +497,64 @@
   </ul>
 </header>
 
-<!-- ══════════ DOOR 1 — 30 SECONDS ══════════ -->
-<section class="wrap" style="padding-top:76px;">
-  <p class="door-q">Got 30 seconds?</p>
-  <p class="door-a">Here's the whole thing in one breath.</p>
+
+<!-- ══════════ WHAT IT IS ══════════ -->
+<section class="sec wrap" style="--accent:var(--yellow); --accent-soft:rgba(249,200,70,.42);">
+  <p class="eyebrow" style="gap:0;">What is this module?</p>
+  <h2>Moving one person moves everything above them.</h2>
+
+  <div class="brief">
+    <p>Compport is an enterprise compensation and HRMS platform. I designed its workforce planning module: the place where an HR team plans a restructure — promotions, transfers, vacancies — and sees what it costs before anyone signs off.</p>
+    <p>Before it existed, that planning happened in emailed spreadsheets.</p>
+  </div>
+
   <p class="oneline">We designed a single canvas to replace twelve emailed spreadsheets. Drag a person and the budget moves with them. Every change logs itself onto the node it happened to.</p>
 
-  <p class="rlabel" style="margin-top:34px;">And here's why it needed doing</p>
-  <div class="stats" style="--accent-soft:rgba(255,107,91,.28);">
-    <div class="stat"><div class="n"><u>51%</u></div><p>of HR teams still run workforce planning on spreadsheets.</p></div>
-    <div class="stat"><div class="n"><u>76%</u></div><p>say a visual org view is essential. 68% still build it by hand.</p></div>
-    <div class="stat"><div class="n"><u>88%</u></div><p>of spreadsheets contain errors. These ones decide headcount.</p></div>
+  <div class="brief" style="margin-top:26px;">
+    <p>The analogy below is the fastest way to explain why the spreadsheets broke.</p>
   </div>
-  <p class="source">OrgChart, State of Workforce Planning 2026 · ContinuumCloud 2026. The 88% figure is Panko, <a href="https://arxiv.org/pdf/0801.3114.pdf" style="color:inherit; text-decoration:underline; text-underline-offset:2px;" target="_blank" rel="noopener">University of Hawaii, 2008</a>, not a 2026 industry report.</p>
 
-  <div class="jump">
-    <a class="btn" href="#forks">Take me to the hard calls <span class="arrow">↓</span></a>
-    <a class="btn ghost" href="#build">Just show me the screens <span class="arrow">↓</span></a>
+  <div class="context">
+    <svg class="pyramid" viewBox="95 80 330 195" role="img" aria-label="A human pyramid — three people on the bottom row, two standing on their shoulders, one balanced on top">
+      <!-- ground -->
+      <line x1="120" y1="263" x2="400" y2="263" stroke="#E3DFD5" stroke-width="2.5" stroke-dasharray="2 7" stroke-linecap="round"/>
+      <g stroke="#17161B" stroke-width="2.5" stroke-linejoin="round">
+        <!-- bottom row -->
+        <path d="M123 260 Q120 218 140 216 Q160 218 157 260 Z" fill="#FF6B5B"/><circle cx="140" cy="210" r="13" fill="#FF6B5B"/>
+        <path d="M243 260 Q240 218 260 216 Q280 218 277 260 Z" fill="#F9C846"/><circle cx="260" cy="210" r="13" fill="#F9C846"/>
+        <path d="M363 260 Q360 218 380 216 Q400 218 397 260 Z" fill="#63E3C2"/><circle cx="380" cy="210" r="13" fill="#63E3C2"/>
+        <!-- middle row -->
+        <path d="M183 208 Q180 166 200 164 Q220 166 217 208 Z" fill="#A66BFF"/><circle cx="200" cy="158" r="13" fill="#A66BFF"/>
+        <path d="M303 208 Q300 166 320 164 Q340 166 337 208 Z" fill="#C4E75A"/><circle cx="320" cy="158" r="13" fill="#C4E75A"/>
+        <!-- top -->
+        <path d="M243 150 Q240 108 260 106 Q280 108 277 150 Z" fill="#FF7EB6"/><circle cx="260" cy="100" r="13" fill="#FF7EB6"/>
+      </g>
+    </svg>
+    <div class="context-body">
+      <p>Picture a human pyramid. Everyone is standing on somebody's shoulders, and everyone knows <em>exactly</em> whose.</p>
+      <p>Now take one person out of the bottom row. Everything above them rebalances. Some of it holds. Some of it really doesn't.</p>
+      <p>Now do it with <strong>2,000 people</strong>. On paper. From memory. While twelve other people are also quietly moving someone.</p>
+      <p class="context-punch">That's a <mark class="hl">restructure</mark>.</p>
+    </div>
   </div>
 </section>
 
-<!-- ══════════ DOOR 2 — SUMMARY ══════════ -->
-<section class="wrap" style="padding-top:64px;">
-  <p class="door-q">The problem, and what we built.</p>
+<!-- ══════════ TL;DR ══════════ -->
+<div class="wrap">
+  <div class="tldr">
+    <p class="lbl">TL;DR</p>
+    <ul>
+      <li><b>The problem.</b> Planning a 2,000-person restructure ran on a dozen emailed spreadsheets. Nobody knew which file was current, and nobody could see the cost of a change until days after making it.</li>
+      <li><b>What I designed.</b> A single org canvas where structure, cost and the audit trail live together. Drag a person and the budget moves with them.</li>
+      <li><b>The hard part.</b> Four forks where the familiar pattern was the one users had learned to associate with the problem. We took the unfamiliar option every time.</li>
+      <li><b>The result.</b> Planning one restructure was designed down from five or six weeks to under two, with every change documenting itself.</li>
+    </ul>
+    <a class="go" href="#design">Skip to the design <span class="arrow">↓</span></a>
+  </div>
+</div>
+
+<!-- ══════════ THE PROJECT IN ONE PICTURE ══════════ -->
+<div class="wrap" style="padding-top:56px;">
   <div class="cards2">
     <div class="bigcard problem">
             <h4>The problem</h4>
@@ -503,42 +612,19 @@
     </svg>
     <figcaption>The whole project in one picture: a dozen conflicting files collapse into a single canvas where structure, cost and the audit trail finally live together.</figcaption>
   </figure>
-</section>
+</div>
 
-<!-- ══════════ 01 CONTEXT ══════════ -->
-<section class="sec wrap" style="--accent:var(--yellow); --accent-soft:rgba(249,200,70,.42);">
-  <p class="eyebrow"><b>01</b> Let's set the context</p>
-  <div class="context">
-    <svg class="pyramid" viewBox="95 80 330 195" role="img" aria-label="A human pyramid — three people on the bottom row, two standing on their shoulders, one balanced on top">
-      <!-- ground -->
-      <line x1="120" y1="263" x2="400" y2="263" stroke="#E3DFD5" stroke-width="2.5" stroke-dasharray="2 7" stroke-linecap="round"/>
-      <g stroke="#17161B" stroke-width="2.5" stroke-linejoin="round">
-        <!-- bottom row -->
-        <path d="M123 260 Q120 218 140 216 Q160 218 157 260 Z" fill="#FF6B5B"/><circle cx="140" cy="210" r="13" fill="#FF6B5B"/>
-        <path d="M243 260 Q240 218 260 216 Q280 218 277 260 Z" fill="#F9C846"/><circle cx="260" cy="210" r="13" fill="#F9C846"/>
-        <path d="M363 260 Q360 218 380 216 Q400 218 397 260 Z" fill="#63E3C2"/><circle cx="380" cy="210" r="13" fill="#63E3C2"/>
-        <!-- middle row -->
-        <path d="M183 208 Q180 166 200 164 Q220 166 217 208 Z" fill="#A66BFF"/><circle cx="200" cy="158" r="13" fill="#A66BFF"/>
-        <path d="M303 208 Q300 166 320 164 Q340 166 337 208 Z" fill="#C4E75A"/><circle cx="320" cy="158" r="13" fill="#C4E75A"/>
-        <!-- top -->
-        <path d="M243 150 Q240 108 260 106 Q280 108 277 150 Z" fill="#FF7EB6"/><circle cx="260" cy="100" r="13" fill="#FF7EB6"/>
-      </g>
-    </svg>
-    <div class="context-body">
-      <p>Picture a human pyramid. Everyone is standing on somebody's shoulders, and everyone knows <em>exactly</em> whose.</p>
-      <p>Now take one person out of the bottom row. Everything above them rebalances. Some of it holds. Some of it really doesn't.</p>
-      <p>Now do it with <strong>2,000 people</strong>. On paper. From memory. While twelve other people are also quietly moving someone.</p>
-      <p class="context-punch">That's a <mark class="hl">restructure</mark>.</p>
-    </div>
+<!-- ══════════ STAGE 01 — DISCOVERY ══════════ -->
+<section class="stage wrap" style="--accent:var(--coral); --accent-soft:rgba(255,107,91,.28);">
+  <div class="stage-head">
+    <span class="stage-n">01</span>
+    <h2>Discovery</h2>
+    <p class="lede">Who is stuck, what a normal week costs them, and who else it reaches.</p>
   </div>
-</section>
-
-<!-- ══════════ 02 PROBLEM SCENARIO ══════════ -->
-<section class="sec wrap" style="--accent:var(--coral); --accent-soft:rgba(255,107,91,.28);">
-  <p class="eyebrow"><b>02</b> The problem scenario</p>
-  <h2>Meet the person holding the pyramid.</h2>
-  <p class="sub">Meera runs the annual restructure at a 2,000-person manufacturing firm. Here are two ordinary weeks in her job.</p>
-
+  <div class="part">
+    <p class="slabel">The problem scenario</p>
+  <h3>Meet the person holding the pyramid.</h3>
+  <p>Meera runs the annual restructure at a 2,000-person manufacturing firm. Here are two ordinary weeks in her job.</p>
   <div class="scene">
     <div class="days"><i>S</i><i>M</i><i>T</i><i class="on">W</i><i>T</i><i>F</i><i>S</i></div>
     <p><strong>It's Wednesday.</strong> The CFO wants the headcount cost for the Engineering reorg. Today, ideally.</p>
@@ -571,13 +657,21 @@
 
   <p style="margin-top:34px;">And this is the part that stings: across a full cycle, <mark class="hl">this reconciliation ate more than 40 hours</mark> before anyone made a call. Half of HR leaders spend five or more hours a month just rebuilding charts. Teams lose about <strong>3.6 hours a week</strong> to fixing spreadsheet mistakes, roughly 22 working days a year, per person.</p>
   <p class="source">DOSS Research 2026</p>
-</section>
-
-<!-- ══════════ 03 PERSONA ══════════ -->
-<section class="sec wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
-  <p class="eyebrow"><b>03</b> Meet the persona</p>
-  <h2>Meera Iyer, and the two people she can never quite reach.</h2>
-
+  </div>
+  <div class="part">
+    <p class="slabel">The evidence</p>
+  <p class="rlabel" style="margin-top:34px;">And here's why it needed doing</p>
+  <div class="stats" style="--accent-soft:rgba(255,107,91,.28);">
+    <div class="stat"><div class="n"><u>51%</u></div><p>of HR teams still run workforce planning on spreadsheets.</p></div>
+    <div class="stat"><div class="n"><u>76%</u></div><p>say a visual org view is essential. 68% still build it by hand.</p></div>
+    <div class="stat"><div class="n"><u>88%</u></div><p>of spreadsheets contain errors. These ones decide headcount.</p></div>
+  </div>
+  <p class="source">OrgChart, State of Workforce Planning 2026 · ContinuumCloud 2026. The 88% figure is Panko, <a href="https://arxiv.org/pdf/0801.3114.pdf" style="color:inherit; text-decoration:underline; text-underline-offset:2px;" target="_blank" rel="noopener">University of Hawaii, 2008</a>, not a 2026 industry report.</p>
+  </div>
+  <div class="part">
+    <p class="slabel">Primary research</p>
+  <h3>Meera Iyer, and the two people she can never quite reach.</h3>
+  <p>Built from the workshop with HR and finance practitioners. The two secondary personas matter more than they look: the module only works because they can see it too.</p>
   <div class="persona">
     <div class="top">
       <div class="av">MI</div>
@@ -596,9 +690,8 @@
 
   <p style="margin-top:34px;">She isn't the only one in the dark. <strong>Vikram</strong>, the VP of Finance, has to approve the budget impact of every structural change, but receives it as an attachment he has no way to verify. <strong>Priya</strong>, an engineering team lead, hears about restructuring <em>after</em> it's decided, with no visibility into how it hits her team until it's far too late to push back.</p>
   <p>Three people. One org chart. <mark class="hl">Never the same version of it.</mark></p>
+  </div>
 </section>
-
-<!-- ══════════ FIG — the persona map ══════════ -->
 <div class="fig-band" style="margin-top:44px;">
   <div class="wide">
     <figure class="fig" data-tilt>
@@ -608,18 +701,22 @@
   </div>
 </div>
 
-<!-- ══════════ 04 PROBLEM STATEMENT ══════════ -->
-<section class="sec wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
-  <p class="eyebrow"><b>04</b> The problem statement</p>
+<!-- ══════════ STAGE 02 — DEFINING ══════════ -->
+<section class="stage wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
+  <div class="stage-head">
+    <span class="stage-n">02</span>
+    <h2>Defining</h2>
+    <p class="lede">One question to answer, and the two things it had to get right.</p>
+  </div>
+  <div class="part">
+    <p class="slabel">The challenge</p>
   <div class="hmw">
     <p>How might we give Meera one place to plan a restructure, where Finance and her team leads see the same thing she does, and every change explains itself?</p>
   </div>
-</section>
-
-<!-- ══════════ 05 GOALS ══════════ -->
-<section class="sec wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
-  <p class="eyebrow"><b>05</b> Project goals</p>
-  <h2>Two things to get right.</h2>
+  </div>
+  <div class="part">
+    <p class="slabel">Project goals</p>
+  <h3>Two things to get right.</h3>
   <div class="goals">
     <div class="goal" style="--accent:var(--blue)">
       <div class="lbl">Goal 1</div>
@@ -630,9 +727,8 @@
       <p>Make the consequences of a change visible <em>as it's made</em>: cost, conflicts, and who signed off. That cuts anxiety and builds trust in the number.</p>
     </div>
   </div>
+  </div>
 </section>
-
-<!-- ══════════ FIG 01 ══════════ -->
 <div class="fig-band">
   <div class="wide">
     <figure class="fig" data-tilt>
@@ -642,11 +738,17 @@
   </div>
 </div>
 
-<!-- ══════════ 06 OPPORTUNITIES ══════════ -->
-<section class="sec wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
-  <p class="eyebrow"><b>06</b> Where we could win</p>
-  <h2>Five bets, ranked by friction removed.</h2>
-  <p class="sub">In that order, because if the first one fails none of the others matter.</p>
+<!-- ══════════ STAGE 03 — EXPLORATION ══════════ -->
+<section class="stage wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
+  <div class="stage-head">
+    <span class="stage-n">03</span>
+    <h2>Exploration</h2>
+    <p class="lede">Where the wins were, and the four calls that decided the interface.</p>
+  </div>
+  <div class="part">
+    <p class="slabel">Where we could win</p>
+  <h3>Five bets, ranked by friction removed.</h3>
+  <p>In that order, because if the first one fails none of the others matter.</p>
   <div class="bets">
     <div class="bet"><div class="idx">01</div><div><b>Single source of truth</b><p>One workspace where every stakeholder sees the same live data.</p></div></div>
     <div class="bet"><div class="idx">02</div><div><b>Visual org planning</b><p>Manipulate the structure by dragging nodes, not editing cells.</p></div></div>
@@ -654,14 +756,11 @@
     <div class="bet"><div class="idx">04</div><div><b>Scenario modelling</b><p>Compare what-ifs on cost and headcount side by side.</p></div></div>
     <div class="bet"><div class="idx">05</div><div><b>Cross-functional review</b><p>Role-based comment and approval in place of email chains.</p></div></div>
   </div>
-</section>
-
-<!-- ══════════ 08 FORKS ══════════ -->
-<section class="sec wrap" id="forks" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
-  <p class="eyebrow"><b>07</b> Four forks in the road</p>
-  <h2>Every time, the safe option was the thing users hated.</h2>
-  <p class="sub">So we took the unfamiliar option four times. Here's each one.</p>
-
+  </div>
+  <div class="part">
+    <p class="slabel">Design decisions</p>
+  <h3>Every time, the safe option was the thing users hated.</h3>
+  <p>So we took the unfamiliar option four times. Here's each one.</p>
   <div class="calls">
     <div class="call">
       <div class="no">Fork 01 · how you enter a change</div>
@@ -692,9 +791,8 @@
       </div>
     </div>
   </div>
+  </div>
 </section>
-
-<!-- ══════════ FIG 03 ══════════ -->
 <div class="fig-band">
   <div class="wide">
     <figure class="fig" data-tilt>
@@ -704,11 +802,16 @@
   </div>
 </div>
 
-<!-- ══════════ 09 BUILD ══════════ -->
-<section class="sec wrap" id="build" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
-  <p class="eyebrow"><b>08</b> The build</p>
-  <h2>One canvas: structure, cost and consequence, together.</h2>
-  <p class="sub">Two weeks, four designers. I owned the chart canvas, the node states and the compare flow.</p>
+<!-- ══════════ STAGE 04 — DESIGN ══════════ -->
+<section class="stage wrap" id="design" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
+  <div class="stage-head">
+    <span class="stage-n">04</span>
+    <h2>Design</h2>
+    <p class="lede">One canvas: structure, cost and consequence, together.</p>
+  </div>
+  <div class="part">
+    <p class="slabel">Solutions</p>
+    <p>Two weeks, four designers. I owned the chart canvas, the node states and the compare flow.</p>
   <p>Drag a person, open a vacancy, promote a lead, and <mark class="hl">the modified cost figure updates against current cost in the same breath</mark>, and the legend explains every state change in plain language.</p>
   <p>The structure reads geographically too. Clients running 600+ headcount per site kept asking the one thing the chart couldn't answer: <em>where</em> does this restructure actually land? Toggling to the geo view swaps hierarchy for footprint: a world roll-up, down to a single office and its department split.</p>
 
@@ -720,9 +823,8 @@
     <div class="col" style="--accent:var(--blue)"><b>Budget overview</b><span>Department view</span><span>Role-level costs</span><span>Impact summary</span></div>
     <div class="col" style="--accent:var(--blue)"><b>Audit log</b><span>Change timeline</span><span>Filter by user</span><span>Filter by department</span><span>Export</span></div>
   </div>
+  </div>
 </section>
-
-<!-- ══════════ GALLERY — inside the module ══════════ -->
 <div class="fig-band">
   <div class="wide">
     <p class="gallery-title"><b>Inside the module</b><span>Four screens from the build</span></p>
@@ -749,11 +851,17 @@
   </div>
 </div>
 
-<!-- ══════════ 10 WHAT CHANGED ══════════ -->
-<section class="sec wrap" style="--accent:var(--green); --accent-soft:rgba(43,217,124,.30);">
-  <p class="eyebrow"><b>09</b> What it was built to change</p>
-  <h2>Back to Meera's Wednesday.</h2>
-  <p class="sub">Same request from the CFO. Same deadline. Here's the new route.</p>
+<!-- ══════════ STAGE 05 — OUTCOME ══════════ -->
+<section class="stage wrap" style="--accent:var(--green); --accent-soft:rgba(43,217,124,.30);">
+  <div class="stage-head">
+    <span class="stage-n">05</span>
+    <h2>Outcome</h2>
+    <p class="lede">What the whole thing adds up to, from where Meera is standing.</p>
+  </div>
+  <div class="part">
+    <p class="slabel">What it changes</p>
+  <h3>Back to Meera's Wednesday.</h3>
+  <p>Same request from the CFO. Same deadline. Here's the new route.</p>
 
   <div class="chain good">
     <i>Open the canvas</i><i>Drag the role</i><i>Read the delta</i><i>Send it</i>
@@ -775,13 +883,17 @@
   </div>
 
   <p class="note">These are the targets the module was designed against, drawn from the baseline in stakeholder interviews. I left the engagement before the feature reached production, so post-launch numbers exist, but they aren't mine to claim.</p>
+  </div>
 </section>
 
-<!-- ══════════ 11 LEARNINGS ══════════ -->
-<section class="sec wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
-  <p class="eyebrow"><b>10</b> What I took away</p>
-  <h2>Two good weeks, and one lesson I'd rather have learned earlier.</h2>
-
+<!-- ══════════ STAGE 06 — WHAT I TOOK AWAY ══════════ -->
+<section class="stage wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
+  <div class="stage-head">
+    <span class="stage-n">06</span>
+    <h2>What I took away</h2>
+    <p class="lede">Two good weeks, and one lesson I'd rather have learned earlier.</p>
+  </div>
+  <div class="part">
   <div class="lessons">
     <div class="learn">
       <div class="lrn" style="--accent:var(--coral)">
@@ -798,6 +910,7 @@
       </div>
     </div>
     <p class="close">Meera didn't need a better spreadsheet. <mark class="hl">She needed to stop using one entirely.</mark></p>
+  </div>
   </div>
 </section>
 
