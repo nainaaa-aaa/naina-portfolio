@@ -1,0 +1,113 @@
+/* ── figure lightbox ──────────────────────────────────────────
+   Paired with lightbox.js. The zoom cursor is the only thing that
+   applies before a figure is opened.
+------------------------------------------------------------- */
+
+.zoomable { cursor: zoom-in; }
+.zoomable:focus-visible {
+  outline: 3px solid #3355FF;
+  outline-offset: 3px;
+}
+
+/* the page must not scroll behind the overlay */
+html.lb-open, html.lb-open body { overflow: hidden; }
+
+/* a class selector outranks the UA's [hidden] { display: none }, so the
+   overlay has to opt back out explicitly or it paints over the page */
+.lb[hidden] { display: none !important; }
+
+.lb {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 64px 32px 36px;
+  background: rgba(14, 13, 17, 0.93);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  cursor: zoom-out;
+}
+
+.lb-stage {
+  max-width: 100%;
+  max-height: calc(100vh - 150px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  border-radius: 8px;
+}
+
+.lb-img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 150px);
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  background: #FFFFFF;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+  cursor: default;
+}
+
+/* a board far wider than it is tall is more useful pannable than shrunk */
+.lb.wide .lb-stage { width: 100%; justify-content: flex-start; cursor: grab; }
+.lb.wide .lb-img { max-width: none; width: auto; height: calc(100vh - 150px); }
+
+.lb-cap {
+  margin: 0;
+  max-width: 760px;
+  text-align: center;
+  font-family: "DM Sans", sans-serif;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.72);
+  cursor: default;
+}
+
+.lb-cap .lb-no {
+  display: inline-block;
+  margin-right: 10px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: #63E3C2;
+}
+
+.lb-x {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  padding: 9px 16px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 20px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+
+.lb-x:hover { background: #FFFFFF; color: #17161B; }
+.lb-x:focus-visible { outline: 3px solid #63E3C2; outline-offset: 3px; }
+
+@media (max-width: 640px) {
+  .lb { padding: 58px 14px 24px; gap: 14px; }
+  .lb-stage, .lb-img { max-height: calc(100vh - 130px); }
+  .lb.wide .lb-img { height: calc(100vh - 130px); }
+  .lb-cap { font-size: 13.5px; }
+}
+
+@media print {
+  .lb { display: none !important; }
+}

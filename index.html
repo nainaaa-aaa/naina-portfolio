@@ -3,13 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Naina Gupta — UI/UX Designer</title>
-<meta name="description" content="Naina Gupta, UI/UX Designer. Making the chaos around you easy to navigate — 0→1 products, case studies, and side projects.">
+<title>Naina Gupta — Product Designer</title>
+<meta name="description" content="Naina Gupta, Product Designer. Making the chaos around you easy to navigate. 0→1 products, case studies, and side projects.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=Caveat:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- set before the stylesheets so JS-only pre-states never flash -->
+<script>document.documentElement.classList.add("js");</script>
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="nav.css">
 <link rel="stylesheet" href="responsive.css">
+<script src="nav.js" defer></script>
+<script src="scroll.js" defer></script>
 </head>
 <body>
 <div id="top" style="position: relative; min-height: 100vh; overflow: hidden; background: #ffffff; font-family: 'DM Sans',sans-serif">
@@ -23,20 +28,7 @@
     background:radial-gradient(ellipse at 70% 20%, rgba(255,210,74,.16) 0%, transparent 62%);"></div>
 
   <!-- NAV (fixed so it stays visible on scroll) -->
-  <nav style="position:fixed; top:0; left:0; right:0; z-index:50;
-    display:flex; align-items:center; justify-content:space-between; padding:16px 60px;
-    background:rgba(255,253,247,.82); backdrop-filter:saturate(1.15) blur(11px); -webkit-backdrop-filter:saturate(1.15) blur(11px); border-bottom:1px solid rgba(20,20,20,.09);">
-    <a href="#top" style="text-decoration:none;">
-      <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:22px;
-        color:#1A1209; letter-spacing:-.5px;">naina.</span>
-    </a>
-    <div id="siteNav" style="display:flex; gap:30px; align-items:flex-end;">
-      <a class="navlink" data-nav="home" href="#top" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:5px; font-size:14px; font-weight:600; color:#1A1209; letter-spacing:.15px; transition:opacity .2s;" data-hover="opacity:.55;">Home<span class="navbar" style="display:block; width:100%; height:3px; background:#121212;"></span></a>
-      <a class="navlink" data-nav="gallery" href="gallery.html" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:5px; font-size:14px; font-weight:500; color:#2A2030; letter-spacing:.15px; transition:opacity .2s;" data-hover="opacity:.55;">Gallery<span class="navbar" style="display:block; width:100%; height:3px; background:transparent;"></span></a>
-      <a class="navlink" data-nav="resume" href="assets/Naina-Gupta-Resume.pdf" target="_blank" rel="noopener" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:5px; font-size:14px; font-weight:500; color:#2A2030; letter-spacing:.15px; transition:opacity .2s;" data-hover="opacity:.55;">Resume<span class="navbar" style="display:block; width:100%; height:3px; background:transparent;"></span></a>
-      <a class="navlink" data-nav="contact" href="#contact" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:5px; font-size:14px; font-weight:500; color:#2A2030; letter-spacing:.15px; transition:opacity .2s;" data-hover="opacity:.55;">Contact<span class="navbar" style="display:block; width:100%; height:3px; background:transparent;"></span></a>
-    </div>
-  </nav>
+  <site-nav current="home"></site-nav>
 
   <!-- CONTENT — workbench stage -->
   <div id="wrapRef" style="position:relative; z-index:5; width:100%; overflow:hidden; display:flex; justify-content:center;">
@@ -48,7 +40,6 @@
     <div data-knockout="1" style="position:absolute; left:313px; top:270px; font-family:'Space Grotesk',sans-serif; font-size:34px; line-height:47px; letter-spacing:-.2px; font-weight:700; background:#FFFFFF; padding:0 8px;">CHAOS</div>
     <div data-knockout="1" style="position:absolute; left:521px; top:376px; font-family:'Space Grotesk',sans-serif; font-size:34px; line-height:47px; letter-spacing:-.2px; background:#FFFFFF; padding:0 8px;">AROUND YOU</div>
     <div data-knockout="1" style="position:absolute; left:883px; top:583px; font-family:'Space Grotesk',sans-serif; font-size:34px; line-height:47px; letter-spacing:-.2px; background:#FFFFFF; padding:0 8px;">EASY TO <span style="font-weight:700;">NAVIGATE</span></div>
-    <div data-knockout="1" style="position:absolute; left:883px; top:630px; font-family:'Space Grotesk',sans-serif; font-size:34px; line-height:47px; letter-spacing:-.2px; background:#FFFFFF; padding:0 8px;">THROUGH</div>
 
     <div style="position: absolute; left: 260.5px; top: 383.4px; width: 196.6px; height: 138.8px; border-radius: 8px; background: #FFFFFF; border: 1.2px solid #121212; box-shadow: 5px 6px 12px rgba(90,84,70,.28)"></div>
 
@@ -57,7 +48,7 @@
         <div style="width:3px; height:3px; border-radius:50%; background:#FF6B5B; border:.5px solid #121212;"></div>
         <div style="width:3px; height:3px; border-radius:50%; background:#F9C846; border:.5px solid #121212;"></div>
         <div style="width:3px; height:3px; border-radius:50%; background:#63E3C2; border:.5px solid #121212;"></div>
-        <div style="position:absolute; left:50%; transform:translateX(-50%); width:38.7px; height:6.2px; border-radius:3px; background:#F0ECE1; border:.6px solid #121212; font-size:3.6px; letter-spacing:.2px; display:flex; align-items:center; justify-content:center; color:#6b6659;">naina.design</div>
+        <div style="position:absolute; left:50%; transform:translateX(-50%); width:38.7px; height:6.2px; border-radius:3px; background:#F0ECE1; border:.6px solid #121212; font-size:3.6px; letter-spacing:.2px; display:flex; align-items:center; justify-content:center; color:#6b6659;"></div>
       </div>
       <div style="height:59px; background:#F9C846; border-bottom:1.2px solid #121212; padding:8px 10px 0; position:relative;">
         <div style="display:flex; align-items:center; gap:4px;">
@@ -237,7 +228,7 @@
     </a>
 
     <div id="heroEyebrow" data-knockout="1" style="position:absolute; left:206px; top:126px; background:#FFFFFF; padding:0 8px; font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:#4A3A5A;">
-      Naina Gupta &nbsp;·&nbsp; UI / UX Designer &nbsp;·&nbsp; 0→1 Products
+      Naina Gupta &nbsp;·&nbsp; Product Designer &nbsp;·&nbsp; 0→1 Products
     </div>
 
     <a href="#work" style="position:absolute; left:206px; top:766px; text-decoration:none; display:inline-flex; align-items:center; gap:7px; padding:11px 22px; background:#FFFFFF; color:#2A1840; font-size:14px; font-weight:600; border-radius:3px; letter-spacing:.1px; border:2px solid #2A1840; box-shadow:4px 4px 0 #FBF8F3, 6px 6px 0 #2A1840; transition:transform .1s ease;" data-hover="transform:translate(3px,3px); box-shadow:1px 1px 0 #2A1840;">
@@ -253,8 +244,8 @@
   <!-- ═══════════════════════════════════════════════════════════
        SECTION 2 — PROJECT SHOWCASE
   ════════════════════════════════════════════════════════════ -->
-  <div id="work" style="position:relative; z-index:20; background:#FFFFFF;
-    padding:120px 64px 140px; font-family:'DM Sans',sans-serif; overflow:hidden;">
+  <div id="work" data-hold style="position:relative; z-index:20; background:#FFFFFF;
+    padding:128px 64px 150px; font-family:'DM Sans',sans-serif; overflow:hidden;">
 
     <!-- Subtle pixel-grid texture on section bg -->
     <div style="position:absolute;inset:0;pointer-events:none;z-index:0;
@@ -264,19 +255,57 @@
     <div style="position:relative;z-index:1;max-width:1040px;margin:0 auto;">
 
       <!-- Section header -->
-      <div style="margin-bottom:64px; text-align:center;">
-        <p style="margin:0 0 12px; font-size:11px; font-weight:600; letter-spacing:3px;
-          text-transform:uppercase; color:#6A4A8A;">Selected Work · Checkpoint 2025</p>
+      <div style="margin-bottom:76px; text-align:center;">
+        <p style="margin:0 0 14px; font-size:11px; font-weight:600; letter-spacing:3px;
+          text-transform:uppercase; color:#6A4A8A;">Selected work · 2026</p>
         <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700;
-          font-size:clamp(30px,3.4vw,46px); letter-spacing:-1.5px; color:#1A1209; line-height:1.04;">
-          Projects I've shipped.
+          font-size:clamp(34px,4vw,54px); letter-spacing:-1.8px; color:#1A1209; line-height:1.04;">
+          Two products, start to finish.
         </h2>
+        <p style="margin:20px auto 0; max-width:480px; font-size:16.5px; line-height:1.62; color:#5A5060;">
+          Both taken from research to shipped interface. Open either one and you get the whole thing, decisions included.
+        </p>
       </div>
 
       <!-- Collectible card grid -->
-      <div style="display:grid; grid-template-columns:repeat(2,minmax(0,328px)); justify-content:center; gap:28px;">
+      <div class="proj-grid" data-spread style="display:grid; grid-template-columns:repeat(2,minmax(0,372px)); justify-content:center; gap:38px;">
 
-        <!-- ══ Card 1 — GOLD ══ -->
+        <!-- ══ Card 1 — ALTKRED ══ -->
+        <div class="proj-card">
+          <div class="peek" style="position:absolute; left:50%; top:0; z-index:0; width:74px; height:62px;
+            background:#3355FF; border:3px solid #121212; border-radius:18px 18px 12px 12px;
+            box-shadow:0 5px 0 rgba(20,20,20,.18);">
+            <div style="position:absolute; top:-11px; left:9px; width:16px; height:16px; background:#3355FF; border:3px solid #121212; border-radius:5px 5px 0 0; transform:rotate(-14deg);"></div>
+            <div style="position:absolute; top:-11px; right:9px; width:16px; height:16px; background:#3355FF; border:3px solid #121212; border-radius:5px 5px 0 0; transform:rotate(14deg);"></div>
+            <div style="position:absolute; top:20px; left:16px; width:11px; height:11px; background:#fff; border:2px solid #121212; border-radius:50%;"><div style="width:4px;height:4px;background:#121212;border-radius:50%;margin:2px 0 0 3px;"></div></div>
+            <div style="position:absolute; top:20px; right:16px; width:11px; height:11px; background:#fff; border:2px solid #121212; border-radius:50%;"><div style="width:4px;height:4px;background:#121212;border-radius:50%;margin:2px 0 0 1px;"></div></div>
+            <div style="position:absolute; top:36px; left:50%; transform:translateX(-50%); width:14px; height:7px; border:2px solid #121212; border-top:none; border-radius:0 0 8px 8px;"></div>
+          </div>
+          <a class="card" href="case-study-altkred.html" style="position:relative; z-index:1; text-decoration:none; display:block; background:#2BD97C;
+            border:3px solid #121212; border-radius:14px; padding:13px 13px 15px; box-shadow:0 6px 0 #121212;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:11px;">
+              <div style="width:52px; height:10px; border-radius:2px; overflow:hidden;
+                background:repeating-linear-gradient(115deg,#121212 0,#121212 3px,transparent 3px,transparent 6px);"></div>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:1px; color:#121212;">LVL 01</span>
+            </div>
+            <div style="border-radius:8px; overflow:hidden; border:2px solid #121212; background:#D8FBE8; aspect-ratio:3/4;">
+              <img src="assets/cs-thumb-altkred.png" alt="Altkred — factoring settlement and insurance-claim flow board" style="width:100%; height:100%; object-fit:cover; display:block;">
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin:11px 0 3px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:.5px; color:#121212;">FINTECH · FACTORING</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; color:#121212;">1/2</span>
+            </div>
+            <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700;
+              font-size:20px; letter-spacing:-.6px; color:#121212; line-height:1;">Altkred</h3>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:500; letter-spacing:1.1px; text-transform:uppercase; color:#121212; border-bottom:1.5px solid #121212; padding-bottom:2px;">Read case study →</span>
+              <div style="width:20px; height:20px; border-radius:4px; background:#121212;
+                display:flex; align-items:center; justify-content:center;">
+                <span style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:700; color:#2BD97C;">N</span>
+              </div>
+            </div>
+          </a>
+        </div>        <!-- ══ Card 2 — COMPPORT ══ -->
         <div class="proj-card">
           <!-- peek character (behind) -->
           <div class="peek" style="position:absolute; left:50%; top:0; z-index:0; width:74px; height:62px;
@@ -293,14 +322,14 @@
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:11px;">
               <div style="width:52px; height:10px; border-radius:2px; overflow:hidden;
                 background:repeating-linear-gradient(115deg,#121212 0,#121212 3px,transparent 3px,transparent 6px);"></div>
-              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:1px; color:#121212;">LVL 01</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:1px; color:#121212;">LVL 02</span>
             </div>
             <div style="border-radius:8px; overflow:hidden; border:2px solid #121212; background:#FBEAB0; aspect-ratio:3/4;">
               <img src="assets/cs-thumb-restructuring.png" alt="Compport — financial organisation restructuring poster" style="width:100%; height:100%; object-fit:cover; display:block;">
             </div>
             <div style="display:flex; align-items:center; justify-content:space-between; margin:11px 0 3px;">
               <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:.5px; color:#121212;">HRMS · ORG PLANNING</span>
-              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; color:#121212;">1/2</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; color:#121212;">2/2</span>
             </div>
             <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700;
               font-size:20px; letter-spacing:-.6px; color:#121212; line-height:1;">Compport</h3>
@@ -314,42 +343,7 @@
           </a>
         </div>
 
-        <!-- ══ Card 2 — ALTKRED ══ -->
-        <div class="proj-card">
-          <div class="peek" style="position:absolute; left:50%; top:0; z-index:0; width:74px; height:62px;
-            background:#3355FF; border:3px solid #121212; border-radius:18px 18px 12px 12px;
-            box-shadow:0 5px 0 rgba(20,20,20,.18);">
-            <div style="position:absolute; top:-11px; left:9px; width:16px; height:16px; background:#3355FF; border:3px solid #121212; border-radius:5px 5px 0 0; transform:rotate(-14deg);"></div>
-            <div style="position:absolute; top:-11px; right:9px; width:16px; height:16px; background:#3355FF; border:3px solid #121212; border-radius:5px 5px 0 0; transform:rotate(14deg);"></div>
-            <div style="position:absolute; top:20px; left:16px; width:11px; height:11px; background:#fff; border:2px solid #121212; border-radius:50%;"><div style="width:4px;height:4px;background:#121212;border-radius:50%;margin:2px 0 0 3px;"></div></div>
-            <div style="position:absolute; top:20px; right:16px; width:11px; height:11px; background:#fff; border:2px solid #121212; border-radius:50%;"><div style="width:4px;height:4px;background:#121212;border-radius:50%;margin:2px 0 0 1px;"></div></div>
-            <div style="position:absolute; top:36px; left:50%; transform:translateX(-50%); width:14px; height:7px; border:2px solid #121212; border-top:none; border-radius:0 0 8px 8px;"></div>
-          </div>
-          <a class="card" href="case-study-altkred.html" style="position:relative; z-index:1; text-decoration:none; display:block; background:#2BD97C;
-            border:3px solid #121212; border-radius:14px; padding:13px 13px 15px; box-shadow:0 6px 0 #121212;">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:11px;">
-              <div style="width:52px; height:10px; border-radius:2px; overflow:hidden;
-                background:repeating-linear-gradient(115deg,#121212 0,#121212 3px,transparent 3px,transparent 6px);"></div>
-              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:1px; color:#121212;">LVL 02</span>
-            </div>
-            <div style="border-radius:8px; overflow:hidden; border:2px solid #121212; background:#D8FBE8; aspect-ratio:3/4;">
-              <img src="assets/cs-thumb-altkred.png" alt="Altkred — factoring settlement and insurance-claim flow board" style="width:100%; height:100%; object-fit:cover; display:block;">
-            </div>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin:11px 0 3px;">
-              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:.5px; color:#121212;">FINTECH · FACTORING</span>
-              <span style="font-family:'IBM Plex Mono',monospace; font-size:8px; color:#121212;">2/2</span>
-            </div>
-            <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700;
-              font-size:20px; letter-spacing:-.6px; color:#121212; line-height:1;">Altkred</h3>
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:11px;">
-              <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:500; letter-spacing:1.1px; text-transform:uppercase; color:#121212; border-bottom:1.5px solid #121212; padding-bottom:2px;">Read case study →</span>
-              <div style="width:20px; height:20px; border-radius:4px; background:#121212;
-                display:flex; align-items:center; justify-content:center;">
-                <span style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:700; color:#2BD97C;">N</span>
-              </div>
-            </div>
-          </a>
-        </div>
+
 
       </div>
 
@@ -363,7 +357,7 @@
 
     <div style="position:relative; z-index:1; max-width:1080px; margin:0 auto 54px; padding:0 64px; text-align:center;">
       <p style="margin:0 0 12px; font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:#6A4A8A;">Side Quests</p>
-      <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(30px,3.4vw,46px); letter-spacing:-1.5px; color:#1A1209; line-height:1.04;">Checking My Experimental Nerve</h2>
+      <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(30px,3.4vw,46px); letter-spacing:-1.5px; color:#1A1209; line-height:1.04;">Things nobody asked me to make.</h2>
       <p style="margin:16px 0 0; font-size:13px; color:#5A5060; letter-spacing:.3px;">Unbriefed, unpaid, unreasonably fun. Hover to stop the belt.</p>
     </div>
 
@@ -441,8 +435,8 @@
     <div style="position:relative;z-index:1;max-width:1080px;margin:0 auto;">
       <div style="margin-bottom:68px; text-align:center;">
         <p style="margin:0 0 12px; font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:#6A4A8A;">Core Skills · Find the Words</p>
-        <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(30px,3.4vw,46px); letter-spacing:-1.5px; color:#1A1209; line-height:1.04;">Find what I bring to the table.</h2>
-        <p style="margin:16px 0 0; font-size:13px; color:#5A5060; letter-spacing:.3px;">Drag across the grid to circle each hidden skill — five to find.</p>
+        <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(30px,3.4vw,46px); letter-spacing:-1.5px; color:#1A1209; line-height:1.04;">Five skills hidden in there. Take a minute.</h2>
+        <p style="margin:16px 0 0; font-size:13px; color:#5A5060; letter-spacing:.3px;">Drag across the grid to circle each hidden skill. Five to find.</p>
       </div>
       <div style="position:relative; max-width:760px; margin:0 auto;">
 
@@ -465,7 +459,7 @@
           <div style="display:flex; gap:10px;"><span class="wc">P</span><span class="wc">O</span><span class="wc">I</span><span class="wc">U</span><span class="wc">Y</span><span class="wc">T</span><span class="wc">R</span><span class="wc">E</span><span class="wc">W</span><span class="wc">Q</span><span class="wc">A</span><span class="wc">S</span><span class="wc">D</span><span class="wc">F</span><span class="wc">G</span></div>
           <div style="display:flex; gap:10px;"><span class="wc">H</span><span class="wc skill-letter" data-word="access">A</span><span class="wc skill-letter" data-word="access">C</span><span class="wc skill-letter" data-word="access">C</span><span class="wc skill-letter" data-word="access">E</span><span class="wc skill-letter" data-word="access">S</span><span class="wc skill-letter" data-word="access">S</span><span class="wc skill-letter" data-word="access">I</span><span class="wc skill-letter" data-word="access">B</span><span class="wc skill-letter" data-word="access">I</span><span class="wc skill-letter" data-word="access">L</span><span class="wc skill-letter" data-word="access">I</span><span class="wc skill-letter" data-word="access">T</span><span class="wc skill-letter" data-word="access">Y</span><span class="wc">J</span></div>
           <div style="display:flex; gap:10px;"><span class="wc">N</span><span class="wc">B</span><span class="wc">V</span><span class="wc">C</span><span class="wc">X</span><span class="wc">Z</span><span class="wc">L</span><span class="wc">K</span><span class="wc">J</span><span class="wc">H</span><span class="wc">G</span><span class="wc">F</span><span class="wc">D</span><span class="wc">S</span><span class="wc">A</span></div>
-          <div style="display:flex; gap:10px;"><span class="wc">W</span><span class="wc skill-letter" data-word="growth">G</span><span class="wc skill-letter" data-word="growth">R</span><span class="wc skill-letter" data-word="growth">O</span><span class="wc skill-letter" data-word="growth">W</span><span class="wc skill-letter" data-word="growth">T</span><span class="wc skill-letter" data-word="growth">H</span><span class="wc skill-letter" data-word="growth">M</span><span class="wc skill-letter" data-word="growth">I</span><span class="wc skill-letter" data-word="growth">N</span><span class="wc skill-letter" data-word="growth">D</span><span class="wc skill-letter" data-word="growth">S</span><span class="wc skill-letter" data-word="growth">E</span><span class="wc skill-letter" data-word="growth">T</span><span class="wc">P</span></div>
+          <div style="display:flex; gap:10px;"><span class="wc">W</span><span class="wc skill-letter" data-word="ia">A</span><span class="wc skill-letter" data-word="ia">R</span><span class="wc skill-letter" data-word="ia">C</span><span class="wc skill-letter" data-word="ia">H</span><span class="wc skill-letter" data-word="ia">I</span><span class="wc skill-letter" data-word="ia">T</span><span class="wc skill-letter" data-word="ia">E</span><span class="wc skill-letter" data-word="ia">C</span><span class="wc skill-letter" data-word="ia">T</span><span class="wc skill-letter" data-word="ia">U</span><span class="wc skill-letter" data-word="ia">R</span><span class="wc skill-letter" data-word="ia">E</span><span class="wc">P</span><span class="wc">L</span></div>
         </div>
       </div>
       <div style="margin-top:44px; display:flex; flex-wrap:wrap; justify-content:center; gap:12px;">
@@ -473,7 +467,7 @@
         <span class="word-chip" data-chip="proto"><span class="dot" style="background:#C4E75A;"></span>Prototyping</span>
         <span class="word-chip" data-chip="design"><span class="dot" style="background:#F9C846;"></span>Design Systems</span>
         <span class="word-chip" data-chip="access"><span class="dot" style="background:#A66BFF;"></span>Accessibility</span>
-        <span class="word-chip" data-chip="growth"><span class="dot" style="background:#FF7EB6;"></span>Growth Mindset</span>
+        <span class="word-chip" data-chip="ia"><span class="dot" style="background:#FF7EB6;"></span>Information Architecture</span>
       </div>
       <div style="margin-top:44px; text-align:center;">
         <p style="font-size: 13px; color: #5A5060; letter-spacing: .3px; line-height: 1.6; max-width: 500px; margin: 0 auto"><span style="font-size: 12px; letter-spacing: normal; text-align: start;">Someone at a kirana store fumbled through a QR payment for two minutes straight. Reminded me why "simple" is a design decision, not a default.</span></p>
@@ -517,7 +511,7 @@
                 <div style="position:absolute; left:2px; top:3px; width:15px; height:15px; border-radius:50%; background:#F9C846; border:2.5px solid #121212; box-shadow:0 0 0 4px #FBF8F3;"></div>
                 <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px;">
                   <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px; color:#1A1209;">Goldenflitch Studios</div>
-                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#6A4A8A; letter-spacing:.3px; white-space:nowrap;">JAN 2024 — PRESENT</div>
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#6A4A8A; letter-spacing:.3px; white-space:nowrap;">JAN 2024 – PRESENT</div>
                 </div>
                 <div style="font-size: 13px; color: #5A5060; margin-top: 2px">UI/UX Designer · Gurugram</div>
               </div>
@@ -526,7 +520,7 @@
                 <div style="position:absolute; left:2px; top:3px; width:15px; height:15px; border-radius:50%; background:#63E3C2; border:2.5px solid #121212; box-shadow:0 0 0 4px #FBF8F3;"></div>
                 <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px;">
                   <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px; color:#1A1209;">Zeliot Connected Services</div>
-                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#6A4A8A; letter-spacing:.3px; white-space:nowrap;">JUN — AUG 2023</div>
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#6A4A8A; letter-spacing:.3px; white-space:nowrap;">JUN – AUG 2023</div>
                 </div>
                 <div style="font-size: 13px; color: #5A5060; margin-top: 2px">Visual Design Intern · Bengaluru</div>
               </div>
@@ -535,7 +529,7 @@
                 <div style="position:absolute; left:2px; top:3px; width:15px; height:15px; border-radius:50%; background:#F9C846; border:2.5px solid #121212; box-shadow:0 0 0 4px #FBF8F3;"></div>
                 <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px;">
                   <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px; color:#1A1209;">BakeOFun</div>
-                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#6A4A8A; letter-spacing:.3px; white-space:nowrap;">JUL — DEC 2021</div>
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#6A4A8A; letter-spacing:.3px; white-space:nowrap;">JUL – DEC 2021</div>
                 </div>
                 <div style="font-size: 13px; color: #5A5060; margin-top: 2px">Content Strategist · Remote</div>
               </div>
@@ -544,7 +538,7 @@
               <div style="position:relative; padding-left:38px;">
                 <div style="position:absolute; left:2px; top:3px; width:15px; height:15px; border-radius:50%; background:#63E3C2; border:2.5px solid #121212; box-shadow:0 0 0 4px #FBF8F3;"></div>
                 <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px;">
-                  <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px; color:#1A1209;">NIFT- Communication Design</div>
+                  <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px; color:#1A1209;">NIFT — Communication Design</div>
                   <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#6A4A8A; letter-spacing:.3px; white-space:nowrap;">2020-2024</div>
                 </div>
                 <div style="font-size: 13px; color: #5A5060; margin-top: 2px">Best Graduation Project · Meritorious Rank 1</div>
@@ -568,7 +562,7 @@
                 </div>
               </div>
               <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:12px; color:#1A1209; margin-bottom:4px;">This is me!</div>
-              <div style="font-size:12px; line-height:1.5; color:#5A5060;"><p>I'm a UI/UX designer who enjoys taking products from 0 to 1, breaking down complex problems, shaping product direction, and designing experiences that are practical, scalable, and easy to use.</p></div>
+              <div style="font-size:12px; line-height:1.5; color:#5A5060;"><p>I'm a product designer. I work on the parts of a product people find confusing. Right now that means enterprise HR software and invoice financing, which is an odd pair until you notice both are about money moving between people who don't trust each other yet. I like problems where the first version has to be built from nothing.</p></div>
             </div>
 
 
@@ -625,13 +619,13 @@
             background:linear-gradient(90deg, rgba(20,20,20,.18), rgba(20,20,20,.32), rgba(20,20,20,.18));"></div>
           <div style="position:absolute; left:50%; top:-4px; transform:translateX(-50%); width:26px; height:82px; background:#3A2054; z-index:6;
             clip-path:polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%); box-shadow:0 4px 8px rgba(0,0,0,.2);"></div>
-          <div class="jrnl-tab" style="position:absolute; bottom:16px; right:16px; z-index:7; cursor:pointer;
+          <div class="jrnl-tab" role="button" tabindex="0" aria-label="Close the journal" style="position:absolute; bottom:16px; right:16px; z-index:7; cursor:pointer;
             display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:#3A2054; color:#F1EDE3;
             font-size:11px; font-weight:600; letter-spacing:.5px; border:2px solid #121212; border-radius:20px;">Close ✕</div>
         </div>
 
         <!-- ── CLOSED COVER ── -->
-        <div class="cover" style="position:absolute; top:0; left:50%; width:432px; height:620px; cursor:pointer; z-index:10;
+        <div class="cover" role="button" tabindex="0" aria-label="Open the journal" style="position:absolute; top:0; left:50%; width:432px; height:620px; cursor:pointer; z-index:10;
           background:linear-gradient(135deg,#553A78,#3A2054); border:3px solid #121212; border-radius:12px;
           box-shadow:0 16px 0 #121212, 0 34px 54px rgba(0,0,0,.28);
           display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; overflow:hidden;">
@@ -667,7 +661,7 @@
     <div style="position:relative; max-width:1080px; margin:0 auto; display:flex; flex-direction:column; gap:52px;">
       <div>
         <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:500; letter-spacing:2.4px; text-transform:uppercase; color:#63E3C2;">Limited time offer</div>
-        <h2 style="margin:12px 0 22px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,3vw,40px); line-height:1.1; letter-spacing:-1.2px; color:#F1EDE3;">Hire me and avail a 10%<br>discount on Amazon.</h2>
+        <h2 style="margin:12px 0 22px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,3vw,40px); line-height:1.1; letter-spacing:-1.2px; color:#F1EDE3;">Hire me and get 10% off<br>on Amazon.</h2>
 
         <div id="dodgeZoneRef" style="position: relative; height: 230px; max-width: 1200px; background: #FFFFFF; border: 2.6px solid #121212; box-shadow: 8px 9px 0 #121212; overflow: hidden; background-image: repeating-linear-gradient(0deg,rgba(20,20,20,.05) 0,rgba(20,20,20,.05) 1px,transparent 1px,transparent 5px),
                            repeating-linear-gradient(90deg,rgba(20,20,20,.05) 0,rgba(20,20,20,.05) 1px,transparent 1px,transparent 5px); width: 100%">
@@ -676,7 +670,7 @@
               background:#FF7EB6; border:2.6px solid #121212; box-shadow:5px 6px 0 #121212; cursor:pointer; user-select:none; white-space:nowrap;
               font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; color:#121212;
               transition:left .3s cubic-bezier(.2,.9,.25,1.1), top .3s cubic-bezier(.2,.9,.25,1.1), transform .3s ease;">
-            Avail discount →
+            Get the discount →
           </div>
 
           <div id="winNoteRef" style="position:absolute; bottom:14px; right:18px; opacity:0; transition:opacity .4s ease;
@@ -685,9 +679,9 @@
           <div id="caughtRef" style="position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:24px; background:rgba(58,32,84,.82); z-index:999;">
             <div style="max-width:440px; background:#FFFFFF; border:3px solid #121212; box-shadow:10px 12px 0 #121212; padding:34px 36px 36px; text-align:center;">
               <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:30px; letter-spacing:-.9px; color:#121212;">Let's connect first.</div>
-              <div style="margin-top:10px; font-size:15px; line-height:1.55; color:#5A5060;">The discount is a bit of a myth. The conversation isn't.</div>
+              <div style="margin-top:10px; font-size:15px; line-height:1.55; color:#5A5060;">The coupon is fiction. The offer to talk is genuine.</div>
               <div style="display:flex; gap:12px; justify-content:center; margin-top:24px; flex-wrap:wrap;">
-                <a href="https://linkedin.com" style="text-decoration:none; display:inline-flex; align-items:center; gap:7px; padding:10px 18px; background:#A66BFF; border:2.4px solid #121212; box-shadow:4px 5px 0 #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color:#121212; transition:transform .12s ease, box-shadow .12s ease;" data-hover="transform:translate(3px,4px); box-shadow:1px 1px 0 #121212;">Message me on LinkedIn →</a>
+                <a href="https://www.linkedin.com/in/nainaaaguptaaa" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:inline-flex; align-items:center; gap:7px; padding:10px 18px; background:#A66BFF; border:2.4px solid #121212; box-shadow:4px 5px 0 #121212; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color:#121212; transition:transform .12s ease, box-shadow .12s ease;" data-hover="transform:translate(3px,4px); box-shadow:1px 1px 0 #121212;">Message me on LinkedIn →</a>
                 <div id="dismissBtn" style="cursor:pointer; display:inline-flex; align-items:center; padding:10px 14px; border:2.4px solid #121212; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1.4px; text-transform:uppercase; color:#121212;">Close</div>
               </div>
             </div>
@@ -700,9 +694,9 @@
           <span style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:1.8px; text-transform:uppercase; color:#6A4A8A;">Email</span>
           <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; color:#121212;">guptanaina308@gmail.com</span>
         </a>
-        <a href="https://www.linkedin.com/in/nainaaaguptaaa?utm_source=share_via&amp;utm_content=profile&amp;utm_medium=member_android" style="flex:1; min-width:230px; text-decoration:none; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:16px 20px; background:#FFFFFF; border:2.4px solid #121212; border-radius:2px; box-shadow:6px 7px 0 #121212; transition:transform .12s ease, box-shadow .12s ease;" data-hover="transform:translate(4px,5px); box-shadow:1px 1px 0 #121212;" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.linkedin.com/in/nainaaaguptaaa" style="flex:1; min-width:230px; text-decoration:none; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:16px 20px; background:#FFFFFF; border:2.4px solid #121212; border-radius:2px; box-shadow:6px 7px 0 #121212; transition:transform .12s ease, box-shadow .12s ease;" data-hover="transform:translate(4px,5px); box-shadow:1px 1px 0 #121212;" target="_blank" rel="noopener noreferrer">
           <span style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:1.8px; text-transform:uppercase; color:#6A4A8A;">LinkedIn</span>
-          <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; color:#121212;">/in/nainagupta</span>
+          <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; color:#121212;">/in/nainaaaguptaaa</span>
         </a>
         <div style="flex:1; min-width:230px; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:16px 20px; background:#63E3C2; border:2.4px solid #121212; border-radius:2px; box-shadow:6px 7px 0 #121212;">
           <span style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 9.5px; letter-spacing: 1.8px; text-transform: uppercase; color: rgb(58, 32, 84);">Based in</span>

@@ -3,12 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Compport — Case Study — Naina Gupta</title>
+<title>Compport — Case Study — Naina Gupta, Product Designer</title>
 <meta name="description" content="Nobody should need twelve spreadsheets to move one person. How I designed the org structure planning module for Compport, an enterprise HRMS platform.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="nav.css">
+<link rel="stylesheet" href="lightbox.css">
+<script src="nav.js" defer></script>
+<script src="scroll.js" defer></script>
+<script src="lightbox.js" defer></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  site-nav { --nav-bg: rgba(251,250,248,.86); --nav-ink: var(--ink); --nav-muted: var(--muted); --nav-hair: var(--hair); }
+
   :root {
     --ink: #17161B;
     --muted: #5C5A63;
@@ -27,6 +34,7 @@
     --green:  #2BD97C;
 
     --accent: var(--blue);
+    --accent-ink: var(--ink);
     --accent-soft: rgba(51,85,255,.22);
   }
 
@@ -36,13 +44,15 @@
     margin: 0; padding-top: 54px; background: var(--paper); color: var(--ink);
     font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased;
   }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .fig-frame { transform: none !important; }
+  }
 
   /* ── shell ─────────────────────────────────────────────── */
-  .wrap { max-width: 900px;  margin: 0 auto; padding: 0 32px; }
-  .wide { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
-  /* prose keeps a readable measure even as the column widens */
-  .sec > p, .sec > .sub, .standfirst { max-width: 720px; }
+  .wrap, .wide { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+  /* prose keeps a readable measure inside the full-width column */
+  .sec > p, .sec > .sub, .standfirst { max-width: 680px; }
 
   .rail { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--hair); z-index: 40; }
   .rail > i {
@@ -51,20 +61,6 @@
     transform: scaleX(0); transform-origin: 0 50%;
   }
 
-  nav.top {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    padding: 14px 32px;
-    background: rgba(251,250,248,.82); backdrop-filter: saturate(1.15) blur(11px);
-    -webkit-backdrop-filter: saturate(1.15) blur(11px); border-bottom: 1px solid var(--hair);
-  }
-  nav.top .mark {
-    font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 21px;
-    letter-spacing: -.4px; color: var(--ink); text-decoration: none;
-  }
-  nav.top .links { display: flex; gap: 28px; }
-  nav.top .links a { text-decoration: none; font-size: 13.5px; color: var(--muted); transition: color .2s; }
-  nav.top .links a:hover { color: var(--ink); }
 
   /* ── type ──────────────────────────────────────────────── */
   .kicker {
@@ -92,7 +88,7 @@
   strong { font-weight: 600; color: var(--ink); }
 
   /* ── section head ──────────────────────────────────────── */
-  .sec { padding: 60px 0 0; scroll-margin-top: 76px; }
+  .sec { padding: 104px 0 0; scroll-margin-top: 88px; }
   /* each section opens with a rule in its own semantic colour */
   .eyebrow {
     display: flex; align-items: center; gap: 12px; margin: 0 0 20px;
@@ -103,7 +99,7 @@
   .eyebrow b {
     display: inline-flex; align-items: center; justify-content: center;
     min-width: 30px; height: 24px; padding: 0 7px; border-radius: 4px;
-    background: var(--accent); border: 1.5px solid var(--ink);
+    background: var(--accent); border: 1.5px solid var(--ink); color: var(--accent-ink, var(--ink));
     font-size: 12px; letter-spacing: 0;
   }
 
@@ -157,7 +153,7 @@
     display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 26px; margin: 44px 0 0; padding-top: 24px; border-top: 1px solid var(--hair);
   }
-  .legend { display: flex; flex-wrap: wrap; align-items: center; gap: 11px 22px; margin: 30px 0 0; padding: 15px 20px; border: 1px solid var(--hair); border-radius: 12px; background: #FFFFFF; }
+  .legend { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 11px 22px; margin: 30px 0 0; padding: 15px 20px; border: 1px solid var(--hair); border-radius: 12px; background: #FFFFFF; }
   .legend .lgt { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--faint); }
   .legend .lg { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
   .legend .lg::before { content: ""; width: 13px; height: 13px; border-radius: 4px; background: var(--c); border: 1.5px solid var(--ink); flex: none; }
@@ -299,24 +295,38 @@
   .lrn p { margin: 0 !important; font-size: 14.5px !important; line-height: 1.62; color: var(--muted) !important; }
 
   /* ── figures ───────────────────────────────────────────── */
-  .fig { margin: 56px 0 0; perspective: 1500px; }
+  .fig { margin: 64px 0 0; perspective: 1500px; }
   .fig-frame {
-    transform: rotateX(var(--tilt-deg, 20deg)) scale(var(--tilt-scale, 1.05));
+    transform: rotateX(var(--tilt-deg, 0deg)) scale(var(--tilt-scale, 1));
     transform-origin: 50% 92%; border-radius: 6px; overflow: hidden;
     will-change: transform; box-shadow: 0 24px 48px rgba(23,22,27,.14);
   }
   .fig img { width: 100%; display: block; }
-  .fig figcaption { margin: 22px auto 0; max-width: 620px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; line-height: 1.7; letter-spacing: .6px; color: var(--faint); }
-  .fig-band { margin: 76px 0 0; padding: 62px 0 66px; background: var(--tint); }
+  .fig figcaption {
+    margin: 20px 0 0; max-width: 620px; text-align: left;
+    font-size: 15.5px; line-height: 1.68; color: var(--muted);
+  }
+  /* the figure number stays a small mono tag; the sentence is now prose */
+  .fig figcaption .fno {
+    display: block; margin-bottom: 7px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600;
+    letter-spacing: 1.8px; text-transform: uppercase; color: var(--accent);
+  }
+  .fig-band { margin: 56px 0 0; padding: 76px 0 80px; background: var(--tint); }
   .fig-band .fig { margin-top: 0; }
-  .fig-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 26px; }
+  .fig-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px 34px; }
   .fig-pair .fig { margin-top: 0; }
   .fig-pair figcaption { text-align: left; margin-left: 0; }
+  .gallery figcaption, .fig-band figcaption { max-width: 760px; }
 
   /* ── explanatory diagram ──────────────────────────────── */
   .diagram { margin: 32px 0 0; padding: 24px 22px 20px; background: #FFFFFF; border: 1.5px solid var(--hair); border-radius: 14px; }
   .diagram svg { width: 100%; height: auto; display: block; }
-  .diagram figcaption { margin: 18px auto 0; max-width: 560px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; line-height: 1.65; letter-spacing: .4px; color: var(--faint); }
+  /* the inline diagram's caption reads like every other figure's */
+  .diagram figcaption {
+    margin: 20px 0 0; max-width: 620px; text-align: left;
+    font-size: 15.5px; line-height: 1.68; color: var(--muted);
+  }
 
   /* ── headline metric ──────────────────────────────────── */
   .metric { margin: 30px 0 0; padding: 32px 30px 30px; border-radius: 16px; background: var(--ink); color: #FFFFFF; }
@@ -351,7 +361,7 @@
   .gallery .fig { margin-top: 0; }
 
   /* ── footer ────────────────────────────────────────────── */
-  .end { margin: 96px 0 0; padding: 40px 0 100px; border-top: 1px solid var(--hair); }
+  .end { margin: 110px auto 0; padding: 44px 0 100px; border-top: 1px solid var(--hair); }
   .end-in { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px; }
   .end .lead { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.8px; text-transform: uppercase; color: #A5A2AC; }
   .end a.big { display: block; margin-top: 12px; text-decoration: none; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: clamp(24px, 4vw, 30px); letter-spacing: -1.2px; color: var(--ink); }
@@ -361,9 +371,10 @@
     nav.top { padding: 18px 20px; }
     nav.top .links { gap: 18px; }
     .wrap, .wide { padding: 0 20px; }
-    .sec { padding-top: 62px; }
+    .sec { padding-top: 66px; }
     .fig-band { padding: 44px 0 48px; margin-top: 56px; }
     .fig { margin-top: 40px; perspective: none; }
+    .fig figcaption, .diagram figcaption { font-size: 14.5px; }
     .fig-frame { transform: none !important; box-shadow: 0 12px 26px rgba(23,22,27,.12); }
     .scene { padding: 22px 18px 20px; }
     .persona, .hmw { padding: 24px 20px; }
@@ -387,15 +398,7 @@
 
 <div class="rail"><i id="readProgress"></i></div>
 
-<nav class="top">
-  <a class="mark" href="index.html">naina.</a>
-  <div class="links">
-    <a href="index.html">Home</a>
-    <a href="gallery.html">Gallery</a>
-    <a href="assets/Naina-Gupta-Resume.pdf" target="_blank" rel="noopener">Resume</a>
-    <a href="index.html#contact">Contact</a>
-  </div>
-</nav>
+<site-nav current="work"></site-nav>
 
 <!-- ══════════ HERO ══════════ -->
 <header class="wrap" style="padding-top:44px;">
@@ -405,34 +408,34 @@
 
   <dl class="meta">
     <div><dt>Product</dt><dd>Org structure planning</dd></div>
-    <div><dt>Role</dt><dd>UI/UX designer</dd></div>
+    <div><dt>Role</dt><dd>Product designer (titled UI/UX designer at the time)</dd></div>
     <div><dt>Timeline</dt><dd>2 weeks</dd></div>
     <div><dt>Team</dt><dd>4 designers, 1 PM</dd></div>
     <div><dt>I owned</dt><dd>Chart canvas, node states, compare flow</dd></div>
   </dl>
 
-  <div class="legend">
-    <span class="lgt">Reading the colours</span>
-    <span class="lg" style="--c:var(--blue)">Concept &amp; decisions</span>
-    <span class="lg" style="--c:var(--yellow)">The analogy &amp; examples</span>
-    <span class="lg" style="--c:var(--green)">What got better</span>
-    <span class="lg" style="--c:var(--coral)">The problem</span>
-  </div>
+  <ul class="legend" aria-label="Reading the colours">
+    <li class="lgt" aria-hidden="true">Reading the colours</li>
+    <li class="lg" style="--c:var(--blue)">Concept &amp; decisions</li>
+    <li class="lg" style="--c:var(--yellow)">The analogy &amp; examples</li>
+    <li class="lg" style="--c:var(--green)">What got better</li>
+    <li class="lg" style="--c:var(--coral)">The problem</li>
+  </ul>
 </header>
 
 <!-- ══════════ DOOR 1 — 30 SECONDS ══════════ -->
 <section class="wrap" style="padding-top:76px;">
-  <p class="door-q">Got 30 seconds? ⏱️</p>
+  <p class="door-q">Got 30 seconds?</p>
   <p class="door-a">Here's the whole thing in one breath.</p>
-  <p class="oneline">We replaced twelve emailed spreadsheets with <em>one visual canvas</em> — where you drag a person, and the budget moves with them. Every change logs itself onto the node it happened to.</p>
+  <p class="oneline">We designed a single canvas to replace twelve emailed spreadsheets. Drag a person and the budget moves with them. Every change logs itself onto the node it happened to.</p>
 
   <p class="rlabel" style="margin-top:34px;">And here's why it needed doing</p>
   <div class="stats" style="--accent-soft:rgba(255,107,91,.28);">
     <div class="stat"><div class="n"><u>51%</u></div><p>of HR teams still run workforce planning on spreadsheets.</p></div>
-    <div class="stat"><div class="n"><u>76%</u></div><p>say a visual org view is essential — 68% still build it by hand.</p></div>
+    <div class="stat"><div class="n"><u>76%</u></div><p>say a visual org view is essential. 68% still build it by hand.</p></div>
     <div class="stat"><div class="n"><u>88%</u></div><p>of spreadsheets contain errors. These ones decide headcount.</p></div>
   </div>
-  <p class="source">OrgChart, State of Workforce Planning 2026 · ContinuumCloud 2026</p>
+  <p class="source">OrgChart, State of Workforce Planning 2026 · ContinuumCloud 2026. The 88% figure is Panko, <a href="https://arxiv.org/pdf/0801.3114.pdf" style="color:inherit; text-decoration:underline; text-underline-offset:2px;" target="_blank" rel="noopener">University of Hawaii, 2008</a>, not a 2026 industry report.</p>
 
   <div class="jump">
     <a class="btn" href="#forks">Take me to the hard calls <span class="arrow">↓</span></a>
@@ -442,17 +445,15 @@
 
 <!-- ══════════ DOOR 2 — SUMMARY ══════════ -->
 <section class="wrap" style="padding-top:64px;">
-  <p class="door-q">Still here? Two cards, then. 🃏</p>
+  <p class="door-q">The problem, and what we built.</p>
   <div class="cards2">
     <div class="bigcard problem">
-      <div class="ico">🤔</div>
-      <h4>The problem</h4>
-      <p>Enterprise HR teams ran restructures across a dozen spreadsheets emailed around the company. Nobody could say which file was current. Nothing recorded who moved whom, or why — and Finance found out last.</p>
+            <h4>The problem</h4>
+      <p>Enterprise HR teams ran restructures across a dozen spreadsheets emailed around the company. Nobody could say which file was current. Nothing recorded who moved whom, or why. Finance found out last.</p>
     </div>
     <div class="bigcard answer">
-      <div class="ico">💡</div>
-      <h4>What we built</h4>
-      <p>A single live org canvas. Drag a role and the modified cost updates against current cost in the same breath. Conflicts surface while you plan instead of at execution, and the audit trail lives on the node — not in a module nobody opens.</p>
+            <h4>What we built</h4>
+      <p>A single live org canvas. Drag a role and the modified cost updates against current cost in the same breath. Conflicts surface while you plan instead of at execution, and the audit trail lives on the node itself, where the person asking the question is already looking.</p>
     </div>
   </div>
 
@@ -500,11 +501,9 @@
       <text x="192" y="314" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="12" letter-spacing="1" fill="#8A8792">TWELVE FILES, EMAILED AROUND</text>
       <text x="705" y="314" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="12" letter-spacing="1" fill="#17161B">ONE LIVE CANVAS</text>
     </svg>
-    <figcaption>The whole project in one picture — a dozen conflicting files collapse into a single canvas where structure, cost and the audit trail finally live together.</figcaption>
+    <figcaption>The whole project in one picture: a dozen conflicting files collapse into a single canvas where structure, cost and the audit trail finally live together.</figcaption>
   </figure>
 </section>
-
-<p class="handoff">Still reading? Brilliant. 👇<span>The whole story, from a human pyramid to a shipped canvas.</span></p>
 
 <!-- ══════════ 01 CONTEXT ══════════ -->
 <section class="sec wrap" style="--accent:var(--yellow); --accent-soft:rgba(249,200,70,.42);">
@@ -526,10 +525,10 @@
       </g>
     </svg>
     <div class="context-body">
-      <p>Picture a human pyramid. Everyone is standing on somebody's shoulders — and everyone knows <em>exactly</em> whose.</p>
+      <p>Picture a human pyramid. Everyone is standing on somebody's shoulders, and everyone knows <em>exactly</em> whose.</p>
       <p>Now take one person out of the bottom row. Everything above them rebalances. Some of it holds. Some of it really doesn't.</p>
       <p>Now do it with <strong>2,000 people</strong>. On paper. From memory. While twelve other people are also quietly moving someone.</p>
-      <p class="context-punch">That's a <mark class="hl">restructure</mark>. 😬</p>
+      <p class="context-punch">That's a <mark class="hl">restructure</mark>.</p>
     </div>
   </div>
 </section>
@@ -542,40 +541,40 @@
 
   <div class="scene">
     <div class="days"><i>S</i><i>M</i><i>T</i><i class="on">W</i><i>T</i><i>F</i><i>S</i></div>
-    <p><strong>It's Wednesday.</strong> The CFO wants the headcount cost for the Engineering reorg — today, ideally.</p>
+    <p><strong>It's Wednesday.</strong> The CFO wants the headcount cost for the Engineering reorg. Today, ideally.</p>
     <p class="aside">Meera opens the shared folder. There are four files. Two of them are called <em>final</em>. She isn't sure which one Finance has been working from since Monday.</p>
-    <p class="ask">So what are her options? 🤷‍♀️</p>
+    <p class="ask">So what are her options?</p>
     <div class="chain bad">
-      <i>📂 Open all four</i><i>👀 Diff them by eye</i><i>☎️ Ring Finance</i><i>🕐 Wait</i><i>😮‍💨 Start the actual work</i>
+      <i>Open all four</i><i>Diff them by eye</i><i>Ring Finance</i><i>Wait</i><i>Start the actual work</i>
     </div>
     <div class="chain bad">
-      <i>🤞 Pick the newest file</i><i>📤 Send the number</i><i>😰 Hope it's the right one</i>
+      <i>Pick the newest file</i><i>Send the number</i><i>Hope it's the right one</i>
     </div>
-    <p class="refrain">All of that — before a single decision gets made!</p>
+    <p class="refrain">All of that, before a single decision gets made.</p>
   </div>
 
   <div class="scene">
     <div class="days"><i>S</i><i>M</i><i>T</i><i>W</i><i>T</i><i class="on">F</i><i>S</i></div>
     <p><strong>It's Friday.</strong> Compliance asks a simple question: who approved moving that role out of Priya's team, and when?</p>
     <p class="aside">There is no record. The approval happened in an email thread, three versions of the file ago.</p>
-    <p class="ask">Again — what can she actually do? 🤷‍♀️</p>
+    <p class="ask">There is no version of this that ends well.</p>
     <div class="chain bad">
-      <i>🔍 Search her inbox</i><i>📧 Find three threads</i><i>🤔 Guess which was the sign-off</i><i>😬 Answer anyway</i>
+      <i>Search her inbox</i><i>Find three threads</i><i>Guess which was the sign-off</i><i>Answer anyway</i>
     </div>
     <div class="chain bad">
-      <i>☎️ Ring the four people who were in the room</i><i>🙏 Ask them to remember</i>
+      <i>Ring the four people who were in the room</i><i>Ask them to remember</i>
     </div>
-    <p class="refrain">Again — before a single decision gets made!</p>
+    <p class="refrain">And Compliance is still waiting.</p>
   </div>
 
-  <p class="note">Both scenarios are illustrative — built from the pain points in stakeholder interviews, not transcripts of one specific day.</p>
+  <p class="note">Both scenarios are illustrative, built from the pain points in stakeholder interviews, not transcripts of one specific day.</p>
 
-  <p style="margin-top:34px;">And this is the part that stings: across a full cycle, <mark class="hl">this reconciliation ate more than 40 hours</mark> before anyone made a call. Half of HR leaders spend five or more hours a month just rebuilding charts. Teams lose about <strong>3.6 hours a week</strong> to fixing spreadsheet mistakes — roughly 22 working days a year, per person.</p>
+  <p style="margin-top:34px;">And this is the part that stings: across a full cycle, <mark class="hl">this reconciliation ate more than 40 hours</mark> before anyone made a call. Half of HR leaders spend five or more hours a month just rebuilding charts. Teams lose about <strong>3.6 hours a week</strong> to fixing spreadsheet mistakes, roughly 22 working days a year, per person.</p>
   <p class="source">DOSS Research 2026</p>
 </section>
 
 <!-- ══════════ 03 PERSONA ══════════ -->
-<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
+<section class="sec wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
   <p class="eyebrow"><b>03</b> Meet the persona</p>
   <h2>Meera Iyer, and the two people she can never quite reach.</h2>
 
@@ -589,13 +588,13 @@
     </div>
     <dl>
       <div><dt>Her job</dt><dd>Owns the annual restructure for a 2,000-person manufacturing firm. Juggles 12+ spreadsheets a cycle.</dd></div>
-      <div><dt>Behaviour</dt><dd>Methodical, detail-oriented, risk-averse. Colour-codes version labels into the file names — because nothing else will.</dd></div>
+      <div><dt>Behaviour</dt><dd>Methodical, detail-oriented, risk-averse. Colour-codes version labels into the file names, because nothing else will.</dd></div>
       <div><dt>What she wants</dt><dd>To finish planning in under two weeks instead of five or six, and to answer a compliance question without opening her inbox.</dd></div>
     </dl>
     <blockquote><p>"I spend more time managing spreadsheets than managing people. By the time I reconcile every file, the data is already outdated."</p></blockquote>
   </div>
 
-  <p style="margin-top:34px;">She isn't the only one in the dark. <strong>Vikram</strong>, the VP of Finance, has to approve the budget impact of every structural change — but receives it as an attachment he has no way to verify. <strong>Priya</strong>, an engineering team lead, hears about restructuring <em>after</em> it's decided, with no visibility into how it hits her team until it's far too late to push back.</p>
+  <p style="margin-top:34px;">She isn't the only one in the dark. <strong>Vikram</strong>, the VP of Finance, has to approve the budget impact of every structural change, but receives it as an attachment he has no way to verify. <strong>Priya</strong>, an engineering team lead, hears about restructuring <em>after</em> it's decided, with no visibility into how it hits her team until it's far too late to push back.</p>
   <p>Three people. One org chart. <mark class="hl">Never the same version of it.</mark></p>
 </section>
 
@@ -604,31 +603,31 @@
   <div class="wide">
     <figure class="fig" data-tilt>
       <div class="fig-frame" style="background:#FFFFFF;"><img src="assets/cs-personas.png" alt="Persona and pain-point map for HR Manager, Team Lead and Finance Head" loading="lazy"></div>
-      <figcaption>Fig 02 — the workshop persona map, by role. The shared challenges along the bottom rail became the feature brief.</figcaption>
+      <figcaption><span class="fno">Fig 01</span>The workshop persona map, by role. The shared challenges along the bottom rail became the feature brief.</figcaption>
     </figure>
   </div>
 </div>
 
 <!-- ══════════ 04 PROBLEM STATEMENT ══════════ -->
-<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
+<section class="sec wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
   <p class="eyebrow"><b>04</b> The problem statement</p>
   <div class="hmw">
-    <p>How might we give Meera one place to plan a restructure — where Finance and her team leads see the same thing she does, and every change explains itself?</p>
+    <p>How might we give Meera one place to plan a restructure, where Finance and her team leads see the same thing she does, and every change explains itself?</p>
   </div>
 </section>
 
 <!-- ══════════ 05 GOALS ══════════ -->
-<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
+<section class="sec wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
   <p class="eyebrow"><b>05</b> Project goals</p>
   <h2>Two things to get right.</h2>
   <div class="goals">
     <div class="goal" style="--accent:var(--blue)">
-      <div class="lbl">🎯 Goal 1</div>
+      <div class="lbl">Goal 1</div>
       <p>Let people reach the org information they need without hunting for it across files, folders and inboxes.</p>
     </div>
     <div class="goal" style="--accent:var(--green)">
-      <div class="lbl">🎯 Goal 2</div>
-      <p>Make the consequences of a change visible <em>as it's made</em> — cost, conflicts, and who signed off — to cut anxiety and build trust in the number.</p>
+      <div class="lbl">Goal 2</div>
+      <p>Make the consequences of a change visible <em>as it's made</em>: cost, conflicts, and who signed off. That cuts anxiety and builds trust in the number.</p>
     </div>
   </div>
 </section>
@@ -638,16 +637,16 @@
   <div class="wide">
     <figure class="fig" data-tilt>
       <div class="fig-frame"><img src="assets/cs-laptop-mock.png" alt="Org chart planning view on a laptop"></div>
-      <figcaption>Fig 01 — the org chart workspace: current versus modified cost pinned top-left, change states colour-coded on the node itself.</figcaption>
+      <figcaption><span class="fno">Fig 02</span>The org chart workspace: current versus modified cost pinned top-left, change states colour-coded on the node itself.</figcaption>
     </figure>
   </div>
 </div>
 
 <!-- ══════════ 06 OPPORTUNITIES ══════════ -->
-<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
+<section class="sec wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
   <p class="eyebrow"><b>06</b> Where we could win</p>
   <h2>Five bets, ranked by friction removed.</h2>
-  <p class="sub">In that order — because if the first one fails, none of the others matter.</p>
+  <p class="sub">In that order, because if the first one fails none of the others matter.</p>
   <div class="bets">
     <div class="bet"><div class="idx">01</div><div><b>Single source of truth</b><p>One workspace where every stakeholder sees the same live data.</p></div></div>
     <div class="bet"><div class="idx">02</div><div><b>Visual org planning</b><p>Manipulate the structure by dragging nodes, not editing cells.</p></div></div>
@@ -658,17 +657,17 @@
 </section>
 
 <!-- ══════════ 08 FORKS ══════════ -->
-<section class="sec wrap" id="forks" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
+<section class="sec wrap" id="forks" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
   <p class="eyebrow"><b>07</b> Four forks in the road</p>
   <h2>Every time, the safe option was the thing users hated.</h2>
-  <p class="sub">Which made shipping the safe option <mark class="hl">the actual risk</mark>. Here's where we went instead, and why.</p>
+  <p class="sub">So we took the unfamiliar option four times. Here's each one.</p>
 
   <div class="calls">
     <div class="call">
       <div class="no">Fork 01 · how you enter a change</div>
       <div class="pair">
         <div class="side no-go"><div class="tag">✕ We said no to</div><p>Tabular, spreadsheet-style data entry.</p></div>
-        <div class="side went"><div class="tag">✓ We shipped</div><p>A visual org chart with inline editing. Users equated spreadsheets with the problem, so the interface had to <em>feel</em> different — and unlike a row of cells, a linked chart shows the dependencies at a glance.</p></div>
+        <div class="side went"><div class="tag">✓ We shipped</div><p>A visual org chart with inline editing. Users equated spreadsheets with the problem, so the interface had to <em>feel</em> different. Unlike a row of cells, a linked chart shows the dependencies at a glance.</p></div>
       </div>
     </div>
     <div class="call">
@@ -689,7 +688,7 @@
       <div class="no">Fork 04 · where history lives</div>
       <div class="pair">
         <div class="side no-go"><div class="tag">✕ We said no to</div><p>A standalone audit-log module.</p></div>
-        <div class="side went"><div class="tag">✓ We shipped</div><p>Contextual history on each node. Compliance can see who approved a change and when without leaving their workflow — the context travels with the change. <em>Remember Meera's Friday? This is that fix.</em></p></div>
+        <div class="side went"><div class="tag">✓ We shipped</div><p>Contextual history on each node. Compliance can see who approved a change and when without leaving their workflow. The context travels with the change. <em>Remember Meera's Friday? This is that fix.</em></p></div>
       </div>
     </div>
   </div>
@@ -700,18 +699,18 @@
   <div class="wide">
     <figure class="fig" data-tilt>
       <div class="fig-frame"><img src="assets/cs-org-chart.jpg" alt="The org chart canvas showing four levels of hierarchy with a colour-coded legend" loading="lazy"></div>
-      <figcaption>Fig 03 — the structure at full depth. Four tiers, one legend, and the cost delta held in view the whole time.</figcaption>
+      <figcaption><span class="fno">Fig 03</span>The structure at full depth. Four tiers, one legend, and the cost delta held in view the whole time.</figcaption>
     </figure>
   </div>
 </div>
 
 <!-- ══════════ 09 BUILD ══════════ -->
-<section class="sec wrap" id="build" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
+<section class="sec wrap" id="build" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
   <p class="eyebrow"><b>08</b> The build</p>
   <h2>One canvas: structure, cost and consequence, together.</h2>
   <p class="sub">Two weeks, four designers. I owned the chart canvas, the node states and the compare flow.</p>
-  <p>Drag a person, open a vacancy, promote a lead — <mark class="hl">the modified cost figure updates against current cost in the same breath</mark>, and the legend explains every state change in plain language. No decoder ring needed.</p>
-  <p>The structure reads geographically too. Clients running 600+ headcount per site kept asking the one thing the chart couldn't answer: <em>where</em> does this restructure actually land? Toggling to the geo view swaps hierarchy for footprint — a world roll-up, down to a single office and its department split.</p>
+  <p>Drag a person, open a vacancy, promote a lead, and <mark class="hl">the modified cost figure updates against current cost in the same breath</mark>, and the legend explains every state change in plain language.</p>
+  <p>The structure reads geographically too. Clients running 600+ headcount per site kept asking the one thing the chart couldn't answer: <em>where</em> does this restructure actually land? Toggling to the geo view swaps hierarchy for footprint: a world roll-up, down to a single office and its department split.</p>
 
   <div class="rlabel">And the shape underneath it all</div>
   <p style="font-size:15.5px !important;">The IA mirrors how Meera thinks: big picture first, then planning, then budget, then the record of what happened.</p>
@@ -730,20 +729,20 @@
     <div class="gallery">
       <figure class="fig" data-tilt>
         <div class="fig-frame"><img src="assets/cs-node-panels.jpg" alt="Two screens side by side: the recommend and terminate panel on a node, and the same node's job history" loading="lazy"></div>
-        <figcaption>Fig 04 — forks 01 and 04, side by side. Left: acting on a node without leaving the canvas. Right: the audit trail living on the node instead of in a separate module.</figcaption>
+        <figcaption><span class="fno">Fig 04</span>Forks 01 and 04, side by side. Left: acting on a node without leaving the canvas. Right: the audit trail living on the node instead of in a separate module.</figcaption>
       </figure>
       <figure class="fig" data-tilt>
         <div class="fig-frame" style="background:#FFFFFF;"><img src="assets/cs-proto-1.gif" alt="Prototype: editing the org structure" loading="lazy"></div>
-        <figcaption>Fig 05 — editing the structure, with the cost delta updating live.</figcaption>
+        <figcaption><span class="fno">Fig 05</span>Editing the structure, with the cost delta updating live.</figcaption>
       </figure>
       <div class="fig-pair">
         <figure class="fig" data-tilt>
           <div class="fig-frame"><img src="assets/cs-geo-world.jpg" alt="Geo view: headcount clusters pinned across a world map" loading="lazy"></div>
-          <figcaption>Fig 06 — the roll-up: every region, headcount on the pin.</figcaption>
+          <figcaption><span class="fno">Fig 06</span>The roll-up: every region, headcount on the pin.</figcaption>
         </figure>
         <figure class="fig" data-tilt>
           <div class="fig-frame"><img src="assets/cs-geo-location.jpg" alt="Geo view zoomed to one Abu Dhabi office, with its department and people panel open" loading="lazy"></div>
-          <figcaption>Fig 07 — one site, drilled in: departments and the people behind the pin.</figcaption>
+          <figcaption><span class="fno">Fig 07</span>One site, drilled in: departments and the people behind the pin.</figcaption>
         </figure>
       </div>
     </div>
@@ -757,16 +756,16 @@
   <p class="sub">Same request from the CFO. Same deadline. Here's the new route.</p>
 
   <div class="chain good">
-    <i>🖥️ Open the canvas</i><i>👆 Drag the role</i><i>💰 Read the delta</i><i>📤 Send it</i>
+    <i>Open the canvas</i><i>Drag the role</i><i>Read the delta</i><i>Send it</i>
   </div>
 
   <div class="metric">
     <p class="cap">Time to plan one restructure</p>
     <div class="bar"><span class="lbl">Before</span><div class="track"><div class="fill was">5–6 weeks</div></div></div>
     <div class="bar"><span class="lbl">Designed for</span><div class="track"><div class="fill now">under 2 weeks</div></div></div>
-    <div class="delta"><b>~65% shorter</b><span>The stretch of calendar Meera used to lose to reconciliation — the target the module was built to close.</span></div>
+    <div class="delta"><span>Design target, not a measured result. This is the stretch of calendar Meera used to lose to reconciliation, and what the module was built to close.</span></div>
     <div class="swaps">
-      <p class="lbl2">And everything else that changed shape</p>
+      <p class="lbl2">The rest of it</p>
       <div class="r"><span class="was">12+ spreadsheet versions</span><span class="now">Single source of truth</span></div>
       <div class="r"><span class="was">No audit trail, compliance risk</span><span class="now">Every change auto-documented</span></div>
       <div class="r"><span class="was">Cross-functional data silos</span><span class="now">Real-time collaboration</span></div>
@@ -775,30 +774,27 @@
     </div>
   </div>
 
-  <p class="note">These are the targets the module was designed against, drawn from the baseline in stakeholder interviews. I left the engagement before the feature reached production — so post-launch numbers exist, but they aren't mine to claim.</p>
+  <p class="note">These are the targets the module was designed against, drawn from the baseline in stakeholder interviews. I left the engagement before the feature reached production, so post-launch numbers exist, but they aren't mine to claim.</p>
 </section>
 
 <!-- ══════════ 11 LEARNINGS ══════════ -->
-<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
+<section class="sec wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
   <p class="eyebrow"><b>10</b> What I took away</p>
   <h2>Two good weeks, and one lesson I'd rather have learned earlier.</h2>
 
   <div class="lessons">
     <div class="learn">
       <div class="lrn" style="--accent:var(--coral)">
-        <div class="ico">😅</div>
-        <b>Test on the ugliest data first</b>
+                <b>Test on the ugliest data first</b>
         <p>A 2,000-person chart with matrix reporting doesn't stay legible at the zoom levels I designed for — and I found that out on the last day of the sprint. Next time the ugliest real dataset comes <em>before</em> the visual system, not after.</p>
       </div>
       <div class="lrn" style="--accent:var(--yellow)">
-        <div class="ico">🧭</div>
-        <b>Familiar isn't the same as safe</b>
-        <p>Every fork here rejected the pattern people already knew. That felt risky each time. But the familiar pattern was the thing users had learned to associate with the problem — so shipping it would have been the bigger gamble.</p>
+                <b>The familiar pattern was the problem</b>
+        <p>Every fork here rejected the pattern people already knew. That felt risky each time. But the familiar pattern was the thing users had learned to associate with the problem, so shipping it would have been the bigger gamble.</p>
       </div>
       <div class="lrn" style="--accent:var(--green)">
-        <div class="ico">🤝</div>
-        <b>Design for the people not in the room</b>
-        <p>Meera was the primary persona, but the module only works because Vikram and Priya can see it too. The best fix in the whole project — history on the node — was for someone who never touches the canvas.</p>
+                <b>Design for the people not in the room</b>
+        <p>Meera was the primary persona, but the module only works because Vikram and Priya can see it too. The best fix in the whole project (history on the node) was for someone who never touches the canvas.</p>
       </div>
     </div>
     <p class="close">Meera didn't need a better spreadsheet. <mark class="hl">She needed to stop using one entirely.</mark></p>
@@ -809,10 +805,14 @@
 <div class="wrap end">
   <div class="end-in">
     <div>
-      <div class="lead">Keep going</div>
-      <a class="big" href="index.html#work">Back to all projects →</a>
+      <div class="lead">Next case study</div>
+      <a class="big" href="case-study-altkred.html">Altkred →</a>
+      <div style="margin-top:8px; font-size:14.5px; color:var(--muted);">Invoice financing for Indian SMEs. Four months, end to end.</div>
     </div>
     <a class="btn" href="index.html#contact">Work with me</a>
+  </div>
+  <div style="margin-top:26px; padding-top:20px; border-top:1px solid var(--hair);">
+    <a href="index.html#work" style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:1.4px; text-transform:uppercase; color:var(--faint); text-decoration:none;">← Back to all projects</a>
   </div>
 </div>
 

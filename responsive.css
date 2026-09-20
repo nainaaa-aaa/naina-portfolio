@@ -15,27 +15,7 @@
      560px — single column everywhere, tightest padding
    ============================================================ */
 
-/* ── nav: 60px of side padding is a sixth of a phone screen ── */
-@media (max-width: 760px) {
-  nav {
-    padding: 18px 20px !important;
-    gap: 14px;
-  }
-  #siteNav {
-    gap: 18px !important;
-  }
-  #siteNav a {
-    font-size: 13px !important;
-  }
-  /* gallery's own nav: keep four links on one row at 375px */
-  .gnav-links {
-    gap: 14px !important;
-    padding: 4px 7px !important;
-  }
-  .gnav-links a {
-    font-size: 12.5px !important;
-  }
-}
+/* nav lives in nav.css now — one component, every page. */
 
 /* ============================================================
    HOME — hero

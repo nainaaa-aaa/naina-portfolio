@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resume — Naina Gupta, Product Designer</title>
+<meta name="description" content="Resume of Naina Gupta, product designer on complex B2B platforms — experience, skills, tools, education and awards.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="nav.css">
+<script src="nav.js" defer></script>
+<script src="scroll.js" defer></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  site-nav { --nav-bg: rgba(251,250,248,.86); --nav-ink: var(--ink); --nav-muted: var(--muted); --nav-hair: var(--hair); }
+
+  /* Tokens, type scale and section rhythm are shared with the case studies
+     so the resume reads as another page of the site, not an attachment. */
+  :root {
+    --ink: #17161B;
+    --muted: #5C5A63;
+    --faint: #8A8792;
+    --hair: rgba(23,22,27,.12);
+    --paper: #FBFAF8;
+    --tint: #F1EEE8;
+
+    --yellow: #F9C846;
+    --mint:   #63E3C2;
+    --purple: #A66BFF;
+    --pink:   #FF7EB6;
+    --lime:   #C4E75A;
+    --coral:  #FF6B5B;
+    --blue:   #3355FF;
+    --green:  #2BD97C;
+
+    --accent: var(--blue);
+    --accent-ink: var(--ink);
+    --accent-soft: rgba(51,85,255,.22);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  body {
+    margin: 0; padding-top: 54px; background: var(--paper); color: var(--ink);
+    font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased;
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  /* ── shell ─────────────────────────────────────────────── */
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+
+
+  /* ── type ──────────────────────────────────────────────── */
+  .kicker {
+    margin: 0 0 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px;
+    font-weight: 500; letter-spacing: 2.4px; text-transform: uppercase; color: var(--faint);
+  }
+  h1 {
+    margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 500;
+    font-size: clamp(33px, 6vw, 58px); line-height: 1.06; letter-spacing: -2px;
+    text-wrap: balance;
+  }
+  h1 .dot { color: var(--purple); }
+  h2 {
+    margin: 0 0 16px; font-family: 'Space Grotesk', sans-serif; font-weight: 500;
+    font-size: clamp(25px, 4.4vw, 35px); line-height: 1.14; letter-spacing: -1.2px;
+    text-wrap: balance;
+  }
+  h3 { margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 20px; letter-spacing: -.5px; }
+  .standfirst {
+    margin: 26px 0 0; max-width: 680px;
+    font-size: clamp(16px, 2.1vw, 18.5px); line-height: 1.6; color: var(--ink); opacity: .76;
+    text-wrap: pretty;
+  }
+  .standfirst strong { opacity: 1; }
+  .sec p { margin: 0 0 16px; font-size: 16.5px; line-height: 1.76; color: var(--muted); max-width: 680px; text-wrap: pretty; }
+  .sec p:last-child { margin-bottom: 0; }
+  strong { font-weight: 600; color: var(--ink); }
+  mark.hl { background: linear-gradient(transparent 56%, rgba(51,85,255,.22) 56%); color: inherit; padding: 0 1px; }
+
+  /* ── section head ──────────────────────────────────────── */
+  .sec { padding: 60px 0 0; scroll-margin-top: 76px; }
+  .eyebrow {
+    display: flex; align-items: center; gap: 12px; margin: 0 0 20px;
+    padding-top: 30px; border-top: 2px solid var(--accent);
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 2.4px; text-transform: uppercase; color: var(--ink);
+  }
+  .eyebrow b {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 30px; height: 24px; padding: 0 7px; border-radius: 4px;
+    background: var(--accent); border: 1.5px solid var(--ink); color: var(--accent-ink, var(--ink));
+    font-size: 12px; letter-spacing: 0;
+  }
+
+  /* ── meta strip: the contact block ─────────────────────── */
+  .meta {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 26px; margin: 44px 0 0; padding-top: 24px; border-top: 1px solid var(--hair);
+  }
+  .meta dt { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 500; letter-spacing: 1.6px; text-transform: uppercase; color: var(--faint); }
+  .meta dd { margin: 8px 0 0; font-size: 15px; line-height: 1.5; overflow-wrap: anywhere; }
+  .meta .span2 { grid-column: span 2; }
+  .meta dd a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--hair); }
+  .meta dd a:hover { border-bottom-color: var(--ink); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px;
+    text-decoration: none; background: var(--ink); color: var(--paper); border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 1.4px; text-transform: uppercase; border: 2px solid var(--ink);
+    cursor: pointer; transition: transform .14s ease, box-shadow .14s ease;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(23,22,27,.22); }
+  .btn.ghost { background: #FFFFFF; color: var(--ink); }
+  .btn:focus-visible { outline: 3px solid var(--purple); outline-offset: 3px; }
+  .jump { display: flex; flex-wrap: wrap; gap: 12px; margin: 30px 0 0; }
+
+  /* ── experience ────────────────────────────────────────── */
+  .org {
+    display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+    gap: 10px 20px; margin: 34px 0 0; padding-bottom: 12px; border-bottom: 2px solid var(--ink);
+  }
+  .org:first-of-type { margin-top: 0; }
+  .org .co { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -.8px; }
+  .org .where { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1.6px; text-transform: uppercase; color: var(--faint); }
+
+  .job { padding: 22px 0; border-bottom: 1px solid var(--hair); }
+  .job:last-of-type { border-bottom: 0; }
+  .jt { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 18px; margin-bottom: 14px; }
+  .jt .t { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 17px; letter-spacing: -.4px; }
+  .jt .d { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 500; letter-spacing: 1.2px; color: var(--faint); white-space: nowrap; }
+
+  .job ul { margin: 0; padding: 0; list-style: none; }
+  .job li {
+    position: relative; padding-left: 20px; margin-bottom: 12px; max-width: 760px;
+    font-size: 16px; line-height: 1.7; color: var(--muted); text-wrap: pretty;
+  }
+  .job li:last-child { margin-bottom: 0; }
+  .job li::before {
+    content: ""; position: absolute; left: 0; top: 10px;
+    width: 8px; height: 8px; border-radius: 2px;
+    background: var(--accent); border: 1.5px solid var(--ink);
+  }
+  .job li a { color: var(--ink); font-weight: 600; text-decoration: none; box-shadow: inset 0 -2px 0 var(--accent-soft); }
+  .job li a:hover { box-shadow: inset 0 -12px 0 var(--accent-soft); }
+
+  /* earlier, shorter roles: one line each */
+  .short {
+    display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+    gap: 4px 18px; padding: 15px 0; border-bottom: 1px solid var(--hair); font-size: 15.5px; color: var(--muted);
+  }
+  .short:last-child { border-bottom: 0; }
+  .short .l strong { font-weight: 600; color: var(--ink); }
+  .short .r { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 1.2px; color: var(--faint); white-space: nowrap; }
+
+  /* ── skills ────────────────────────────────────────────── */
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 26px 0 0; }
+  .chip {
+    padding: 9px 16px; border-radius: 30px; background: #FFFFFF;
+    border: 1.5px solid var(--ink); font-size: 14.5px; line-height: 1.3;
+  }
+  .chip.on { background: var(--accent); }
+  .note { margin: 22px 0 0 !important; font-family: 'Caveat', cursive; font-size: 21px !important; line-height: 1.2 !important; color: var(--muted) !important; }
+
+  /* ── tools ─────────────────────────────────────────────── */
+  .tools { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 26px 0 0; }
+  .tool { padding: 22px 20px; border-radius: 10px; background: #FFFFFF; border: 1.5px solid var(--hair); border-top: 4px solid var(--accent); }
+  .tool .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--faint); }
+  .tool p { margin: 12px 0 0 !important; font-size: 15.5px !important; line-height: 1.62; color: var(--ink) !important; }
+
+  /* ── education + awards ────────────────────────────────── */
+  .twocol { display: grid; grid-template-columns: 1fr; gap: 34px; margin: 26px 0 0; }
+  @media (min-width: 760px) { .twocol { grid-template-columns: 1.05fr .95fr; gap: 44px; } }
+  .rlabel { font-family: 'IBM Plex Mono', monospace; font-size: 10px !important; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--faint) !important; margin: 0 0 16px !important; }
+  .deg { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px !important; letter-spacing: -.5px; line-height: 1.25 !important; color: var(--ink) !important; margin: 0 !important; }
+  .degsub { margin: 10px 0 0 !important; font-size: 15.5px !important; line-height: 1.66 !important; color: var(--muted) !important; }
+  .award { padding: 14px 0; border-bottom: 1px solid var(--hair); }
+  .award:last-child { border-bottom: 0; }
+  .award b { display: block; font-weight: 600; font-size: 15.5px; line-height: 1.5; color: var(--ink); }
+  .award span { display: block; margin-top: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--faint); }
+
+  /* ── selected project ──────────────────────────────────── */
+  .proj {
+    margin: 26px 0 0; padding: 28px 26px 30px; border-radius: 10px;
+    border: 2px solid var(--ink); background: #FFFFFF; box-shadow: 6px 7px 0 var(--green);
+  }
+  .proj h3 { margin: 0 0 14px; font-size: 22px; letter-spacing: -.7px; }
+  .proj p { margin: 0 !important; max-width: 760px; font-size: 16px !important; line-height: 1.7; color: var(--muted) !important; }
+
+  /* ── footer ────────────────────────────────────────────── */
+  .end { margin: 96px auto 0; padding: 40px 0 100px; border-top: 1px solid var(--hair); }
+  .end-in { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px; }
+  .end .lead { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.8px; text-transform: uppercase; color: #A5A2AC; }
+  .end a.big { display: block; margin-top: 12px; text-decoration: none; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: clamp(24px, 4vw, 30px); letter-spacing: -1.2px; color: var(--ink); }
+
+  /* ── small screens ─────────────────────────────────────── */
+  @media (max-width: 640px) {
+    nav.top { padding: 18px 20px; }
+    nav.top .links { gap: 18px; font-size: 13px; }
+    .wrap { padding: 0 20px; }
+    .sec { padding-top: 62px; }
+    .org .co { font-size: 19px; }
+  }
+
+  /* ── print: the page collapses back into a document ────── */
+  @page { size: A4; margin: 12mm 13mm; }
+  @media print {
+    html, body { background: #FFFFFF; padding-top: 0; font-size: 10.2px; }
+    nav.top, .jump, .end, .note { display: none !important; }
+    .wrap { max-width: none; padding: 0; }
+    .job li, .sec p, .proj p, .standfirst { max-width: none; }
+    header.wrap { padding-top: 0 !important; }
+    .kicker { margin-bottom: 8px; font-size: 8.5px; }
+    h1 { font-size: 30px; letter-spacing: -1.3px; }
+    h2 { font-size: 14.5px; letter-spacing: -.5px; margin-bottom: 6px; }
+    h3 { font-size: 13.5px; margin-bottom: 6px; }
+    .standfirst { margin-top: 9px; font-size: 10.6px; line-height: 1.5; opacity: 1; color: var(--muted); }
+    .meta { margin-top: 12px; padding-top: 10px; gap: 10px; grid-template-columns: repeat(6, 1fr); }
+    .meta dt { font-size: 7.6px; letter-spacing: 1.2px; }
+    .meta dd { font-size: 10px; margin-top: 3px; }
+    .sec { padding-top: 13px; break-inside: avoid; }
+    .eyebrow { padding-top: 9px; margin-bottom: 8px; font-size: 8.5px; gap: 8px; }
+    .eyebrow b { min-width: 22px; height: 17px; font-size: 9px; }
+    .org { margin-top: 11px; padding-bottom: 5px; }
+    .org .co { font-size: 13px; }
+    .org .where { font-size: 8px; }
+    .job { padding: 8px 0; break-inside: avoid; }
+    .jt { margin-bottom: 5px; }
+    .jt .t { font-size: 11px; }
+    .jt .d { font-size: 8.4px; }
+    .job li { font-size: 10.2px; line-height: 1.46; margin-bottom: 4px; padding-left: 13px; }
+    .job li::before { top: 4.5px; width: 6px; height: 6px; }
+    .job li a { box-shadow: none; }
+    .rlabel { margin: 14px 0 6px !important; font-size: 8.4px !important; }
+    .short { padding: 5px 0; font-size: 10.2px; }
+    .short .r { font-size: 8.4px; }
+    .chips { gap: 5px; margin-top: 9px; }
+    .chip { padding: 2.5px 9px; font-size: 9.4px; border-width: 1px; }
+    .tools { gap: 8px; margin-top: 9px; }
+    .tool { padding: 9px 12px; border-top-width: 3px; }
+    .tool .lbl { font-size: 8.4px; }
+    .tool p { font-size: 10.2px !important; margin-top: 6px !important; }
+    .twocol { gap: 16px; margin-top: 9px; grid-template-columns: 1.05fr .95fr; }
+    .deg { font-size: 11.5px !important; }
+    .degsub { margin: 5px 0 0 !important; font-size: 10.2px !important; line-height: 1.5 !important; }
+    .award { padding: 5px 0; }
+    .award b { font-size: 10.2px; line-height: 1.35; }
+    .award span { margin-top: 2px; font-size: 8.2px; }
+    .proj h3 { font-size: 13px !important; margin-bottom: 5px !important; }
+    .proj { margin-top: 9px; padding: 11px 14px; box-shadow: 3px 3px 0 var(--green); border-width: 1.5px; break-inside: avoid; }
+    .proj p { font-size: 10.2px !important; line-height: 1.5; }
+    a { color: inherit; }
+  }
+</style>
+</head>
+<body>
+
+<site-nav current="resume"></site-nav>
+
+<!-- ══════════ HERO ══════════ -->
+<header class="wrap" style="padding-top:44px;">
+  <p class="kicker">Resume &middot; Updated September 2026</p>
+  <h1>Naina Gupta<span class="dot">.</span></h1>
+
+  <p class="standfirst">
+    Product designer on complex B2B platforms, working from research through to the shipped interface.
+    I sit directly with product managers and engineers, own flows end to end, and lead a small design team.
+    Most useful on data-heavy products where the hard part is <strong>making a messy workflow make sense</strong>.
+  </p>
+
+  <dl class="meta">
+    <div><dt>Title</dt><dd>Senior UI/UX Designer<br>Product Designer</dd></div>
+    <div><dt>Based in</dt><dd>Delhi NCR &middot; Bengaluru</dd></div>
+    <div class="span2"><dt>Email</dt><dd><a href="mailto:guptanaina308@gmail.com">guptanaina308@gmail.com</a></dd></div>
+    <div><dt>Phone</dt><dd>+91 79996 00857</dd></div>
+    <div><dt>Elsewhere</dt><dd><a href="https://www.linkedin.com/in/nainaaaguptaaa" target="_blank" rel="noopener noreferrer">LinkedIn</a></dd></div>
+  </dl>
+
+  <div class="jump">
+    <button class="btn" type="button" onclick="window.print()">Print / save as PDF</button>
+    <a class="btn ghost" href="index.html#work">See the work</a>
+  </div>
+</header>
+
+<!-- ══════════ 01 EXPERIENCE ══════════ -->
+<section class="sec wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
+  <p class="eyebrow"><b>01</b> Experience</p>
+  <h2>Three years, two products taken end to end.</h2>
+
+  <div class="org">
+    <span class="co">Goldenflitch Studios</span>
+    <span class="where">Gurugram &middot; Jan 2024 – Present</span>
+  </div>
+
+  <div class="job">
+    <div class="jt"><span class="t">Senior UI/UX Designer</span><span class="d">Jul 2026 – Present</span></div>
+    <ul>
+      <li>Lead product design end to end, from research and problem framing through user flows to final UI, working directly with product managers and engineering teams.</li>
+      <li>Mentor three designers through regular design reviews and working sessions. All three now own their projects end to end.</li>
+      <li>Lead the team's move to AI-assisted design: building an internal way of working that carries a project from design to build in one place, and running the sessions that get the team using it.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="jt"><span class="t">UI/UX Designer</span><span class="d">Jul 2024 – Jun 2026</span></div>
+    <ul>
+      <li><a href="case-study-altkred.html">Altkred</a>. Primary designer on an end-to-end invoice factoring platform for the Indian market. Took it from research through flows to final UI with a lead designer, two designers and the engineering team.</li>
+      <li><a href="case-study.html">Compport</a>. Designed the workforce planning and org restructuring module for a compensation and HRMS platform: promotions, transfers, vacancies, restructuring, live cost impact, comparison views and a full change history. Built on interviews with HR and finance practitioners, delivered to engineering.</li>
+      <li>Shipped product UI, Framer websites and brand work across client teams, moving from executing screens to running projects end to end.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="jt"><span class="t">UI/UX Design Intern</span><span class="d">Jan 2024 – Jun 2024</span></div>
+    <ul>
+      <li>Supported research, wireframes and UI on live client products. Joined the team full time at the end of the internship.</li>
+    </ul>
+  </div>
+
+  <p class="rlabel" style="margin-top:38px;">Before that</p>
+  <div class="short">
+    <span class="l"><strong>Zeliot Connected Services</strong> &middot; Visual Design Intern</span>
+    <span class="r">Bengaluru &middot; Jun – Aug 2023</span>
+  </div>
+  <div class="short">
+    <span class="l"><strong>BakeOFun</strong> &middot; Graphic &amp; Social Media Design Intern</span>
+    <span class="r">Remote &middot; Jul – Dec 2021</span>
+  </div>
+</section>
+
+<!-- ══════════ 02 WHAT I DO ══════════ -->
+<section class="sec wrap" style="--accent:var(--yellow); --accent-soft:rgba(249,200,70,.4);">
+  <p class="eyebrow"><b>02</b> What I do</p>
+  <h2>The parts of the job I actually do.</h2>
+
+  <div class="chips">
+    <span class="chip on">UX Research</span>
+    <span class="chip">Problem Definition</span>
+    <span class="chip on">Information Architecture</span>
+    <span class="chip">User Flows</span>
+    <span class="chip on">Interaction Design</span>
+    <span class="chip">Design Systems</span>
+    <span class="chip on">Prototyping</span>
+    <span class="chip">Accessibility</span>
+    <span class="chip">Responsive Design</span>
+    <span class="chip">Design Reviews</span>
+    <span class="chip">Branding</span>
+    <span class="chip">Motion Graphics</span>
+  </div>
+  <p class="note">what I bring to the table</p>
+</section>
+
+<!-- ══════════ 03 TOOLS ══════════ -->
+<section class="sec wrap" style="--accent:var(--yellow); --accent-soft:rgba(249,200,70,.4);">
+  <p class="eyebrow"><b>03</b> Tools</p>
+
+  <div class="tools">
+    <div class="tool">
+      <p class="lbl">Design</p>
+      <p>Figma, Framer, Adobe XD</p>
+    </div>
+    <div class="tool">
+      <p class="lbl">Visual</p>
+      <p>Illustrator, Photoshop, InDesign, Procreate</p>
+    </div>
+    <div class="tool">
+      <p class="lbl">Motion &amp; 3D</p>
+      <p>After Effects, Premiere Pro, Blender</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 04 EDUCATION & AWARDS ══════════ -->
+<section class="sec wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
+  <p class="eyebrow"><b>04</b> Education &amp; awards</p>
+
+  <div class="twocol">
+    <div>
+      <p class="rlabel">Education</p>
+      <p class="deg">National Institute of Fashion Technology, Raebareli</p>
+      <p class="degsub">B.Des. Fashion Communication, 2020 – 2024<br>Minor in Fashion Management Studies</p>
+    </div>
+    <div>
+      <p class="rlabel">Awards</p>
+      <div class="award"><b>Best Academic Performance &amp; Meritorious Student Award II</b><span>NIFT &middot; Nov 2024</span></div>
+      <div class="award"><b>Best Graduation Project Award II</b><span>NIFT Raebareli &middot; May 2024</span></div>
+      <div class="award"><b>Employee of the Month</b><span>Goldenflitch Studios &middot; Aug 2024</span></div>
+      <div class="award"><b>Amazing Addition Award</b><span>Goldenflitch Studios &middot; Mar 2024</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 05 SELECTED PROJECT ══════════ -->
+<section class="sec wrap" style="--accent:var(--green); --accent-soft:rgba(43,217,124,.3);">
+  <p class="eyebrow"><b>05</b> Selected project</p>
+
+  <div class="proj">
+    <h3>Neuroverse — EEG headband and companion app</h3>
+    <p>A wearable that reads brain activity and an app that turns it into a calm score, showing how focused you stayed through an activity like reading and flagging the moments attention slipped. Research, product definition and UI. Awarded Best Graduation Project (Rank II) at NIFT.</p>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<div class="wrap end">
+  <div class="end-in">
+    <div>
+      <div class="lead">The long version</div>
+      <a class="big" href="index.html#work">Read the case studies →</a>
+      <div style="margin-top:8px; font-size:14.5px; color:var(--muted);">Compport and Altkred, both start to finish.</div>
+    </div>
+    <a class="btn" href="index.html#contact">Work with me</a>
+  </div>
+  <div style="margin-top:26px; padding-top:20px; border-top:1px solid var(--hair);">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:1.4px; text-transform:uppercase; color:var(--faint); text-decoration:none;">← Back to home</a>
+  </div>
+</div>
+
+</body>
+</html>

@@ -3,28 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Altkred — Case Study — Naina Gupta</title>
-<meta name="description" content="Cash in two days on an invoice due in ninety. How I designed Altkred, an invoice-financing marketplace for Indian SMEs — onboarding to settlement.">
+<title>Altkred — Case Study — Naina Gupta, Product Designer</title>
+<meta name="description" content="Cash in two days on an invoice due in ninety. How I designed Altkred, an invoice-financing marketplace for Indian SMEs, from onboarding to settlement.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="nav.css">
+<link rel="stylesheet" href="lightbox.css">
+<script src="nav.js" defer></script>
+<script src="scroll.js" defer></script>
+<script src="lightbox.js" defer></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-<!--
-  ─────────────────────────────────────────────────────────────
-  DROPPING IN REAL SCREENS
-  Every mockup slot looks like this:
-
-      <div class="ph">LABEL<small>1600 × 1000</small></div>
-
-  Replace that one line with:
-
-      <img class="ph" src="assets/your-export.png" alt="...">
-
-  Nothing else changes — the frame, tilt and caption all stay.
-  ─────────────────────────────────────────────────────────────
--->
 
 <style>
+  site-nav { --nav-bg: rgba(251,250,248,.86); --nav-ink: var(--ink); --nav-muted: var(--muted); --nav-hair: var(--hair); }
+
   :root {
     --ink: #17161B;
     --muted: #5C5A63;
@@ -45,6 +38,7 @@
     --green:  #2BD97C;
 
     --accent: var(--blue);
+    --accent-ink: var(--ink);
     --accent-soft: rgba(51,85,255,.22);
   }
 
@@ -54,11 +48,15 @@
     margin: 0; padding-top: 54px; background: var(--paper); color: var(--ink);
     font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased;
   }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .browser { transform: none !important; }
+  }
 
   /* ── shell ─────────────────────────────────────────────── */
-  .wrap { max-width: 860px;  margin: 0 auto; padding: 0 32px; }
-  .wide { max-width: 1300px; margin: 0 auto; padding: 0 32px; }
+  .wrap, .wide { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+  /* prose keeps a readable measure inside the full-width column */
+  .sec > p, .sec > .sub, .standfirst, .journey > .wrap > p { max-width: 680px; }
 
   .rail { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--hair); z-index: 60; }
   .rail > i {
@@ -67,20 +65,6 @@
     transform: scaleX(0); transform-origin: 0 50%;
   }
 
-  nav.top {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    padding: 14px 32px;
-    background: rgba(251,250,248,.82); backdrop-filter: saturate(1.15) blur(11px);
-    -webkit-backdrop-filter: saturate(1.15) blur(11px); border-bottom: 1px solid var(--hair);
-  }
-  nav.top .mark {
-    font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 21px;
-    letter-spacing: -.4px; color: var(--ink); text-decoration: none;
-  }
-  nav.top .links { display: flex; gap: 28px; }
-  nav.top .links a { text-decoration: none; font-size: 13.5px; color: var(--muted); transition: color .2s; }
-  nav.top .links a:hover { color: var(--ink); }
 
   /* ── type ──────────────────────────────────────────────── */
   .kicker {
@@ -106,7 +90,7 @@
   mark.hl { background: linear-gradient(transparent 56%, rgba(51,85,255,.22) 56%); color: inherit; padding: 0 1px; }
   strong { font-weight: 600; color: var(--ink); }
 
-  .sec { padding: 64px 0 0; scroll-margin-top: 76px; }
+  .sec { padding: 104px 0 0; scroll-margin-top: 88px; }
   /* every section opens with a rule in its own semantic colour, so the
      boundary between one section and the next is unmistakable */
   .eyebrow {
@@ -118,7 +102,7 @@
   .eyebrow b {
     display: inline-flex; align-items: center; justify-content: center;
     min-width: 30px; height: 24px; padding: 0 7px; border-radius: 4px;
-    background: var(--accent); border: 1.5px solid var(--ink); color: #FFFFFF;
+    background: var(--accent); border: 1.5px solid var(--ink); color: var(--accent-ink, var(--ink));
     font-size: 12px; letter-spacing: 0;
   }
 
@@ -133,8 +117,11 @@
   /* ── glossary "?" ──────────────────────────────────────── */
   .q {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 15px; height: 15px; margin-left: 3px; padding: 0;
-    vertical-align: 3px; border: 1px solid var(--hair); border-radius: 50%;
+    width: 15px; height: 15px; margin: 0 0 0 2px; padding: 0;
+    /* raised by painting, not by vertical-align, so the badge keeps its place
+       on the baseline and the punctuation after it stays flush (A-15) */
+    position: relative; top: -3px; vertical-align: baseline;
+    border: 1px solid var(--hair); border-radius: 50%;
     background: #FFFFFF; color: var(--faint); cursor: pointer;
     font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600; line-height: 1;
     transition: background .16s ease, color .16s ease, border-color .16s ease;
@@ -202,7 +189,7 @@
   @media (max-width: 540px)  { .personas { grid-template-columns: 1fr; max-width: 340px; margin: 0 auto; } }
 
   /* ── journeys ──────────────────────────────────────────── */
-  .journey { padding: 64px 0 0; }
+  .journey { padding: 92px 0 0; }
   .jnum {
     display: flex; align-items: center; gap: 10px; margin: 0 0 16px;
     padding-top: 30px; border-top: 2px solid var(--accent);
@@ -226,12 +213,12 @@
   .call .y::before { content: "→ "; color: var(--green); font-weight: 700; }
 
   /* ── mockup slots ──────────────────────────────────────── */
-  .band { margin: 44px 0 0; padding: 60px 0 62px; background: var(--tint); }
-  .band.plain { background: transparent; padding: 0; margin-top: 40px; }
+  .band { margin: 56px 0 0; padding: 76px 0 80px; background: var(--tint); }
+  .band.plain { background: transparent; padding: 0; margin-top: 56px; }
   .shot { margin: 0; perspective: 1600px; }
-  .shot + .shot { margin-top: 44px; }
+  .shot + .shot { margin-top: 64px; }
   .browser {
-    transform: rotateX(var(--tilt-deg, 18deg)) scale(var(--tilt-scale, 1.04));
+    transform: rotateX(var(--tilt-deg, 0deg)) scale(var(--tilt-scale, 1));
     transform-origin: 50% 92%;
     border-radius: 10px; overflow: hidden; background: #FFFFFF;
     border: 1.5px solid var(--hair); box-shadow: 0 26px 52px rgba(23,22,27,.15);
@@ -255,7 +242,7 @@
   .wideboard img.ph { max-height: none; object-fit: contain; }
 
   /* two screens per row */
-  .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; margin: 0; }
+  .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px 34px; margin: 0; }
   .grid2 > .shot { margin: 0; }
   .grid2 > .shot:last-child:nth-child(odd) { grid-column: 1 / -1; }
   .grid2 figcaption { text-align: left; margin-left: 0; }
@@ -268,19 +255,91 @@
   .takeaway { margin: 22px 0 0; padding: 22px 24px; border-radius: 12px; background: var(--tint); border-left: 4px solid var(--blue); }
   .takeaway p { margin: 0 !important; font-size: 18px !important; line-height: 1.6; color: var(--ink) !important; max-width: none; }
   .shot figcaption {
-    margin: 22px auto 0; max-width: 620px; text-align: center;
-    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; line-height: 1.75;
-    letter-spacing: .55px; color: var(--faint);
+    margin: 20px 0 0; max-width: 620px; text-align: left;
+    font-size: 15.5px; line-height: 1.68; color: var(--muted);
   }
+  /* the figure number stays a small mono tag; the sentence is now prose */
+  .shot figcaption .fno {
+    display: block; margin-bottom: 7px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600;
+    letter-spacing: 1.8px; text-transform: uppercase; color: var(--accent);
+  }
+  .wideboard figcaption { max-width: 760px; }
   .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; }
   .pair .shot + .shot { margin-top: 0; }
   .pair figcaption { text-align: left; margin-left: 0; }
   .pair .ph { aspect-ratio: 4/3; }
 
+  /* ── stage headers: the case study's top-level chunks ──── */
+  .stage { padding: 104px 0 0; scroll-margin-top: 88px; }
+  .stage-head { padding-top: 34px; border-top: 3px solid var(--accent); }
+  .stage-n {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 34px; height: 27px; padding: 0 9px; border-radius: 5px;
+    background: var(--accent); color: var(--accent-ink, var(--ink));
+    border: 1.5px solid var(--ink);
+    font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; font-weight: 600;
+  }
+  .stage-head h2 {
+    margin: 18px 0 0; font-size: clamp(30px, 5vw, 44px); letter-spacing: -1.6px;
+  }
+  .stage-head .lede {
+    margin: 16px 0 0; max-width: 680px;
+    font-size: clamp(16px, 2.1vw, 18.5px); line-height: 1.62; color: var(--muted);
+  }
+
+  /* a labelled part inside a stage */
+  .part { margin: 58px 0 0; }
+  .part > .slabel {
+    margin: 0 0 16px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px;
+    font-weight: 600; letter-spacing: 2.2px; text-transform: uppercase; color: var(--faint);
+  }
+  .part > h3 {
+    margin: 0 0 14px; font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+    font-size: clamp(21px, 2.9vw, 27px); letter-spacing: -.8px; line-height: 1.2;
+  }
+  .part > p { margin: 0 0 16px; font-size: 16.5px; line-height: 1.76; color: var(--muted); max-width: 680px; }
+  .part > p:last-child { margin-bottom: 0; }
+
+  /* ── the brief: what this thing actually is ────────────── */
+  .brief { margin: 30px 0 0; }
+  .brief p { font-size: 18px; line-height: 1.7; color: var(--ink); max-width: 700px; margin: 0 0 16px; }
+  .brief p:last-child { margin-bottom: 0; }
+
+  /* ── tl;dr: the shortcut for anyone who just wants screens ─ */
+  .tldr {
+    margin: 44px 0 0; padding: 32px 34px 34px; border-radius: 16px;
+    background: var(--ink); color: #FFFFFF;
+  }
+  .tldr .lbl {
+    margin: 0 0 18px; font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+    font-weight: 600; letter-spacing: 2.4px; text-transform: uppercase; color: var(--green);
+  }
+  .tldr ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 13px; max-width: 760px; }
+  .tldr li {
+    position: relative; padding-left: 24px;
+    font-size: 16.5px; line-height: 1.6; color: rgba(255,255,255,.88);
+  }
+  .tldr li::before {
+    content: ""; position: absolute; left: 0; top: 9px;
+    width: 9px; height: 9px; border-radius: 2px; background: var(--green);
+  }
+  .tldr li b { color: #FFFFFF; font-weight: 600; }
+  .tldr .go {
+    display: inline-flex; align-items: center; gap: 10px; margin: 26px 0 0;
+    padding: 14px 24px; border-radius: 6px; background: var(--green); color: var(--ink);
+    text-decoration: none; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px;
+    font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase;
+    transition: transform .14s ease;
+  }
+  .tldr .go:hover { transform: translateY(-2px); }
+  .tldr .go .arrow { transition: transform .2s ease; }
+  .tldr .go:hover .arrow { transform: translateY(2px); }
+
   /* ── the recovery ladder ───────────────────────────────── */
   .ladder { margin: 30px 0 0; display: grid; gap: 10px; max-width: 680px; }
   .rung { display: grid; grid-template-columns: 30px 1fr; gap: 16px; align-items: start; padding: 15px 18px; border-radius: 9px; background: #FFFFFF; border: 1.5px solid var(--hair); }
-  .rung i { font-style: normal; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; background: var(--tint); font-size: 14px; }
+  .rung i { font-style: normal; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; background: var(--tint); font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: var(--muted); }
   .rung b { display: block; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15.5px; letter-spacing: -.3px; }
   .rung span { display: block; margin-top: 4px; font-size: 14px; line-height: 1.6; color: var(--muted); }
   .rung.last { background: var(--ink); border-color: var(--ink); }
@@ -313,7 +372,7 @@
   .closer { margin: 40px 0 0; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: clamp(21px, 3.2vw, 28px); line-height: 1.34; letter-spacing: -1px; color: var(--ink); max-width: 680px; }
 
   /* ── footer ────────────────────────────────────────────── */
-  .end { margin: 110px 0 0; padding: 44px 0 100px; border-top: 1px solid var(--hair); }
+  .end { margin: 110px auto 0; padding: 44px 0 100px; border-top: 1px solid var(--hair); }
   .end-in { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px; }
   .end .lead { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.8px; text-transform: uppercase; color: #A5A2AC; }
   .end a.big { display: block; margin-top: 12px; text-decoration: none; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: clamp(24px, 4vw, 30px); letter-spacing: -1.2px; color: var(--ink); }
@@ -327,7 +386,7 @@
   .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(23,22,27,.22); }
 
   /* ── colour legend (states what the colours mean) ─────── */
-  .legend { display: flex; flex-wrap: wrap; align-items: center; gap: 11px 22px; margin: 34px 0 0; padding: 15px 20px; border: 1px solid var(--hair); border-radius: 12px; background: #FFFFFF; }
+  .legend { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 11px 22px; margin: 34px 0 0; padding: 15px 20px; border: 1px solid var(--hair); border-radius: 12px; background: #FFFFFF; }
   .legend .lgt { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--faint); }
   .legend .lg { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
   .legend .lg::before { content: ""; width: 13px; height: 13px; border-radius: 4px; background: var(--c); border: 1.5px solid var(--ink); flex: none; }
@@ -349,7 +408,10 @@
     nav.top { padding: 18px 20px; }
     nav.top .links { gap: 18px; }
     .wrap, .wide { padding: 0 20px; }
-    .sec, .journey { padding-top: 66px; }
+    .sec, .journey, .stage { padding-top: 66px; }
+    .part { margin-top: 42px; }
+    .tldr { padding: 24px 20px 26px; }
+    .shot figcaption { font-size: 14.5px; }
     .band { padding: 40px 0 44px; margin-top: 32px; }
     .shot { perspective: none; }
     .browser { transform: none !important; box-shadow: 0 12px 26px rgba(23,22,27,.12); }
@@ -371,22 +433,14 @@
 
 <div class="rail"><i id="readProgress"></i></div>
 
-<nav class="top">
-  <a class="mark" href="index.html">naina.</a>
-  <div class="links">
-    <a href="index.html">Home</a>
-    <a href="gallery.html">Gallery</a>
-    <a href="assets/Naina-Gupta-Resume.pdf" target="_blank" rel="noopener">Resume</a>
-    <a href="index.html#contact">Contact</a>
-  </div>
-</nav>
+<site-nav current="work"></site-nav>
 
 <!-- ══════════ HERO ══════════ -->
 <header class="wrap" style="padding-top:44px;">
   <a href="index.html#work" style="text-decoration:none; display:inline-flex; gap:9px; margin-bottom:40px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:1.4px; text-transform:uppercase; color:var(--faint);">← All projects</a>
   <p class="kicker">Altkred · Invoice financing · 2026</p>
   <h1>Cash in two days, on an invoice due in ninety.</h1>
-  <p class="standfirst">Altkred lets Indian SMEs sell unpaid invoices to financiers who bid for them. I designed the whole thing: signing up, bidding, getting paid — and what happens when a payment fails.</p>
+  <p class="standfirst">Altkred lets Indian SMEs sell unpaid invoices to financiers who bid for them. I designed the whole thing: signing up, bidding, getting paid, and what happens when a payment fails.</p>
 
   <dl class="meta">
     <div><dt>Product</dt><dd>Factoring &amp; reverse-factoring marketplace</dd></div>
@@ -396,20 +450,25 @@
     <div><dt>I owned</dt><dd>Research, flows, IA, every screen</dd></div>
   </dl>
 
-  <div class="legend">
-    <span class="lgt">Reading the colours</span>
-    <span class="lg" style="--c:var(--blue)">Concept &amp; decisions</span>
-    <span class="lg" style="--c:var(--yellow)">The people &amp; examples</span>
-    <span class="lg" style="--c:var(--green)">What gets better</span>
-    <span class="lg" style="--c:var(--coral)">The problem &amp; failures</span>
-  </div>
+  <ul class="legend" aria-label="Reading the colours">
+    <li class="lgt" aria-hidden="true">Reading the colours</li>
+    <li class="lg" style="--c:var(--blue)">Concept &amp; decisions</li>
+    <li class="lg" style="--c:var(--yellow)">The people &amp; examples</li>
+    <li class="lg" style="--c:var(--green)">What gets better</li>
+    <li class="lg" style="--c:var(--coral)">The problem &amp; failures</li>
+  </ul>
 </header>
 
-<!-- ══════════ 01 THE PRIMER ══════════ -->
-<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
-  <p class="eyebrow"><b>01</b> Thirty seconds on the subject</p>
+
+<!-- ══════════ WHAT IT IS ══════════ -->
+<section class="sec wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
+  <p class="eyebrow" style="gap:0;">What is Altkred?</p>
   <h2>Factoring is selling an invoice. It isn't a loan.</h2>
-  <p class="sub">That one difference explains nearly every decision on this page.</p>
+
+  <div class="brief">
+    <p>Altkred is a marketplace where Indian SMEs sell their unpaid invoices to banks and NBFCs, who bid against each other to buy them. The seller gets cash in about two days instead of waiting ninety. The financier gets a verified asset it can actually collect on.</p>
+    <p>That one distinction, bought rather than lent against, explains nearly every decision on this page, so it is worth thirty seconds.</p>
+  </div>
 
   <div class="primer">
     <div class="steps">
@@ -426,22 +485,40 @@
       <div class="step">
         <span class="n">3</span>
         <b>The buyer pays them</b>
-        <p>On day 90 the buyer pays the full ₹38 lakh — to the financier now, not the SME.</p>
+        <p>On day 90 the buyer pays the full ₹38 lakh, to the financier now rather than the SME.</p>
       </div>
     </div>
     <div class="flip">
-      <p><strong>That's it. No loan, no collateral</strong> — the financier bought something, they didn't lend against it. <strong>Reverse factoring<button class="q" data-term="reverse-factoring" aria-label="What is reverse factoring?" aria-expanded="false">?</button></strong> is the same trade started by the buyer: a big company lists invoices it has approved, and its suppliers take the cash early. The big company's credit is what makes the rate cheap.</p>
+      <p><strong>That's it. No loan, no collateral.</strong> The financier bought something rather than lending against it. <strong>Reverse factoring<button class="q" data-term="reverse-factoring" aria-label="What is reverse factoring?" aria-expanded="false">?</button></strong> is the same trade started by the buyer: a big company lists invoices it has approved, and its suppliers take the cash early. The big company's credit is what makes the rate cheap.</p>
     </div>
   </div>
-
 </section>
 
-<!-- ══════════ 02 THE PROBLEM ══════════ -->
-<section class="sec wrap" style="--accent:var(--coral); --accent-soft:rgba(255,107,91,.28);">
-  <p class="eyebrow"><b>02</b> Why it needed building</p>
-  <h2>Two people who should be doing business, and can't.</h2>
-  <p class="sub">One has done the work and can't get paid. The other has money and no safe way to lend it.</p>
+<!-- ══════════ TL;DR ══════════ -->
+<div class="wrap">
+  <div class="tldr">
+    <p class="lbl">TL;DR</p>
+    <ul>
+      <li><b>The problem.</b> An SME has done the work and can't get paid for ninety days. A financier has money and no way to verify the invoice or enforce collection. Both sit still.</li>
+      <li><b>What I designed.</b> The whole platform, end to end: verification and onboarding, a bidding marketplace, funding, and settlement — including every way settlement fails.</li>
+      <li><b>The hard part.</b> Four user types share the same screens and none of them is the primary one. Each became a rule the interface had to keep at once.</li>
+      <li><b>The result.</b> Accepted invoice to cash in hand goes from 60–90 days to two, with the invoice itself as the security instead of the factory.</li>
+    </ul>
+    <a class="go" href="#design">Skip to the design <span class="arrow">↓</span></a>
+  </div>
+</div>
 
+<!-- ══════════ STAGE 01 — DISCOVERY ══════════ -->
+<section class="stage wrap" style="--accent:var(--coral); --accent-soft:rgba(255,107,91,.28);">
+  <div class="stage-head">
+    <span class="stage-n">01</span>
+    <h2>Discovery</h2>
+    <p class="lede">Who is stuck, what is stopping them, and how big the gap is.</p>
+  </div>
+  <div class="part">
+    <p class="slabel">The problem</p>
+  <h3>Two people who should be doing business, and can't.</h3>
+  <p>One has done the work and can't get paid. The other has money and no safe way to lend it.</p>
   <div class="sides">
     <div class="sideq a">
       <div class="who">The seller</div>
@@ -460,30 +537,22 @@
       <p class="said">"I'm not avoiding this market. I'm avoiding an invoice I can't verify and a payment I can't enforce."</p>
     </div>
   </div>
-
+  </div>
+  <div class="part">
+    <p class="slabel">The evidence</p>
   <div class="evidence">
     <p class="ev-label">The gap, in three numbers</p>
     <div class="stats">
       <div class="stat"><div class="n"><u>14%</u></div><p>of Indian SMEs can borrow from a bank at all.</p></div>
-      <div class="stat"><div class="n"><u>₹7.34L cr</u></div><p>of SME money is stuck in unpaid invoices. The law<button class="q" data-term="msmed" aria-label="What is the 45-day rule?" aria-expanded="false">?</button> says 45 days.</p></div>
+      <div class="stat"><div class="n"><u>₹7.34 lakh crore</u></div><p>of SME money (about US$88&nbsp;billion) is stuck in unpaid invoices. The law<button class="q" data-term="msmed" aria-label="What is the 45-day rule?" aria-expanded="false">?</button> says 45 days.</p></div>
       <div class="stat"><div class="n"><u>&lt;1%</u></div><p>of SMEs use TReDS<button class="q" data-term="treds" aria-label="What is TReDS?" aria-expanded="false">?</button>, the government-backed alternative.</p></div>
     </div>
     <p class="source">Deloitte, State of Financial Services in India 2025 · MSME delayed-payment estimates, Mar 2024 · TReDS registration data, Mar 2025</p>
   </div>
-
-  <div class="takeaway">
-    <p>All three come down to one thing. <mark class="hl">An invoice is only worth money to a stranger if it can prove itself.</mark> That's what I was designing for.</p>
   </div>
-</section>
-
-<!-- ══════════ 03 WHO'S ON IT ══════════ -->
-<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
-  <p class="eyebrow"><b>03</b> Who's on the platform</p>
-  <h2>Four people, and no main one.</h2>
-  <p class="sub" style="margin-bottom:0;">I spent two weeks trying to pick a primary user. Every version was worse. All four have to work in the same screens.</p>
-</section>
-
-<div class="wide" style="margin-top:36px;">
+  <div class="part">
+    <p class="slabel">Primary research</p>
+<div class="personas-wrap" style="margin:0 0 30px;">
   <div class="personas">
     <img src="assets/cs-altkred-persona-seller.png" alt="Seller persona card — role: business owner. Goal: raise capital quickly. Need: privacy and simplicity. The SME needs cash, has nothing to pledge, and should never see the machinery." loading="lazy">
     <img src="assets/cs-altkred-persona-financier.png" alt="Financier persona card — role: bank or NBFC. Goal: lend with confidence. Need: risk clarity and control. Has the money, needs to judge the invoice in one screen and be sure of getting paid back." loading="lazy">
@@ -492,22 +561,48 @@
   </div>
 </div>
 
-<!-- ══════════ 04 THE APPROACH ══════════ -->
-<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
-  <p class="eyebrow"><b>04</b> The approach</p>
-  <h2>With no main user, each of the four got a rule.</h2>
-  <p class="sub">The four don't just share a marketplace — they share the same screens. So the design couldn't favour one without breaking another. Each persona became a rule the whole interface had to keep at once.</p>
+<!-- ══════════ STAGE 02 — DEFINING ══════════ -->
+  <h3>Four people, and no main one.</h3>
+  <p>I interviewed sellers, financiers and Altkred's own relationship managers, and spent two weeks trying to pick a primary user out of them. Every version was worse. All four have to work in the same screens.</p>
+  </div>
+  <div class="part">
+    <p class="slabel">Secondary research</p>
+  <h3>The law moved before the market did.</h3>
+  <p>I started with a competitor teardown, which told me what the category looks like. What actually shaped the product was regulation: the MSMED Act's 45-day payment rule, and the <a href="https://www.indiabudget.gov.in/economicsurvey/ebook_es2022/files/basic-html/page163.html" target="_blank" rel="noopener">Factoring Regulation (Amendment) Act, 2021</a>, which lifted the principal-business test that had limited factoring to seven NBFCs. The supply of financiers was about to grow; nothing existed to let them judge an invoice.</p>
+  </div>
+  <div class="part">
+  <div class="takeaway">
+    <p><mark class="hl">An invoice is only worth money to a stranger if it can prove itself.</mark> That's what I was designing for.</p>
+  </div>
+  </div>
+</section>
 
+<!-- ══════════ STAGE 02 — DEFINING ══════════ -->
+<section class="stage wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
+  <div class="stage-head">
+    <span class="stage-n">02</span>
+    <h2>Defining</h2>
+    <p class="lede">With no primary user, the brief had to hold four people at once.</p>
+  </div>
+  <div class="part">
+    <p class="slabel">The challenge</p>
+  <h3>How do you make an invoice prove itself to a stranger?</h3>
+  <p>An invoice is only worth money to someone who didn't watch the work happen if the platform can vouch for it: that the goods arrived, that the buyer accepted them, and that there is a way to collect on day 90.</p>
+  </div>
+  <div class="part">
+    <p class="slabel">Design principles</p>
+  <h3>Each of the four got a rule.</h3>
+  <p>The four don't just share a marketplace. They share the same screens. So the design couldn't favour one without breaking another. Each persona became a rule the whole interface had to keep at once.</p>
   <div class="pgrid">
     <div class="pcard">
       <div class="who">The seller</div>
       <b>Never show the machinery</b>
-      <p>The SME sees a number and a date. Risk scoring, insurance, bid mechanics — all real, all hidden. Simplicity is the feature.</p>
+      <p>The SME sees a number and a date. Risk scoring, insurance, bid mechanics: all real, all hidden. Simplicity is the feature.</p>
     </div>
     <div class="pcard">
       <div class="who">The financier</div>
       <b>Everything to judge it, on one screen</b>
-      <p>Buyer, amount, due date, proof of delivery, and how reliably that buyer has paid — enough to price it without leaving the view.</p>
+      <p>Buyer, amount, due date, proof of delivery, and how reliably that buyer has paid. Enough to price it without leaving the view.</p>
     </div>
     <div class="pcard">
       <div class="who">The buyer</div>
@@ -517,31 +612,87 @@
     <div class="pcard">
       <div class="who">The RM</div>
       <b>A way out of every dead end</b>
-      <p>When the automation fails, a human always has a logged action to take — never a support ticket and a shrug.</p>
+      <p>When the automation fails, a human always has a logged action to take, never a support ticket and a shrug.</p>
     </div>
   </div>
-
-  <p style="margin:42px 0 0;">Those four rules only resolve in one order — the order the money actually moves. So that's how the product is built, and how the rest of this page reads: <mark class="hl">get on, price it, move it, close it.</mark> Four parts follow, one per stage.</p>
-
+  </div>
+  <div class="part">
+    <p class="slabel">The golden path</p>
+  <h3>Four stages, in the order the money moves.</h3>
+  <p>Those four rules only resolve in one order: the order the money actually moves. So that's how the product is built, and how the design section reads: <mark class="hl">get on, price it, move it, close it.</mark></p>
   <div class="phases">
     <div class="phase"><div class="pn">Part 01</div><b>Get on</b><span>Verified before the cash is urgent.</span></div>
     <div class="phase"><div class="pn">Part 02</div><b>Price it</b><span>Financiers bid; the seller picks.</span></div>
     <div class="phase"><div class="pn">Part 03</div><b>Move it</b><span>Funds out in about 48 hours.</span></div>
-    <div class="phase"><div class="pn">Part 04</div><b>Close it</b><span>Day 90 collects — or recovers.</span></div>
+    <div class="phase"><div class="pn">Part 04</div><b>Close it</b><span>Day 90 collects, or recovers.</span></div>
+  </div>
   </div>
 </section>
 
-<!-- ══════════ JOURNEY 01 — ONBOARDING ══════════ -->
-<div class="journey" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
+<!-- ══════════ STAGE 03 — EXPLORATION ══════════ -->
+<section class="stage wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
+  <div class="stage-head">
+    <span class="stage-n">03</span>
+    <h2>Exploration</h2>
+    <p class="lede">The visual direction, and the branching underneath it.</p>
+  </div>
+  <div class="part">
+    <p class="slabel">Visual direction</p>
+  <h3>Blue and green, decided after the teardown.</h3>
+  <p>The palette and type were set after the competitor teardown: Standerd for headings, General Sans for body, and a blue-and-green system carried through every screen in the sections below.</p>
+  </div>
+  <div class="part">
+    <p class="slabel">System mapping</p>
+  <h3>The screens were the easy half.</h3>
+  <p>The board below covers <em>one</em> set of conditions. Change a single one (who pays the interest, whether it's insured, factoring or reverse factoring) and the whole branch structure changes shape.</p>
+  <p>Mapping those first is why the interface didn't double in size when reverse factoring arrived.</p>
+  </div>
+</section>
+<div class="band">
+  <div class="wide">
+    <figure class="shot wideboard" style="perspective:none; margin:0;">
+      <div class="browser" style="transform:none;">
+        <div class="bar"><i></i><i></i><i></i><span>figma · moodboard &amp; visual direction</span></div>
+        <img class="ph" src="assets/cs-altkred-moodboard.png" alt="Altkred moodboard: the blue and green palette, Standerd for headings and General Sans for body, and the fintech UI and brand references it was built from" loading="lazy">
+      </div>
+      <figcaption><span class="fno">Fig 01</span>Where the blue and green came from: the visual direction, set after the competitor teardown. Standerd for headings, General Sans for body.</figcaption>
+    </figure>
+  </div>
+</div>
+<div class="band">
+  <div class="wide">
+    <figure class="shot wideboard" data-tilt>
+      <div class="browser">
+        <div class="bar"><i></i><i></i><i></i><span>figjam · place bid, fund disbursal &amp; settlement</span></div>
+        <img class="ph" src="assets/cs-altkred-flowboard.png" alt="The full place-bid, fund-disbursal and settlement flow board in four lanes: secret key, bid place and review, fund disbursal payment, and settlement" loading="lazy">
+      </div>
+      <figcaption><span class="fno">Fig 02</span>One condition set, end to end, in four lanes. There are several of these.</figcaption>
+    </figure>
+  </div>
+</div>
+
+<!-- ══════════ STAGE 04 — DESIGN ══════════ -->
+<section class="stage wrap" id="design" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
+  <div class="stage-head">
+    <span class="stage-n">04</span>
+    <h2>Design</h2>
+    <p class="lede">Four stages of one invoice, and the call I made at each of them.</p>
+  </div>
+  <div class="part">
+    <p class="slabel">Solutions</p>
+    <p>Each stage below is a screen set, the decision that shaped it, and what I turned down to get there.</p>
+  </div>
+</section>
+<div class="journey" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
   <div class="wrap">
     <p class="jnum"><i>01</i> Getting on</p>
     <h2>Verified before the money is urgent.</h2>
-    <p>Nobody does paperwork well when they're desperate for cash. So all of it happens first — company details, documents, bank setup. The marketplace stays visible but switched off until it's done.</p>
+    <p>Nobody does paperwork well when they're desperate for cash. So all of it happens first: company details, documents, bank setup. The marketplace stays visible but switched off until it's done.</p>
 
     <div class="call">
       <div class="lbl">The call · the payment key</div>
       <p class="x"><s>Hide the payment key<button class="q" data-term="secret-key" aria-label="What is the payment key?" aria-expanded="false">?</button> in settings and let financiers find it.</s></p>
-      <p class="y">Grey out <em>Place Bid</em> on the home page until it's added, and say why right there. Without the key we can't take money from their account — so they could win an invoice they're unable to pay for.</p>
+      <p class="y">Grey out <em>Place Bid</em> on the home page until it's added, and say why right there. Without the key we can't take money from their account, so they could win an invoice they're unable to pay for.</p>
     </div>
   </div>
 
@@ -553,39 +704,37 @@
           <div class="bar"><i></i><i></i><i></i><span>/onboarding/kyb-documents</span></div>
           <img class="ph" src="assets/cs-altkred-kyb.png" alt="KYB documents screen: identity proof, address proof and certificates uploaded, each with a verified or unsuccessful state" loading="lazy">
         </div>
-        <figcaption>Six steps down the left, documents in the middle. A failed check says what failed — "the name entered doesn't match the form details" — instead of just turning red.</figcaption>
+        <figcaption><span class="fno">Fig 03</span>Six steps down the left, documents in the middle. A failed check says what failed ("the name entered doesn't match the form details") instead of just turning red.</figcaption>
       </figure>
       <figure class="shot" data-tilt>
         <div class="browser">
           <div class="bar"><i></i><i></i><i></i><span>/marketplace/FA-Antino-89234768</span></div>
           <img class="ph" src="assets/cs-altkred-bid-blocked.png" alt="Asset detail screen with bidding disabled and a panel listing the four pending setup steps" loading="lazy">
         </div>
-        <figcaption>The blocked state. The whole asset is readable, bidding is off, and the panel names every setup step still outstanding.</figcaption>
+        <figcaption><span class="fno">Fig 04</span>The blocked state. The whole asset is readable, bidding is off, and the panel names every setup step still outstanding.</figcaption>
       </figure>
       <figure class="shot" data-tilt>
         <div class="browser">
           <div class="bar"><i></i><i></i><i></i><span>/transactions/configuration</span></div>
           <img class="ph" src="assets/cs-altkred-secret-key.png" alt="Transaction configuration screen with the payment secret key added and verified" loading="lazy">
         </div>
-        <figcaption>And the screen that unblocks it — with a "why is this required?" link, because nobody hands over a key they don't understand.</figcaption>
+        <figcaption><span class="fno">Fig 05</span>And the screen that unblocks it, with a "why is this required?" link, because nobody hands over a key they don't understand.</figcaption>
       </figure>
       </div>
     </div>
   </div>
 </div>
-
-<!-- ══════════ JOURNEY 02 — MARKETPLACE & BID ══════════ -->
-<div class="journey" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
+<div class="journey" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
   <div class="wrap">
     <p class="jnum"><i>02</i> Pricing it</p>
     <h2>Three financiers competing for one invoice, on one screen.</h2>
-    <p>Each listed invoice shows the buyer, the amount, the due date<button class="q" data-term="tenure" aria-label="What is tenure?" aria-expanded="false">?</button>, proof of delivery — and how reliably that buyer has paid in the past. That last one matters most. An invoice is only as good as the person who owes it.</p>
+    <p>Each listed invoice shows the buyer, the amount, the due date<button class="q" data-term="tenure" aria-label="What is tenure?" aria-expanded="false">?</button>, proof of delivery, and how reliably that buyer has paid in the past. That last one matters most. An invoice is only as good as the person who owes it.</p>
     <p>Financiers bid against each other. So the seller picks from several offers instead of taking the only one.</p>
 
     <div class="call">
       <div class="lbl">The call · how a bid is priced</div>
       <p class="x"><s>One "interest rate" box on the bid form.</s></p>
-      <p class="y">Four separate choices instead: the rate and how long for, who pays the interest, the late penalty, and whether it's insured<button class="q" data-term="insurance" aria-label="What is credit insurance here?" aria-expanded="false">?</button>. A bid isn't a number. It's a decision about who carries the risk — and that's exactly what both sides argue about later.</p>
+      <p class="y">Four separate choices instead: the rate and how long for, who pays the interest, the late penalty, and whether it's insured<button class="q" data-term="insurance" aria-label="What is credit insurance here?" aria-expanded="false">?</button>. A bid is a decision about who carries the risk, which is exactly what both sides argue about later.</p>
     </div>
   </div>
 
@@ -597,35 +746,33 @@
           <div class="bar"><i></i><i></i><i></i><span>/marketplace</span></div>
           <img class="ph" src="assets/cs-altkred-marketplace.png" alt="Marketplace listing live factoring assets with tenure, due date, insurance cover and the current bid spread" loading="lazy">
         </div>
-        <figcaption>Live assets. Tenure, due date, insurance cover, and the bid spread so far — lowest, highest, average — so a financier knows where to come in.</figcaption>
+        <figcaption><span class="fno">Fig 06</span>Live assets. Tenure, due date, insurance cover, and the bid spread so far (lowest, highest, average) so a financier knows where to come in.</figcaption>
       </figure>
       <figure class="shot" data-tilt>
         <div class="browser">
           <div class="bar"><i></i><i></i><i></i><span>/marketplace/FA-Antino-89234768/bids</span></div>
           <img class="ph" src="assets/cs-altkred-place-bid.png" alt="Place bid form with discount rate, duration, interest payment on, default penalty and an insurance option, with the interest maths resolving beside it" loading="lazy">
         </div>
-        <figcaption>The four levers, with the maths resolving live beside them: interest, who pays it, what the seller receives, what's owed at maturity. Other financiers' bids sit underneath.</figcaption>
+        <figcaption><span class="fno">Fig 07</span>The four levers, with the maths resolving live beside them: interest, who pays it, what the seller receives, what's owed at maturity. Other financiers' bids sit underneath.</figcaption>
       </figure>
       <figure class="shot" data-tilt>
         <div class="browser">
           <div class="bar"><i></i><i></i><i></i><span>/asset-management/FA-Antino-89234768/bids</span></div>
           <img class="ph" src="assets/cs-altkred-bids-received.png" alt="Seller's view of bids received, each showing rate, amounts and insurance terms, with a select-bid action" loading="lazy">
         </div>
-        <figcaption>The seller's side. Every bid received in full — rate, what lands in the account, what's owed back, insurance terms — and one to send for signatory approval.</figcaption>
+        <figcaption><span class="fno">Fig 08</span>The seller's side. Every bid received in full: rate, what lands in the account, what's owed back, insurance terms. And one to send for signatory approval.</figcaption>
       </figure>
       <figure class="shot" data-tilt>
         <div class="browser">
           <div class="bar"><i></i><i></i><i></i><span>/asset-management/FA-Antino-89234768/bids</span></div>
           <img class="ph" src="assets/cs-altkred-bid-selected.png" alt="Selected bid awaiting buyer acceptance, with a status panel and a note that other bids will be auto-rejected" loading="lazy">
         </div>
-        <figcaption>Selected, and moving down the approval chain. The panel is explicit that confirming this one auto-rejects the rest — that's not a thing to discover afterwards.</figcaption>
+        <figcaption><span class="fno">Fig 09</span>Selected, and moving down the approval chain. The panel is explicit that confirming this one auto-rejects the rest, which is the kind of thing you want to know beforehand.</figcaption>
       </figure>
       </div>
     </div>
   </div>
 </div>
-
-<!-- ══════════ JOURNEY 03 — FUNDING ══════════ -->
 <div class="journey" style="--accent:var(--green); --accent-soft:rgba(43,217,124,.34);">
   <div class="wrap">
     <p class="jnum"><i>03</i> Moving it</p>
@@ -636,36 +783,34 @@
     <div class="call">
       <div class="lbl">The call · when to ask the buyer</div>
       <p class="x"><s>Ask the buyer to set up the payment permission after the bid is won.</s></p>
-      <p class="y">Ask inside the bid approval instead — one screen, one action. Chase a buyer for it afterwards and you never get it. And without it, there's no way to collect on day 90.</p>
+      <p class="y">Ask inside the bid approval instead: one screen, one action. Chase a buyer for it afterwards and you never get it. And without it, there's no way to collect on day 90.</p>
     </div>
   </div>
 
   <div class="wrap" style="margin-top:30px;">
-    <p style="font-size:15px; color:var(--faint);">Funding screens are still in build — the decision above is the part that mattered.</p>
+    <p style="font-size:15px; color:var(--faint);">The funding screens are still in build. The decision above is the one that shaped them.</p>
   </div>
 </div>
-
-<!-- ══════════ JOURNEY 04 — SETTLEMENT ══════════ -->
 <div class="journey" style="--accent:var(--coral); --accent-soft:rgba(255,107,91,.28);">
   <div class="wrap">
     <p class="jnum"><i>04</i> Closing it</p>
     <h2>Day 90 collects itself — and has somewhere to go when it doesn't.</h2>
     <p>On the due date the payment pulls automatically<button class="q" data-term="autodebit" aria-label="What is auto-debit here?" aria-expanded="false">?</button>. Usually it works. The rest of the time is where this product is really decided.</p>
-    <p>The happy path is about a fifth of the screens. <mark class="hl">A dead end here is somebody's payroll</mark> — so nothing ends in "contact support".</p>
+    <p>The happy path is about a fifth of the screens. <mark class="hl">A dead end here is somebody's payroll</mark>, so nothing ends in "contact support".</p>
 
     <div class="ladder">
-      <div class="rung"><i>💳</i><div><b>The payment pulls</b><span>It clears. We're done.</span></div></div>
-      <div class="rung"><i>🔁</i><div><b>It bounces — try again</b><span>One automatic retry, with the date shown on screen.</span></div></div>
-      <div class="rung"><i>🧾</i><div><b>The buyer paid another way</b><span>An RM records the bank transfer against the invoice, with proof attached.</span></div></div>
-      <div class="rung"><i>🔗</i><div><b>An RM sends a payment link</b><span>Made and sent from the same screen as the failure.</span></div></div>
-      <div class="rung"><i>🚦</i><div><b>An RM changes the status</b><span>A manual override, logged. Someone is accountable for it.</span></div></div>
-      <div class="rung last"><i>🛡️</i><div><b>Or the buyer never pays</b><span>If the financier is insured, the RM files the claim from that same screen. If not, the screen says so plainly and closes.</span></div></div>
+      <div class="rung"><i>1</i><div><b>The payment pulls</b><span>It clears. We're done.</span></div></div>
+      <div class="rung"><i>2</i><div><b>It bounces, so it retries</b><span>One automatic retry, with the date shown on screen.</span></div></div>
+      <div class="rung"><i>3</i><div><b>The buyer paid another way</b><span>An RM records the bank transfer against the invoice, with proof attached.</span></div></div>
+      <div class="rung"><i>4</i><div><b>An RM sends a payment link</b><span>Made and sent from the same screen as the failure.</span></div></div>
+      <div class="rung"><i>5</i><div><b>An RM changes the status</b><span>A manual override, logged. Someone is accountable for it.</span></div></div>
+      <div class="rung last"><i>6</i><div><b>Or the buyer never pays</b><span>If the financier is insured, the RM files the claim from that same screen. If not, the screen says so plainly and closes.</span></div></div>
     </div>
 
     <div class="call">
       <div class="lbl">The call · where a default goes</div>
       <p class="x"><s>Put insurance claims in a separate admin module.</s></p>
-      <p class="y">Keep them inside settlement. The worst outcome deserves the clearest screen — and the person handling it is already looking at the failed payment.</p>
+      <p class="y">Keep them inside settlement. The worst outcome deserves the clearest screen, and the person handling it is already looking at the failed payment.</p>
     </div>
   </div>
 
@@ -676,73 +821,50 @@
           <div class="bar"><i></i><i></i><i></i><span>figjam · settlement &amp; claim</span></div>
           <img class="ph" src="assets/cs-altkred-flow-detail.png" alt="Flow board detail: the payment retry ladder, RM override, and the settlement lane forking into positive and negative insurance claims" loading="lazy">
         </div>
-        <figcaption>The ladder as it was actually mapped. Every failed debit routes to a retry, then an RM action, then either a claim or a clean close.</figcaption>
+        <figcaption><span class="fno">Fig 10</span>The ladder as it was actually mapped. Every failed debit routes to a retry, then an RM action, then either a claim or a clean close.</figcaption>
       </figure>
     </div>
   </div>
 </div>
 
-<!-- ══════════ 04 THE MAP ══════════ -->
-<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
-  <p class="eyebrow"><b>05</b> Underneath all of it</p>
-  <h2>The screens were the easy half.</h2>
-  <p>The board below covers <em>one</em> set of conditions. Change a single one — who pays the interest, whether it's insured, factoring or reverse factoring — and the whole branch structure changes shape.</p>
-  <p>Mapping those first is why the interface didn't double in size when reverse factoring arrived.</p>
-</section>
-
-<div class="band plain">
-  <div class="wide">
-    <figure class="shot wideboard" data-tilt>
-      <div class="browser">
-        <div class="bar"><i></i><i></i><i></i><span>figjam · place bid, fund disbursal &amp; settlement</span></div>
-        <img class="ph" src="assets/cs-altkred-flowboard.png" alt="The full place-bid, fund-disbursal and settlement flow board in four lanes: secret key, bid place and review, fund disbursal payment, and settlement" loading="lazy">
-      </div>
-      <figcaption>One condition set, end to end, in four lanes. There are several of these.</figcaption>
-    </figure>
+<!-- ══════════ STAGE 05 — OUTCOME ══════════ -->
+<section class="stage wrap" style="--accent:var(--green); --accent-soft:rgba(43,217,124,.30);">
+  <div class="stage-head">
+    <span class="stage-n">05</span>
+    <h2>Outcome</h2>
+    <p class="lede">What the whole thing adds up to, from where Rakesh is standing.</p>
   </div>
-</div>
-
-<!-- ══════════ THE SYSTEM ══════════ -->
-<div class="band">
-  <div class="wide">
-    <figure class="shot wideboard" style="perspective:none; margin:0;">
-      <div class="browser" style="transform:none;">
-        <div class="bar"><i></i><i></i><i></i><span>figma · moodboard &amp; visual direction</span></div>
-        <img class="ph" src="assets/cs-altkred-moodboard.png" alt="Altkred moodboard: the blue and green palette, Standerd for headings and General Sans for body, and the fintech UI and brand references it was built from" loading="lazy">
-      </div>
-      <figcaption>Where the blue and green came from — the visual direction, set after the competitor teardown. Standerd for headings, General Sans for body.</figcaption>
-    </figure>
-  </div>
-</div>
-
-<!-- ══════════ 05 OUTCOME ══════════ -->
-<section class="sec wrap" style="--accent:var(--green); --accent-soft:rgba(43,217,124,.30);">
-  <p class="eyebrow"><b>06</b> What it changes</p>
-  <h2>Back to Rakesh's Friday.</h2>
-  <p class="sub">Same payroll, same invoice, same buyer. List it, take the best bid, get paid.</p>
-
+  <div class="part">
+    <p class="slabel">What it changes</p>
+    <h3>Back to Rakesh's March.</h3>
+    <p>Same payroll, same invoice, same buyer. List it, take the best bid, get paid.</p>
   <div class="metric">
     <p class="cap">Accepted invoice → cash in hand</p>
     <div class="bar"><span class="lbl">Before</span><div class="track"><div class="fill was">60–90 days</div></div></div>
     <div class="bar"><span class="lbl">Designed for</span><div class="track"><div class="fill now">2 days</div></div></div>
     <div class="swaps">
-      <p class="lbl2">And everything else that changed shape</p>
+      <p class="lbl2">What else moves</p>
       <div class="r"><span class="was">The factory pledged as collateral</span><span class="now">The invoice is the security</span></div>
       <div class="r"><span class="was">One buyer's discount, take it or leave it</span><span class="now">Financiers bidding against each other</span></div>
       <div class="r"><span class="was">Collection chased at maturity</span><span class="now">Mandate signed at bid execution</span></div>
-      <div class="r"><span class="was">A bounced debit ends in a phone call</span><span class="now">Retry, external payment or link — on screen</span></div>
+      <div class="r"><span class="was">A bounced debit ends in a phone call</span><span class="now">Retry, external payment or link, on screen</span></div>
       <div class="r"><span class="was">A default is the financier's problem alone</span><span class="now">Insured assets settle as a claim</span></div>
     </div>
   </div>
 
-  <p class="note">Altkred is still in build. These are the targets the flows were designed against, taken from the baseline in discovery — not measured outcomes. I'll put real numbers here when there are some.</p>
+  <p class="note">Altkred is still in build. These are the targets the flows were designed against, taken from the baseline in discovery. They are not measured outcomes. I'll put real numbers here when there are some.</p>
+  <p class="note">Altkred is still in build. These are the targets the flows were designed against, taken from the baseline in discovery. They are not measured outcomes. I'll put real numbers here when there are some.</p>
+  </div>
 </section>
 
-<!-- ══════════ 06 LEARNINGS ══════════ -->
-<section class="sec wrap" style="--accent:var(--blue); --accent-soft:rgba(51,85,255,.22);">
-  <p class="eyebrow"><b>07</b> What I'd do differently</p>
-  <h2>Three things, and the first one cost me six weeks.</h2>
-
+<!-- ══════════ STAGE 06 — WHAT I'D DO DIFFERENTLY ══════════ -->
+<section class="stage wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
+  <div class="stage-head">
+    <span class="stage-n">06</span>
+    <h2>What I'd do differently</h2>
+    <p class="lede">Three things, and the first one cost me six weeks.</p>
+  </div>
+  <div class="part">
   <div class="learn">
     <div class="lrn" style="--accent:var(--coral)">
       <b>Draw the failures first</b>
@@ -750,25 +872,29 @@
     </div>
     <div class="lrn" style="--accent:var(--yellow)">
       <b>Stop ranking the users</b>
-      <p>I kept trying to pick a main user and kept getting a worse flow. The personas only became useful once I accepted that all four had to fit the same screens.</p>
+      <p>The persona problem in discovery cost me two weeks before I gave up on ranking them. The personas only became useful once I accepted that all four had to fit the same screens.</p>
     </div>
     <div class="lrn" style="--accent:var(--green)">
       <b>Read the law before the competitors</b>
-      <p>I started with a competitor teardown. It told me what the category looks like. What actually shaped the product was the 45-day rule and a 2021 law that opened this market to thousands of lenders instead of seven.</p>
+      <p>I started with a competitor teardown. It told me what the category looks like. What actually shaped the product was the MSMED Act's 45-day payment rule, and the <a href="https://www.indiabudget.gov.in/economicsurvey/ebook_es2022/files/basic-html/page163.html" style="color:inherit; text-decoration:underline; text-underline-offset:2px;" target="_blank" rel="noopener">Factoring Regulation (Amendment) Act, 2021</a>, which lifted the principal-business test that had limited factoring to seven NBFCs.</p>
     </div>
   </div>
-
-  <p class="closer">Rakesh never needed a loan. He needed someone to treat his invoice like the money it already was.</p>
+  <p class="closer">Rakesh was asking someone to treat his invoice like the money it already was.</p>
+  </div>
 </section>
 
 <!-- ══════════ FOOTER ══════════ -->
 <div class="wrap end">
   <div class="end-in">
     <div>
-      <div class="lead">Keep going</div>
-      <a class="big" href="index.html#work">Back to all projects →</a>
+      <div class="lead">Next case study</div>
+      <a class="big" href="case-study.html">Compport →</a>
+      <div style="margin-top:8px; font-size:14.5px; color:var(--muted);">Org planning inside an enterprise HRMS. Two weeks, one module.</div>
     </div>
     <a class="btn" href="index.html#contact">Work with me</a>
+  </div>
+  <div style="margin-top:26px; padding-top:20px; border-top:1px solid var(--hair);">
+    <a href="index.html#work" style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:1.4px; text-transform:uppercase; color:var(--faint); text-decoration:none;">← Back to all projects</a>
   </div>
 </div>
 
@@ -790,7 +916,7 @@
     "receivable": ["Unpaid invoice",
       "Money a customer owes you for work you've already delivered. An asset on paper, and nothing in your bank account until they pay."],
     "tenure": ["Due date",
-      "How long the financier waits to be paid back — usually 30, 60 or 90 days, matched to the buyer's terms. Longer wait, higher fee."],
+      "How long the financier waits to be paid back, usually 30, 60 or 90 days, matched to the buyer's terms. Longer wait, higher fee."],
     "emandate": ["Payment permission",
       "A one-time approval from the buyer's bank that lets an agreed amount be taken on an agreed date. Without it, collecting on day 90 means asking nicely."],
     "autodebit": ["Automatic payment",
@@ -798,7 +924,7 @@
     "insurance": ["Credit insurance",
       "Cover the financier can buy in case the buyer never pays. Built into the bid, it's what lets them fund a seller with no track record."],
     "secret-key": ["Payment key",
-      "A code the financier sets up with the payment provider. Without it we can't take money from their account — so they can't fund a bid they've won."],
+      "A code the financier sets up with the payment provider. Without it we can't take money from their account, so they can't fund a bid they've won."],
     "treds": ["TReDS",
       "Government-regulated exchanges where small businesses can sell invoices owed by large buyers. They work. Fewer than 1% of Indian SMEs are on one."],
     "msmed": ["The 45-day rule",

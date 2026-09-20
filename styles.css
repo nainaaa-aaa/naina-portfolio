@@ -1,3 +1,6 @@
+/* the shared nav, tuned to this page's paper */
+site-nav { --nav-bg: rgba(255,253,247,.86); }
+
 
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; background: #FFFFFF; }
@@ -61,6 +64,29 @@
     .hint-arrow { position: absolute; z-index: 3; pointer-events: none; animation: arrowNudge .9s ease-in-out infinite; }
     /* Project card hover-reveal */
     .proj-card { position:relative; }
+
+    /* ── projects part from the centre as the section arrives ──
+       scroll.js adds .spread-armed (the pre-state) and then
+       .spread-in, so with no JS the cards just sit in place. */
+    /* pre-state comes from the cascade on the first paint, so the cards
+       never flash in place before being hidden. Without JS there is no
+       .js class and the cards simply render where they belong. */
+    html.js .proj-grid:not(.spread-in) .proj-card {
+      opacity: 0;
+      transform: translateX(var(--spread-from, 0)) scale(.93);
+    }
+    .proj-grid .proj-card {
+      transition: transform .92s cubic-bezier(.19,1,.22,1),
+                  opacity .62s ease;
+    }
+    .proj-grid .proj-card:nth-child(1) { --spread-from: 58%; }
+    .proj-grid .proj-card:nth-child(2) { --spread-from: -58%; }
+    .proj-grid .proj-card:nth-child(2) { transition-delay: .07s; }
+    .proj-grid.spread-in .proj-card { opacity: 1; transform: translateX(0) scale(1); }
+    @media (prefers-reduced-motion: reduce) {
+      html.js .proj-grid .proj-card { transition: none; opacity: 1; transform: none; }
+    }
+
     .proj-card .peek {
       transform: translate(-50%, 24%) scale(.9);
       opacity: 0;

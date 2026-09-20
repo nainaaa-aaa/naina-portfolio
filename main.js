@@ -243,9 +243,21 @@
     const openBook = () => book.classList.add("open");
     const closeBook = (e) => { if (e) e.stopPropagation(); book.classList.remove("open"); };
 
-    if (cover) cover.addEventListener("click", openBook);
+    if (cover) {
+      cover.addEventListener("click", openBook);
+      // The cover says "Click to open", so it has to behave like a control:
+      // reachable by keyboard and announced as a button, not a decorative div.
+      cover.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openBook(); }
+      });
+    }
     if (spread) spread.addEventListener("click", closeBook);
-    if (tab) tab.addEventListener("click", closeBook);
+    if (tab) {
+      tab.addEventListener("click", closeBook);
+      tab.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); closeBook(e); }
+      });
+    }
     if (collage) collage.addEventListener("click", (e) => e.stopPropagation());
   }
 
@@ -442,7 +454,7 @@
       { id: "proto", color: "#C4E75A", r: 3, c0: 3, c1: 13 },
       { id: "design", color: "#F9C846", r: 5, c0: 1, c1: 13 },
       { id: "access", color: "#A66BFF", r: 7, c0: 1, c1: 13 },
-      { id: "growth", color: "#FF7EB6", r: 9, c0: 1, c1: 13 },
+      { id: "ia", color: "#FF7EB6", r: 9, c0: 1, c1: 12 },
     ];
     const found = new Set();
     let selecting = false, startCell = null, curSel = [];
@@ -603,18 +615,18 @@
     const nav = document.getElementById("siteNav");
     if (!nav) return;
     const links = [...nav.querySelectorAll(".navlink")];
+    // <site-nav> styles the active link off aria-current, so the spy only has
+    // to move that one attribute rather than repaint inline styles.
     const setActive = (key) => links.forEach((l) => {
-      const on = l.dataset.nav === key;
-      const bar = l.querySelector(".navbar");
-      if (bar) bar.style.background = on ? "#121212" : "transparent";
-      l.style.fontWeight = on ? "600" : "500";
-      l.style.color = on ? "#1A1209" : "#2A2030";
+      if (l.dataset.nav === key) l.setAttribute("aria-current", "page");
+      else l.removeAttribute("aria-current");
     });
     setActive("home");
     links.forEach((l) => l.addEventListener("click", () => setActive(l.dataset.nav)));
     const zones = [
       { key: "contact", el: document.getElementById("contact") },
       { key: "gallery", el: document.getElementById("gallery") },
+      { key: "work",    el: document.getElementById("work") },
     ].filter((z) => z.el && z.el.offsetParent !== null); // skip hidden sections
     const onNavScroll = () => {
       const mid = window.innerHeight * 0.42;

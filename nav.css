@@ -1,0 +1,119 @@
+/* ── <site-nav> styles ────────────────────────────────────────
+   Paired with nav.js. Every page links this file; nothing here is
+   page-specific. Pages that sit on a different background retune
+   the three tokens below instead of writing their own bar.
+------------------------------------------------------------- */
+
+site-nav {
+  /* tokens a page may override */
+  --nav-bg: rgba(252, 251, 249, 0.82);
+  --nav-ink: #1A1209;
+  --nav-muted: #5C5A63;
+  --nav-hair: rgba(20, 20, 20, 0.09);
+  --nav-h: 54px;
+
+  display: block;
+}
+
+.sitenav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 32px;
+  background: var(--nav-bg);
+  backdrop-filter: saturate(1.15) blur(11px);
+  -webkit-backdrop-filter: saturate(1.15) blur(11px);
+  border-bottom: 1px solid var(--nav-hair);
+  font-family: "DM Sans", sans-serif;
+}
+
+.sitenav .mark {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 21px;
+  letter-spacing: -0.5px;
+  color: var(--nav-ink);
+  text-decoration: none;
+}
+
+.sitenav .navlinks {
+  display: flex;
+  gap: 28px;
+  align-items: flex-end;
+}
+
+.sitenav .navlink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.15px;
+  color: var(--nav-muted);
+  transition: color 0.2s;
+}
+
+.sitenav .navlink:hover { color: var(--nav-ink); }
+
+.sitenav .navlink[aria-current="page"] {
+  color: var(--nav-ink);
+  font-weight: 600;
+}
+
+/* the indicator the homepage scroll-spy slides between links */
+.sitenav .navbar {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: transparent;
+}
+
+.sitenav .navlink[aria-current="page"] .navbar { background: var(--nav-ink); }
+
+.sitenav .navlink:focus-visible {
+  outline: 3px solid #A66BFF;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── overlay: the gallery, where the bar sits on artwork ───── */
+site-nav[variant="overlay"] .sitenav {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 0;
+  padding: 26px 32px;
+}
+
+site-nav[variant="overlay"] .sitenav .mark,
+site-nav[variant="overlay"] .sitenav .navlinks {
+  background: #FFFFFF;
+  padding: 3px 10px;
+}
+
+/* ── small screens ─────────────────────────────────────────── */
+@media (max-width: 760px) {
+  .sitenav { padding: 14px 20px; gap: 12px; }
+  .sitenav .navlinks { gap: 15px; }
+  .sitenav .navlink { font-size: 12.5px; }
+  .sitenav .mark { font-size: 19px; }
+  site-nav[variant="overlay"] .sitenav { padding: 18px 20px; }
+  site-nav[variant="overlay"] .sitenav .navlinks { padding: 3px 7px; }
+}
+
+@media (max-width: 380px) {
+  .sitenav .navlinks { gap: 11px; }
+  .sitenav .navlink { font-size: 11.5px; }
+}
+
+@media print {
+  site-nav { display: none !important; }
+}

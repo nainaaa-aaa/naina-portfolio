@@ -11,7 +11,7 @@
      reaches the upper third. Only elements currently intersecting are
      written to, so the scroll handler stays cheap on a long page.
   ---------------------------------------------------------------- */
-  const MAX_TILT = 20;   // degrees, matches the reference feel
+  const MAX_TILT = 12;   // shallow: a fast scroll must never hit foreshortened content
   const MAX_LIFT = 1.05; // slight scale-up while still tilted
 
   function initTilt() {
@@ -20,7 +20,10 @@
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (reduced.matches) {
-      figures.forEach((f) => f.style.setProperty("--tilt-deg", "0deg"));
+      figures.forEach((f) => {
+        f.style.setProperty("--tilt-deg", "0deg");
+        f.style.setProperty("--tilt-scale", "1");
+      });
       return;
     }
 
@@ -35,7 +38,7 @@
         const centre = r.top + r.height / 2;
         // 1 when the centre has climbed to a third of the viewport,
         // 0 when it is still a full viewport below the fold.
-        const raw = (vh * 1.15 - centre) / (vh * 0.82);
+        const raw = (vh * 1.25 - centre) / (vh * 0.55);
         const p = Math.max(0, Math.min(1, raw));
         const eased = 1 - Math.pow(1 - p, 3);
         el.style.setProperty("--tilt-deg", ((1 - eased) * MAX_TILT).toFixed(2) + "deg");
