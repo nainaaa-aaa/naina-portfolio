@@ -125,14 +125,14 @@ site-nav { --nav-bg: rgba(255,253,247,.86); }
     /* Hero radio + collage */
     @keyframes spin { to { transform: rotate(360deg); } }
     @keyframes eqb { 0%,100%{ transform:scaleY(.22);} 50%{ transform:scaleY(1);} }
-    .eq span { display:block; width:3px; height:16px; background:#63E3C2; transform:scaleY(.3); transform-origin:bottom; border-radius:1px; }
-    #radioWrap.playing .eq span { animation: eqb .7s ease-in-out infinite; }
-    #radioWrap.playing .eq span:nth-child(2){ animation-duration:.52s; }
-    #radioWrap.playing .eq span:nth-child(3){ animation-duration:.64s; }
-    #radioWrap.playing .eq span:nth-child(4){ animation-duration:.46s; }
-    #radioWrap.playing .eq span:nth-child(5){ animation-duration:.8s; }
+    .eq span { display:block; width:4.2px; height:9px; background:#63E3C2; transform:scaleY(.3); transform-origin:bottom; border-radius:1px; }
+    #radioCard.playing .eq span { animation: eqb .7s ease-in-out infinite; }
+    #radioCard.playing .eq span:nth-child(2){ animation-duration:.52s; }
+    #radioCard.playing .eq span:nth-child(3){ animation-duration:.64s; }
+    #radioCard.playing .eq span:nth-child(4){ animation-duration:.46s; }
+    #radioCard.playing .eq span:nth-child(5){ animation-duration:.8s; }
     .vinyl { animation: spin 3.4s linear infinite; animation-play-state: paused; }
-    #radioWrap.playing .vinyl { animation-play-state: running; }
+    #radioCard.playing .vinyl { animation-play-state: running; }
     .rbtn { cursor:pointer; user-select:none; }
     .rbtn:active { transform: translateY(1px); }
     .tile { transition: transform .2s cubic-bezier(.2,.85,.3,1.1); }

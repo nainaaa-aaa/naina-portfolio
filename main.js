@@ -299,146 +299,113 @@
     if (dismissBtn) dismissBtn.addEventListener("click", dismissCaught);
   }
 
-  // ── lo-fi radio ("Naina FM") — generative Web Audio synth engine ──
+  /* ── the radio: one real track, played from YouTube ───────────
+     Was a Web Audio synth inventing its own lo-fi. Now it plays the
+     actual song through YouTube's embed, which is the licensed way
+     to put someone else's music on a page.
+
+     The iframe is created on the first click, not on load, so the
+     page contacts YouTube only if a visitor actually asks for music
+     — no third-party requests or cookies for everyone else.
+  ------------------------------------------------------------- */
   function initRadio() {
     const playBtn = document.getElementById("playBtn");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
     if (!playBtn) return;
 
-    const C = [130.81, 164.81, 196.0, 246.94], Am = [110.0, 130.81, 164.81, 196.0],
-      Dm = [146.83, 174.61, 220.0, 261.63], G = [98.0, 123.47, 146.83, 196.0],
-      F = [174.61, 220.0, 261.63, 329.63], Em = [164.81, 196.0, 246.94, 293.66],
-      Dmaj = [146.83, 185.0, 220.0, 277.18], Gmaj = [196.0, 246.94, 293.66, 392.0];
-
-    const tracks = [
-      { name: "chai & lofi", bpm: 72, chords: [C, Am, Dm, G] },
-      { name: "figma flow", bpm: 82, chords: [F, Em, Dm, C] },
-      { name: "rainy gurugram", bpm: 66, chords: [Am, F, C, G] },
-      { name: "crochet calm", bpm: 60, chords: [Dmaj, Am, Gmaj, F] },
-    ];
-
-    const radio = { idx: 0, playing: false, actx: null, master: null, lp: null, crackleGain: null, noiseBuf: null, timer: null, step: 0, nextNoteTime: 0 };
-
-    const updateDisplay = () => {
-      const t = tracks[radio.idx];
-      const n = document.getElementById("trackName"); if (n) n.textContent = t.name;
-      const ix = document.getElementById("trackIdx"); if (ix) ix.textContent = "TRACK " + (radio.idx + 1) + " / " + tracks.length;
+    const TRACK = {
+      id: "IPfJnp1guPc",              // Khalid — Young Dumb & Broke (Official Video)
+      name: "Young Dumb & Broke",
+      artist: "Khalid",
     };
-    updateDisplay();
+    const SEEK = 15;                  // seconds the side buttons jump
 
-    const ensureAudio = () => {
-      if (radio.actx) return;
-      const AC = window.AudioContext || window.webkitAudioContext;
-      const a = new AC(); radio.actx = a;
-      radio.master = a.createGain(); radio.master.gain.value = 0.0001;
-      radio.lp = a.createBiquadFilter(); radio.lp.type = "lowpass"; radio.lp.frequency.value = 2600; radio.lp.Q.value = 0.4;
-      radio.lp.connect(radio.master); radio.master.connect(a.destination);
-      const n = a.createBuffer(1, a.sampleRate, a.sampleRate); const d = n.getChannelData(0);
-      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-      radio.noiseBuf = n;
-      const cs = a.createBufferSource(); cs.buffer = n; cs.loop = true;
-      const cf = a.createBiquadFilter(); cf.type = "bandpass"; cf.frequency.value = 3200;
-      radio.crackleGain = a.createGain(); radio.crackleGain.gain.value = 0.0001;
-      cs.connect(cf); cf.connect(radio.crackleGain); radio.crackleGain.connect(a.destination);
-      cs.start();
+    const nameEl = document.getElementById("trackName");
+    const idxEl = document.getElementById("trackIdx");
+    const wrap = document.getElementById("radioCard");
+    if (nameEl) nameEl.textContent = TRACK.name;
+    if (idxEl) idxEl.textContent = TRACK.artist.toUpperCase();
+
+    let player = null;       // the YT.Player once the API has loaded
+    let ready = false;
+    let wantPlay = false;    // a click that landed before the API was up
+
+    const setIcon = (playing) => {
+      playBtn.textContent = playing ? "❚❚" : "▶";
+      if (wrap) wrap.classList.toggle("playing", playing);
     };
 
-    const playChord = (freqs, t, dur) => {
-      freqs.forEach((f) => {
-        const o = radio.actx.createOscillator(); o.type = "triangle"; o.frequency.value = f;
-        const g = radio.actx.createGain();
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.linearRampToValueAtTime(0.045, t + 0.5);
-        g.gain.linearRampToValueAtTime(0.0001, t + dur);
-        o.connect(g); g.connect(radio.lp); o.start(t); o.stop(t + dur + 0.05);
+    // Load the IFrame API once, on demand.
+    const loadApi = () => new Promise((resolve) => {
+      if (window.YT && window.YT.Player) return resolve();
+      const prev = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => { if (typeof prev === "function") prev(); resolve(); };
+      if (!document.getElementById("ytApi")) {
+        const tag = document.createElement("script");
+        tag.id = "ytApi";
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(tag);
+      }
+    });
+
+    const build = async () => {
+      await loadApi();
+      const host = document.createElement("div");
+      host.id = "ytHost";
+      // audible, not visible: the radio itself is the interface
+      host.style.cssText = "position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; left:-9999px; top:0;";
+      document.body.appendChild(host);
+
+      player = new window.YT.Player(host, {
+        videoId: TRACK.id,
+        playerVars: { playsinline: 1, rel: 0, modestbranding: 1 },
+        events: {
+          onReady: () => {
+            ready = true;
+            if (wantPlay) { player.playVideo(); wantPlay = false; }
+          },
+          onStateChange: (e) => {
+            const S = window.YT.PlayerState;
+            if (e.data === S.PLAYING) setIcon(true);
+            if (e.data === S.PAUSED || e.data === S.ENDED) setIcon(false);
+          },
+          onError: () => {
+            // embedding can be refused (region, rights, blocked host) — say so
+            // rather than leaving a dead button
+            setIcon(false);
+            if (nameEl) nameEl.textContent = "Couldn't play here";
+            if (idxEl) idxEl.textContent = "OPEN ON YOUTUBE";
+          },
+        },
       });
     };
-    const playPluck = (f, t) => {
-      const o = radio.actx.createOscillator(); o.type = "sine"; o.frequency.value = f;
-      const g = radio.actx.createGain();
-      g.gain.setValueAtTime(0.0001, t);
-      g.gain.linearRampToValueAtTime(0.08, t + 0.02);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
-      o.connect(g); g.connect(radio.lp); o.start(t); o.stop(t + 0.55);
-    };
-    const playKick = (t) => {
-      const o = radio.actx.createOscillator(); o.type = "sine";
-      const g = radio.actx.createGain();
-      o.frequency.setValueAtTime(120, t);
-      o.frequency.exponentialRampToValueAtTime(45, t + 0.14);
-      g.gain.setValueAtTime(0.3, t);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
-      o.connect(g); g.connect(radio.master); o.start(t); o.stop(t + 0.2);
-    };
-    const playHat = (t) => {
-      const s = radio.actx.createBufferSource(); s.buffer = radio.noiseBuf;
-      const hp = radio.actx.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 7000;
-      const g = radio.actx.createGain();
-      g.gain.setValueAtTime(0.08, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
-      s.connect(hp); hp.connect(g); g.connect(radio.master); s.start(t); s.stop(t + 0.07);
-    };
 
-    const scheduleStep = (step, t) => {
-      const tr = tracks[radio.idx]; const chords = tr.chords; const bl = 8;
-      const bar = Math.floor(step / bl) % chords.length; const inBar = step % bl;
-      const chord = chords[bar]; const eighth = 60 / tr.bpm / 2;
-      if (inBar === 0) playChord(chord, t, eighth * bl * 0.95);
-      if (inBar % 4 === 0) playKick(t);
-      if (inBar % 2 === 1) playHat(t);
-      if (inBar === 0 || inBar === 3 || inBar === 4 || inBar === 6) playPluck(chord[step % chord.length] * 2, t);
-    };
+    playBtn.addEventListener("click", () => {
+      if (!player) { wantPlay = true; setIcon(true); build(); return; }
+      if (!ready) { wantPlay = true; return; }
+      const S = window.YT.PlayerState;
+      if (player.getPlayerState() === S.PLAYING) player.pauseVideo();
+      else player.playVideo();
+    });
 
-    const scheduler = () => {
-      const a = radio.actx;
-      while (radio.nextNoteTime < a.currentTime + 0.15) {
-        scheduleStep(radio.step, radio.nextNoteTime);
-        const t = tracks[radio.idx]; const eighth = 60 / t.bpm / 2;
-        radio.nextNoteTime += eighth; radio.step++;
-      }
+    // one track, so the side buttons scrub instead of changing song
+    const nudge = (dir) => {
+      if (!player || !ready) return;
+      const t = player.getCurrentTime() + dir * SEEK;
+      player.seekTo(Math.max(0, t), true);
     };
-
-    const startEngine = () => {
-      const a = radio.actx; if (a.state === "suspended") a.resume();
-      radio.master.gain.cancelScheduledValues(a.currentTime);
-      radio.master.gain.setValueAtTime(Math.max(0.0001, radio.master.gain.value), a.currentTime);
-      radio.master.gain.linearRampToValueAtTime(0.8, a.currentTime + 0.6);
-      radio.crackleGain.gain.linearRampToValueAtTime(0.014, a.currentTime + 0.6);
-      radio.step = 0;
-      radio.nextNoteTime = a.currentTime + 0.15;
-      clearInterval(radio.timer);
-      radio.timer = setInterval(scheduler, 25);
-    };
-    const stopEngine = () => {
-      clearInterval(radio.timer); radio.timer = null;
-      if (radio.actx) {
-        const a = radio.actx;
-        radio.master.gain.cancelScheduledValues(a.currentTime);
-        radio.master.gain.setValueAtTime(radio.master.gain.value, a.currentTime);
-        radio.master.gain.linearRampToValueAtTime(0.0001, a.currentTime + 0.35);
-        if (radio.crackleGain) radio.crackleGain.gain.linearRampToValueAtTime(0.0001, a.currentTime + 0.35);
-      }
-    };
-
-    const toggleMusic = () => {
-      ensureAudio();
-      const w = document.getElementById("radioWrap");
-      if (radio.playing) {
-        radio.playing = false; if (w) w.classList.remove("playing"); stopEngine(); playBtn.textContent = "▶";
-      } else {
-        radio.playing = true; if (w) w.classList.add("playing"); startEngine(); playBtn.textContent = "❚❚";
-      }
-    };
-    const changeTrack = (dir) => {
-      radio.idx = (radio.idx + dir + tracks.length) % tracks.length;
-      updateDisplay();
-      if (radio.playing && radio.actx) { radio.step = 0; radio.nextNoteTime = radio.actx.currentTime + 0.1; }
-    };
-
-    playBtn.addEventListener("click", toggleMusic);
-    if (prevBtn) prevBtn.addEventListener("click", () => changeTrack(-1));
-    if (nextBtn) nextBtn.addEventListener("click", () => changeTrack(1));
+    if (prevBtn) {
+      prevBtn.setAttribute("aria-label", "Back " + SEEK + " seconds");
+      prevBtn.addEventListener("click", () => nudge(-1));
+    }
+    if (nextBtn) {
+      nextBtn.setAttribute("aria-label", "Forward " + SEEK + " seconds");
+      nextBtn.addEventListener("click", () => nudge(1));
+    }
+    playBtn.setAttribute("aria-label", "Play " + TRACK.name + " by " + TRACK.artist);
   }
+
 
   // ── skills word-search game + floating pixel repel ──
   function initSkillsGame() {
@@ -449,24 +416,50 @@
     const cellAt = (r, c) => rowEls[r] && rowEls[r].children[c];
     rowEls.forEach((row, r) => [...row.children].forEach((cell, c) => { cell._r = r; cell._c = c; }));
 
+    // Each word is a straight run between two cells. `dir` is derived, so a
+    // new word only needs its two endpoints and they must share a row or a
+    // column. Keep these in step with the letters in index.html.
     const WORDS = [
-      { id: "ux", color: "#63E3C2", r: 1, c0: 2, c1: 11 },
-      { id: "proto", color: "#C4E75A", r: 3, c0: 3, c1: 13 },
-      { id: "design", color: "#F9C846", r: 5, c0: 1, c1: 13 },
-      { id: "access", color: "#A66BFF", r: 7, c0: 1, c1: 13 },
-      { id: "ia", color: "#FF7EB6", r: 9, c0: 1, c1: 12 },
+      { id: "ux",     color: "#63E3C2", r0: 0,  c0: 2,  r1: 0,  c1: 11 }, // UX RESEARCH
+      { id: "ia",     color: "#FF7EB6", r0: 3,  c0: 3,  r1: 3,  c1: 14 }, // ARCHITECTURE
+      { id: "proto",  color: "#C4E75A", r0: 5,  c0: 4,  r1: 5,  c1: 14 }, // PROTOTYPING
+      { id: "design", color: "#F9C846", r0: 8,  c0: 0,  r1: 8,  c1: 12 }, // DESIGN SYSTEMS
+      { id: "access", color: "#A66BFF", r0: 10, c0: 2,  r1: 10, c1: 14 }, // ACCESSIBILITY
+      { id: "flows",  color: "#3355FF", r0: 0,  c0: 2,  r1: 8,  c1: 2  }, // USER FLOWS
+      { id: "motion", color: "#2BD97C", r0: 1,  c0: 8,  r1: 6,  c1: 8  }, // MOTION
+      { id: "brand",  color: "#FF6B5B", r0: 2,  c0: 13, r1: 9,  c1: 13 }, // BRANDING
     ];
+    WORDS.forEach((w) => { w.down = w.c0 === w.c1 && w.r0 !== w.r1; });
+    // every cell a word covers, in order
+    const cellsOf = (w) => {
+      const out = [];
+      const n = w.down ? w.r1 - w.r0 : w.c1 - w.c0;
+      for (let i = 0; i <= n; i++) {
+        const cell = w.down ? cellAt(w.r0 + i, w.c0) : cellAt(w.r0, w.c0 + i);
+        if (cell) out.push(cell);
+      }
+      return out;
+    };
     const found = new Set();
     let selecting = false, startCell = null, curSel = [];
     let hintT, idleT;
 
     const clearSel = () => { curSel.forEach((c) => c.classList.remove("sel")); curSel = []; };
-    const paintSel = (r, c0, c1) => {
+    const paintSel = (cells) => {
       clearSel();
-      for (let c = c0; c <= c1; c++) { const cell = cellAt(r, c); if (cell) { cell.classList.add("sel"); curSel.push(cell); } }
+      cells.forEach((cell) => { if (cell) { cell.classList.add("sel"); curSel.push(cell); } });
+    };
+    const runBetween = (a, b) => {
+      const out = [];
+      if (a._r === b._r) {
+        for (let c = Math.min(a._c, b._c); c <= Math.max(a._c, b._c); c++) out.push(cellAt(a._r, c));
+      } else if (a._c === b._c) {
+        for (let r = Math.min(a._r, b._r); r <= Math.max(a._r, b._r); r++) out.push(cellAt(r, a._c));
+      }
+      return out;
     };
     const drawPill = (w) => {
-      const a = cellAt(w.r, w.c0), b = cellAt(w.r, w.c1);
+      const a = cellAt(w.r0, w.c0), b = cellAt(w.r1, w.c1);
       if (!a || !b) return;
       const pad = 3;
       const pill = document.createElement("div");
@@ -474,21 +467,23 @@
       pill.style.left = a.offsetLeft - pad + "px";
       pill.style.top = a.offsetTop - pad + "px";
       pill.style.width = b.offsetLeft + b.offsetWidth - a.offsetLeft + pad * 2 + "px";
-      pill.style.height = a.offsetHeight + pad * 2 + "px";
+      pill.style.height = b.offsetTop + b.offsetHeight - a.offsetTop + pad * 2 + "px";
       pill.style.borderColor = w.color;
       pill.style.background = w.color + "2E";
       grid.appendChild(pill);
-      for (let c = w.c0; c <= w.c1; c++) { const cell = cellAt(w.r, c); if (cell) cell.classList.add("found"); }
+      cellsOf(w).forEach((cell) => cell.classList.add("found"));
       const chip = skills.querySelector('.word-chip[data-chip="' + w.id + '"]');
       if (chip) chip.classList.add("done");
     };
 
     const beginSel = (cell) => {
-      selecting = true; startCell = cell; paintSel(cell._r, cell._c, cell._c);
+      selecting = true; startCell = cell; paintSel([cell]);
     };
     const extendSel = (cell) => {
-      if (!selecting || !cell || !startCell || cell._r !== startCell._r) return;
-      paintSel(startCell._r, Math.min(startCell._c, cell._c), Math.max(startCell._c, cell._c));
+      if (!selecting || !cell || !startCell) return;
+      // a drag is only a word if it stays on one row or one column
+      if (cell._r !== startCell._r && cell._c !== startCell._c) return;
+      paintSel(runBetween(startCell, cell));
     };
 
     if (grid) {
@@ -530,11 +525,13 @@
       grid.querySelectorAll(".hint-arrow").forEach((a) => a.remove());
     };
     const drawArrow = (w) => {
-      const a = cellAt(w.r, w.c0); if (!a || !grid) return;
+      const a = cellAt(w.r0, w.c0); if (!a || !grid) return;
       const box = document.createElement("div");
       box.className = "hint-arrow";
       box.style.left = a.offsetLeft + a.offsetWidth / 2 - 5 + "px";
       box.style.top = a.offsetTop + a.offsetHeight - 9 + "px";
+      // the chevron is drawn pointing right; rotate it for a down word
+      box.style.transform = w.down ? "rotate(90deg)" : "";
       box.innerHTML =
         '<svg width="10" height="8" viewBox="0 0 10 8">' +
         '<path d="M2 1.5 L6.5 4 L2 6.5" fill="none" stroke="' + w.color + '" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>' +
@@ -543,8 +540,8 @@
     };
     const hintWord = (w, full) => {
       clearHints();
-      const c1 = full ? w.c1 : w.c0;
-      for (let c = w.c0; c <= c1; c++) { const cell = cellAt(w.r, c); if (cell) cell.classList.add("hint"); }
+      const cells = cellsOf(w);
+      (full ? cells : cells.slice(0, 1)).forEach((cell) => cell.classList.add("hint"));
       drawArrow(w);
       clearTimeout(hintT);
       hintT = setTimeout(clearHints, full ? 3600 : 5200);
@@ -553,10 +550,19 @@
     const onSkillUp = () => {
       if (!selecting) return; selecting = false;
       if (curSel.length >= 2) {
-        const r = curSel[0]._r, cols = curSel.map((c) => c._c);
-        const mn = Math.min(...cols), mx = Math.max(...cols);
-        const hit = WORDS.filter((w) => !found.has(w.id) && w.r === r)
-          .map((w) => ({ w, hit: Math.min(mx, w.c1) - Math.max(mn, w.c0) + 1 }))
+        const vertical = curSel[0]._c === curSel[1]._c;
+        // how much of the drag lies along the word, in whichever axis it runs
+        const overlap = (w) => {
+          if (!!w.down !== vertical) return 0;
+          const vals = curSel.map((c) => (vertical ? c._r : c._c));
+          const mn = Math.min(...vals), mx = Math.max(...vals);
+          const a = vertical ? w.r0 : w.c0, b = vertical ? w.r1 : w.c1;
+          const fixed = vertical ? w.c0 : w.r0;
+          if ((vertical ? curSel[0]._c : curSel[0]._r) !== fixed) return 0;
+          return Math.min(mx, b) - Math.max(mn, a) + 1;
+        };
+        const hit = WORDS.filter((w) => !found.has(w.id))
+          .map((w) => ({ w, hit: overlap(w) }))
           .filter((o) => o.hit >= 2)
           .sort((a, b) => b.hit - a.hit)[0];
         if (hit) { found.add(hit.w.id); clearSel(); clearHints(); drawPill(hit.w); return; }
