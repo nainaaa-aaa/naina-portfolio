@@ -610,32 +610,10 @@
     });
   }
 
-  // ── nav: active-link tracking on click + scroll ──
-  function initNav() {
-    const nav = document.getElementById("siteNav");
-    if (!nav) return;
-    const links = [...nav.querySelectorAll(".navlink")];
-    // <site-nav> styles the active link off aria-current, so the spy only has
-    // to move that one attribute rather than repaint inline styles.
-    const setActive = (key) => links.forEach((l) => {
-      if (l.dataset.nav === key) l.setAttribute("aria-current", "page");
-      else l.removeAttribute("aria-current");
-    });
-    setActive("home");
-    links.forEach((l) => l.addEventListener("click", () => setActive(l.dataset.nav)));
-    const zones = [
-      { key: "contact", el: document.getElementById("contact") },
-      { key: "gallery", el: document.getElementById("gallery") },
-      { key: "work",    el: document.getElementById("work") },
-    ].filter((z) => z.el && z.el.offsetParent !== null); // skip hidden sections
-    const onNavScroll = () => {
-      const mid = window.innerHeight * 0.42;
-      const hit = zones.find((z) => z.el.getBoundingClientRect().top <= mid);
-      setActive(hit ? hit.key : "home");
-    };
-    window.addEventListener("scroll", onNavScroll, { passive: true });
-    onNavScroll();
-  }
+  // ── nav ──────────────────────────────────────────────────
+  // The bar now carries only whole-page destinations, so there is no
+  // in-page section for a scroll position to light up. <site-nav>
+  // marks the current page itself and nothing here has to track it.
 
   document.addEventListener("DOMContentLoaded", () => {
     initHoverStyles();
@@ -647,6 +625,5 @@
     initDodgeCoupon();
     initRadio();
     initSkillsGame();
-    initNav();
   });
 })();

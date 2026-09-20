@@ -1,6 +1,11 @@
 /* ── figure lightbox ──────────────────────────────────────────
-   Paired with lightbox.js. The zoom cursor is the only thing that
-   applies before a figure is opened.
+   Paired with lightbox.js. Every class here is prefixed lb-: the
+   case studies define .wide as their page column, so an overlay
+   class called "wide" gets sized as a page column rather than the
+   viewport.
+
+   Two states, identical for every figure: fitted, and full
+   resolution with drag-to-pan.
 ------------------------------------------------------------- */
 
 .zoomable { cursor: zoom-in; }
@@ -10,7 +15,8 @@
 }
 
 /* the page must not scroll behind the overlay */
-html.lb-open, html.lb-open body { overflow: hidden; }
+html.lb-open,
+html.lb-open body { overflow: hidden; }
 
 /* a class selector outranks the UA's [hidden] { display: none }, so the
    overlay has to opt back out explicitly or it paints over the page */
@@ -25,27 +31,27 @@ html.lb-open, html.lb-open body { overflow: hidden; }
   align-items: center;
   justify-content: center;
   gap: 18px;
-  padding: 64px 32px 36px;
-  background: rgba(14, 13, 17, 0.93);
+  padding: 64px 32px 34px;
+  background: rgba(14, 13, 17, 0.94);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
   cursor: zoom-out;
 }
 
 .lb-stage {
-  max-width: 100%;
-  max-height: calc(100vh - 150px);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: auto;
+  max-width: 100%;
+  max-height: calc(100vh - 148px);
+  overflow: hidden;
   border-radius: 8px;
 }
 
 .lb-img {
   display: block;
   max-width: 100%;
-  max-height: calc(100vh - 150px);
+  max-height: calc(100vh - 148px);
   width: auto;
   height: auto;
   border-radius: 8px;
@@ -54,9 +60,26 @@ html.lb-open, html.lb-open body { overflow: hidden; }
   cursor: default;
 }
 
-/* a board far wider than it is tall is more useful pannable than shrunk */
-.lb.wide .lb-stage { width: 100%; justify-content: flex-start; cursor: grab; }
-.lb.wide .lb-img { max-width: none; width: auto; height: calc(100vh - 150px); }
+/* only offer the zoom cursor when there is detail to be gained */
+.lb.lb-can-zoom .lb-img { cursor: zoom-in; }
+
+/* ── full resolution, panned by dragging ───────────────────── */
+.lb.lb-zoomed .lb-stage {
+  width: 100%;
+  overflow: auto;
+  cursor: grab;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.lb.lb-zoomed .lb-img {
+  max-width: none;
+  max-height: none;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  cursor: zoom-out;
+}
+.lb.lb-dragging .lb-stage { cursor: grabbing; }
 
 .lb-cap {
   margin: 0;
@@ -80,6 +103,19 @@ html.lb-open, html.lb-open body { overflow: hidden; }
   color: #63E3C2;
 }
 
+/* a quiet hint that the image has a second state */
+.lb.lb-can-zoom .lb-cap::after {
+  content: "Click the image for full size";
+  display: block;
+  margin-top: 8px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+}
+.lb.lb-zoomed .lb-cap::after { content: "Drag to pan · click to fit"; }
+
 .lb-x {
   position: absolute;
   top: 20px;
@@ -102,9 +138,8 @@ html.lb-open, html.lb-open body { overflow: hidden; }
 .lb-x:focus-visible { outline: 3px solid #63E3C2; outline-offset: 3px; }
 
 @media (max-width: 640px) {
-  .lb { padding: 58px 14px 24px; gap: 14px; }
-  .lb-stage, .lb-img { max-height: calc(100vh - 130px); }
-  .lb.wide .lb-img { height: calc(100vh - 130px); }
+  .lb { padding: 58px 14px 22px; gap: 14px; }
+  .lb-stage, .lb-img { max-height: calc(100vh - 128px); }
   .lb-cap { font-size: 13.5px; }
 }
 

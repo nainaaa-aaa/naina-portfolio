@@ -2,31 +2,29 @@
    One navigation for every page. Pages configure it with
    attributes rather than by copying markup:
 
-     <site-nav current="work"></site-nav>
+     <site-nav current="home"></site-nav>
      <site-nav current="gallery" variant="overlay"></site-nav>
 
-   current  home | work | gallery | resume | contact
-            marks the active link, and tells the component whether
-            the Home and Contact links are in-page anchors or
-            cross-page hrefs.
+   current  home | gallery | resume — marks the active link.
    variant  overlay — white backing chips, for the gallery, where
             the nav sits on top of artwork instead of paper.
 
    Colours come from --nav-bg / --nav-ink / --nav-muted, so a page
    with a different background tunes the bar without forking it.
 
-   Light DOM on purpose: the homepage scroll-spy in main.js reaches
-   in for #siteNav and .navlink, and a shadow root would hide them.
+   Light DOM on purpose, so page scripts can still reach #siteNav
+   and .navlink; a shadow root would hide them.
 ------------------------------------------------------------- */
 (() => {
   "use strict";
 
+  // Only whole-page destinations live here. Mixing in-page anchors with
+  // page links made the same control behave two different ways, so Work
+  // and Contact were dropped — both are reached from the page itself.
   const LINKS = [
-    { key: "home",    label: "Home",    home: "#top",     away: "index.html" },
-    { key: "work",    label: "Work",    home: "#work",    away: "index.html#work" },
-    { key: "gallery", label: "Gallery", home: "gallery.html", away: "gallery.html" },
-    { key: "resume",  label: "Resume",  home: "resume.html",  away: "resume.html" },
-    { key: "contact", label: "Contact", home: "#contact", away: "index.html#contact" },
+    { key: "home",    label: "Home",    href: "index.html" },
+    { key: "gallery", label: "Gallery", href: "gallery.html" },
+    { key: "resume",  label: "Resume",  href: "resume.html" },
   ];
 
   class SiteNav extends HTMLElement {
@@ -35,15 +33,11 @@
       this.dataset.ready = "1";
 
       const current = this.getAttribute("current") || "home";
-      const onHome = current === "home" || current === "work" || current === "contact";
 
       const links = LINKS.map((l) => {
-        const href = onHome ? l.home : l.away;
         const on = l.key === current;
-        // gallery and resume are always their own pages, so they are only
-        // ever "current", never an anchor on the page you are already on
         return (
-          '<a class="navlink" data-nav="' + l.key + '" href="' + href + '"' +
+          '<a class="navlink" data-nav="' + l.key + '" href="' + l.href + '"' +
           (on ? ' aria-current="page"' : "") + ">" +
           l.label + '<span class="navbar"></span></a>'
         );
@@ -51,7 +45,7 @@
 
       this.innerHTML =
         '<nav class="sitenav" aria-label="Primary">' +
-          '<a class="mark" href="' + (onHome ? "#top" : "index.html") + '">naina.</a>' +
+          '<a class="mark" href="index.html">naina.</a>' +
           '<div class="navlinks" id="siteNav">' + links + "</div>" +
         "</nav>";
     }

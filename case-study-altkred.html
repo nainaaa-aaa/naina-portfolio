@@ -198,7 +198,12 @@
   }
   .jnum .part { color: var(--accent); }
   .jnum i { font-style: normal; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; background: var(--accent); color: #FFFFFF; font-size: 11px; }
-  .journey h2 { max-width: 700px; }
+  /* a journey is a part inside the Design stage, so its heading sits at
+     part level rather than competing with the stage titles */
+  .journey h2 {
+    max-width: 700px; font-size: clamp(20px, 2.5vw, 25px);
+    letter-spacing: -.6px; line-height: 1.22; font-weight: 600;
+  }
   .journey > .wrap > p { font-size: 16.5px; line-height: 1.76; color: var(--muted); max-width: 660px; margin: 0 0 16px; }
 
   .call {
@@ -271,32 +276,37 @@
   .pair .ph { aspect-ratio: 4/3; }
 
   /* ── stage headers: the case study's top-level chunks ──── */
-  .stage { padding: 104px 0 0; scroll-margin-top: 88px; }
-  .stage-head { padding-top: 34px; border-top: 3px solid var(--accent); }
+  /* Stages are the case study's top-level chunks, so they get the most
+     air above them and the largest type after the page title. */
+  .stage { padding: 172px 0 0; scroll-margin-top: 88px; }
+  .stage-head { padding-top: 40px; border-top: 3px solid var(--accent); }
   .stage-n {
     display: inline-flex; align-items: center; justify-content: center;
-    min-width: 34px; height: 27px; padding: 0 9px; border-radius: 5px;
+    min-width: 40px; height: 31px; padding: 0 10px; border-radius: 6px;
     background: var(--accent); color: var(--accent-ink, var(--ink));
     border: 1.5px solid var(--ink);
-    font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; font-weight: 600;
+    font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600;
   }
   .stage-head h2 {
-    margin: 18px 0 0; font-size: clamp(30px, 5vw, 44px); letter-spacing: -1.6px;
+    /* the floor has to stay under h1's so the page title still leads on
+       a phone, where both clamps bottom out */
+    margin: 20px 0 0; font-size: clamp(27px, 5.2vw, 54px);
+    line-height: 1.06; letter-spacing: -1.6px;
   }
   .stage-head .lede {
-    margin: 16px 0 0; max-width: 680px;
-    font-size: clamp(16px, 2.1vw, 18.5px); line-height: 1.62; color: var(--muted);
+    margin: 18px 0 0; max-width: 680px;
+    font-size: clamp(16.5px, 2.2vw, 19.5px); line-height: 1.6; color: var(--muted);
   }
 
   /* a labelled part inside a stage */
-  .part { margin: 58px 0 0; }
+  .part { margin: 70px 0 0; }
   .part > .slabel {
     margin: 0 0 16px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px;
     font-weight: 600; letter-spacing: 2.2px; text-transform: uppercase; color: var(--faint);
   }
   .part > h3 {
     margin: 0 0 14px; font-family: 'Space Grotesk', sans-serif; font-weight: 600;
-    font-size: clamp(21px, 2.9vw, 27px); letter-spacing: -.8px; line-height: 1.2;
+    font-size: clamp(20px, 2.5vw, 25px); letter-spacing: -.6px; line-height: 1.22;
   }
   .part > p { margin: 0 0 16px; font-size: 16.5px; line-height: 1.76; color: var(--muted); max-width: 680px; }
   .part > p:last-child { margin-bottom: 0; }
@@ -408,7 +418,8 @@
     nav.top { padding: 18px 20px; }
     nav.top .links { gap: 18px; }
     .wrap, .wide { padding: 0 20px; }
-    .sec, .journey, .stage { padding-top: 66px; }
+    .sec, .journey { padding-top: 66px; }
+    .stage { padding-top: 104px; }
     .part { margin-top: 42px; }
     .tldr { padding: 24px 20px 26px; }
     .shot figcaption { font-size: 14.5px; }
@@ -433,7 +444,7 @@
 
 <div class="rail"><i id="readProgress"></i></div>
 
-<site-nav current="work"></site-nav>
+<site-nav current="none"></site-nav>
 
 <!-- ══════════ HERO ══════════ -->
 <header class="wrap" style="padding-top:44px;">
