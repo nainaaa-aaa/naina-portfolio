@@ -61,8 +61,8 @@
     tile.remove();                       // its contents live on as templates
 
     // generous cells, so even neighbouring cards sit well apart
-    CELL_W = MAX_W + 160;
-    CELL_H = MAX_H + 150;
+    CELL_W = MAX_W + 120;
+    CELL_H = MAX_H + 110;
 
     /* ── tic-tac-toe ────────────────────────────────────────
        A single board, pinned above the lattice, in the open space
@@ -142,7 +142,10 @@
       const card = document.getElementById("rpsRef");
       if (!card) return;
 
-      const FACE = { rock: "\u270A", paper: "\u270B", scissors: "\u270C" };
+      // The three hands are already in the markup, on the buttons; the
+      // throw area just borrows whichever one was played.
+      const art = {};
+      card.querySelectorAll(".rps-b").forEach((b) => { art[b.dataset.p] = b.innerHTML; });
       const BEATS = { rock: "scissors", paper: "rock", scissors: "paper" };
       const KEYS = ["rock", "paper", "scissors"];
 
@@ -156,8 +159,8 @@
 
       const play = (pick) => {
         const theirPick = KEYS[Math.floor(Math.random() * 3)];
-        me.textContent = FACE[pick];
-        ai.textContent = FACE[theirPick];
+        me.innerHTML = art[pick] || "";
+        ai.innerHTML = art[theirPick] || "";
         let line;
         if (pick === theirPick) line = "A tie.";
         else if (BEATS[pick] === theirPick) { mine++; line = "You win that one."; }
@@ -227,37 +230,51 @@
     const hits = (x, y, w, h) =>
       reserved.some((r) => x < r.x + r.w && x + w > r.x && y < r.y + r.h && y + h > r.y);
 
-    const buildCell = (i, j) => {
-      // Most cells stay empty. The gallery should read as a few things
-      // scattered across a lot of space, not a wall of photographs.
-      if (hash(i, j, 1) > 0.62) return null;
+    // A cell is only a spatial index, not a slot: a card may sit anywhere
+    // inside it. That is what stops the field reading as rows and columns.
+    // Because every card's position is a pure function of its cell, a cell
+    // can look at its neighbours and decide, without any shared state and in
+    // any order, whether it is the one that has to give way.
+    const MIN_GAP = 46;                 // clear space to keep between cards
 
-      // Photo choice. (i + 3j) mod N repeats only when di + 3dj is a
-      // multiple of N; with |di|,|dj| <= 2 that sum never exceeds 8, so with
-      // nine or more photos the same picture can never appear within two
-      // cells of itself. No random offset here on purpose — every offset
-      // introduces a seam where that guarantee quietly stops holding.
-      // Randomness comes from which cells are empty, and from the jitter.
+    const occupied = (i, j) => hash(i, j, 1) < 0.82;
+    const rank = (i, j) => hash(i, j, 77);
+
+    const spot = (i, j) => {
       const N = templates.length;
       const idx = (((i + 3 * j) % N) + N) % N;
       const t = templates[idx];
-      const w = t.w;
-      const h = t.h;
-      // jitter inside the cell, leaving room so neighbours never collide
-      // Try a few positions inside the cell before giving up. Skipping the
-      // whole cell on the first clash carved a rectangular hole around
-      // anything pinned, which is the artefact this rewrite exists to remove.
-      let x = 0, y = 0, placed = false;
-      for (let attempt = 0; attempt < 6 && !placed; attempt++) {
-        x = Math.round(i * CELL_W + 16 + hash(i, j, 3 + attempt * 20) * Math.max(0, CELL_W - w - 32));
-        y = Math.round(j * CELL_H + 16 + hash(i, j, 4 + attempt * 20) * Math.max(0, CELL_H - h - 32));
-        placed = !hits(x, y, w, h);
-      }
-      if (!placed) return null;
+      return {
+        t: t, idx: idx,
+        x: Math.round(i * CELL_W + hash(i, j, 3) * Math.max(0, CELL_W - t.w)),
+        y: Math.round(j * CELL_H + hash(i, j, 4) * Math.max(0, CELL_H - t.h)),
+      };
+    };
 
-      const node = t.node.cloneNode(true);
-      node.style.left = x + "px";
-      node.style.top = y + "px";
+    const tooClose = (a2, b2) =>
+      a2.x < b2.x + b2.t.w + MIN_GAP && a2.x + a2.t.w + MIN_GAP > b2.x &&
+      a2.y < b2.y + b2.t.h + MIN_GAP && a2.y + a2.t.h + MIN_GAP > b2.y;
+
+    const buildCell = (i, j) => {
+      if (!occupied(i, j)) return null;
+      const self = spot(i, j);
+      if (hits(self.x, self.y, self.t.w, self.t.h)) return null;
+
+      // Defer to any crowding neighbour that outranks this cell.
+      for (let di = -1; di <= 1; di++) {
+        for (let dj = -1; dj <= 1; dj++) {
+          if (!di && !dj) continue;
+          const ni = i + di, nj = j + dj;
+          if (!occupied(ni, nj)) continue;
+          const other = spot(ni, nj);
+          if (hits(other.x, other.y, other.t.w, other.t.h)) continue;
+          if (tooClose(self, other) && rank(ni, nj) > rank(i, j)) return null;
+        }
+      }
+
+      const node = self.t.node.cloneNode(true);
+      node.style.left = self.x + "px";
+      node.style.top = self.y + "px";
       node.style.transform = "rotate(" + (hash(i, j, 5) * 4 - 2).toFixed(2) + "deg)";
       if (hash(i, j, 6) > 0.5) node.setAttribute("aria-hidden", "true");
 
@@ -267,7 +284,6 @@
       wrapEl.style.top = "0";
       wrapEl.appendChild(node);
 
-      // a scattering of the small pixel props, tied to the same hash
       if (props.length && hash(i, j, 7) > 0.78) {
         const prop = props[Math.floor(hash(i, j, 8) * props.length) % props.length].cloneNode(true);
         prop.style.position = "absolute";
