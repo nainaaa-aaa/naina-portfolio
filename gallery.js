@@ -11,6 +11,12 @@
   // out of its own cell into a neighbour's.
   let CELL_W = 400;
   let CELL_H = 380;
+
+  // Cards are not all one size. A canvas of identically sized cards reads
+  // as a grid however you place them; varying the scale is most of what
+  // makes a scattered layout look composed.
+  const SCALE_MIN = 0.62;
+  const SCALE_MAX = 1.32;
   const MARGIN = 2;            // extra rings of cells built beyond the viewport
 
   const MOBILE_Q = "(max-width: 760px)";
@@ -61,8 +67,8 @@
     tile.remove();                       // its contents live on as templates
 
     // generous cells, so even neighbouring cards sit well apart
-    CELL_W = MAX_W + 120;
-    CELL_H = MAX_H + 110;
+    CELL_W = Math.round(MAX_W * SCALE_MAX) + 215;
+    CELL_H = Math.round(MAX_H * SCALE_MAX) + 175;
 
     /* ── tic-tac-toe ────────────────────────────────────────
        A single board, pinned above the lattice, in the open space
@@ -237,28 +243,31 @@
     // any order, whether it is the one that has to give way.
     const MIN_GAP = 46;                 // clear space to keep between cards
 
-    const occupied = (i, j) => hash(i, j, 1) < 0.82;
+    const occupied = (i, j) => hash(i, j, 1) < 0.92;
     const rank = (i, j) => hash(i, j, 77);
 
     const spot = (i, j) => {
       const N = templates.length;
       const idx = (((i + 3 * j) % N) + N) % N;
       const t = templates[idx];
+      const k = SCALE_MIN + hash(i, j, 12) * (SCALE_MAX - SCALE_MIN);
+      const w = Math.round(t.w * k);
+      const h = Math.round(t.h * k);
       return {
-        t: t, idx: idx,
-        x: Math.round(i * CELL_W + hash(i, j, 3) * Math.max(0, CELL_W - t.w)),
-        y: Math.round(j * CELL_H + hash(i, j, 4) * Math.max(0, CELL_H - t.h)),
+        t: t, idx: idx, k: k, w: w, h: h,
+        x: Math.round(i * CELL_W + hash(i, j, 3) * Math.max(0, CELL_W - w)),
+        y: Math.round(j * CELL_H + hash(i, j, 4) * Math.max(0, CELL_H - h)),
       };
     };
 
     const tooClose = (a2, b2) =>
-      a2.x < b2.x + b2.t.w + MIN_GAP && a2.x + a2.t.w + MIN_GAP > b2.x &&
-      a2.y < b2.y + b2.t.h + MIN_GAP && a2.y + a2.t.h + MIN_GAP > b2.y;
+      a2.x < b2.x + b2.w + MIN_GAP && a2.x + a2.w + MIN_GAP > b2.x &&
+      a2.y < b2.y + b2.h + MIN_GAP && a2.y + a2.h + MIN_GAP > b2.y;
 
     const buildCell = (i, j) => {
       if (!occupied(i, j)) return null;
       const self = spot(i, j);
-      if (hits(self.x, self.y, self.t.w, self.t.h)) return null;
+      if (hits(self.x, self.y, self.w, self.h)) return null;
 
       // Defer to any crowding neighbour that outranks this cell.
       for (let di = -1; di <= 1; di++) {
@@ -267,7 +276,7 @@
           const ni = i + di, nj = j + dj;
           if (!occupied(ni, nj)) continue;
           const other = spot(ni, nj);
-          if (hits(other.x, other.y, other.t.w, other.t.h)) continue;
+          if (hits(other.x, other.y, other.w, other.h)) continue;
           if (tooClose(self, other) && rank(ni, nj) > rank(i, j)) return null;
         }
       }
@@ -275,7 +284,10 @@
       const node = self.t.node.cloneNode(true);
       node.style.left = self.x + "px";
       node.style.top = self.y + "px";
-      node.style.transform = "rotate(" + (hash(i, j, 5) * 4 - 2).toFixed(2) + "deg)";
+      node.style.width = self.t.w + "px";
+      node.style.transformOrigin = "0 0";
+      node.style.transform =
+        "scale(" + self.k.toFixed(3) + ") rotate(" + (hash(i, j, 5) * 4 - 2).toFixed(2) + "deg)";
       if (hash(i, j, 6) > 0.5) node.setAttribute("aria-hidden", "true");
 
       const wrapEl = document.createElement("div");
