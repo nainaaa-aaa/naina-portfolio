@@ -25,6 +25,79 @@
     -webkit-user-drag: none;
     user-drag: none;
   }
+  /* ── tic-tac-toe ─────────────────────────────────────────── */
+  .ttt-card {
+    background: #FFFFFF; border: 3px solid #121212; box-shadow: 8px 10px 0 #121212;
+    padding: 12px; transform: rotate(-1.1deg);
+  }
+  .ttt-top {
+    display: flex; justify-content: space-between; gap: 10px; margin-bottom: 10px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #121212;
+  }
+  .ttt-status { color: #6A4A8A; }
+  .ttt-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+    background: #121212; border: 2px solid #121212; padding: 6px;
+  }
+  .ttt-c {
+    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+    background: #EFEAE0; border: 0; padding: 0; cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 34px;
+    line-height: 1; color: #121212; transition: background .15s;
+  }
+  .ttt-c:hover:not(:disabled) { background: #63E3C2; }
+  .ttt-c:disabled { cursor: default; }
+  .ttt-c.x { color: #121212; }
+  .ttt-c.o { color: #A66BFF; }
+  .ttt-c.win { background: #F9C846; }
+  .ttt-c:focus-visible { outline: 3px solid #A66BFF; outline-offset: -3px; }
+  .ttt-reset {
+    width: 100%; margin-top: 10px; padding: 7px; cursor: pointer;
+    background: #F9C846; border: 2px solid #121212; box-shadow: 3px 3px 0 #121212;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600;
+    letter-spacing: 1.4px; text-transform: uppercase; color: #121212;
+  }
+  .ttt-reset:active { transform: translate(1px, 1px); box-shadow: 2px 2px 0 #121212; }
+
+  /* ── rock paper scissors ─────────────────────────────────── */
+  .rps-card {
+    background: #FFFFFF; border: 3px solid #121212; box-shadow: 8px 10px 0 #121212;
+    padding: 12px; transform: rotate(1.4deg);
+  }
+  .rps-top {
+    display: flex; justify-content: space-between; gap: 10px; margin-bottom: 10px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #121212;
+  }
+  .rps-score { color: #6A4A8A; }
+  .rps-throw {
+    display: flex; align-items: center; justify-content: space-between;
+    background: #EFEAE0; border: 2px solid #121212; padding: 12px 14px;
+  }
+  .rps-side { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .rps-face { font-size: 34px; line-height: 1; }
+  .rps-face.me { transform: scaleX(-1); }
+  .rps-lbl {
+    font-family: 'IBM Plex Mono', monospace; font-size: 8.5px;
+    letter-spacing: 1.2px; color: #6A4A8A;
+  }
+  .rps-vs {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+    letter-spacing: 1.4px; color: #121212;
+  }
+  .rps-msg {
+    margin: 10px 0 0; text-align: center;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+    letter-spacing: 1.2px; text-transform: uppercase; color: #121212;
+  }
+  .rps-pick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
+  .rps-b {
+    padding: 8px 0; cursor: pointer; font-size: 22px; line-height: 1;
+    background: #F9C846; border: 2px solid #121212; box-shadow: 3px 3px 0 #121212;
+  }
+  .rps-b:hover { background: #63E3C2; }
+  .rps-b:active { transform: translate(1px, 1px); box-shadow: 2px 2px 0 #121212; }
+  .rps-b:focus-visible { outline: 3px solid #A66BFF; outline-offset: 2px; }
+
   #recenterBtn:focus-visible { outline: 3px solid #A66BFF; outline-offset: 3px; }
   @media (prefers-reduced-motion: reduce) {
     #fieldRef, #headingRef { transition: none !important; }
@@ -100,13 +173,46 @@
 
   <!-- The one and only heading. Sits at the tile's centre and pans with the
        artwork, but exists exactly once. -->
+  <site-nav current="gallery" variant="overlay"></site-nav>
+
   <div id="headingRef" style="position:absolute; left:50%; top:50%; z-index:6; width:640px; margin-left:-320px; text-align:center; pointer-events:none;">
     <p style="margin:0 0 14px; font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:#6A4A8A;"><span style="background:#FFFFFF; padding:4px 8px;">Life on a regular day</span></p>
     <h1 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(34px,4.2vw,58px); line-height:1.08; letter-spacing:-2.2px; color:#1A1209;"><span style="background:#FFFFFF; padding:4px 10px; display:inline-block;">The gallery has</span><br><span style="background:#FFFFFF; padding:4px 10px; display:inline-block;">no straight walls.</span></h1>
     <p style="margin:18px 0 0; font-size:13px; color:#5A5060; letter-spacing:.3px;"><span style="background:#FFFFFF; padding:4px 10px;">Photos, crochet and the odd sunset. Not design work. Drag anywhere. It keeps going.</span></p>
   </div>
 
-  <site-nav current="gallery" variant="overlay"></site-nav>
+  <!-- Tic-tac-toe. One board only: like the heading it rides above the
+   lattice and is never cloned, so there is exactly one game in the
+   whole canvas. gallery.js moves it with the pan. -->
+  <div class="ttt" id="tttRef" style="position:absolute; left:50%; top:50%; z-index:6; width:300px; margin-left:-150px;">
+    <div class="ttt-card">
+      <div class="ttt-top">
+        <span>TIC TAC TOE</span><span class="ttt-status">YOUR TURN</span>
+      </div>
+      <div class="ttt-grid"><button class="ttt-c" type="button" data-i="0" aria-label="Square 1"></button><button class="ttt-c" type="button" data-i="1" aria-label="Square 2"></button><button class="ttt-c" type="button" data-i="2" aria-label="Square 3"></button><button class="ttt-c" type="button" data-i="3" aria-label="Square 4"></button><button class="ttt-c" type="button" data-i="4" aria-label="Square 5"></button><button class="ttt-c" type="button" data-i="5" aria-label="Square 6"></button><button class="ttt-c" type="button" data-i="6" aria-label="Square 7"></button><button class="ttt-c" type="button" data-i="7" aria-label="Square 8"></button><button class="ttt-c" type="button" data-i="8" aria-label="Square 9"></button></div>
+      <button class="ttt-reset" type="button">New game</button>
+    </div>
+  </div>
+
+
+  <!-- Rock paper scissors. Pinned like the heading and the board: one of
+       it, sitting on its own in the lower-left of the canvas. -->
+  <div class="rps" id="rpsRef" style="position:absolute; left:50%; top:50%; z-index:6; width:284px; margin-left:-142px;">
+    <div class="rps-card">
+      <div class="rps-top"><span>ROCK PAPER SCISSORS</span><span class="rps-score">0 &ndash; 0</span></div>
+      <div class="rps-throw">
+        <div class="rps-side"><span class="rps-face" data-me>&#9995;</span><span class="rps-lbl">YOU</span></div>
+        <div class="rps-vs">VS</div>
+        <div class="rps-side"><span class="rps-face" data-ai>&#9995;</span><span class="rps-lbl">ME</span></div>
+      </div>
+      <p class="rps-msg">Pick one.</p>
+      <div class="rps-pick">
+        <button class="rps-b" type="button" data-p="rock" aria-label="Rock">&#9994;</button>
+        <button class="rps-b" type="button" data-p="paper" aria-label="Paper">&#9995;</button>
+        <button class="rps-b" type="button" data-p="scissors" aria-label="Scissors">&#9996;</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Position readout, bottom-left so it never crowds the recenter button. -->
   <div style="position:fixed; bottom:26px; left:28px; z-index:12; display:flex; align-items:center; gap:12px; padding:10px 16px; background:#3A2054; color:#F1EDE3; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:1.2px;">

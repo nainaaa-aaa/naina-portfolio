@@ -1,33 +1,55 @@
 (() => {
   "use strict";
 
-  // Must match #tileRef's width/height in gallery.html.
-  const W = 1980;
-  const H = 1420;
+  // The canvas is generated, not tiled. Every screen-sized patch is built
+  // from a deterministic hash of its grid cell, so panning back to a place
+  // shows exactly what was there before without any of it repeating on a
+  // fixed period — and there is no reserved hole anywhere, because the
+  // pinned pieces (heading, the two games) simply tell the generator to
+  // skip the cells they occupy.
+  // Sized from the largest card at run time, so a card can never reach
+  // out of its own cell into a neighbour's.
+  let CELL_W = 400;
+  let CELL_H = 380;
+  const MARGIN = 2;            // extra rings of cells built beyond the viewport
 
-  // The tile is authored for a desktop viewport. On a phone the whole
-  // lattice is scaled down so more than one card is on screen at a time.
   const MOBILE_Q = "(max-width: 760px)";
   const tileScale = () => (window.matchMedia(MOBILE_Q).matches ? 0.72 : 1);
+
+  // A small integer hash. Same cell in, same value out, every time.
+  const hash = (i, j, salt) => {
+    let h = (i * 374761393 + j * 668265263 + salt * 2246822519) | 0;
+    h = (h ^ (h >>> 13)) * 1274126177;
+    return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+  };
 
   function initInfiniteGallery() {
     const view = document.getElementById("viewRef");
     const field = document.getElementById("fieldRef");
     const tile = document.getElementById("tileRef");
-    const heading = document.getElementById("headingRef");
     const coordRef = document.getElementById("coordRef");
     const recenterBtn = document.getElementById("recenterBtn");
     if (!view || !field || !tile) return;
 
-    // 3x3 lattice of the authored tile, so the artwork wraps seamlessly in
-    // both axes. The heading lives outside #fieldRef and is never cloned.
-    //
-    // The lattice sits in its own element so #fieldRef can keep doing pure
-    // translation in screen pixels while the zoom lives on the wrapper —
-    // one transform per element, no compositing order to get wrong.
+    // The authored markup is the library: every figure in #tileRef becomes a
+    // template the generator can place. The tile itself stops being a layout.
+    const templates = Array.from(tile.querySelectorAll("figure")).map((fig) => {
+      const node = fig.cloneNode(true);
+      node.style.position = "absolute";
+      node.style.left = "0";
+      node.style.top = "0";
+      const w = parseInt(fig.style.width, 10) || 230;
+      // frame + image + caption, read off the markup rather than guessed
+      const inner = fig.querySelector("div[style*='height']");
+      const imgH = inner ? parseInt((inner.getAttribute("style").match(/height:(\d+)px/) || [])[1], 10) : 0;
+      return { node: node, w: w, h: (imgH || Math.round(w * 1.1)) + 72 };
+    });
+    const MAX_W = Math.max.apply(null, templates.map((t) => t.w));
+    const MAX_H = Math.max.apply(null, templates.map((t) => t.h));
+    const props = Array.from(tile.querySelectorAll(":scope > div")).map((d) => d.cloneNode(true));
+
     let lattice = document.getElementById("latticeRef");
-    if (!field.dataset.tiled) {
-      field.dataset.tiled = "1";
+    if (!lattice) {
       lattice = document.createElement("div");
       lattice.id = "latticeRef";
       lattice.style.position = "absolute";
@@ -35,21 +57,145 @@
       lattice.style.top = "0";
       lattice.style.transformOrigin = "0 0";
       field.appendChild(lattice);
-      lattice.appendChild(tile);
-      const frag = document.createDocumentFragment();
-      for (let i = -1; i <= 1; i++) {
-        for (let j = -1; j <= 1; j++) {
-          if (!i && !j) continue;
-          const clone = tile.cloneNode(true);
-          clone.removeAttribute("id");
-          clone.setAttribute("aria-hidden", "true");
-          clone.style.left = i * W + "px";
-          clone.style.top = j * H + "px";
-          frag.appendChild(clone);
-        }
-      }
-      lattice.appendChild(frag);
     }
+    tile.remove();                       // its contents live on as templates
+
+    // generous cells, so even neighbouring cards sit well apart
+    CELL_W = MAX_W + 160;
+    CELL_H = MAX_H + 150;
+
+    /* ── tic-tac-toe ────────────────────────────────────────
+       A single board, pinned above the lattice, in the open space
+       down and right of the heading.
+    ---------------------------------------------------------- */
+    (function tictactoe() {
+      const board = document.getElementById("tttRef");
+      if (!board) return;
+
+      const LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+      let cells = Array(9).fill("");
+      let over = false;
+
+      const winner = (b) => {
+        for (const l of LINES) {
+          if (b[l[0]] && b[l[0]] === b[l[1]] && b[l[1]] === b[l[2]]) return { mark: b[l[0]], line: l };
+        }
+        return b.every(Boolean) ? { mark: "draw", line: [] } : null;
+      };
+
+      // Win if you can, block if you must, then centre, corner, side.
+      const aiMove = (b) => {
+        for (const mark of ["O", "X"]) {
+          for (const l of LINES) {
+            const vals = l.map((i) => b[i]);
+            if (vals.filter((v) => v === mark).length === 2 && vals.includes("")) {
+              return l[vals.indexOf("")];
+            }
+          }
+        }
+        const pick = (list) => list.filter((i) => !b[i]);
+        const order = pick([4]).concat(pick([0,2,6,8]), pick([1,3,5,7]));
+        return order.length ? order[Math.floor(Math.random() * order.length)] : -1;
+      };
+
+      const render = () => {
+        const w = winner(cells);
+        over = !!w;
+        const label = !w ? "YOUR TURN"
+          : w.mark === "draw" ? "A DRAW" : w.mark === "X" ? "YOU WIN" : "I WIN";
+        board.querySelectorAll(".ttt-c").forEach((btn, i) => {
+          btn.textContent = cells[i];
+          btn.classList.toggle("x", cells[i] === "X");
+          btn.classList.toggle("o", cells[i] === "O");
+          btn.classList.toggle("win", !!w && w.line.includes(i));
+          btn.disabled = over || !!cells[i];
+        });
+        const st = board.querySelector(".ttt-status");
+        if (st) st.textContent = label;
+      };
+
+      const play = (i) => {
+        if (over || cells[i]) return;
+        cells[i] = "X";
+        if (!winner(cells)) {
+          const m = aiMove(cells);
+          if (m >= 0) cells[m] = "O";
+        }
+        render();
+      };
+
+      const reset = () => { cells = Array(9).fill(""); over = false; render(); };
+
+      board.addEventListener("click", (e) => {
+        const cell = e.target.closest(".ttt-c");
+        if (cell) { play(Number(cell.dataset.i)); return; }
+        if (e.target.closest(".ttt-reset")) reset();
+      });
+
+      render();
+    })();
+
+    /* ── rock paper scissors ────────────────────────────────
+       Pinned in the lower-left of the canvas, away from the board.
+    ---------------------------------------------------------- */
+    (function rps() {
+      const card = document.getElementById("rpsRef");
+      if (!card) return;
+
+      const FACE = { rock: "\u270A", paper: "\u270B", scissors: "\u270C" };
+      const BEATS = { rock: "scissors", paper: "rock", scissors: "paper" };
+      const KEYS = ["rock", "paper", "scissors"];
+
+      const me = card.querySelector("[data-me]");
+      const ai = card.querySelector("[data-ai]");
+      const msg = card.querySelector(".rps-msg");
+      const score = card.querySelector(".rps-score");
+      let mine = 0, theirs = 0;
+
+      me.classList.add("me");
+
+      const play = (pick) => {
+        const theirPick = KEYS[Math.floor(Math.random() * 3)];
+        me.textContent = FACE[pick];
+        ai.textContent = FACE[theirPick];
+        let line;
+        if (pick === theirPick) line = "A tie.";
+        else if (BEATS[pick] === theirPick) { mine++; line = "You win that one."; }
+        else { theirs++; line = "Mine, I think."; }
+        msg.textContent = line;
+        score.textContent = mine + " \u2013 " + theirs;
+      };
+
+      card.addEventListener("click", (e) => {
+        const btn = e.target.closest(".rps-b");
+        if (btn) play(btn.dataset.p);
+      });
+    })();
+
+    // The pieces that exist exactly once. Each sits at a fixed canvas
+    // position and reserves a box the generator will not place cards into,
+    // which is what keeps them in clear space instead of under a photo.
+    const pinned = [
+      { id: "headingRef", ox: 0,    oy: 0,   w: 640, h: 250 },
+      { id: "tttRef",     ox: 620,  oy: -400, w: 300, h: 340 },
+      { id: "rpsRef",     ox: -660, oy: 360,  w: 284, h: 300 },
+    ]
+      .map((pin) => Object.assign(pin, { el: document.getElementById(pin.id) }))
+      .filter((pin) => pin.el);
+
+    const reserved = pinned.map((pin) => ({
+      x: pin.ox - pin.w / 2 - 16,
+      y: pin.oy - pin.h / 2 - 16,
+      w: pin.w + 32,
+      h: pin.h + 32,
+    }));
+
+    // The field and everything pinned to it must ease together, or the
+    // heading slides while the artwork snaps.
+    const setPinTransition = (value) => {
+      field.style.transition = value;
+      pinned.forEach((pin) => { pin.el.style.transition = value; });
+    };
 
     // pos is the pan offset. pos = (0,0) is "home": the tile's centre and the
     // heading both sit dead centre of the viewport.
@@ -59,37 +205,120 @@
     let last = null;
     let raf = null;
 
-    // Lines the tile's centre up with the viewport's centre, and holds the
-    // lattice's on-screen size. Both are recomputed on resize so "centred"
-    // and the wrap modulus stay correct at any window size or zoom level.
+    // The canvas origin sits at the viewport centre, so canvas (0,0) is
+    // wherever "home" is. Recomputed on resize so that stays true.
     let cx = 0, cy = 0;
-    let sw = W, sh = H;
+    let scale = 1;
     const measure = () => {
-      const k = tileScale();
-      lattice.style.transform = k === 1 ? "" : "scale(" + k + ")";
-      sw = W * k;
-      sh = H * k;
-      cx = window.innerWidth / 2 - sw / 2;
-      cy = window.innerHeight / 2 - sh / 2;
+      scale = tileScale();
+      lattice.style.transform = scale === 1 ? "" : "scale(" + scale + ")";
+      cx = window.innerWidth / 2;
+      cy = window.innerHeight / 2;
     };
 
-    // Wrap into (-m, 0] so the lattice always covers the viewport.
-    const wrap = (v, m) => {
-      const r = v % m;
-      return r > 0 ? r - m : r;
+    /* ── the generator ──────────────────────────────────────────
+       Each grid cell holds at most one card, positioned by a hash of
+       the cell so it never changes between visits. Cells whose card
+       would land on a pinned piece are skipped, which is what removes
+       the old reserved hole: nothing is reserved anywhere else.
+    ---------------------------------------------------------- */
+    const live = new Map();          // "i,j" -> element
+
+    const hits = (x, y, w, h) =>
+      reserved.some((r) => x < r.x + r.w && x + w > r.x && y < r.y + r.h && y + h > r.y);
+
+    const buildCell = (i, j) => {
+      // Most cells stay empty. The gallery should read as a few things
+      // scattered across a lot of space, not a wall of photographs.
+      if (hash(i, j, 1) > 0.62) return null;
+
+      // Photo choice. (i + 3j) mod N repeats only when di + 3dj is a
+      // multiple of N; with |di|,|dj| <= 2 that sum never exceeds 8, so with
+      // nine or more photos the same picture can never appear within two
+      // cells of itself. No random offset here on purpose — every offset
+      // introduces a seam where that guarantee quietly stops holding.
+      // Randomness comes from which cells are empty, and from the jitter.
+      const N = templates.length;
+      const idx = (((i + 3 * j) % N) + N) % N;
+      const t = templates[idx];
+      const w = t.w;
+      const h = t.h;
+      // jitter inside the cell, leaving room so neighbours never collide
+      // Try a few positions inside the cell before giving up. Skipping the
+      // whole cell on the first clash carved a rectangular hole around
+      // anything pinned, which is the artefact this rewrite exists to remove.
+      let x = 0, y = 0, placed = false;
+      for (let attempt = 0; attempt < 6 && !placed; attempt++) {
+        x = Math.round(i * CELL_W + 16 + hash(i, j, 3 + attempt * 20) * Math.max(0, CELL_W - w - 32));
+        y = Math.round(j * CELL_H + 16 + hash(i, j, 4 + attempt * 20) * Math.max(0, CELL_H - h - 32));
+        placed = !hits(x, y, w, h);
+      }
+      if (!placed) return null;
+
+      const node = t.node.cloneNode(true);
+      node.style.left = x + "px";
+      node.style.top = y + "px";
+      node.style.transform = "rotate(" + (hash(i, j, 5) * 4 - 2).toFixed(2) + "deg)";
+      if (hash(i, j, 6) > 0.5) node.setAttribute("aria-hidden", "true");
+
+      const wrapEl = document.createElement("div");
+      wrapEl.style.position = "absolute";
+      wrapEl.style.left = "0";
+      wrapEl.style.top = "0";
+      wrapEl.appendChild(node);
+
+      // a scattering of the small pixel props, tied to the same hash
+      if (props.length && hash(i, j, 7) > 0.78) {
+        const prop = props[Math.floor(hash(i, j, 8) * props.length) % props.length].cloneNode(true);
+        prop.style.position = "absolute";
+        prop.style.left = Math.round(i * CELL_W + hash(i, j, 9) * CELL_W) + "px";
+        prop.style.top = Math.round(j * CELL_H + hash(i, j, 10) * CELL_H) + "px";
+        prop.setAttribute("aria-hidden", "true");
+        wrapEl.appendChild(prop);
+      }
+      return wrapEl;
+    };
+
+    const cull = () => {
+      const halfW = cx / scale, halfH = cy / scale;
+      const left = -pos.x / scale - halfW;
+      const top = -pos.y / scale - halfH;
+      const i0 = Math.floor(left / CELL_W) - MARGIN;
+      const i1 = Math.ceil((left + halfW * 2) / CELL_W) + MARGIN;
+      const j0 = Math.floor(top / CELL_H) - MARGIN;
+      const j1 = Math.ceil((top + halfH * 2) / CELL_H) + MARGIN;
+
+      const want = new Set();
+      for (let i = i0; i <= i1; i++) {
+        for (let j = j0; j <= j1; j++) {
+          const key = i + "," + j;
+          want.add(key);
+          if (live.has(key)) continue;
+          const el = buildCell(i, j);
+          live.set(key, el);            // null is remembered too, so an empty
+          if (el) lattice.appendChild(el); // cell is not rebuilt every pan
+        }
+      }
+      live.forEach((el, key) => {
+        if (want.has(key)) return;
+        if (el && el.parentNode) el.remove();
+        live.delete(key);
+      });
     };
 
     const apply = () => {
       field.style.transform =
-        "translate(" + wrap(pos.x + cx, sw).toFixed(1) + "px," + wrap(pos.y + cy, sh).toFixed(1) + "px)";
-      if (heading) {
-        heading.style.transform =
-          "translate(" + pos.x.toFixed(1) + "px, calc(-50% + " + pos.y.toFixed(1) + "px))";
-      }
+        "translate(" + (pos.x + cx).toFixed(1) + "px," + (pos.y + cy).toFixed(1) + "px)";
+      pinned.forEach((pin) => {
+        pin.el.style.transform =
+          "translate(calc(" + pin.ox + "px + " + pos.x.toFixed(1) + "px), calc(-50% + " +
+          pin.oy + "px + " + pos.y.toFixed(1) + "px))";
+      });
       view.style.backgroundPosition = pos.x.toFixed(1) + "px " + pos.y.toFixed(1) + "px";
       if (coordRef) {
         coordRef.textContent = Math.round(-pos.x) + ", " + Math.round(-pos.y);
       }
+      cull();
     };
 
     const stopGlide = () => {
@@ -121,8 +350,7 @@
       last = { x: e.clientX, y: e.clientY };
       vel = { x: 0, y: 0 };
       stopGlide();
-      field.style.transition = "";
-      if (heading) heading.style.transition = "";
+      setPinTransition("");
       view.classList.add("dragging");
       view.setPointerCapture?.(e.pointerId);
     });
@@ -173,16 +401,11 @@
     const recenter = () => {
       vel = { x: 0, y: 0 };
       stopGlide();
-      const ease = "transform .62s cubic-bezier(.22,.9,.28,1)";
-      field.style.transition = ease;
-      if (heading) heading.style.transition = ease;
+      setPinTransition("transform .62s cubic-bezier(.22,.9,.28,1)");
       pos.x = 0;
       pos.y = 0;
       apply();
-      window.setTimeout(() => {
-        field.style.transition = "";
-        if (heading) heading.style.transition = "";
-      }, 660);
+      window.setTimeout(() => setPinTransition(""), 660);
     };
     if (recenterBtn) recenterBtn.addEventListener("click", recenter);
 
