@@ -37,6 +37,9 @@
     --blue:   #3355FF;
     --green:  #2BD97C;
 
+    /* dividers stay neutral; colour is for the numbered chips */
+    --rule: rgba(23,22,27,.13);
+
     --accent: var(--blue);
     --accent-ink: var(--ink);
     --accent-soft: rgba(51,85,255,.22);
@@ -95,7 +98,7 @@
      boundary between one section and the next is unmistakable */
   .eyebrow {
     display: flex; align-items: center; gap: 12px; margin: 0 0 22px;
-    padding-top: 30px; border-top: 2px solid var(--accent);
+    padding-top: 30px; border-top: 1px solid var(--rule);
     font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
     letter-spacing: 2.4px; text-transform: uppercase; color: var(--ink);
   }
@@ -192,7 +195,7 @@
   .journey { padding: 92px 0 0; }
   .jnum {
     display: flex; align-items: center; gap: 10px; margin: 0 0 16px;
-    padding-top: 30px; border-top: 2px solid var(--accent);
+    padding-top: 30px; border-top: 1px solid var(--rule);
     font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 600;
     letter-spacing: 2.2px; text-transform: uppercase; color: var(--faint);
   }
@@ -247,9 +250,14 @@
   .wideboard img.ph { max-height: none; object-fit: contain; }
 
   /* two screens per row */
-  .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px 34px; margin: 0; }
+  /* screens run one to a line; .two is for the few places where a pair
+     reads better side by side (a blocked state and the screen that
+     clears it, a bid received and the same bid selected) */
+  .grid2 { display: grid; grid-template-columns: 1fr; gap: 64px; margin: 0; }
+  .grid2.two { grid-template-columns: repeat(2, 1fr); gap: 40px 34px; }
+  .shot + .grid2, .grid2 + .shot { margin-top: 64px; }
   .grid2 > .shot { margin: 0; }
-  .grid2 > .shot:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .grid2.two > .shot:last-child:nth-child(odd) { grid-column: 1 / -1; }
   .grid2 figcaption { text-align: left; margin-left: 0; }
 
   /* the evidence panel + takeaway in the problem section */
@@ -278,8 +286,24 @@
   /* ── stage headers: the case study's top-level chunks ──── */
   /* Stages are the case study's top-level chunks, so they get the most
      air above them and the largest type after the page title. */
+  /* ── the glimpse: what this is, before any reading ────────
+     A single screen straight under the headline, so the page opens
+     on the thing itself rather than on paragraphs about it. */
+  .glimpse { margin: 40px 0 0; }
+  .glimpse .browser { transform: none; }
+  .glimpse img {
+    display: block; width: 100%; height: auto;
+    max-height: 460px; object-fit: cover; object-position: top center;
+  }
+  .glimpse figcaption {
+    margin: 16px 0 0; max-width: 640px;
+    font-size: 15px; line-height: 1.66; color: var(--muted);
+  }
+  @media (max-width: 640px) { .glimpse img { max-height: 300px; } }
+
   .stage { padding: 172px 0 0; scroll-margin-top: 88px; }
-  .stage-head { padding-top: 40px; border-top: 3px solid var(--accent); }
+  /* a divider should mark the break, not announce it */
+  .stage-head { padding-top: 40px; border-top: 1px solid var(--rule); }
   .stage-n {
     display: inline-flex; align-items: center; justify-content: center;
     min-width: 40px; height: 31px; padding: 0 10px; border-radius: 6px;
@@ -453,6 +477,14 @@
   <h1>Cash in two days, on an invoice due in ninety.</h1>
   <p class="standfirst">Altkred lets Indian SMEs sell unpaid invoices to financiers who bid for them. I designed the whole thing: signing up, bidding, getting paid, and what happens when a payment fails.</p>
 
+  <figure class="glimpse">
+    <div class="browser">
+      <div class="bar"><i></i><i></i><i></i><span>/marketplace</span></div>
+      <img src="assets/cs-altkred-marketplace.png" alt="The Altkred marketplace: live invoices listed with tenure, due date, insurance cover and the current bid spread">
+    </div>
+    <figcaption>The marketplace this case study is about: invoices listed for sale, with financiers bidding against each other for them.</figcaption>
+  </figure>
+
   <dl class="meta">
     <div><dt>Product</dt><dd>Factoring &amp; reverse-factoring marketplace</dd></div>
     <div><dt>Role</dt><dd>Product designer, end to end</dd></div>
@@ -460,7 +492,6 @@
     <div><dt>Status</dt><dd>In build</dd></div>
     <div><dt>I owned</dt><dd>Research, flows, IA, every screen</dd></div>
   </dl>
-
   <ul class="legend" aria-label="Reading the colours">
     <li class="lgt" aria-hidden="true">Reading the colours</li>
     <li class="lg" style="--c:var(--blue)">Concept &amp; decisions</li>
@@ -709,7 +740,6 @@
 
   <div class="band">
     <div class="wide">
-      <div class="grid2">
       <figure class="shot" data-tilt>
         <div class="browser">
           <div class="bar"><i></i><i></i><i></i><span>/onboarding/kyb-documents</span></div>
@@ -717,6 +747,7 @@
         </div>
         <figcaption><span class="fno">Fig 03</span>Six steps down the left, documents in the middle. A failed check says what failed ("the name entered doesn't match the form details") instead of just turning red.</figcaption>
       </figure>
+      <div class="grid2 two">
       <figure class="shot" data-tilt>
         <div class="browser">
           <div class="bar"><i></i><i></i><i></i><span>/marketplace/FA-Antino-89234768</span></div>
@@ -751,7 +782,6 @@
 
   <div class="band">
     <div class="wide">
-      <div class="grid2">
       <figure class="shot" data-tilt>
         <div class="browser">
           <div class="bar"><i></i><i></i><i></i><span>/marketplace</span></div>
@@ -766,6 +796,7 @@
         </div>
         <figcaption><span class="fno">Fig 07</span>The four levers, with the maths resolving live beside them: interest, who pays it, what the seller receives, what's owed at maturity. Other financiers' bids sit underneath.</figcaption>
       </figure>
+      <div class="grid2 two">
       <figure class="shot" data-tilt>
         <div class="browser">
           <div class="bar"><i></i><i></i><i></i><span>/asset-management/FA-Antino-89234768/bids</span></div>
@@ -853,6 +884,7 @@
     <p class="cap">Accepted invoice → cash in hand</p>
     <div class="bar"><span class="lbl">Before</span><div class="track"><div class="fill was">60–90 days</div></div></div>
     <div class="bar"><span class="lbl">Designed for</span><div class="track"><div class="fill now">2 days</div></div></div>
+    <div class="delta"><span>Design target, not a measured result. Altkred is still in build, so these are the numbers the flows were drawn against.</span></div>
     <div class="swaps">
       <p class="lbl2">What else moves</p>
       <div class="r"><span class="was">The factory pledged as collateral</span><span class="now">The invoice is the security</span></div>
@@ -863,8 +895,6 @@
     </div>
   </div>
 
-  <p class="note">Altkred is still in build. These are the targets the flows were designed against, taken from the baseline in discovery. They are not measured outcomes. I'll put real numbers here when there are some.</p>
-  <p class="note">Altkred is still in build. These are the targets the flows were designed against, taken from the baseline in discovery. They are not measured outcomes. I'll put real numbers here when there are some.</p>
   </div>
 </section>
 

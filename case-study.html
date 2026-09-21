@@ -33,6 +33,9 @@
     --blue:   #3355FF;
     --green:  #2BD97C;
 
+    /* dividers stay neutral; colour is for the numbered chips */
+    --rule: rgba(23,22,27,.13);
+
     --accent: var(--blue);
     --accent-ink: var(--ink);
     --accent-soft: rgba(51,85,255,.22);
@@ -92,7 +95,7 @@
   /* each section opens with a rule in its own semantic colour */
   .eyebrow {
     display: flex; align-items: center; gap: 12px; margin: 0 0 20px;
-    padding-top: 30px; border-top: 2px solid var(--accent);
+    padding-top: 30px; border-top: 1px solid var(--rule);
     font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
     letter-spacing: 2.4px; text-transform: uppercase; color: var(--ink);
   }
@@ -322,8 +325,24 @@
   /* ── stage headers: the case study's top-level chunks ──── */
   /* Stages are the case study's top-level chunks, so they get the most
      air above them and the largest type after the page title. */
+  /* ── the glimpse: what this is, before any reading ────────
+     A single screen straight under the headline, so the page opens
+     on the thing itself rather than on paragraphs about it. */
+  .glimpse { margin: 40px 0 0; }
+  .glimpse .fig-frame { transform: none; }
+  .glimpse img {
+    display: block; width: 100%; height: auto;
+    max-height: 460px; object-fit: cover; object-position: center;
+  }
+  .glimpse figcaption {
+    margin: 16px 0 0; max-width: 640px;
+    font-size: 15px; line-height: 1.66; color: var(--muted);
+  }
+  @media (max-width: 640px) { .glimpse img { max-height: 300px; } }
+
   .stage { padding: 172px 0 0; scroll-margin-top: 88px; }
-  .stage-head { padding-top: 40px; border-top: 3px solid var(--accent); }
+  /* a divider should mark the break, not announce it */
+  .stage-head { padding-top: 40px; border-top: 1px solid var(--rule); }
   .stage-n {
     display: inline-flex; align-items: center; justify-content: center;
     min-width: 40px; height: 31px; padding: 0 10px; border-radius: 6px;
@@ -480,6 +499,13 @@
   <p class="kicker">Compport · Enterprise SaaS · 2026</p>
   <h1>Nobody should need twelve spreadsheets to move one person.</h1>
 
+  <figure class="glimpse">
+    <div class="fig-frame" style="transform:none;">
+      <img src="assets/cs-org-chart.jpg" alt="The org structure planning canvas: the chart with current versus modified cost pinned alongside it">
+    </div>
+    <figcaption>The module this case study is about: one canvas holding the structure, what it costs, and every change made to it.</figcaption>
+  </figure>
+
   <dl class="meta">
     <div><dt>Product</dt><dd>Org structure planning</dd></div>
     <div><dt>Role</dt><dd>Product designer (titled UI/UX designer at the time)</dd></div>
@@ -487,7 +513,6 @@
     <div><dt>Team</dt><dd>4 designers, 1 PM</dd></div>
     <div><dt>I owned</dt><dd>Chart canvas, node states, compare flow</dd></div>
   </dl>
-
   <ul class="legend" aria-label="Reading the colours">
     <li class="lgt" aria-hidden="true">Reading the colours</li>
     <li class="lg" style="--c:var(--blue)">Concept &amp; decisions</li>
@@ -882,7 +907,6 @@
     </div>
   </div>
 
-  <p class="note">These are the targets the module was designed against, drawn from the baseline in stakeholder interviews. I left the engagement before the feature reached production, so post-launch numbers exist, but they aren't mine to claim.</p>
   </div>
 </section>
 

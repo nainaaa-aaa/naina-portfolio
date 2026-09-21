@@ -8,7 +8,14 @@
       because those already feel right and hijacking them breaks
       more than it buys.
 
-   2. Resistance over marked elements. Scrolling gets heavier as a
+   2. In-page links are animated here too. The browser's own smooth
+      scroll is driven by rAF and competes with this one: a jump of
+      several thousand pixels takes seconds, and any wheel movement
+      during it lands on the handler below, cancels the native
+      scroll and strands the reader mid-page. Driving both from one
+      place means a nudge redirects the trip instead of killing it.
+
+   3. Resistance over marked elements. Scrolling gets heavier as a
       [data-slow] element passes through the middle of the screen
       and returns to normal once it leaves, so the work cards get
       dwelled on instead of flying past. It never blocks: a firm
@@ -66,6 +73,57 @@
       return peak;
     };
 
+    /* ── anchor jumps ───────────────────────────────────────
+       A distance-scaled eased tween. The exponential approach used
+       for the wheel starts far too fast over a 10,000px jump.
+    ---------------------------------------------------------- */
+    let tween = null;
+    const easeInOutCubic = (t) =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    const cancelTween = () => { tween = null; };
+
+    const glideTo = (y) => {
+      const from = window.scrollY;
+      const to = clamp(y);
+      const dist = Math.abs(to - from);
+      if (dist < 2) return;
+      // 620ms for a short hop, up to 1100ms for a long one
+      const ms = Math.min(1100, 620 + dist * 0.06);
+      const t0 = performance.now();
+      tween = { from: from, to: to, ms: ms, t0: t0 };
+      const step = (now) => {
+        if (!tween || tween.t0 !== t0) return;           // superseded or cancelled
+        const p = Math.min(1, (now - t0) / ms);
+        const y2 = tween.from + (tween.to - tween.from) * easeInOutCubic(p);
+        window.scrollTo({ top: y2, behavior: "instant" });
+        target = y2;
+        if (p < 1) requestAnimationFrame(step);
+        else { tween = null; target = to; }
+      };
+      requestAnimationFrame(step);
+    };
+
+    // Where an anchor target should come to rest, allowing for the fixed nav.
+    const anchorY = (el) => {
+      const pad = parseFloat(getComputedStyle(doc).scrollPaddingTop) || 0;
+      return clamp(el.getBoundingClientRect().top + window.scrollY - pad);
+    };
+
+    document.addEventListener("click", (e) => {
+      const link = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!link) return;
+      const id = link.getAttribute("href").slice(1);
+      if (!id) return;
+      const el = document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      if (running) { cancelAnimationFrame(raf); running = false; }
+      glideTo(anchorY(el));
+      // keep the URL honest without letting the browser jump
+      if (history.replaceState) history.replaceState(null, "", "#" + id);
+    });
+
     const frame = () => {
       const diff = target - window.scrollY;
       if (Math.abs(diff) < SETTLE) {
@@ -93,6 +151,7 @@
       if (doc.classList.contains("lb-open")) return;
       e.preventDefault();
 
+      cancelTween();                 // a nudge takes over from an anchor jump
       const raw = e.deltaMode === 1 ? e.deltaY * LINE
                 : e.deltaMode === 2 ? e.deltaY * window.innerHeight
                 : e.deltaY;
@@ -114,7 +173,9 @@
     window.addEventListener("resize", () => { target = clamp(window.scrollY); });
     window.addEventListener("hashchange", () => {
       if (running) { cancelAnimationFrame(raf); running = false; }
-      target = window.scrollY;
+      const el = location.hash && document.getElementById(location.hash.slice(1));
+      if (el) glideTo(anchorY(el));
+      else target = window.scrollY;
     });
     document.addEventListener("visibilitychange", () => {
       if (document.hidden && running) { cancelAnimationFrame(raf); running = false; }

@@ -135,7 +135,7 @@
 
       const cta = document.createElement("div");
       cta.className = "mh-cta";
-      const viewWork = stage.querySelector('a[href="#work"]');
+      const viewWork = document.getElementById("heroCta");
       const findMe = stage.querySelector(".brut-search");
       if (viewWork) relocate(viewWork, cta);
       if (findMe) relocate(findMe, cta);
