@@ -169,6 +169,30 @@
   .tool .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--faint); }
   .tool p { margin: 12px 0 0 !important; font-size: 15.5px !important; line-height: 1.62; color: var(--ink) !important; }
 
+  /* ── selected projects ─────────────────────────────────── */
+  .jsub {
+    margin: -6px 0 14px !important; font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px !important; letter-spacing: .6px; line-height: 1.5 !important;
+    color: var(--faint) !important;
+  }
+
+  /* ── expertise ─────────────────────────────────────────────
+     The levels are read off the PDF rather than guessed, so the
+     bars say what she says and not what I think. */
+  .bars { margin: 26px 0 0; }
+  .bar {
+    display: grid; grid-template-columns: 1fr minmax(90px, 220px);
+    align-items: center; gap: 14px 24px; padding: 13px 0;
+    border-bottom: 1px solid var(--hair);
+  }
+  .bar:last-child { border-bottom: 0; }
+  .bar .n { font-size: 15.5px; color: var(--ink); }
+  .bar .t {
+    position: relative; height: 9px; border-radius: 5px;
+    background: var(--hair); overflow: hidden;
+  }
+  .bar .t i { display: block; height: 100%; background: var(--ink); border-radius: 5px; }
+
   /* ── education + awards ────────────────────────────────── */
   .twocol { display: grid; grid-template-columns: 1fr; gap: 34px; margin: 26px 0 0; }
   @media (min-width: 760px) { .twocol { grid-template-columns: 1.05fr .95fr; gap: 44px; } }
@@ -207,6 +231,12 @@
   @page { size: A4; margin: 12mm 13mm; }
   @media print {
     html, body { background: #FFFFFF; padding-top: 0; font-size: 10.2px; }
+    /* A proficiency bar with its fill dropped is just an empty track, so
+       these few fills are asked for explicitly rather than left to the
+       browser's default of stripping backgrounds. */
+    .bar .t, .bar .t i, .chip.on, .eyebrow b, .job li::before {
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
     nav.top, .jump, .end, .note { display: none !important; }
     .wrap { max-width: none; padding: 0; }
     .job li, .sec p, .proj p, .standfirst { max-width: none; }
@@ -247,6 +277,11 @@
     .award { padding: 5px 0; }
     .award b { font-size: 10.2px; line-height: 1.35; }
     .award span { margin-top: 2px; font-size: 8.2px; }
+    .jsub { margin: -3px 0 7px !important; font-size: 9px !important; }
+    .bars { margin-top: 9px; }
+    .bar { padding: 5px 0; gap: 8px 16px; }
+    .bar .n { font-size: 10.2px; }
+    .bar .t { height: 6px; }
     .proj h3 { font-size: 13px !important; margin-bottom: 5px !important; }
     .proj { margin-top: 9px; padding: 11px 14px; box-shadow: 3px 3px 0 var(--green); border-width: 1.5px; break-inside: avoid; }
     .proj p { font-size: 10.2px !important; line-height: 1.5; }
@@ -260,13 +295,16 @@
 
 <!-- ══════════ HERO ══════════ -->
 <header class="wrap" style="padding-top:44px;">
-  <p class="kicker">Resume &middot; Updated September 2026</p>
+  <p class="kicker">Resume &middot; Updated October 2026</p>
   <h1>Naina Gupta<span class="dot">.</span></h1>
 
   <p class="standfirst">
-    Product designer on complex B2B platforms, working from research through to the shipped interface.
-    I sit directly with product managers and engineers, own flows end to end, and lead a small design team.
-    Most useful on data-heavy products where the hard part is <strong>making a messy workflow make sense</strong>.
+    Product designer who owns complex B2B platforms end to end, from user research and problem definition
+    through user flows and interaction design to shipped UI. Fourteen client products in under three years
+    across aviation operations, HR tech, fintech, insurtech, agri-tech, legal, e-commerce and healthcare,
+    with <strong>measured workflow gains on live enterprise modules</strong>. I work directly with product
+    managers and engineers, have line-managed three junior designers, and lead the team's move to
+    AI-assisted design.
   </p>
 
   <dl class="meta">
@@ -286,118 +324,155 @@
 <!-- ══════════ 01 EXPERIENCE ══════════ -->
 <section class="sec wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
   <p class="eyebrow"><b>01</b> Experience</p>
-  <h2>Three years, two products taken end to end.</h2>
+  <h2>Fourteen client products in under three years.</h2>
 
   <div class="org">
     <span class="co">Goldenflitch Studios</span>
-    <span class="where">Gurugram &middot; Jan 2024 – Present</span>
+    <span class="where">Gurugram &middot; 2024 – Present</span>
   </div>
-
   <div class="job">
-    <div class="jt"><span class="t">Senior UI/UX Designer</span><span class="d">Jul 2026 – Present</span></div>
+    <div class="jt"><span class="t">Senior UI/UX Designer</span></div>
     <ul>
-      <li>Lead product design end to end, from research and problem framing through user flows to final UI, working directly with product managers and engineering teams.</li>
-      <li>Mentor three designers through regular design reviews and working sessions. All three now own their projects end to end.</li>
-      <li>Lead the team's move to AI-assisted design: building an internal way of working that carries a project from design to build in one place, and running the sessions that get the team using it.</li>
+      <li>Own product design end to end for client platforms across fintech, HR tech, insurtech and aviation, working directly with product managers and engineers instead of through account handoffs.</li>
+      <li>Delivered 14 client products in two years and eight months with no gap between projects, owning most of them outright.</li>
+      <li>Line-managed two interns and one associate designer; run the team's design reviews and critique sessions.</li>
+      <li>Leading the team's shift to AI-assisted design, replacing a split design-then-build handoff with a single Figma-to-site workflow.</li>
     </ul>
   </div>
 
+  <div class="org">
+    <span class="co">Zeliot Connected Services</span>
+    <span class="where">Bengaluru &middot; Jun – Aug 2023</span>
+  </div>
   <div class="job">
-    <div class="jt"><span class="t">UI/UX Designer</span><span class="d">Jul 2024 – Jun 2026</span></div>
+    <div class="jt"><span class="t">Visual Design Intern</span></div>
     <ul>
-      <li><a href="case-study-altkred.html">Altkred</a>. Primary designer on an end-to-end invoice factoring platform for the Indian market. Took it from research through flows to final UI with a lead designer, two designers and the engineering team.</li>
-      <li><a href="case-study.html">Compport</a>. Designed the workforce planning and org restructuring module for a compensation and HRMS platform: promotions, transfers, vacancies, restructuring, live cost impact, comparison views and a full change history. Built on interviews with HR and finance practitioners, delivered to engineering.</li>
-      <li>Shipped product UI, Framer websites and brand work across client teams, moving from executing screens to running projects end to end.</li>
+      <li>Assisted on the fleet management dashboard for Volvo, the screens used to track vehicles across a fleet.</li>
+      <li>Produced three product intro videos end to end in After Effects and Premiere Pro, alongside social templates and emailers.</li>
     </ul>
   </div>
 
+  <div class="org">
+    <span class="co">BakeOFun</span>
+    <span class="where">Remote &middot; Jul – Dec 2021</span>
+  </div>
   <div class="job">
-    <div class="jt"><span class="t">UI/UX Design Intern</span><span class="d">Jan 2024 – Jun 2024</span></div>
+    <div class="jt"><span class="t">Social Media Design &amp; Strategy Intern</span></div>
     <ul>
-      <li>Supported research, wireframes and UI on live client products. Joined the team full time at the end of the internship.</li>
+      <li>Built the bakery's social media strategy and assets, running its Diwali campaign, hamper cards and post templates while still a first-year design student.</li>
     </ul>
-  </div>
-
-  <p class="rlabel" style="margin-top:38px;">Before that</p>
-  <div class="short">
-    <span class="l"><strong>Zeliot Connected Services</strong> &middot; Visual Design Intern</span>
-    <span class="r">Bengaluru &middot; Jun – Aug 2023</span>
-  </div>
-  <div class="short">
-    <span class="l"><strong>BakeOFun</strong> &middot; Graphic &amp; Social Media Design Intern</span>
-    <span class="r">Remote &middot; Jul – Dec 2021</span>
   </div>
 </section>
 
-<!-- ══════════ 02 WHAT I DO ══════════ -->
+<!-- ══════════ 02 SELECTED PROJECTS ══════════ -->
+<section class="sec wrap" style="--accent:var(--green); --accent-soft:rgba(43,217,124,.3);">
+  <p class="eyebrow"><b>02</b> Selected projects</p>
+  <h2>Three I took the furthest.</h2>
+
+  <div class="org">
+    <span class="co">Compport</span>
+    <span class="where">Apr – Aug 2024</span>
+  </div>
+  <div class="job">
+    <p class="jsub">HR tech, compensation &amp; HRMS &middot; Primary designer, four modules</p>
+    <ul>
+      <li>Took incentive planning and total-reward-statement flows from requirements to live in two months, across 10+ flows and three to four iterations, adding an org-chart modelling view.</li>
+      <li>Cut reward-statement time 15–20 min to 8–10 (~40–50%); task completion rose 70–75% to 90–95%, errors and rework fell 20% to 8–10%.</li>
+      <li>Ran the research myself with no budget, interviewing HR and finance practitioners from my own network and framing the module around their pain points. <a href="case-study.html">Read the case study</a>.</li>
+    </ul>
+  </div>
+
+  <div class="org">
+    <span class="co">Altkred (Prosperfin)</span>
+    <span class="where">Aug – Nov 2025</span>
+  </div>
+  <div class="job">
+    <p class="jsub">Fintech, invoice factoring for the Indian market &middot; Primary designer</p>
+    <ul>
+      <li>Joined as primary designer on a new invoice-factoring platform and carried it from research through user flows to final UI, with a lead designer, two designers and the engineering team. Shipped. <a href="case-study-altkred.html">Read the case study</a>.</li>
+    </ul>
+  </div>
+
+  <div class="org">
+    <span class="co">Metalegal Advocates</span>
+    <span class="where">Apr – Jun 2026</span>
+  </div>
+  <div class="job">
+    <p class="jsub">Legal firm website &middot; Sole designer, developer and deployer</p>
+    <ul>
+      <li>Took a legal firm's site from a blank file to live in two months alone: multi-page, heavily cross-linked layouts designed in Figma, built in Framer with a full CMS, optimised for SEO and deployed.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════ 03 SKILLS ══════════ -->
 <section class="sec wrap" style="--accent:var(--yellow); --accent-soft:rgba(249,200,70,.4);">
-  <p class="eyebrow"><b>02</b> What I do</p>
+  <p class="eyebrow"><b>03</b> Skills</p>
   <h2>The parts of the job I actually do.</h2>
 
-  <div class="chips">
-    <span class="chip on">UX Research</span>
-    <span class="chip">Problem Definition</span>
-    <span class="chip on">Information Architecture</span>
-    <span class="chip">User Flows</span>
-    <span class="chip on">Interaction Design</span>
-    <span class="chip">Design Systems</span>
+  <p class="rlabel" style="margin-top:30px !important;">Design</p>
+  <div class="chips" style="margin-top:0;">
+    <span class="chip on">UX research &amp; interviews</span>
+    <span class="chip">Problem definition</span>
+    <span class="chip on">Information architecture</span>
+    <span class="chip">User flows</span>
+    <span class="chip on">Interaction design</span>
+    <span class="chip">Design systems</span>
     <span class="chip on">Prototyping</span>
-    <span class="chip">Accessibility</span>
-    <span class="chip">Responsive Design</span>
-    <span class="chip">Design Reviews</span>
+    <span class="chip">Usability testing</span>
+    <span class="chip on">Accessibility</span>
+    <span class="chip">Responsive &amp; visual design</span>
     <span class="chip">Branding</span>
-    <span class="chip">Motion Graphics</span>
+    <span class="chip">Editorial</span>
+    <span class="chip">Motion</span>
+  </div>
+
+  <p class="rlabel" style="margin-top:34px !important;">Ways of working</p>
+  <div class="chips" style="margin-top:0;">
+    <span class="chip">Design leadership</span>
+    <span class="chip">Line management</span>
+    <span class="chip">Mentoring</span>
+    <span class="chip">Design critique</span>
+    <span class="chip">Stakeholder &amp; client management</span>
+    <span class="chip">Cross-functional work with product &amp; engineering</span>
   </div>
   <p class="note">what I bring to the table</p>
 </section>
 
-<!-- ══════════ 03 TOOLS ══════════ -->
+<!-- ══════════ 04 EXPERTISE ══════════ -->
 <section class="sec wrap" style="--accent:var(--yellow); --accent-soft:rgba(249,200,70,.4);">
-  <p class="eyebrow"><b>03</b> Tools</p>
+  <p class="eyebrow"><b>04</b> Expertise</p>
 
-  <div class="tools">
-    <div class="tool">
-      <p class="lbl">Design</p>
-      <p>Figma, Framer, Adobe XD</p>
-    </div>
-    <div class="tool">
-      <p class="lbl">Visual</p>
-      <p>Illustrator, Photoshop, InDesign, Procreate</p>
-    </div>
-    <div class="tool">
-      <p class="lbl">Motion &amp; 3D</p>
-      <p>After Effects, Premiere Pro, Blender</p>
-    </div>
+  <div class="bars">
+    <div class="bar"><span class="n">Figma</span><span class="t"><i style="width:96%"></i></span></div>
+    <div class="bar"><span class="n">Framer</span><span class="t"><i style="width:90%"></i></span></div>
+    <div class="bar"><span class="n">Adobe XD &amp; Illustrator</span><span class="t"><i style="width:88%"></i></span></div>
+    <div class="bar"><span class="n">Photoshop &amp; InDesign</span><span class="t"><i style="width:86%"></i></span></div>
+    <div class="bar"><span class="n">After Effects &amp; Premiere</span><span class="t"><i style="width:80%"></i></span></div>
+    <div class="bar"><span class="n">AI-assisted design</span><span class="t"><i style="width:88%"></i></span></div>
   </div>
 </section>
 
-<!-- ══════════ 04 EDUCATION & AWARDS ══════════ -->
+<!-- ══════════ 05 EDUCATION & AWARDS ══════════ -->
 <section class="sec wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
-  <p class="eyebrow"><b>04</b> Education &amp; awards</p>
+  <p class="eyebrow"><b>05</b> Education &amp; awards</p>
 
   <div class="twocol">
     <div>
       <p class="rlabel">Education</p>
-      <p class="deg">National Institute of Fashion Technology, Raebareli</p>
-      <p class="degsub">B.Des. Fashion Communication, 2020 – 2024<br>Minor in Fashion Management Studies</p>
+      <p class="deg">B.Des. Fashion Communication</p>
+      <p class="degsub">Visual Communication Design, minor in Fashion Management<br>NIFT Raebareli, 2020 – 2024 &mdash; 8.9 GPA, batch topper</p>
+
+      <p class="deg" style="margin-top:26px !important;">Class 12 &amp; 10, CBSE</p>
+      <p class="degsub">Carmel Convent Sr. Sec. School, Amlai, 2018 – 2020<br>Class 12: 94% (PCM) &middot; Class 10: 96.8% &middot; Head Girl</p>
     </div>
     <div>
       <p class="rlabel">Awards</p>
       <div class="award"><b>Best Academic Performance &amp; Meritorious Student Award II</b><span>NIFT &middot; Nov 2024</span></div>
-      <div class="award"><b>Best Graduation Project Award II</b><span>NIFT Raebareli &middot; May 2024</span></div>
-      <div class="award"><b>Employee of the Month</b><span>Goldenflitch Studios &middot; Aug 2024</span></div>
+      <div class="award"><b>Best Graduation Project Award II &mdash; Neuroverse</b><span>NIFT Raebareli &middot; May 2024</span></div>
+      <div class="award"><b>Employee of the Month &mdash; Compport</b><span>Goldenflitch Studios &middot; Aug 2024</span></div>
       <div class="award"><b>Amazing Addition Award</b><span>Goldenflitch Studios &middot; Mar 2024</span></div>
     </div>
-  </div>
-</section>
-
-<!-- ══════════ 05 SELECTED PROJECT ══════════ -->
-<section class="sec wrap" style="--accent:var(--green); --accent-soft:rgba(43,217,124,.3);">
-  <p class="eyebrow"><b>05</b> Selected project</p>
-
-  <div class="proj">
-    <h3>Neuroverse — EEG headband and companion app</h3>
-    <p>A wearable that reads brain activity and an app that turns it into a calm score, showing how focused you stayed through an activity like reading and flagging the moments attention slipped. Research, product definition and UI. Awarded Best Graduation Project (Rank II) at NIFT.</p>
   </div>
 </section>
 
@@ -407,7 +482,7 @@
     <div>
       <div class="lead">The long version</div>
       <a class="big" href="index.html#work">Read the case studies →</a>
-      <div style="margin-top:8px; font-size:14.5px; color:var(--muted);">Compport and Altkred, both start to finish.</div>
+      <div style="margin-top:8px; font-size:14.5px; color:var(--muted);">Altkred, Compport and Edme, all three start to finish.</div>
     </div>
     <a class="btn" href="index.html#contact">Work with me</a>
   </div>
