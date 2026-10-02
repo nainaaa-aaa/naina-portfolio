@@ -447,6 +447,18 @@
           <span class="word-chip" data-chip="brand"><span class="dot" style="background:#FF6B5B;"></span>Branding</span>
         </div>
       </div>
+      <!-- The clock and the count. Both sit right above the grid so the
+           state of play is never more than a glance away, and the clock
+           only starts once someone actually touches the grid. -->
+      <div class="ws-hud" id="wsHud">
+        <span class="ws-stat"><span class="ws-k">Found</span><b id="wsFound">0</b><span class="ws-of">/ 8</span></span>
+        <span class="ws-bar" aria-hidden="true"><i id="wsBar"></i></span>
+        <span class="ws-stat ws-clock">
+          <svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.4"></circle><path d="M12 7v5.4l3.4 2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <b id="wsTime">0:00</b>
+        </span>
+      </div>
+
       <div style="position:relative; max-width:760px; margin:0 auto;">
 
         <!-- Floating pixel elements (in whitespace, repel from cursor) -->
@@ -475,6 +487,27 @@
       </div>
       <div style="margin-top:44px; text-align:center;">
         <p style="font-size: 13px; color: #5A5060; letter-spacing: .3px; line-height: 1.6; max-width: 500px; margin: 0 auto"><span style="font-size: 12px; letter-spacing: normal; text-align: start;">Someone at a kirana store fumbled through a QR payment for two minutes straight. Reminded me why "simple" is a design decision, not a default.</span></p>
+      </div>
+
+      <!-- Finishing the grid is the one thing on this page you can win, so
+           it is worth a proper scoreboard rather than a quiet state change. -->
+      <div class="ws-win" id="wsWin" hidden>
+        <div class="ws-win-card" role="dialog" aria-modal="true" aria-labelledby="wsWinTitle">
+          <div class="ws-win-confetti" id="wsConfetti" aria-hidden="true"></div>
+          <p class="ws-win-kicker">&#9733; Congratulations &#9733;</p>
+          <h3 class="ws-win-title" id="wsWinTitle">You know me.</h3>
+          <p class="ws-win-sub">All eight skills found. That is the whole of what I do, in one grid.</p>
+          <dl class="ws-score">
+            <div><dt>Time</dt><dd id="wsScoreTime">0:00</dd></div>
+            <div><dt>Words</dt><dd>8 / 8</dd></div>
+            <div><dt>Hints used</dt><dd id="wsScoreHints">0</dd></div>
+          </dl>
+          <div class="ws-win-acts">
+            <button class="ws-btn ws-btn-go" type="button" id="wsAgain">Play again</button>
+            <button class="ws-btn" type="button" id="wsClose">Close</button>
+          </div>
+          <p class="ws-win-foot">Now go look at the work &rarr;</p>
+        </div>
       </div>
     </div>
   </div>

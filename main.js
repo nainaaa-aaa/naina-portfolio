@@ -464,6 +464,48 @@
     let selecting = false, startCell = null, curSel = [];
     let hintT, idleT;
 
+    /* ── the clock ────────────────────────────────────────────
+       Counts up from the first drag rather than from arrival, so
+       reading the eight words through costs nothing, and someone
+       who scrolls past and comes back is not already losing.
+    ---------------------------------------------------------- */
+    const timeEl = document.getElementById("wsTime");
+    const foundEl = document.getElementById("wsFound");
+    const barEl = document.getElementById("wsBar");
+    const hudEl = document.getElementById("wsHud");
+    const clockEl = hudEl && hudEl.querySelector(".ws-clock");
+    let startedAt = 0, elapsed = 0, tick = 0, hints = 0;
+
+    const mmss = (ms) => {
+      const t = Math.floor(ms / 1000);
+      return Math.floor(t / 60) + ":" + String(t % 60).padStart(2, "0");
+    };
+    const paintClock = () => {
+      if (timeEl) timeEl.textContent = mmss(elapsed);
+    };
+    const startClock = () => {
+      if (startedAt || found.size === WORDS.length) return;
+      startedAt = Date.now();
+      if (clockEl) clockEl.classList.add("running");
+      tick = setInterval(() => { elapsed = Date.now() - startedAt; paintClock(); }, 250);
+    };
+    const stopClock = () => {
+      if (tick) { clearInterval(tick); tick = 0; }
+      if (startedAt) elapsed = Date.now() - startedAt;
+      startedAt = 0;
+      if (clockEl) clockEl.classList.remove("running");
+      paintClock();
+    };
+
+    const scoreboard = () => {
+      if (foundEl) foundEl.textContent = found.size;
+      if (barEl) barEl.style.width = Math.round((found.size / WORDS.length) * 100) + "%";
+      if (found.size < WORDS.length) return;
+      stopClock();
+      if (hudEl) hudEl.classList.add("done");
+      showWin();
+    };
+
     const clearSel = () => { curSel.forEach((c) => c.classList.remove("sel")); curSel = []; };
     const paintSel = (cells) => {
       clearSel();
@@ -494,10 +536,12 @@
       cellsOf(w).forEach((cell) => cell.classList.add("found"));
       const chip = skills.querySelector('.word-chip[data-chip="' + w.id + '"]');
       if (chip) chip.classList.add("done");
+      scoreboard();
     };
 
     const beginSel = (cell) => {
       selecting = true; startCell = cell; paintSel([cell]);
+      startClock();
     };
     const extendSel = (cell) => {
       if (!selecting || !cell || !startCell) return;
@@ -594,10 +638,17 @@
     skills.querySelectorAll(".word-chip").forEach((chip) => {
       const show = () => {
         const w = WORDS.find((w) => w.id === chip.dataset.chip);
-        if (w && !found.has(w.id)) hintWord(w, true);
+        if (!w || found.has(w.id)) return null;
+        hintWord(w, true);
+        return w;
       };
+      // Hovering a chip is browsing; clicking it is asking. Only the
+      // asking is counted, or a mouse crossing the row would run up a
+      // score nobody chose.
       chip.addEventListener("mouseenter", show);
-      chip.addEventListener("click", show);
+      chip.addEventListener("click", () => {
+        if (show()) { startClock(); hints++; }
+      });
       chip.addEventListener("mouseleave", () => { clearTimeout(hintT); clearHints(); });
     });
 
@@ -617,6 +668,79 @@
       }, { threshold: 0.35 });
       io.observe(skills);
     }
+
+    /* ── the scoreboard ───────────────────────────────────────
+       Eight out of eight is the only thing on this page that can be
+       won, so it gets a proper finish rather than a quiet last pill.
+    ---------------------------------------------------------- */
+    const winBox = document.getElementById("wsWin");
+    const CONFETTI = ["#F9C846", "#63E3C2", "#FF7EB6", "#C4E75A", "#A66BFF", "#FF6B5B"];
+
+    const throwConfetti = () => {
+      const host = document.getElementById("wsConfetti");
+      if (!host || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      host.innerHTML = "";
+      for (let i = 0; i < 26; i++) {
+        const bit = document.createElement("i");
+        bit.style.left = (Math.random() * 100).toFixed(1) + "%";
+        bit.style.background = CONFETTI[i % CONFETTI.length];
+        bit.style.animationDelay = (Math.random() * 0.5).toFixed(2) + "s";
+        bit.style.transform = "rotate(" + Math.round(Math.random() * 360) + "deg)";
+        host.appendChild(bit);
+      }
+    };
+
+    let lastFocus = null;
+    const showWin = () => {
+      if (!winBox) return;
+      const t = document.getElementById("wsScoreTime");
+      const h = document.getElementById("wsScoreHints");
+      if (t) t.textContent = mmss(elapsed);
+      if (h) h.textContent = hints;
+      lastFocus = document.activeElement;
+      winBox.hidden = false;
+      throwConfetti();
+      const go = document.getElementById("wsAgain");
+      if (go) go.focus();
+    };
+
+    const hideWin = () => {
+      if (!winBox || winBox.hidden) return;
+      winBox.hidden = true;
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    };
+
+    const resetGame = () => {
+      hideWin();
+      found.clear();
+      clearSel();
+      clearHints();
+      stopClock();
+      elapsed = 0; hints = 0;
+      paintClock();
+      if (hudEl) hudEl.classList.remove("done");
+      if (grid) {
+        grid.querySelectorAll(".word-pill").forEach((pill) => pill.remove());
+        grid.querySelectorAll(".wc.found").forEach((cell) => cell.classList.remove("found"));
+      }
+      skills.querySelectorAll(".word-chip.done").forEach((chip) => chip.classList.remove("done"));
+      scoreboard();
+    };
+
+    if (winBox) {
+      const again = document.getElementById("wsAgain");
+      const shut = document.getElementById("wsClose");
+      if (again) again.addEventListener("click", resetGame);
+      if (shut) shut.addEventListener("click", hideWin);
+      // the backdrop closes, the card does not
+      winBox.addEventListener("click", (e) => { if (e.target === winBox) hideWin(); });
+      document.addEventListener("keydown", (e) => {
+        if (!winBox.hidden && e.key === "Escape") hideWin();
+      });
+    }
+
+    paintClock();
+    scoreboard();
 
     const floats = skills.querySelectorAll(".pixel-float");
     window.addEventListener("mousemove", (e) => {

@@ -67,8 +67,8 @@
     tile.remove();                       // its contents live on as templates
 
     // generous cells, so even neighbouring cards sit well apart
-    CELL_W = Math.round(MAX_W * SCALE_MAX) + 215;
-    CELL_H = Math.round(MAX_H * SCALE_MAX) + 175;
+    CELL_W = Math.round(MAX_W * SCALE_MAX) + 160;
+    CELL_H = Math.round(MAX_H * SCALE_MAX) + 120;
 
     /* ── tic-tac-toe ────────────────────────────────────────
        A single board, pinned above the lattice, in the open space
@@ -142,37 +142,116 @@
     })();
 
     /* ── rock paper scissors ────────────────────────────────
-       Pinned in the lower-left of the canvas, away from the board.
+       Pinned on its own, far from the heading and the board.
+
+       The round has to be readable without reading: your hand sits on
+       the solid plinth with the yellow cuff, the computer's on the
+       dashed one in purple, and the side that won gets the burst, the
+       flag and the colour while the other dims out.
     ---------------------------------------------------------- */
     (function rps() {
       const card = document.getElementById("rpsRef");
       if (!card) return;
 
       // The three hands are already in the markup, on the buttons; the
-      // throw area just borrows whichever one was played.
+      // throw area just borrows whichever one was played. The cuff is
+      // painted from a CSS variable, so the same drawing comes out
+      // yellow on your side and purple on the computer's.
       const art = {};
-      card.querySelectorAll(".rps-b").forEach((b) => { art[b.dataset.p] = b.innerHTML; });
+      card.querySelectorAll(".rps-b").forEach((b) => {
+        art[b.dataset.p] = b.querySelector("svg").outerHTML;
+      });
       const BEATS = { rock: "scissors", paper: "rock", scissors: "paper" };
       const KEYS = ["rock", "paper", "scissors"];
 
+      const sides = { you: card.querySelector(".is-you"), cpu: card.querySelector(".is-cpu") };
       const me = card.querySelector("[data-me]");
       const ai = card.querySelector("[data-ai]");
       const msg = card.querySelector(".rps-msg");
-      const score = card.querySelector(".rps-score");
+      const sYou = card.querySelector(".s-you");
+      const sCpu = card.querySelector(".s-cpu");
+      const CONFETTI = ["#121212", "#63E3C2", "#FF7EB6", "#A66BFF", "#C4E75A"];
       let mine = 0, theirs = 0;
 
-      me.classList.add("me");
+      const clearRound = () => {
+        Object.values(sides).forEach((el) => {
+          el.classList.remove("win", "lose");
+          el.querySelectorAll(".bit").forEach((bit) => bit.remove());
+        });
+        // restart the entrance animations rather than leaving them spent
+        void card.offsetWidth;
+      };
 
-      const play = (pick) => {
-        const theirPick = KEYS[Math.floor(Math.random() * 3)];
+      const celebrate = (el) => {
+        for (let i = 0; i < 9; i++) {
+          const bit = document.createElement("i");
+          bit.className = "bit";
+          const ang = (i / 9) * Math.PI * 2;
+          bit.style.setProperty("--dx", Math.round(Math.cos(ang) * 46) + "px");
+          bit.style.setProperty("--dy", Math.round(Math.sin(ang) * 46 - 10) + "px");
+          bit.style.background = CONFETTI[i % CONFETTI.length];
+          bit.style.animationDelay = (i * 0.02).toFixed(2) + "s";
+          el.appendChild(bit);
+        }
+      };
+
+      const reveal = (pick, theirPick) => {
         me.innerHTML = art[pick] || "";
         ai.innerHTML = art[theirPick] || "";
+
         let line;
-        if (pick === theirPick) line = "A tie.";
-        else if (BEATS[pick] === theirPick) { mine++; line = "You win that one."; }
-        else { theirs++; line = "Mine, I think."; }
+        if (pick === theirPick) {
+          line = "Tie \u2014 " + pick + " both ways.";
+        } else if (BEATS[pick] === theirPick) {
+          mine++;
+          line = "You win \u2014 " + pick + " beats " + theirPick + ".";
+          sides.you.classList.add("win");
+          sides.cpu.classList.add("lose");
+          celebrate(sides.you);
+        } else {
+          theirs++;
+          line = "I win \u2014 " + theirPick + " beats " + pick + ".";
+          sides.cpu.classList.add("win");
+          sides.you.classList.add("lose");
+          celebrate(sides.cpu);
+        }
         msg.textContent = line;
-        score.textContent = mine + " \u2013 " + theirs;
+        msg.classList.toggle("big", pick !== theirPick);
+        sYou.textContent = mine;
+        sCpu.textContent = theirs;
+      };
+
+      /* ── the throw ────────────────────────────────────────
+         Nobody plays this by showing their hand instantly. Both
+         fists bob three times on "rock, paper, scissors" and only
+         then open, which is also what makes the result land.
+      ------------------------------------------------------- */
+      const still = window.matchMedia("(prefers-reduced-motion: reduce)");
+      let busy = 0;
+
+      const play = (pick) => {
+        if (busy) return;
+        const theirPick = KEYS[Math.floor(Math.random() * 3)];
+        clearRound();
+
+        if (still.matches) { reveal(pick, theirPick); return; }
+
+        // both hands shake as fists, whatever is about to be thrown
+        me.innerHTML = art.rock;
+        ai.innerHTML = art.rock;
+        msg.textContent = "Rock\u2026 paper\u2026 scissors\u2026";
+        msg.classList.remove("big");
+        card.classList.add("busy");
+        sides.you.classList.add("shake");
+        sides.cpu.classList.add("shake");
+
+        busy = window.setTimeout(() => {
+          busy = 0;
+          card.classList.remove("busy");
+          sides.you.classList.remove("shake");
+          sides.cpu.classList.remove("shake");
+          reveal(pick, theirPick);
+        }, 960);
       };
 
       card.addEventListener("click", (e) => {
@@ -186,8 +265,8 @@
     // which is what keeps them in clear space instead of under a photo.
     const pinned = [
       { id: "headingRef", ox: 0,    oy: 0,   w: 640, h: 250 },
-      { id: "tttRef",     ox: 620,  oy: -400, w: 300, h: 340 },
-      { id: "rpsRef",     ox: -660, oy: 360,  w: 284, h: 300 },
+      { id: "tttRef",     ox: -880, oy: -250, w: 300, h: 340 },
+      { id: "rpsRef",     ox: 940,  oy: -470, w: 300, h: 430 },
     ]
       .map((pin) => Object.assign(pin, { el: document.getElementById(pin.id) }))
       .filter((pin) => pin.el);
@@ -241,9 +320,9 @@
     // Because every card's position is a pure function of its cell, a cell
     // can look at its neighbours and decide, without any shared state and in
     // any order, whether it is the one that has to give way.
-    const MIN_GAP = 46;                 // clear space to keep between cards
+    const MIN_GAP = 42;                 // clear space to keep between cards
 
-    const occupied = (i, j) => hash(i, j, 1) < 0.92;
+    const occupied = (i, j) => hash(i, j, 1) < 0.94;
     const rank = (i, j) => hash(i, j, 77);
 
     const spot = (i, j) => {
@@ -296,7 +375,7 @@
       wrapEl.style.top = "0";
       wrapEl.appendChild(node);
 
-      if (props.length && hash(i, j, 7) > 0.78) {
+      if (props.length && hash(i, j, 7) > 0.84) {
         const prop = props[Math.floor(hash(i, j, 8) * props.length) % props.length].cloneNode(true);
         prop.style.position = "absolute";
         prop.style.left = Math.round(i * CELL_W + hash(i, j, 9) * CELL_W) + "px";
@@ -337,12 +416,12 @@
     const apply = () => {
       field.style.transform =
         "translate(" + (pos.x + cx).toFixed(1) + "px," + (pos.y + cy).toFixed(1) + "px)";
+      view.style.backgroundPosition = pos.x.toFixed(1) + "px " + pos.y.toFixed(1) + "px";
       pinned.forEach((pin) => {
         pin.el.style.transform =
           "translate(calc(" + pin.ox + "px + " + pos.x.toFixed(1) + "px), calc(-50% + " +
           pin.oy + "px + " + pos.y.toFixed(1) + "px))";
       });
-      view.style.backgroundPosition = pos.x.toFixed(1) + "px " + pos.y.toFixed(1) + "px";
       if (coordRef) {
         coordRef.textContent = Math.round(-pos.x) + ", " + Math.round(-pos.y);
       }
