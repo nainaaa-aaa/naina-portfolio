@@ -263,13 +263,27 @@
     // The pieces that exist exactly once. Each sits at a fixed canvas
     // position and reserves a box the generator will not place cards into,
     // which is what keeps them in clear space instead of under a photo.
-    // The two games are meant to be found, not handed over, so they sit
-    // well outside the first screen and in opposite corners — far enough
-    // apart that their reserved boxes can never meet.
+    /* ── where the two games sit ────────────────────────────────
+       Found, not handed over — but found within a few drags. Both are
+       parked just past the edge of the first screen rather than at a
+       fixed canvas distance, because a spot that is comfortably out of
+       sight on a laptop is half a screen into view on a large monitor
+       and most of a morning's dragging on a phone. One short pull left
+       turns up the board, one right turns up the hands.
+
+       Measured once, at load: the reserved boxes below are derived from
+       these, and cells already built would not know if they moved.
+    ---------------------------------------------------------- */
+    const clamp2 = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+    // +550 puts the near edge of each card about 400px past the edge of
+    // the first screen: three or four notches of the wheel, one easy drag.
+    const outX = Math.round(clamp2(window.innerWidth / 2 + 550, 620, 1600));
+    const outY = Math.round(clamp2(window.innerHeight / 4, 220, 520));
+
     const pinned = [
       { id: "headingRef", ox: 0,     oy: 0,     w: 640, h: 250 },
-      { id: "tttRef",     ox: -1920, oy: -1120, w: 300, h: 340 },
-      { id: "rpsRef",     ox: 2080,  oy: 940,   w: 300, h: 430 },
+      { id: "tttRef",     ox: -outX, oy: -outY, w: 300, h: 340 },
+      { id: "rpsRef",     ox: outX,  oy: outY,  w: 300, h: 430 },
     ]
       .map((pin) => Object.assign(pin, { el: document.getElementById(pin.id) }))
       .filter((pin) => pin.el);
