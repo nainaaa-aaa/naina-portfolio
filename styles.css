@@ -14,6 +14,7 @@ site-nav { --nav-bg: rgba(255,253,247,.86); }
       28%       { opacity:0; transform:translateY(-7px); }
       100%      { opacity:0; transform:translateY(-7px); }
     }
+
     /* Word-search game */
     .wc {
       width: 34px; height: 44px;
@@ -194,9 +195,10 @@ site-nav { --nav-bg: rgba(255,253,247,.86); }
       transition: transform .92s cubic-bezier(.19,1,.22,1),
                   opacity .62s ease;
     }
-    .proj-grid .proj-card:nth-child(1) { --spread-from: 58%; }
-    .proj-grid .proj-card:nth-child(2) { --spread-from: -58%; }
-    .proj-grid .proj-card:nth-child(2) { transition-delay: .07s; }
+    /* the outer two come in from behind the middle one */
+    .proj-grid .proj-card:nth-child(1) { --spread-from: 108%; }
+    .proj-grid .proj-card:nth-child(2) { --spread-from: 0%; transition-delay: .06s; }
+    .proj-grid .proj-card:nth-child(3) { --spread-from: -108%; transition-delay: .12s; }
     .proj-grid.spread-in .proj-card { opacity: 1; transform: translateX(0) scale(1); }
     @media (prefers-reduced-motion: reduce) {
       html.js .proj-grid .proj-card { transition: none; opacity: 1; transform: none; }

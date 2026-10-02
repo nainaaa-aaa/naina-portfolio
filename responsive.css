@@ -242,3 +242,19 @@
 @media (max-width: 760px) {
   img, svg, video { max-width: 100%; }
 }
+
+/* ── the work cards ────────────────────────────────────────────
+   Three columns only while there is room for three. The widths are
+   written inline on the grid, so these have to shout to be heard;
+   below this the cards drop to two and then to one rather than
+   shrinking to a thumbnail nobody can read.
+------------------------------------------------------------- */
+@media (max-width: 1140px) {
+  .proj-grid { grid-template-columns: repeat(2, minmax(0, 340px)) !important; }
+}
+@media (max-width: 760px) {
+  .proj-grid { grid-template-columns: minmax(0, 340px) !important; }
+  /* stacked, there is no centre to part from — and a card sliding in
+     from 108% would push the page sideways before the reveal lands */
+  .proj-grid .proj-card { --spread-from: 0% !important; }
+}
