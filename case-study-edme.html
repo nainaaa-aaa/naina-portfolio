@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Altkred — Case Study — Naina Gupta, Product Designer</title>
-<meta name="description" content="Cash in two days on an invoice due in ninety. How I designed Altkred, an invoice-financing marketplace for Indian SMEs, from onboarding to settlement.">
+<title>Edme — Case Study — Naina Gupta, Product Designer</title>
+<meta name="description" content="A single platform that carries a motor insurance policy from quote to issuance, through renewal, and through a claim. How I designed Edme, a motor insurance platform for dealership networks.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="nav.css">
@@ -219,6 +219,7 @@
   .call .x s { text-decoration-color: var(--coral); }
   .call .y { margin: 0 !important; font-size: 15.5px !important; line-height: 1.68; color: var(--ink) !important; }
   .call .y::before { content: "→ "; color: var(--green); font-weight: 700; }
+  .call .why { margin: 12px 0 0 !important; font-size: 14.5px !important; line-height: 1.66; color: var(--faint) !important; }
 
   /* ── mockup slots ──────────────────────────────────────── */
   .band { margin: 56px 0 0; padding: 76px 0 80px; background: var(--tint); }
@@ -475,26 +476,27 @@
 
 <!-- ══════════ HERO ══════════ -->
 <header class="wrap" style="padding-top:44px;">
-  <a href="index.html#work" style="text-decoration:none; display:inline-flex; gap:9px; margin-bottom:40px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:1.4px; text-transform:uppercase; color:var(--faint);">← All projects</a>
-  <p class="kicker">Altkred · Invoice financing · 2026</p>
-  <h1>Cash in two days, on an invoice due in ninety.</h1>
-  <p class="standfirst">Altkred lets Indian SMEs sell unpaid invoices to financiers who bid for them. I designed the whole thing: signing up, bidding, getting paid, and what happens when a payment fails.</p>
+  <a href="index.html#projects" style="text-decoration:none; display:inline-flex; gap:9px; margin-bottom:40px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:1.4px; text-transform:uppercase; color:var(--faint);">← All projects</a>
+  <p class="kicker">Edme · Motor insurance platform for dealership networks · 2025–2026</p>
+  <h1>A motor policy, from quote to claim, without leaving one platform.</h1>
+  <p class="standfirst">A single platform that carries a motor insurance policy from quote to issuance, through renewal, and through a claim — managed entirely by the dealer.</p>
 
   <figure class="glimpse">
     <div class="browser">
-      <div class="bar"><i></i><i></i><i></i><span>/marketplace</span></div>
-      <img src="assets/cs-altkred-marketplace.png" alt="The Altkred marketplace: live invoices listed with tenure, due date, insurance cover and the current bid spread">
+      <div class="bar"><i></i><i></i><i></i><span>/dashboard</span></div>
+      <img src="assets/edme/dashboard-dealer.png" alt="The Edme dealer dashboard: active policies, premium collected against target, conversion rate, and a renewal and claim overview below">
     </div>
-    <figcaption>The marketplace this case study is about: invoices listed for sale, with financiers bidding against each other for them.</figcaption>
+    <figcaption>The screen every role lands on. The same cards, aggregated differently depending on where you sit in the hierarchy.</figcaption>
   </figure>
 
   <dl class="meta">
-    <div><dt>Product</dt><dd>Factoring &amp; reverse-factoring marketplace</dd></div>
-    <div><dt>Role</dt><dd>Product designer, end to end</dd></div>
-    <div><dt>Timeline</dt><dd>4 months</dd></div>
-    <div><dt>Status</dt><dd>In build</dd></div>
-    <div><dt>I owned</dt><dd>Research, flows, IA, every screen</dd></div>
+    <div><dt>Product</dt><dd>Motor insurance platform for dealership networks</dd></div>
+    <div><dt>Role</dt><dd>UI/UX designer, one of two</dd></div>
+    <div><dt>Timeline</dt><dd>December 2025 – February 2026</dd></div>
+    <div><dt>Status</dt><dd>Pre-launch, in final development</dd></div>
+    <div><dt>I designed</dt><dd>Dashboard, quote to issuance, renewals, claims</dd></div>
   </dl>
+
   <ul class="legend" aria-label="Reading the colours">
     <li class="lgt" aria-hidden="true">Reading the colours</li>
     <li class="lg" style="--c:var(--blue)">Concept &amp; decisions</li>
@@ -504,50 +506,26 @@
   </ul>
 </header>
 
-
 <!-- ══════════ WHAT IT IS ══════════ -->
-<section class="sec wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
-  <p class="eyebrow" style="gap:0;">What is Altkred?</p>
-  <h2>Factoring is selling an invoice. It isn't a loan.</h2>
+<section class="sec wrap" style="--accent:var(--yellow); --accent-soft:rgba(249,200,70,.42);">
+  <p class="eyebrow" style="gap:0;">What is Edme?</p>
+  <h2>One system where there were several.</h2>
 
   <div class="brief">
-    <p>Altkred is a marketplace where Indian SMEs sell their unpaid invoices to banks and NBFCs, who bid against each other to buy them. The seller gets cash in about two days instead of waiting ninety. The financier gets a verified asset it can actually collect on.</p>
-    <p>That one distinction, bought rather than lent against, explains nearly every decision on this page, so it is worth thirty seconds.</p>
-  </div>
-
-  <div class="primer">
-    <div class="steps">
-      <div class="step">
-        <span class="n">1</span>
-        <b>The invoice exists</b>
-        <p>An SME delivers goods. The buyer accepts them and says: we'll pay ₹38 lakh in 90 days.</p>
-      </div>
-      <div class="step">
-        <span class="n">2</span>
-        <b>A financier buys it</b>
-        <p>They pay the SME ₹37.2 lakh today. The ₹80,000 gap is their fee<button class="q" data-term="discount-rate" aria-label="What is a discount rate?" aria-expanded="false">?</button>.</p>
-      </div>
-      <div class="step">
-        <span class="n">3</span>
-        <b>The buyer pays them</b>
-        <p>On day 90 the buyer pays the full ₹38 lakh, to the financier now rather than the SME.</p>
-      </div>
-    </div>
-    <div class="flip">
-      <p><strong>That's it. No loan, no collateral.</strong> The financier bought something rather than lending against it. <strong>Reverse factoring<button class="q" data-term="reverse-factoring" aria-label="What is reverse factoring?" aria-expanded="false">?</button></strong> is the same trade started by the buyer: a big company lists invoices it has approved, and its suppliers take the cash early. The big company's credit is what makes the rate cheap.</p>
-    </div>
+    <p>Edme is a motor insurance platform built for dealership networks. A dealer uses it to sell a policy, renew it a year later, and file a claim against it — work that previously meant moving between separate insurer portals with nothing joining them up.</p>
+    <p>Five roles share the platform, from the dealer at the counter to the insurer approving a discount, all on one reporting hierarchy.</p>
   </div>
 </section>
 
 <!-- ══════════ TL;DR ══════════ -->
 <div class="wrap">
   <div class="tldr">
-    <p class="lbl">TL;DR</p>
+    <p class="lbl">In brief</p>
     <ul>
-      <li><b>The problem.</b> An SME has done the work and can't get paid for ninety days. A financier has money and no way to verify the invoice or enforce collection. Both sit still.</li>
-      <li><b>What I designed.</b> The whole platform, end to end: verification and onboarding, a bidding marketplace, funding, and settlement — including every way settlement fails.</li>
-      <li><b>The hard part.</b> Four user types share the same screens and none of them is the primary one. Each became a rule the interface had to keep at once.</li>
-      <li><b>The result.</b> Accepted invoice to cash in hand goes from 60–90 days to two, with the invoice itself as the security instead of the factory.</li>
+      <li><b>The problem.</b> A dealer selling motor insurance worked across disconnected insurer portals, manual data entry, and no visibility into leads, renewals, or claims once they left the counter.</li>
+      <li><b>What I designed.</b> The core of the platform: a role-based dashboard, the quote-to-issuance sales funnel, the renewals flow, and the claims intimation flow.</li>
+      <li><b>The constraint.</b> A complete functional specification, not an open research brief — roughly 200 screens delivered in 20 days, across two designers.</li>
+      <li><b>The result.</b> A single, consistent system across four large flows, ready to measure once the product is live.</li>
     </ul>
     <a class="go" href="#design">Skip to the design <span class="arrow">↓</span></a>
   </div>
@@ -557,68 +535,53 @@
 <section class="stage wrap" style="--accent:var(--coral); --accent-soft:rgba(255,107,91,.28);">
   <div class="stage-head">
     <span class="stage-n">01</span>
-    <h2>Discovery</h2>
-    <p class="lede">Who is stuck, what is stopping them, and how big the gap is.</p>
+    <h2>Context</h2>
+    <p class="lede">Who the platform is for, and what the work looked like before it.</p>
   </div>
+
   <div class="part">
     <p class="slabel">The problem</p>
-  <h3>Two people who should be doing business, and can't.</h3>
-  <p>One has done the work and can't get paid. The other has money and no safe way to lend it.</p>
-  <div class="sides">
-    <div class="sideq a">
-      <div class="who">The seller</div>
-      <h3>He's already spent money he hasn't been paid.</h3>
-      <p>Rakesh makes auto parts near Pune. Sixty staff. About ₹2 crore of his money is always sitting in unpaid invoices<button class="q" data-term="receivable" aria-label="What is a receivable?" aria-expanded="false">?</button>.</p>
-      <p>He paid for steel in March. He paid wages in March and April. The invoice pays out in June.</p>
-      <p>To bridge it he can pledge his factory, or give his buyer a 3% discount. The bank has said no twice.</p>
-      <p class="said">"I don't need a loan. I've done the work and they've accepted the goods. I need the money when I need it."</p>
-    </div>
-    <div class="sideq b">
-      <div class="who">The financier</div>
-      <h3>She'd fund it tomorrow, if she could see it.</h3>
-      <p>Ananya lends to SMEs at an NBFC. She has ₹40 crore to put out this quarter.</p>
-      <p>But she can't check the goods arrived. She can't check the buyer accepted the invoice. And if he doesn't pay on day 90, she has no way to collect.</p>
-      <p>So she passes.</p>
-      <p class="said">"I'm not avoiding this market. I'm avoiding an invoice I can't verify and a payment I can't enforce."</p>
-    </div>
+    <h3>Nothing held the policy after the customer left the counter.</h3>
+    <p>A dealer selling motor insurance previously worked across separate insurer portals, manual data entry, and no system of record for leads, renewals, or claims once a customer left the counter. Retention depended on individual memory rather than the platform. Visibility above the dealer level was reconstructed after the fact rather than tracked in real time.</p>
+    <p>Edme replaces this with one system, used by five distinct roles across a single reporting hierarchy.</p>
   </div>
-  </div>
-  <div class="part">
-    <p class="slabel">The evidence</p>
-  <div class="evidence">
-    <p class="ev-label">The gap, in three numbers</p>
-    <div class="stats">
-      <div class="stat"><div class="n"><u>14%</u></div><p>of Indian SMEs can borrow from a bank at all.</p></div>
-      <div class="stat"><div class="n"><u>₹7.34 lakh crore</u></div><p>of SME money (about US$88&nbsp;billion) is stuck in unpaid invoices. The law<button class="q" data-term="msmed" aria-label="What is the 45-day rule?" aria-expanded="false">?</button> says 45 days.</p></div>
-      <div class="stat"><div class="n"><u>&lt;1%</u></div><p>of SMEs use TReDS<button class="q" data-term="treds" aria-label="What is TReDS?" aria-expanded="false">?</button>, the government-backed alternative.</p></div>
-    </div>
-    <p class="source">Deloitte, State of Financial Services in India 2025 · MSME delayed-payment estimates, Mar 2024 · TReDS registration data, Mar 2025</p>
-  </div>
-  </div>
-  <div class="part">
-    <p class="slabel">Primary research</p>
-<div class="personas-wrap" style="margin:0 0 30px;">
-  <div class="personas">
-    <img src="assets/cs-altkred-persona-seller.png" alt="Seller persona card — role: business owner. Goal: raise capital quickly. Need: privacy and simplicity. The SME needs cash, has nothing to pledge, and should never see the machinery." loading="lazy">
-    <img src="assets/cs-altkred-persona-financier.png" alt="Financier persona card — role: bank or NBFC. Goal: lend with confidence. Need: risk clarity and control. Has the money, needs to judge the invoice in one screen and be sure of getting paid back." loading="lazy">
-    <img src="assets/cs-altkred-persona-buyer.png" alt="Buyer persona card — role: large buyer. Goal: get what they ordered. Need: smooth and traceable. Owes the money either way, and will accept exactly one new step." loading="lazy">
-    <img src="assets/cs-altkred-persona-rm.png" alt="RM persona card — role: relationship manager. Goal: keep deals moving. Need: visibility and backups. Altkred's own staff, the human backup for the day the automation fails." loading="lazy">
-  </div>
-</div>
 
-<!-- ══════════ STAGE 02 — DEFINING ══════════ -->
-  <h3>Four people, and no main one.</h3>
-  <p>I interviewed sellers, financiers and Altkred's own relationship managers, and spent two weeks trying to pick a primary user out of them. Every version was worse. All four have to work in the same screens.</p>
-  </div>
   <div class="part">
-    <p class="slabel">Secondary research</p>
-  <h3>The law moved before the market did.</h3>
-  <p>I started with a competitor teardown, which told me what the category looks like. What actually shaped the product was regulation: the MSMED Act's 45-day payment rule, and the <a href="https://www.indiabudget.gov.in/economicsurvey/ebook_es2022/files/basic-html/page163.html" target="_blank" rel="noopener">Factoring Regulation (Amendment) Act, 2021</a>, which lifted the principal-business test that had limited factoring to seven NBFCs. The supply of financiers was about to grow; nothing existed to let them judge an invoice.</p>
+    <p class="slabel">Who is on it</p>
+    <h3>Five roles, one set of screens.</h3>
+    <div class="pgrid">
+      <div class="pcard">
+        <div class="who">The dealer</div>
+        <b>Sells, renews, and files</b>
+        <p>At the counter. Sells the policy, chases the renewal, and files the claim when the customer comes back. The platform's primary operator.</p>
+      </div>
+      <div class="pcard">
+        <div class="who">Regional manager</div>
+        <b>Aggregates a territory</b>
+        <p>Sees the same cards as a dealer, summed across every dealership reporting to them.</p>
+      </div>
+      <div class="pcard">
+        <div class="who">National manager</div>
+        <b>Aggregates the network</b>
+        <p>The same screens again, one level up. Promotion should not mean relearning the product.</p>
+      </div>
+      <div class="pcard">
+        <div class="who">Edme operations</div>
+        <b>Runs the platform</b>
+        <p>Handles what the automation cannot: exceptions, approvals, and the cases that stall.</p>
+      </div>
+      <div class="pcard">
+        <div class="who">The insurer</div>
+        <b>Prices and approves</b>
+        <p>Receives proposals, approves or rejects discount requests, and returns decisions into the dealer's funnel.</p>
+      </div>
+    </div>
   </div>
+
   <div class="part">
-  <div class="takeaway">
-    <p><mark class="hl">An invoice is only worth money to a stranger if it can prove itself.</mark> That's what I was designing for.</p>
-  </div>
+    <div class="takeaway">
+      <p>Each role sees the same underlying screens — the same dashboard, the same listings — filtered and aggregated differently depending on where they sit in the hierarchy. <mark class="hl">The design problem was building one set of components that could serve all five without becoming five separate products.</mark></p>
+    </div>
   </div>
 </section>
 
@@ -626,118 +589,66 @@
 <section class="stage wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
   <div class="stage-head">
     <span class="stage-n">02</span>
-    <h2>Defining</h2>
-    <p class="lede">With no primary user, the brief had to hold four people at once.</p>
+    <h2>Principles</h2>
+    <p class="lede">Four rules, none of them in the brief, applied to all four flows.</p>
   </div>
+
   <div class="part">
-    <p class="slabel">The challenge</p>
-  <h3>How do you make an invoice prove itself to a stranger?</h3>
-  <p>An invoice is only worth money to someone who didn't watch the work happen if the platform can vouch for it: that the goods arrived, that the buyer accepted them, and that there is a way to collect on day 90.</p>
-  </div>
-  <div class="part">
-    <p class="slabel">Design principles</p>
-  <h3>Each of the four got a rule.</h3>
-  <p>The four don't just share a marketplace. They share the same screens. So the design couldn't favour one without breaking another. Each persona became a rule the whole interface had to keep at once.</p>
-  <div class="pgrid">
-    <div class="pcard">
-      <div class="who">The seller</div>
-      <b>Never show the machinery</b>
-      <p>The SME sees a number and a date. Risk scoring, insurance, bid mechanics: all real, all hidden. Simplicity is the feature.</p>
+    <p class="slabel">How the system held together</p>
+    <p>Four principles were applied consistently across all four flows. None appeared as stated requirements in the specification; each was established early and held throughout.</p>
+
+    <div class="pgrid">
+      <div class="pcard">
+        <div class="who">Applied in quote, renewals, claims</div>
+        <b>Autosave at every step</b>
+        <p>A dealer is interrupted constantly. Nothing should be lost because someone walked up to the counter mid-form.</p>
+      </div>
+      <div class="pcard">
+        <div class="who">Applied in KYC, claims</div>
+        <b>Conditional fields removed, not disabled</b>
+        <p>A field that does not apply is taken off the screen rather than greyed out.</p>
+      </div>
+      <div class="pcard">
+        <div class="who">Applied in dashboard, listings</div>
+        <b>One card and table grammar, reused</b>
+        <p>The same component reads correctly for a dealer and a national head.</p>
+      </div>
+      <div class="pcard">
+        <div class="who">Applied in trends, SLA</div>
+        <b>Colour and plain language together</b>
+        <p>Status is never carried by colour alone.</p>
+      </div>
     </div>
-    <div class="pcard">
-      <div class="who">The financier</div>
-      <b>Everything to judge it, on one screen</b>
-      <p>Buyer, amount, due date, proof of delivery, and how reliably that buyer has paid. Enough to price it without leaving the view.</p>
-    </div>
-    <div class="pcard">
-      <div class="who">The buyer</div>
-      <b>Exactly one new step</b>
-      <p>One payment permission, asked once, inside a flow they're already in. Ask for anything more and they simply don't do it.</p>
-    </div>
-    <div class="pcard">
-      <div class="who">The RM</div>
-      <b>A way out of every dead end</b>
-      <p>When the automation fails, a human always has a logged action to take, never a support ticket and a shrug.</p>
-    </div>
-  </div>
-  </div>
-  <div class="part">
-    <p class="slabel">The golden path</p>
-  <h3>Four stages, in the order the money moves.</h3>
-  <p>Those four rules only resolve in one order: the order the money actually moves. So that's how the product is built, and how the design section reads: <mark class="hl">get on, price it, move it, close it.</mark></p>
-  <div class="phases">
-    <div class="phase"><div class="pn">Part 01</div><b>Get on</b><span>Verified before the cash is urgent.</span></div>
-    <div class="phase"><div class="pn">Part 02</div><b>Price it</b><span>Financiers bid; the seller picks.</span></div>
-    <div class="phase"><div class="pn">Part 03</div><b>Move it</b><span>Funds out in about 48 hours.</span></div>
-    <div class="phase"><div class="pn">Part 04</div><b>Close it</b><span>Day 90 collects, or recovers.</span></div>
-  </div>
+
+    <p style="margin-top:34px;">These principles made a consistent system possible across roughly 200 screens delivered by two designers in twenty days.</p>
   </div>
 </section>
 
-<!-- ══════════ STAGE 03 — EXPLORATION ══════════ -->
-<section class="stage wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
-  <div class="stage-head">
-    <span class="stage-n">03</span>
-    <h2>Exploration</h2>
-    <p class="lede">The visual direction, and the branching underneath it.</p>
-  </div>
-  <div class="part">
-    <p class="slabel">Visual direction</p>
-  <h3>Blue and green, decided after the teardown.</h3>
-  <p>The palette and type were set after the competitor teardown: Standerd for headings, General Sans for body, and a blue-and-green system carried through every screen in the sections below.</p>
-  </div>
-  <div class="part">
-    <p class="slabel">System mapping</p>
-  <h3>The screens were the easy half.</h3>
-  <p>The board below covers <em>one</em> set of conditions. Change a single one (who pays the interest, whether it's insured, factoring or reverse factoring) and the whole branch structure changes shape.</p>
-  <p>Mapping those first is why the interface didn't double in size when reverse factoring arrived.</p>
-  </div>
-</section>
-<div class="band">
-  <div class="wide">
-    <figure class="shot wideboard" style="perspective:none; margin:0;">
-      <div class="browser" style="transform:none;">
-        <div class="bar"><i></i><i></i><i></i><span>figma · moodboard &amp; visual direction</span></div>
-        <img class="ph" src="assets/cs-altkred-moodboard.png" alt="Altkred moodboard: the blue and green palette, Standerd for headings and General Sans for body, and the fintech UI and brand references it was built from" loading="lazy">
-      </div>
-      <figcaption><span class="fno">Fig 01</span>Where the blue and green came from: the visual direction, set after the competitor teardown. Standerd for headings, General Sans for body.</figcaption>
-    </figure>
-  </div>
-</div>
-<div class="band">
-  <div class="wide">
-    <figure class="shot wideboard" data-tilt>
-      <div class="browser">
-        <div class="bar"><i></i><i></i><i></i><span>figjam · place bid, fund disbursal &amp; settlement</span></div>
-        <img class="ph" src="assets/cs-altkred-flowboard.png" alt="The full place-bid, fund-disbursal and settlement flow board in four lanes: secret key, bid place and review, fund disbursal payment, and settlement" loading="lazy">
-      </div>
-      <figcaption><span class="fno">Fig 02</span>One condition set, end to end, in four lanes. There are several of these.</figcaption>
-    </figure>
-  </div>
-</div>
-
-<!-- ══════════ STAGE 04 — DESIGN ══════════ -->
+<!-- ══════════ STAGE 03 — DESIGN ══════════ -->
 <section class="stage wrap" id="design" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
   <div class="stage-head">
-    <span class="stage-n">04</span>
+    <span class="stage-n">03</span>
     <h2>Design</h2>
-    <p class="lede">Four stages of one invoice, and the call I made at each of them.</p>
+    <p class="lede">Four flows, and the call I made at each of them.</p>
   </div>
   <div class="part">
     <p class="slabel">Solutions</p>
-    <p>Each stage below is a screen set, the decision that shaped it, and what I turned down to get there.</p>
+    <p>The dashboard every role shares, then the three journeys that run off it: selling a policy, renewing one, and claiming against one.</p>
   </div>
 </section>
+
+<!-- ══════════ JOURNEY 01 — DASHBOARD ══════════ -->
 <div class="journey" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
   <div class="wrap">
-    <p class="jnum"><i>01</i> Getting on</p>
-    <h2>Verified before the money is urgent.</h2>
-    <p>Nobody does paperwork well when they're desperate for cash. So all of it happens first: company details, documents, bank setup. The marketplace stays visible but switched off until it's done.</p>
+    <p class="jnum"><i>01</i> The dashboard</p>
+    <h2>The only screen all five roles share.</h2>
+    <p>It is the first screen every role sees on login. A dealer sees their own counter; a national head sees the network. The cards are the same cards.</p>
 
     <div class="call">
-      <div class="lbl">The call · the payment key</div>
-      <p class="x"><s>Hide the payment key<button class="q" data-term="secret-key" aria-label="What is the payment key?" aria-expanded="false">?</button> in settings and let financiers find it.</s></p>
-      <p class="y">Grey out <em>Place Bid</em> on the home page until it's added, and say why right there. Without the key we can't take money from their account, so they could win an invoice they're unable to pay for.</p>
+      <div class="lbl">The decision · one dashboard or five</div>
+      <p class="x"><s>A separate dashboard per role, each built for its own audience.</s></p>
+      <p class="y">One dashboard, where each card aggregates differently depending on the viewer's position in the hierarchy.</p>
+      <p class="why">Five dashboards would have meant five layouts to maintain, and a different screen to relearn each time a dealer is promoted. A shared card grammar — headline figure, trend indicator, target line — made the same component legible to a dealer and a national head alike.</p>
     </div>
   </div>
 
@@ -745,41 +656,34 @@
     <div class="wide">
       <figure class="shot" data-tilt>
         <div class="browser">
-          <div class="bar"><i></i><i></i><i></i><span>/onboarding/kyb-documents</span></div>
-          <img class="ph" src="assets/cs-altkred-kyb.png" alt="KYB documents screen: identity proof, address proof and certificates uploaded, each with a verified or unsuccessful state" loading="lazy">
+          <div class="bar"><i></i><i></i><i></i><span>/dashboard</span></div>
+          <img class="ph" src="assets/edme/dashboard-kpi.png" alt="Dashboard KPI row: total active policies, premium collected against a target with a progress bar, and conversion rate with the percentage still needed" loading="lazy">
         </div>
-        <figcaption><span class="fno">Fig 03</span>Six steps down the left, documents in the middle. A failed check says what failed ("the name entered doesn't match the form details") instead of just turning red.</figcaption>
+        <figcaption><span class="fno">Fig 01</span>The card grammar, close up. A headline figure, the trend beneath it, and the target as a bar — so &ldquo;95% achieved&rdquo; and &ldquo;5% needed&rdquo; are readable without decoding a colour.</figcaption>
       </figure>
-      <div class="grid2 two">
-      <figure class="shot" data-tilt>
-        <div class="browser">
-          <div class="bar"><i></i><i></i><i></i><span>/marketplace/FA-Antino-89234768</span></div>
-          <img class="ph" src="assets/cs-altkred-bid-blocked.png" alt="Asset detail screen with bidding disabled and a panel listing the four pending setup steps" loading="lazy">
-        </div>
-        <figcaption><span class="fno">Fig 04</span>The blocked state. The whole asset is readable, bidding is off, and the panel names every setup step still outstanding.</figcaption>
-      </figure>
-      <figure class="shot" data-tilt>
-        <div class="browser">
-          <div class="bar"><i></i><i></i><i></i><span>/transactions/configuration</span></div>
-          <img class="ph" src="assets/cs-altkred-secret-key.png" alt="Transaction configuration screen with the payment secret key added and verified" loading="lazy">
-        </div>
-        <figcaption><span class="fno">Fig 05</span>And the screen that unblocks it, with a "why is this required?" link, because nobody hands over a key they don't understand.</figcaption>
-      </figure>
-      </div>
     </div>
   </div>
 </div>
+
+<!-- ══════════ JOURNEY 02 — QUOTE TO ISSUANCE ══════════ -->
 <div class="journey" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
   <div class="wrap">
-    <p class="jnum"><i>02</i> Pricing it</p>
-    <h2>Three financiers competing for one invoice, on one screen.</h2>
-    <p>Each listed invoice shows the buyer, the amount, the due date<button class="q" data-term="tenure" aria-label="What is tenure?" aria-expanded="false">?</button>, proof of delivery, and how reliably that buyer has paid in the past. That last one matters most. An invoice is only as good as the person who owes it.</p>
-    <p>Financiers bid against each other. So the seller picks from several offers instead of taking the only one.</p>
+    <p class="jnum"><i>02</i> Quote to issuance</p>
+    <h2>The sales funnel, from a vehicle to a paid policy.</h2>
+    <p>A stepped flow that takes a customer's vehicle details, prices them against every insurer at once, verifies the customer, and collects payment.</p>
 
     <div class="call">
-      <div class="lbl">The call · how a bid is priced</div>
-      <p class="x"><s>One "interest rate" box on the bid form.</s></p>
-      <p class="y">Four separate choices instead: the rate and how long for, who pays the interest, the late penalty, and whether it's insured<button class="q" data-term="insurance" aria-label="What is credit insurance here?" aria-expanded="false">?</button>. A bid is a decision about who carries the risk, which is exactly what both sides argue about later.</p>
+      <div class="lbl">The decision · the IDV field</div>
+      <p class="x"><s>A plain numeric input for Insured Declared Value, with the premium recalculated on submit.</s></p>
+      <p class="y">A bounded control with the minimum, recommended and maximum values shown, recalculating the premium as it changes.</p>
+      <p class="why">IDV is the single largest lever on premium. Showing the range and the recommendation in the control itself lets a dealer see the trade-off immediately, rather than resubmitting a form to find out.</p>
+    </div>
+
+    <div class="call">
+      <div class="lbl">The decision · a rejected proposal</div>
+      <p class="x"><s>Returning a rejected proposal to the first step, requiring the dealer to start again.</s></p>
+      <p class="y">Routing it back with the rejection reason attached, to the exact step that needs correction.</p>
+      <p class="why">This is the point in the funnel where a dealer is most likely to abandon the sale. The cost of getting it wrong is a lost policy, not just a frustrated user.</p>
     </div>
   </div>
 
@@ -787,143 +691,190 @@
     <div class="wide">
       <figure class="shot" data-tilt>
         <div class="browser">
-          <div class="bar"><i></i><i></i><i></i><span>/marketplace</span></div>
-          <img class="ph" src="assets/cs-altkred-marketplace.png" alt="Marketplace listing live factoring assets with tenure, due date, insurance cover and the current bid spread" loading="lazy">
+          <div class="bar"><i></i><i></i><i></i><span>/new-business/issuance/details</span></div>
+          <img class="ph" src="assets/edme/q1-issuance.png" alt="Step one of the issuance flow: basic issuance details, with make, model and proposer fields" loading="lazy">
         </div>
-        <figcaption><span class="fno">Fig 06</span>Live assets. Tenure, due date, insurance cover, and the bid spread so far (lowest, highest, average) so a financier knows where to come in.</figcaption>
+        <figcaption><span class="fno">Fig 02</span>Step one. The least interesting screen in the funnel, and the one that decides how much of the rest can be prefilled.</figcaption>
       </figure>
-      <figure class="shot" data-tilt>
-        <div class="browser">
-          <div class="bar"><i></i><i></i><i></i><span>/marketplace/FA-Antino-89234768/bids</span></div>
-          <img class="ph" src="assets/cs-altkred-place-bid.png" alt="Place bid form with discount rate, duration, interest payment on, default penalty and an insurance option, with the interest maths resolving beside it" loading="lazy">
-        </div>
-        <figcaption><span class="fno">Fig 07</span>The four levers, with the maths resolving live beside them: interest, who pays it, what the seller receives, what's owed at maturity. Other financiers' bids sit underneath.</figcaption>
-      </figure>
+
       <div class="grid2 two">
       <figure class="shot" data-tilt>
         <div class="browser">
-          <div class="bar"><i></i><i></i><i></i><span>/asset-management/FA-Antino-89234768/bids</span></div>
-          <img class="ph" src="assets/cs-altkred-bids-received.png" alt="Seller's view of bids received, each showing rate, amounts and insurance terms, with a select-bid action" loading="lazy">
+          <div class="bar"><i></i><i></i><i></i><span>/new-business/quote-creation</span></div>
+          <img class="ph" src="assets/edme/q2-quote-compare.png" alt="Quote creation step: quotes from Digit, Zuno and ICICI Lombard side by side with premiums and add-ons, and a customise panel on the right" loading="lazy">
         </div>
-        <figcaption><span class="fno">Fig 08</span>The seller's side. Every bid received in full: rate, what lands in the account, what's owed back, insurance terms. And one to send for signatory approval.</figcaption>
+        <figcaption><span class="fno">Fig 03</span>Every insurer priced at once, with add-ons attached to each quote and the insurers that returned nothing listed plainly at the bottom.</figcaption>
       </figure>
       <figure class="shot" data-tilt>
         <div class="browser">
-          <div class="bar"><i></i><i></i><i></i><span>/asset-management/FA-Antino-89234768/bids</span></div>
-          <img class="ph" src="assets/cs-altkred-bid-selected.png" alt="Selected bid awaiting buyer acceptance, with a status panel and a note that other bids will be auto-rejected" loading="lazy">
+          <div class="bar"><i></i><i></i><i></i><span>/new-business/quote-creation · IDV</span></div>
+          <img class="ph" src="assets/edme/idv-control.png" alt="The IDV control: a minimum and maximum range, options for minimum, maximum or custom value, a recommended figure, and a validation message when the entered value falls outside the range" loading="lazy">
         </div>
-        <figcaption><span class="fno">Fig 09</span>Selected, and moving down the approval chain. The panel is explicit that confirming this one auto-rejects the rest, which is the kind of thing you want to know beforehand.</figcaption>
+        <figcaption><span class="fno">Fig 04</span>The IDV control, with the range and the recommendation in view, and the error state for a value outside it.</figcaption>
       </figure>
       </div>
+
+      <figure class="shot" data-tilt>
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>/new-business/kyc-verification</span></div>
+          <img class="ph" src="assets/edme/q3-kyc.png" alt="KYC verification step with the plan summary alongside the verification method" loading="lazy">
+        </div>
+        <figcaption><span class="fno">Fig 05</span>KYC, with the plan summary held beside it. The fields shown here change with the verification method chosen; the ones that do not apply are removed rather than disabled.</figcaption>
+      </figure>
+
+      <figure class="shot" data-tilt>
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>/new-business/checkout</span></div>
+          <img class="ph" src="assets/edme/q7-checkout.png" alt="Checkout screen: vehicle details, customer details and a premium breakdown before payment" loading="lazy">
+        </div>
+        <figcaption><span class="fno">Fig 06</span>Checkout. Everything the dealer is about to charge for, itemised, with a route to raise an error against any line rather than starting again.</figcaption>
+      </figure>
     </div>
   </div>
 </div>
-<div class="journey" style="--accent:var(--green); --accent-soft:rgba(43,217,124,.34);">
+
+<!-- ══════════ JOURNEY 03 — RENEWALS ══════════ -->
+<div class="journey" style="--accent:var(--green); --accent-soft:rgba(43,217,124,.30);">
   <div class="wrap">
-    <p class="jnum"><i>03</i> Moving it</p>
-    <h2>Money out in 48 hours, without a single email.</h2>
-    <p>Four things happen once a bid is accepted. The buyer signs a payment permission<button class="q" data-term="emandate" aria-label="What is an e-mandate?" aria-expanded="false">?</button>. Interest is deducted. Insurance is paid. The funds land.</p>
-    <p>Every one of those is a place the money can stop.</p>
+    <p class="jnum"><i>03</i> Renewals</p>
+    <h2>One entry point, whatever the policy came from.</h2>
+    <p>A renewal may be sourced from Edme, rolled over from another insurer, or arrive with no retrievable record. A dealer rarely knows which before they start.</p>
 
     <div class="call">
-      <div class="lbl">The call · when to ask the buyer</div>
-      <p class="x"><s>Ask the buyer to set up the payment permission after the bid is won.</s></p>
-      <p class="y">Ask inside the bid approval instead: one screen, one action. Chase a buyer for it afterwards and you never get it. And without it, there's no way to collect on day 90.</p>
+      <div class="lbl">The decision · one field or three forms</div>
+      <p class="x"><s>Three separate entry forms, one per renewal source.</s></p>
+      <p class="y">A single search field that detects a policy number or a chassis number as the dealer types, and proceeds regardless of whether a record is found.</p>
+      <p class="why">Renewals are a low-attention, reminder-driven task. Asking a dealer to classify the renewal type before starting adds a decision they are not equipped to make at that point.</p>
     </div>
   </div>
 
-  <div class="wrap" style="margin-top:30px;">
-    <p style="font-size:15px; color:var(--faint);">The funding screens are still in build. The decision above is the one that shaped them.</p>
+  <div class="band">
+    <div class="wide">
+      <figure class="shot" data-tilt>
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>/renewals/issuance-details</span></div>
+          <img class="ph" src="assets/edme/renewal-start.png" alt="Renewal issuance details screen, reached from the renewals flow" loading="lazy">
+        </div>
+        <figcaption><span class="fno">Fig 07</span>The renewal picks up the same stepped layout as a new sale, so a dealer is not learning a second funnel for the same job.</figcaption>
+      </figure>
+
+      <figure class="shot" data-tilt>
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>/renewals/listing</span></div>
+          <img class="ph" src="assets/edme/renewal-listing.png" alt="Renewal management listing with filters for default renewal, approved, rejected and send back, and a table of break-in requests" loading="lazy">
+        </div>
+        <figcaption><span class="fno">Fig 08</span>The renewal listing, filtered by state. A policy that needs a break-in inspection before it can be renewed is held here rather than failing silently later.</figcaption>
+      </figure>
+    </div>
   </div>
 </div>
+
+<!-- ══════════ JOURNEY 04 — CLAIMS ══════════ -->
 <div class="journey" style="--accent:var(--coral); --accent-soft:rgba(255,107,91,.28);">
   <div class="wrap">
-    <p class="jnum"><i>04</i> Closing it</p>
-    <h2>Day 90 collects itself — and has somewhere to go when it doesn't.</h2>
-    <p>On the due date the payment pulls automatically<button class="q" data-term="autodebit" aria-label="What is auto-debit here?" aria-expanded="false">?</button>. Usually it works. The rest of the time is where this product is really decided.</p>
-    <p>The happy path is about a fifth of the screens. <mark class="hl">A dead end here is somebody's payroll</mark>, so nothing ends in "contact support".</p>
-
-    <div class="ladder">
-      <div class="rung"><i>1</i><div><b>The payment pulls</b><span>It clears. We're done.</span></div></div>
-      <div class="rung"><i>2</i><div><b>It bounces, so it retries</b><span>One automatic retry, with the date shown on screen.</span></div></div>
-      <div class="rung"><i>3</i><div><b>The buyer paid another way</b><span>An RM records the bank transfer against the invoice, with proof attached.</span></div></div>
-      <div class="rung"><i>4</i><div><b>An RM sends a payment link</b><span>Made and sent from the same screen as the failure.</span></div></div>
-      <div class="rung"><i>5</i><div><b>An RM changes the status</b><span>A manual override, logged. Someone is accountable for it.</span></div></div>
-      <div class="rung last"><i>6</i><div><b>Or the buyer never pays</b><span>If the financier is insured, the RM files the claim from that same screen. If not, the screen says so plainly and closes.</span></div></div>
-    </div>
+    <p class="jnum"><i>04</i> Claims</p>
+    <h2>A long form, filled at the worst possible moment.</h2>
+    <p>A guided claim intimation, filed at a point of stress for the customer and often interrupted at the dealership counter.</p>
 
     <div class="call">
-      <div class="lbl">The call · where a default goes</div>
-      <p class="x"><s>Put insurance claims in a separate admin module.</s></p>
-      <p class="y">Keep them inside settlement. The worst outcome deserves the clearest screen, and the person handling it is already looking at the failed payment.</p>
+      <div class="lbl">The decision · conditional fields</div>
+      <p class="x"><s>Showing every field for every claim, with irrelevant ones greyed out.</s></p>
+      <p class="y">Removing fields entirely when they do not apply — driver details for a parked vehicle, a workshop code for a theft claim.</p>
+      <p class="why">On a long form completed under stress, a visible but irrelevant field is an additional decision for the user to make. Removing it reduces what has to be read, not just what has to be filled in.</p>
     </div>
   </div>
 
   <div class="band">
     <div class="wide">
-      <figure class="shot wideboard" data-tilt>
+      <figure class="shot" data-tilt>
         <div class="browser">
-          <div class="bar"><i></i><i></i><i></i><span>figjam · settlement &amp; claim</span></div>
-          <img class="ph" src="assets/cs-altkred-flow-detail.png" alt="Flow board detail: the payment retry ladder, RM override, and the settlement lane forking into positive and negative insurance claims" loading="lazy">
+          <div class="bar"><i></i><i></i><i></i><span>/claim/intimation</span></div>
+          <img class="ph" src="assets/edme/claim-step1.png" alt="Claim intimation form showing the step rail: claim details, accident details, driver details, intimator details, contact person, estimated cost and document upload" loading="lazy">
         </div>
-        <figcaption><span class="fno">Fig 10</span>The ladder as it was actually mapped. Every failed debit routes to a retry, then an RM action, then either a claim or a clean close.</figcaption>
+        <figcaption><span class="fno">Fig 09</span>The whole claim laid out as a rail down the left, so a dealer interrupted halfway can see what is left before they stop.</figcaption>
+      </figure>
+
+      <div class="grid2 two">
+      <figure class="shot" data-tilt>
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>/claim/intimation · documents</span></div>
+          <img class="ph" src="assets/edme/claim-upload.jpg" alt="Document upload panel showing uploaded photos and videos of the vehicle with file names, sizes and dates" loading="lazy">
+        </div>
+        <figcaption><span class="fno">Fig 10</span>Document upload. Photographs of the damage are the slowest part of a claim and the easiest to get wrong.</figcaption>
+      </figure>
+      <figure class="shot" data-tilt>
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>/claim/intimation · confirm</span></div>
+          <img class="ph" src="assets/edme/claim-confirm.png" alt="Claim confirmation screen listing accident details, nature of loss and location before filing" loading="lazy">
+        </div>
+        <figcaption><span class="fno">Fig 11</span>Confirmation. Everything entered, in one read, before it goes to the insurer.</figcaption>
+      </figure>
+      </div>
+
+      <figure class="shot" data-tilt>
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span>/claim/intimation · submitted</span></div>
+          <img class="ph" src="assets/edme/claim-success.png" alt="Claim submission successful screen with the claim ID and remarks" loading="lazy">
+        </div>
+        <figcaption><span class="fno">Fig 12</span>The claim ID, issued immediately. This is the number the customer will ring the dealer about, so it is the thing the screen leads with.</figcaption>
       </figure>
     </div>
   </div>
 </div>
 
-<!-- ══════════ STAGE 05 — OUTCOME ══════════ -->
+<!-- ══════════ STAGE 04 — OUTCOME ══════════ -->
 <section class="stage wrap" style="--accent:var(--green); --accent-soft:rgba(43,217,124,.30);">
   <div class="stage-head">
-    <span class="stage-n">05</span>
+    <span class="stage-n">04</span>
     <h2>Outcome</h2>
-    <p class="lede">What the whole thing adds up to, from where Rakesh is standing.</p>
-  </div>
-  <div class="part">
-    <p class="slabel">What it changes</p>
-    <h3>Back to Rakesh's March.</h3>
-    <p>Same payroll, same invoice, same buyer. List it, take the best bid, get paid.</p>
-  <div class="metric">
-    <p class="cap">Accepted invoice → cash in hand</p>
-    <div class="bar"><span class="lbl">Before</span><div class="track"><div class="fill was">60–90 days</div></div></div>
-    <div class="bar"><span class="lbl">Designed for</span><div class="track"><div class="fill now">2 days</div></div></div>
-    <div class="delta"><span>Design target, not a measured result. Altkred is still in build, so these are the numbers the flows were drawn against.</span></div>
-    <div class="swaps">
-      <p class="lbl2">What else moves</p>
-      <div class="r"><span class="was">The factory pledged as collateral</span><span class="now">The invoice is the security</span></div>
-      <div class="r"><span class="was">One buyer's discount, take it or leave it</span><span class="now">Financiers bidding against each other</span></div>
-      <div class="r"><span class="was">Collection chased at maturity</span><span class="now">Mandate signed at bid execution</span></div>
-      <div class="r"><span class="was">A bounced debit ends in a phone call</span><span class="now">Retry, external payment or link, on screen</span></div>
-      <div class="r"><span class="was">A default is the financier's problem alone</span><span class="now">Insured assets settle as a claim</span></div>
-    </div>
+    <p class="lede">What the design was built to achieve, from where the dealer is standing.</p>
   </div>
 
+  <div class="part">
+    <p class="slabel">What it changes</p>
+    <h3>Edme has not launched yet.</h3>
+    <p>It is in final development. The table below describes what the design was built to achieve, not a measured result.</p>
+
+    <div class="metric">
+      <p class="cap">Before → designed for</p>
+      <div class="swaps">
+        <p class="lbl2">Across the four flows</p>
+        <div class="r"><span class="was">Manual entry across separate insurer portals</span><span class="now">A single funnel, dashboard to issuance</span></div>
+        <div class="r"><span class="was">Renewals tracked by individual memory</span><span class="now">Surfaced automatically, one entry point regardless of source</span></div>
+        <div class="r"><span class="was">Visibility above the dealer reconstructed after the fact</span><span class="now">Real-time, role-based, through the same dashboard</span></div>
+        <div class="r"><span class="was">Phone calls to check a claim's status</span><span class="now">Tracked from intimation to settlement in one listing</span></div>
+      </div>
+      <div class="delta"><span>Design targets, not measured results. Edme is pre-launch, so none of this has been observed in use yet.</span></div>
+    </div>
+
+    <p style="margin-top:30px;">Once live, the figures I intend to track are time from lead to issued policy, abandonment at the insurer-decision step, renewal conversion within the due window, and claim draft completion rate.</p>
   </div>
 </section>
 
-<!-- ══════════ STAGE 06 — WHAT I'D DO DIFFERENTLY ══════════ -->
+<!-- ══════════ STAGE 05 — LEARNINGS ══════════ -->
 <section class="stage wrap" style="--accent:var(--blue); --accent-ink:#FFFFFF; --accent-soft:rgba(51,85,255,.22);">
   <div class="stage-head">
-    <span class="stage-n">06</span>
+    <span class="stage-n">05</span>
     <h2>What I'd do differently</h2>
-    <p class="lede">Three things, and the first one cost me six weeks.</p>
+    <p class="lede">Three things, from a job that ran at twenty days for two hundred screens.</p>
   </div>
+
   <div class="part">
-  <div class="learn">
-    <div class="lrn" style="--accent:var(--coral)">
-      <b>Draw the failures first</b>
-      <p>I designed the happy path in week one, then spent six weeks on what happens when a payment bounces. Starting at the bounce would have made the happy path better. That's where a payments product earns trust.</p>
+    <div class="learn">
+      <div class="lrn" style="--accent:var(--coral)">
+        <b>Test the two highest-stakes steps before build</b>
+        <p>The insurer-decision branch and the conditional KYC step carry the most logic and the highest risk of abandonment. These decisions were reasoned from the specification rather than observed in use.</p>
+      </div>
+      <div class="lrn" style="--accent:var(--yellow)">
+        <b>Document the pattern library as it formed</b>
+        <p>The conventions that held the system together — autosave, conditional fields, the shared card grammar — were identified in hindsight. A living reference from the outset would have made onboarding a third designer, or auditing consistency, faster.</p>
+      </div>
+      <div class="lrn" style="--accent:var(--green)">
+        <b>Review the specification in one pass, first</b>
+        <p>Several inconsistencies in the source document were resolved individually as each flow reached them. One upfront pass would have caught more of them before they became isolated decisions.</p>
+      </div>
     </div>
-    <div class="lrn" style="--accent:var(--yellow)">
-      <b>Stop ranking the users</b>
-      <p>The persona problem in discovery cost me two weeks before I gave up on ranking them. The personas only became useful once I accepted that all four had to fit the same screens.</p>
-    </div>
-    <div class="lrn" style="--accent:var(--green)">
-      <b>Read the law before the competitors</b>
-      <p>I started with a competitor teardown. It told me what the category looks like. What actually shaped the product was the MSMED Act's 45-day payment rule, and the <a href="https://www.indiabudget.gov.in/economicsurvey/ebook_es2022/files/basic-html/page163.html" style="color:inherit; text-decoration:underline; text-underline-offset:2px;" target="_blank" rel="noopener">Factoring Regulation (Amendment) Act, 2021</a>, which lifted the principal-business test that had limited factoring to seven NBFCs.</p>
-    </div>
-  </div>
-  <p class="closer">Rakesh was asking someone to treat his invoice like the money it already was.</p>
+    <p class="closer">A specification tells you what to build. It does not tell you what to keep the same across two hundred screens.</p>
   </div>
 </section>
 
@@ -932,115 +883,16 @@
   <div class="end-in">
     <div>
       <div class="lead">Next case study</div>
-      <a class="big" href="case-study.html">Compport →</a>
-      <div style="margin-top:8px; font-size:14.5px; color:var(--muted);">Org planning inside an enterprise HRMS. Two weeks, one module.</div>
+      <a class="big" href="case-study-altkred.html">Altkred →</a>
+      <div style="margin-top:8px; font-size:14.5px; color:var(--muted);">Invoice financing for Indian SMEs. Four months, end to end.</div>
     </div>
     <a class="btn" href="index.html#contact">Work with me</a>
   </div>
   <div style="margin-top:26px; padding-top:20px; border-top:1px solid var(--hair);">
-    <a href="index.html#work" style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:1.4px; text-transform:uppercase; color:var(--faint); text-decoration:none;">← Back to all projects</a>
+    <a href="index.html#projects" style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:1.4px; text-transform:uppercase; color:var(--faint); text-decoration:none;">← Back to all projects</a>
   </div>
 </div>
 
 <script src="casestudy.js"></script>
-<script>
-/* ── glossary popovers ────────────────────────────────────────
-   Subtle "?" buttons that explain a term without sending the
-   reader anywhere. One popover at a time; Esc and outside-click
-   close it; it flips above the button when there's no room below.
-------------------------------------------------------------- */
-(() => {
-  "use strict";
-
-  const TERMS = {
-    "discount-rate": ["The fee",
-      "What the financier charges, as a percentage of the invoice. On ₹38 lakh at 0.79% for 90 days, the seller gets ₹37.2 lakh now and the financier collects ₹38 lakh on day 90."],
-    "reverse-factoring": ["Reverse factoring",
-      "The same trade, started by the buyer. A big company lists the invoices it has approved. Its suppliers take the cash early. Because it's the big company's credit being financed, small suppliers get a much cheaper rate."],
-    "receivable": ["Unpaid invoice",
-      "Money a customer owes you for work you've already delivered. An asset on paper, and nothing in your bank account until they pay."],
-    "tenure": ["Due date",
-      "How long the financier waits to be paid back, usually 30, 60 or 90 days, matched to the buyer's terms. Longer wait, higher fee."],
-    "emandate": ["Payment permission",
-      "A one-time approval from the buyer's bank that lets an agreed amount be taken on an agreed date. Without it, collecting on day 90 means asking nicely."],
-    "autodebit": ["Automatic payment",
-      "The scheduled pull against that permission. It either clears or it bounces. Designing for the bounce is most of the work here."],
-    "insurance": ["Credit insurance",
-      "Cover the financier can buy in case the buyer never pays. Built into the bid, it's what lets them fund a seller with no track record."],
-    "secret-key": ["Payment key",
-      "A code the financier sets up with the payment provider. Without it we can't take money from their account, so they can't fund a bid they've won."],
-    "treds": ["TReDS",
-      "Government-regulated exchanges where small businesses can sell invoices owed by large buyers. They work. Fewer than 1% of Indian SMEs are on one."],
-    "msmed": ["The 45-day rule",
-      "Indian law says a buyer must pay a small supplier within 45 days. In practice, large companies routinely take 60, 90 or 120."]
-  };
-
-  let open = null, openBtn = null;
-
-  const close = () => {
-    if (!open) return;
-    open.remove();
-    if (openBtn) openBtn.setAttribute("aria-expanded", "false");
-    open = null; openBtn = null;
-  };
-
-  const place = (btn, pop) => {
-    const r = btn.getBoundingClientRect();
-    const w = pop.offsetWidth, h = pop.offsetHeight;
-    const room = window.innerHeight - r.bottom;
-    const below = room > h + 20;
-
-    let left = r.left + r.width / 2 - w / 2 + window.scrollX;
-    left = Math.max(12 + window.scrollX, Math.min(left, window.scrollX + window.innerWidth - w - 12));
-    const top = below ? r.bottom + window.scrollY + 11 : r.top + window.scrollY - h - 11;
-
-    pop.style.left = left + "px";
-    pop.style.top = top + "px";
-    pop.dataset.side = below ? "bottom" : "top";
-
-    const arrow = r.left + r.width / 2 + window.scrollX - left - 5.5;
-    pop.style.setProperty("--ax", Math.max(12, Math.min(arrow, w - 23)) + "px");
-    pop.querySelector("i").style.left = pop.style.getPropertyValue("--ax");
-  };
-
-  document.addEventListener("click", (e) => {
-    const btn = e.target.closest(".q");
-    if (!btn) { if (open && !e.target.closest(".pop")) close(); return; }
-    e.preventDefault();
-
-    const was = openBtn === btn;
-    close();
-    if (was) return;
-
-    const entry = TERMS[btn.dataset.term];
-    if (!entry) return;
-
-    const pop = document.createElement("div");
-    pop.className = "pop";
-    pop.setAttribute("role", "dialog");
-    pop.innerHTML = "<b></b><span></span>";
-    pop.querySelector("b").textContent = entry[0];
-    pop.querySelector("span").textContent = entry[1];
-    // arrow needs to be positionable, so it's a real element
-    const arrow = document.createElement("i");
-    arrow.style.cssText = "position:absolute;width:11px;height:11px;background:var(--ink);transform:rotate(45deg);font-style:normal;";
-    pop.appendChild(arrow);
-    document.body.appendChild(pop);
-
-    place(btn, pop);
-    arrow.style.top = pop.dataset.side === "bottom" ? "-5px" : "auto";
-    arrow.style.bottom = pop.dataset.side === "top" ? "-5px" : "auto";
-
-    btn.setAttribute("aria-expanded", "true");
-    open = pop; openBtn = btn;
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && open) { const b = openBtn; close(); b && b.focus(); }
-  });
-  window.addEventListener("resize", close);
-  window.addEventListener("scroll", () => { if (open && openBtn) place(openBtn, open); }, { passive: true });
-})();
-</script>
 </body>
 </html>
