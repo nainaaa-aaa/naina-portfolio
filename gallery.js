@@ -263,20 +263,27 @@
     // The pieces that exist exactly once. Each sits at a fixed canvas
     // position and reserves a box the generator will not place cards into,
     // which is what keeps them in clear space instead of under a photo.
+    // The two games are meant to be found, not handed over, so they sit
+    // well outside the first screen and in opposite corners — far enough
+    // apart that their reserved boxes can never meet.
     const pinned = [
-      { id: "headingRef", ox: 0,    oy: 0,   w: 640, h: 250 },
-      { id: "tttRef",     ox: -880, oy: -250, w: 300, h: 340 },
-      { id: "rpsRef",     ox: 940,  oy: -470, w: 300, h: 430 },
+      { id: "headingRef", ox: 0,     oy: 0,     w: 640, h: 250 },
+      { id: "tttRef",     ox: -1920, oy: -1120, w: 300, h: 340 },
+      { id: "rpsRef",     ox: 2080,  oy: 940,   w: 300, h: 430 },
     ]
       .map((pin) => Object.assign(pin, { el: document.getElementById(pin.id) }))
       .filter((pin) => pin.el);
 
-    const reserved = pinned.map((pin) => ({
-      x: pin.ox - pin.w / 2 - 16,
-      y: pin.oy - pin.h / 2 - 16,
-      w: pin.w + 32,
-      h: pin.h + 32,
-    }));
+    /* Measure the real boxes rather than trusting the numbers above: the
+       cards grow when their type or content changes, and a reserve that
+       has fallen behind is exactly how a photo ends up sitting on top of
+       a game. The written sizes stay as the fallback. */
+    const PAD = 30;                      // slack for the cards' own rotation
+    const reserved = pinned.map((pin) => {
+      const w = Math.max(pin.el.offsetWidth || 0, pin.w);
+      const h = Math.max(pin.el.offsetHeight || 0, pin.h);
+      return { x: pin.ox - w / 2 - PAD, y: pin.oy - h / 2 - PAD, w: w + PAD * 2, h: h + PAD * 2 };
+    });
 
     // The field and everything pinned to it must ease together, or the
     // heading slides while the artwork snaps.
