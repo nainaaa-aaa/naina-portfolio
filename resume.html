@@ -169,6 +169,15 @@
   .tool .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 1.8px; text-transform: uppercase; color: var(--faint); }
   .tool p { margin: 12px 0 0 !important; font-size: 15.5px !important; line-height: 1.62; color: var(--ink) !important; }
 
+  /* a plain statement rather than a footnote: better that a recruiter
+     reads why the names are missing than wonders */
+  .anon {
+    margin: 22px 0 0 !important; max-width: 620px;
+    padding: 14px 18px; border-left: 3px solid var(--accent);
+    background: #FFFFFF; border-radius: 0 8px 8px 0;
+    font-size: 14.5px !important; line-height: 1.62 !important; color: var(--muted) !important;
+  }
+
   /* ── selected projects ─────────────────────────────────── */
   .jsub {
     margin: -6px 0 14px !important; font-family: 'IBM Plex Mono', monospace;
@@ -277,6 +286,7 @@
     .award { padding: 5px 0; }
     .award b { font-size: 10.2px; line-height: 1.35; }
     .award span { margin-top: 2px; font-size: 8.2px; }
+    .anon { margin: 8px 0 0 !important; padding: 7px 10px; font-size: 9.6px !important; line-height: 1.5 !important; }
     .jsub { margin: -3px 0 7px !important; font-size: 9px !important; }
     .bars { margin-top: 9px; }
     .bar { padding: 5px 0; gap: 8px 16px; }
@@ -368,6 +378,9 @@
 <section class="sec wrap" style="--accent:var(--green); --accent-soft:rgba(43,217,124,.3);">
   <p class="eyebrow"><b>02</b> Selected projects</p>
   <h2>Three I took the furthest.</h2>
+  <p class="anon">Two of these have not launched yet, so they appear here under
+  anonymised names and their screens are shown with client branding removed.
+  Happy to talk through the real products in conversation.</p>
 
   <div class="org">
     <span class="co">Compport</span>

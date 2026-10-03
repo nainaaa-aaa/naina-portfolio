@@ -294,15 +294,18 @@
      on the thing itself rather than on paragraphs about it. */
   .glimpse { margin: 40px 0 0; }
   .glimpse .browser { transform: none; }
+  /* The opening image is a photograph of the product on a machine, not a
+     screenshot, so it keeps its own proportions — cropping it to a fixed
+     band cut the laptop in half. No browser chrome either: a frame drawn
+     around a photo of a screen reads as a mistake. */
   .glimpse img {
     display: block; width: 100%; height: auto;
-    max-height: 460px; object-fit: cover; object-position: top center;
+    border-radius: 12px;
   }
   .glimpse figcaption {
     margin: 16px 0 0; max-width: 640px;
     font-size: 15px; line-height: 1.66; color: var(--muted);
   }
-  @media (max-width: 640px) { .glimpse img { max-height: 300px; } }
 
   .stage { padding: 172px 0 0; scroll-margin-top: 88px; }
   /* a divider should mark the break, not announce it */
@@ -483,10 +486,7 @@
   <p class="standfirst">Faktra lets Indian SMEs sell unpaid invoices to financiers who bid for them. I designed the whole thing: signing up, bidding, getting paid, and what happens when a payment fails.</p>
 
   <figure class="glimpse">
-    <div class="browser">
-      <div class="bar"><i></i><i></i><i></i><span>/marketplace</span></div>
-      <img src="assets/cs-faktra-marketplace.png" alt="The Faktra marketplace: live invoices listed with tenure, due date, insurance cover and the current bid spread">
-    </div>
+    <img src="assets/cs-faktra-hero.png" alt="The Faktra marketplace open on a laptop: live invoices listed with tenure, due date, insurance cover and the current bid spread">
     <figcaption>The marketplace this case study is about: invoices listed for sale, with financiers bidding against each other for them.</figcaption>
   </figure>
 
