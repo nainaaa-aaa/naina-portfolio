@@ -482,18 +482,6 @@
           <span class="word-chip" data-chip="brand"><span class="dot" style="background:#FF6B5B;"></span>Branding</span>
         </div>
       </div>
-      <!-- The clock and the count. Both sit right above the grid so the
-           state of play is never more than a glance away, and the clock
-           only starts once someone actually touches the grid. -->
-      <div class="ws-hud" id="wsHud">
-        <span class="ws-stat"><span class="ws-k">Found</span><b id="wsFound">0</b><span class="ws-of">/ 8</span></span>
-        <span class="ws-bar" aria-hidden="true"><i id="wsBar"></i></span>
-        <span class="ws-stat ws-clock">
-          <svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.4"></circle><path d="M12 7v5.4l3.4 2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-          <b id="wsTime">0:00</b>
-        </span>
-      </div>
-
       <div style="position:relative; max-width:760px; margin:0 auto;">
 
         <!-- Floating pixel elements (in whitespace, repel from cursor) -->
@@ -520,6 +508,20 @@
           <div style="display:flex; gap:10px;"><span class="wc">G</span><span class="wc">U</span><span class="wc">U</span><span class="wc">O</span><span class="wc">I</span><span class="wc">F</span><span class="wc">L</span><span class="wc">N</span><span class="wc">X</span><span class="wc">S</span><span class="wc">K</span><span class="wc">U</span><span class="wc">R</span><span class="wc">G</span><span class="wc">K</span></div>
         </div>
       </div>
+
+      <!-- The clock and the count, under the grid. Above it they split
+           the words from the puzzle they belong to; below, the hints and
+           the grid stay one object and the score reads as its footer.
+           The clock only starts once someone actually touches the grid. -->
+      <div class="ws-hud" id="wsHud">
+        <span class="ws-stat"><span class="ws-k">Found</span><b id="wsFound">0</b><span class="ws-of">/ 8</span></span>
+        <span class="ws-bar" aria-hidden="true"><i id="wsBar"></i></span>
+        <span class="ws-stat ws-clock">
+          <svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.4"></circle><path d="M12 7v5.4l3.4 2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <b id="wsTime">0:00</b>
+        </span>
+      </div>
+
       <div style="margin-top:44px; text-align:center;">
         <p style="font-size: 13px; color: #5A5060; letter-spacing: .3px; line-height: 1.6; max-width: 500px; margin: 0 auto"><span style="font-size: 12px; letter-spacing: normal; text-align: start;">Someone at a kirana store fumbled through a QR payment for two minutes straight. Reminded me why "simple" is a design decision, not a default.</span></p>
       </div>
