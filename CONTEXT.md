@@ -12,7 +12,15 @@ Last updated: 2 October 2026.
 A personal portfolio for **Naina Gupta — Product Designer**.
 
 - **Local path:** `/Users/nainaaa/Documents/Portfolio`
-- **Repo:** `github.com/nainaaa-aaa/naina-portfolio`, branch `main`
+- **Repo:** `github.com/nainaaa-aaa/naina-portfolio`, branch `main` — **private**
+  as of 3 Oct 2026. It was public until then, and the history still holds the
+  original client branding, so it must stay private unless that history is
+  rewritten.
+- **Two projects are anonymised.** Faktra and Motric are pseudonyms: neither
+  product has launched, so the real names cannot appear here, and their
+  screenshots have had the product wordmarks, third-party logos and named
+  people painted out. Do not reintroduce a real name anywhere, and do not
+  write the mapping down in this file.
 - **Live:** https://eyedesigns.vercel.app — Vercel auto-deploys from `main`
 - **Stack:** plain HTML/CSS/vanilla JS. **No build step, no framework, no
   package.json.** Vercel serves the files as they are.
