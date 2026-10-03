@@ -141,12 +141,32 @@
       raf = requestAnimationFrame(frame);
     };
 
+    /* A region marked [data-native-scroll] only owns the wheel while it
+       can actually act on it. Marking one that currently fits its box —
+       a flow board on a wide screen, a zoomed-out lightbox — used to
+       hand that single event straight to the browser, so the page
+       lurched at native speed for one tick and then went smooth again
+       the moment the pointer moved off. A sideways-scrolling region
+       keeps vertical gestures out of its own hands for the same reason.
+    ---------------------------------------------------------- */
+    const ownsWheel = (el, dx, dy) => {
+      for (let n = el; n && n !== document.body; n = n.parentElement) {
+        if (!n.getAttribute || !n.hasAttribute("data-native-scroll")) continue;
+        const canX = n.scrollWidth > n.clientWidth + 1;
+        const canY = n.scrollHeight > n.clientHeight + 1;
+        if (canY && Math.abs(dy) >= Math.abs(dx)) return true;
+        if (canX && Math.abs(dx) > Math.abs(dy)) return true;
+        return false;      // it is the region, but it cannot use this gesture
+      }
+      return false;
+    };
+
     const onWheel = (e) => {
       if (e.ctrlKey) return;                      // pinch-zoom
       // e.target is not always an Element (it can be the document or a
       // text node), so guard before reaching for closest()
       const t = e.target;
-      if (t && t.closest && t.closest("[data-native-scroll]")) return;
+      if (t && t.nodeType === 1 && ownsWheel(t, e.deltaX, e.deltaY)) return;
       // an open overlay owns the wheel; the page behind it must not move
       if (doc.classList.contains("lb-open")) return;
       e.preventDefault();
