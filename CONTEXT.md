@@ -36,8 +36,8 @@ Caching is off deliberately so edits show up without a hard refresh.
 | `gallery.html` | Infinite draggable canvas of personal photos, plus two games | Gallery |
 | `resume.html` | Resume as a full site page; prints to a 2-page A4 | Resume |
 | `case-study.html` | **Compport** — org structure planning inside an enterprise HRMS | via cards |
-| `case-study-altkred.html` | **Altkred** — invoice factoring marketplace for Indian SMEs | via cards |
-| `case-study-edme.html` | **Edme** — motor insurance platform. **Local only, see §7** | not linked |
+| `case-study-faktra.html` | **Faktra** — invoice factoring marketplace for Indian SMEs | via cards |
+| `case-study-motric.html` | **Motric** — motor insurance platform. **Local only, see §7** | not linked |
 
 ### Shared components
 
@@ -107,11 +107,11 @@ footer — .end, cross-links to the next case study
 ```
 
 - **Stages:** Discovery, Defining, Exploration, Design, Outcome, Learnings.
-  Edme has five (no Exploration) because its content did not support one —
+  Motric has five (no Exploration) because its content did not support one —
   don't invent a stage to force symmetry.
 - **172px** of clear space above each stage.
 - **Decision blocks** (`.call`): considered (struck through) → chosen (green
-  arrow) → reason. Edme adds `.call .why` for the reason line.
+  arrow) → reason. Motric adds `.call .why` for the reason line.
 - **Figures:** `Fig NN` in a `.fno` span, caption as 15.5px prose (14.5px on
   mobile). Numbered in document order.
 - **One screen per line.** `.grid2.two` pairs two only where they genuinely
@@ -131,9 +131,9 @@ in ~/Downloads). The goal is copy that reads as hers and not machine-made.
 1. **Never invent metrics.** She asked directly whether numbers could be
    constructed; the answer was no, and fabricated figures were removed.
    Anything unmeasured is labelled a **design target**, not a result.
-   - Compport and Altkred both carry a `.delta` caveat inside the metric card.
-   - Edme is pre-launch — the Outcome stage says so explicitly.
-2. **Em dashes are kept low** in prose. Altkred sits at 4. Use commas, colons
+   - Compport and Faktra both carry a `.delta` caveat inside the metric card.
+   - Motric is pre-launch — the Outcome stage says so explicitly.
+2. **Em dashes are kept low** in prose. Faktra sits at 4. Use commas, colons
    or parentheses.
 3. **No emoji** anywhere in site copy.
 4. **Titles say "Product Designer"**, not "UI/UX Designer" — one positioning
@@ -188,9 +188,9 @@ than stranding, and upward scrolling never being held.
 
 ---
 
-## 7. Edme — current state
+## 7. Motric — current state
 
-Built 2 Oct 2026 from a Claude Docs artifact, **"Edme — Formal Variant"** tab:
+Built 2 Oct 2026 from a Claude Docs artifact, **"Motric — Formal Variant"** tab:
 
 - Doc id `2708af00-f4fc-4290-9d17-60b7067ed950`, tab `463bc988-81cb`
 - Read it with the Claude Docs connector (`read`, ref
@@ -201,7 +201,7 @@ Built 2 Oct 2026 from a Claude Docs artifact, **"Edme — Formal Variant"** tab:
 **Screens** come from `~/Downloads/CLaude portfolio rough.pdf` (153 pages,
 348MB). Thirteen pages were chosen by indexing every page's text and matching
 it to the flows. Rendered by splitting single pages out with `pypdf` and
-rasterising with `qlmanage -t -s 1440`. Assets in `assets/edme/` (~5.3MB).
+rasterising with `qlmanage -t -s 1440`. Assets in `assets/motric/` (~5.3MB).
 
 **Deliberately local only.** Not linked from `index.html`, not pushed. It is
 committed to `main` locally; `origin/main` does not have it.
