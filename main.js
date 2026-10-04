@@ -65,15 +65,17 @@
     const stage = document.getElementById("stageRef");
     if (!wrap || !stage) return;
 
-    // [selector, native width, native height, full-width?]
+    /* [selector, native width, native height, width to render at on a phone]
+       The props are scattered around the headline rather than stacked under
+       it, each small enough to read as an accent — about three per cent of
+       a 375x812 screen — so the headline is what the page opens on. */
     const PROPS = [
-      ["#radioCard", 232.4, 147.9, true],
-      [".site-card", 196.6, 138.8, true],
-      ["#tidyZone", 210, 205, true],
-      ["#folderZone", 124, 116, false],
-      ["#wordleCard", 143, 196, false]
+      ["#radioCard",  232.4, 147.9, 116],
+      [".site-card",  196.6, 138.8, 104],
+      ["#tidyZone",   210,   205,   100],
+      ["#folderZone", 124,   116,    88],
+      ["#wordleCard", 143,   196,    74]
     ];
-    const MAX_SCALE = 1.9;
 
     let host = null;
     let slots = [];
@@ -106,30 +108,20 @@
 
       const props = document.createElement("div");
       props.className = "mh-props";
-      let row = null;
-      PROPS.forEach(([sel, w, h, full]) => {
+      PROPS.forEach(([sel, w, h, mw], i) => {
         const node = stage.querySelector(sel) || document.querySelector(sel);
         if (!node) return;
         const slot = document.createElement("div");
         slot.className = "mh-slot";
+        slot.dataset.prop = String(i + 1);      // the scatter position is CSS's job
         const box = document.createElement("div");
         box.className = "mh-box";
         box.style.width = w + "px";
         box.style.height = h + "px";
         relocate(node, box);
         slot.appendChild(box);
-        if (full) {
-          props.appendChild(slot);
-          row = null;
-        } else {
-          if (!row) {
-            row = document.createElement("div");
-            row.className = "mh-row";
-            props.appendChild(row);
-          }
-          row.appendChild(slot);
-        }
-        slots.push({ slot: slot, box: box, w: w, h: h, full: full });
+        props.appendChild(slot);
+        slots.push({ slot: slot, box: box, w: w, h: h, mw: mw });
       });
       host.appendChild(props);
 
@@ -160,13 +152,13 @@
 
     const layout = () => {
       if (!host) return;
-      const cs = window.getComputedStyle(host);
-      const avail =
-        host.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-      if (avail <= 0) return;
+      const vw = host.clientWidth;
+      if (vw <= 0) return;
+      // scale the target width with the screen so a 320px phone is not
+      // handed the same prop as a 760px tablet
+      const f = Math.max(0.82, Math.min(1.5, vw / 375));
       slots.forEach((s) => {
-        const target = s.full ? avail : (avail - 14) / 2;
-        const k = Math.min(MAX_SCALE, target / s.w);
+        const k = (s.mw * f) / s.w;
         s.box.style.transform = "scale(" + k + ")";
         s.slot.style.width = s.w * k + "px";
         s.slot.style.height = s.h * k + "px";
@@ -251,9 +243,20 @@
         if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openBook(); }
       });
     }
-    if (spread) spread.addEventListener("click", closeBook);
+    /* On a phone the cover costs a tap before anything can be read, and
+       a stray tap on the open spread closed it again. The book opens
+       itself there and stays open; the covered state is a desktop
+       flourish, where there is room for it. */
+    const mqJ = window.matchMedia(MOBILE_Q);
+    const syncBook = () => {
+      if (mqJ.matches) book.classList.add("open");
+    };
+    syncBook();
+    if (mqJ.addEventListener) mqJ.addEventListener("change", syncBook);
+
+    if (spread) spread.addEventListener("click", (e) => { if (!mqJ.matches) closeBook(e); });
     if (tab) {
-      tab.addEventListener("click", closeBook);
+      tab.addEventListener("click", (e) => { if (!mqJ.matches) closeBook(e); });
       tab.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") { e.preventDefault(); closeBook(e); }
       });
@@ -270,7 +273,21 @@
     const dismissBtn = document.getElementById("dismissBtn");
     if (!zone || !btn) return;
 
+    /* Two jokes, one button. On a desktop it runs away from the cursor.
+       A phone has no cursor to run from, so the click is the joke there:
+       the button shrinks and asks you to try again, and keeps shrinking,
+       until it gives up and tells you the coupon was never real. */
     let dodges = 0;
+    let taps = 0;
+    const GIVE_UP = 7;
+    let tilt = 0;
+
+    const paint = () => {
+      const k = Math.pow(0.8, taps);
+      btn.style.transformOrigin = "center center";
+      btn.style.transform = "rotate(" + tilt.toFixed(1) + "deg) scale(" + k.toFixed(3) + ")";
+    };
+
     const dodge = () => {
       dodges++;
       if (dodges >= 15) {
@@ -288,14 +305,30 @@
       } while (Math.hypot(x - cur.x, y - cur.y) < Math.min(maxX, maxY) * 0.6 && tries < 12);
       btn.style.left = x + "px";
       btn.style.top = y + "px";
-      btn.style.transform = "rotate(" + (Math.random() * 10 - 5).toFixed(1) + "deg)";
+      tilt = Math.random() * 10 - 5;
+      paint();
     };
 
     const caught = () => { if (caughtBox) caughtBox.style.display = "flex"; };
-    const dismissCaught = () => { if (caughtBox) caughtBox.style.display = "none"; };
+    const dismissCaught = () => {
+      if (caughtBox) caughtBox.style.display = "none";
+      taps = 0;                       // put the button back for the next visitor
+      btn.textContent = LABEL;
+      paint();
+    };
+
+    const LABEL = btn.textContent.trim();
+    const onTap = () => {
+      taps++;
+      if (taps >= GIVE_UP) { caught(); return; }
+      btn.textContent = "Try once more \u2192";
+      tilt = Math.random() * 12 - 6;
+      paint();
+      if (winNote && taps >= 4) winNote.style.opacity = "1";
+    };
 
     btn.addEventListener("mouseenter", dodge);
-    btn.addEventListener("click", caught);
+    btn.addEventListener("click", onTap);
     if (dismissBtn) dismissBtn.addEventListener("click", dismissCaught);
   }
 
@@ -427,29 +460,177 @@
   }
 
 
+  /* ── the work cards, as a deck ─────────────────────────────
+     On a phone three cards in a column means three screens of
+     scrolling past things you have already decided about. Stacked,
+     the section holds one screen per card and scrolling deals the
+     top one away — the same gesture, with something happening.
+
+     The desktop grid is untouched: this only runs under the mobile
+     query and puts everything back when the window grows.
+  ---------------------------------------------------------- */
+  function initCardDeck() {
+    const grid = document.getElementById("projects");
+    if (!grid) return;
+    const cards = Array.from(grid.querySelectorAll(".proj-card"));
+    if (cards.length < 2) return;
+
+    const TILT = [-4.5, 2.8, -1.6];        // the stack is dropped, not filed
+    let stage = null, dots = null, raf = 0;
+
+    const build = () => {
+      if (stage) return;
+      stage = document.createElement("div");
+      stage.className = "deck-stage";
+      cards.forEach((c) => stage.appendChild(c));
+      dots = document.createElement("div");
+      dots.className = "deck-count";
+      cards.forEach(() => dots.appendChild(document.createElement("i")));
+      stage.appendChild(dots);
+      grid.appendChild(stage);
+      grid.classList.add("deck");
+      grid.classList.add("spread-in");     // the deck owns the transforms now
+    };
+
+    const teardown = () => {
+      if (!stage) return;
+      cards.forEach((c) => {
+        c.style.transform = "";
+        c.style.opacity = "";
+        c.style.zIndex = "";
+        grid.appendChild(c);
+      });
+      stage.remove(); stage = null; dots = null;
+      grid.classList.remove("deck");
+    };
+
+    const paint = () => {
+      raf = 0;
+      if (!stage) return;
+      const r = grid.getBoundingClientRect();
+      const travel = r.height - window.innerHeight;
+      // 0 when the deck arrives, 1 when the last card is through
+      const p = travel <= 0 ? 0 : Math.min(1, Math.max(0, -r.top / travel));
+      const n = cards.length;
+      const t = p * n;
+      const active = Math.min(n - 1, Math.floor(t));
+      const frac = Math.min(1, Math.max(0, t - active));
+
+      cards.forEach((c, i) => {
+        const d = i - active;
+        let y, rot, scale, op, z;
+        if (d < 0) {                        // dealt away
+          y = -128; rot = TILT[i % 3] - 14; scale = 0.9; op = 0; z = 1;
+        } else if (d === 0) {               // on top, starting to lift
+          y = -frac * 26; rot = TILT[i % 3] * (1 - frac) - frac * 7;
+          scale = 1 - frac * 0.04; op = 1 - frac * 0.25; z = 30;
+        } else {                            // waiting underneath
+          const dd = d - frac;
+          y = dd * 15; rot = TILT[i % 3] + dd * 2.5;
+          scale = 1 - dd * 0.05; op = 1; z = 30 - d;
+        }
+        c.style.transform =
+          "translate3d(0," + y.toFixed(1) + "%,0) rotate(" + rot.toFixed(2) + "deg) scale(" + scale.toFixed(3) + ")";
+        c.style.opacity = op.toFixed(2);
+        c.style.zIndex = String(z);
+      });
+      if (dots) {
+        Array.from(dots.children).forEach((el, i) => el.classList.toggle("on", i === active));
+      }
+    };
+
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(paint); };
+
+    const sync = () => {
+      if (isMobile()) { build(); paint(); }
+      else teardown();
+    };
+
+    sync();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", () => { sync(); onScroll(); });
+  }
+
   // ── skills word-search game + floating pixel repel ──
   function initSkillsGame() {
     const skills = document.getElementById("skills");
     if (!skills) return;
     const grid = document.getElementById("wsGrid");
-    const rowEls = grid ? [...grid.children] : [];
-    const cellAt = (r, c) => rowEls[r] && rowEls[r].children[c];
-    rowEls.forEach((row, r) => [...row.children].forEach((cell, c) => { cell._r = r; cell._c = c; }));
+    const hint = document.getElementById("wsHint");
 
-    // Each word is a straight run between two cells. `dir` is derived, so a
-    // new word only needs its two endpoints and they must share a row or a
-    // column. Keep these in step with the letters in index.html.
-    const WORDS = [
-      { id: "ux",     color: "#63E3C2", r0: 0,  c0: 2,  r1: 0,  c1: 11 }, // UX RESEARCH
-      { id: "ia",     color: "#FF7EB6", r0: 3,  c0: 3,  r1: 3,  c1: 14 }, // ARCHITECTURE
-      { id: "proto",  color: "#C4E75A", r0: 5,  c0: 4,  r1: 5,  c1: 14 }, // PROTOTYPING
-      { id: "design", color: "#F9C846", r0: 8,  c0: 0,  r1: 8,  c1: 12 }, // DESIGN SYSTEMS
-      { id: "access", color: "#A66BFF", r0: 10, c0: 2,  r1: 10, c1: 14 }, // ACCESSIBILITY
-      { id: "flows",  color: "#3355FF", r0: 0,  c0: 2,  r1: 8,  c1: 2  }, // USER FLOWS
-      { id: "motion", color: "#2BD97C", r0: 1,  c0: 8,  r1: 6,  c1: 8  }, // MOTION
-      { id: "brand",  color: "#FF6B5B", r0: 2,  c0: 13, r1: 9,  c1: 13 }, // BRANDING
-    ];
-    WORDS.forEach((w) => { w.down = w.c0 === w.c1 && w.r0 !== w.r1; });
+    /* ── two grids, one game ───────────────────────────────────
+       Fifteen columns need 650px. On a phone that forces 19px cells,
+       which is a picture of a word search rather than one you can
+       trace with a finger. The phone gets its own grid instead —
+       nine columns and eighteen rows, so the cells can be big — and
+       the long words run down it rather than across. Same eight
+       skills either way.
+    ---------------------------------------------------------- */
+    const COLOURS = { ux: "#63E3C2", ia: "#FF7EB6", proto: "#C4E75A",
+                      design: "#F9C846", access: "#A66BFF", flows: "#3355FF",
+                      motion: "#2BD97C", brand: "#FF6B5B" };
+
+    const WIDE = {
+      note: "Find these eight \u2014 five across, three down",
+      // the letters already in the markup; read once, below
+      letters: null,
+      words: [
+        { id: "ux",     r0: 0,  c0: 2,  r1: 0,  c1: 11 }, // UX RESEARCH
+        { id: "ia",     r0: 3,  c0: 3,  r1: 3,  c1: 14 }, // ARCHITECTURE
+        { id: "proto",  r0: 5,  c0: 4,  r1: 5,  c1: 14 }, // PROTOTYPING
+        { id: "design", r0: 8,  c0: 0,  r1: 8,  c1: 12 }, // DESIGN SYSTEMS
+        { id: "access", r0: 10, c0: 2,  r1: 10, c1: 14 }, // ACCESSIBILITY
+        { id: "flows",  r0: 0,  c0: 2,  r1: 8,  c1: 2  }, // USER FLOWS
+        { id: "motion", r0: 1,  c0: 8,  r1: 6,  c1: 8  }, // MOTION
+        { id: "brand",  r0: 2,  c0: 13, r1: 9,  c1: 13 }, // BRANDING
+      ],
+    };
+
+    const TALL = {
+      note: "Find these eight \u2014 three across, five down",
+      letters: ["USERFLOWS","GZDCNZPBA","FREKVZREC","PESQXQOVC","WOIPASTWE",
+                "CYGHROOQS","RJNXCRTUS","FQSQHRYII","UJYVIMPTB","XGSJTEIRI",
+                "RQTIESNPL","EGENCRGDI","SQMATTMAT","ERSBUQMRY","AZSDRPCWF",
+                "RCROENZMI","CMOTIONHP","HBRANDING"],
+      words: [
+        { id: "flows",  r0: 0,  c0: 0, r1: 0,  c1: 8 }, // USER FLOWS
+        { id: "motion", r0: 16, c0: 1, r1: 16, c1: 6 }, // MOTION
+        { id: "brand",  r0: 17, c0: 1, r1: 17, c1: 8 }, // BRANDING
+        { id: "ux",     r0: 8,  c0: 0, r1: 17, c1: 0 }, // UX RESEARCH
+        { id: "ia",     r0: 4,  c0: 4, r1: 15, c1: 4 }, // ARCHITECTURE
+        { id: "proto",  r0: 1,  c0: 6, r1: 11, c1: 6 }, // PROTOTYPING
+        { id: "design", r0: 1,  c0: 2, r1: 13, c1: 2 }, // DESIGN SYSTEMS
+        { id: "access", r0: 1,  c0: 8, r1: 13, c1: 8 }, // ACCESSIBILITY
+      ],
+    };
+
+    // keep the markup's own letters as the wide layout
+    if (grid) {
+      WIDE.letters = [...grid.children].map((row) =>
+        [...row.children].map((c) => c.textContent).join(""));
+    }
+
+    let rowEls = [];
+    let WORDS = [];
+    const cellAt = (r, c) => rowEls[r] && rowEls[r].children[c];
+
+    const mount = (layout) => {
+      if (!grid) return;
+      grid.innerHTML = layout.letters.map((line) =>
+        '<div style="display:flex; gap:10px;">' +
+        [...line].map((ch) => '<span class="wc">' + ch + "</span>").join("") +
+        "</div>").join("");
+      rowEls = [...grid.children];
+      rowEls.forEach((row, r) =>
+        [...row.children].forEach((cell, c) => { cell._r = r; cell._c = c; }));
+      WORDS = layout.words.map((w) => Object.assign({}, w, {
+        color: COLOURS[w.id],
+        down: w.c0 === w.c1 && w.r0 !== w.r1,
+      }));
+      if (hint) hint.textContent = layout.note;
+    };
+
+    mount(isMobile() ? TALL : WIDE);
     // every cell a word covers, in order
     const cellsOf = (w) => {
       const out = [];
@@ -739,6 +920,20 @@
       });
     }
 
+    /* Crossing the breakpoint swaps the grid underneath the player, so
+       the round has to start again — there is no sensible way to carry
+       a half-traced word from a 15-column grid into a 9-column one. */
+    const mq = window.matchMedia(MOBILE_Q);
+    let wasMobile = mq.matches;
+    const onBreakpoint = () => {
+      if (mq.matches === wasMobile) return;
+      wasMobile = mq.matches;
+      mount(wasMobile ? TALL : WIDE);
+      resetGame();
+    };
+    if (mq.addEventListener) mq.addEventListener("change", onBreakpoint);
+    else window.addEventListener("resize", onBreakpoint);
+
     paintClock();
     scoreboard();
 
@@ -774,6 +969,7 @@
     initJournal();
     initDodgeCoupon();
     initRadio();
+    initCardDeck();
     initSkillsGame();
   });
 })();
