@@ -146,17 +146,17 @@
 }
 
 /* ── word search ───────────────────────────────────────────────
-   main.js swaps in a nine-column, eighteen-row grid below this
+   main.js swaps in a twelve-column, fifteen-row grid below this
    width, which is what lets the cells be finger-sized instead of
    the 19px they had to be to fit fifteen columns across a phone.
 ---------------------------------------------------------------- */
 @media (max-width: 760px) {
-  #wsGrid > div { gap: 4px !important; }
+  #wsGrid > div { gap: 3px !important; }
   #wsGrid .wc {
-    width: 32px;
-    height: 42px;
-    font-size: 18px;
-    border-radius: 7px;
+    width: 27px;
+    height: 35px;
+    font-size: 15px;
+    border-radius: 6px;
   }
   /* the decorative sprites live in the margins the phone doesn't have */
   #skills .pixel-float { display: none; }
@@ -168,12 +168,13 @@
    without it, so this only trims the gap and leaves the cells big
    enough to hit. */
 @media (max-width: 400px) {
-  #wsGrid > div { gap: 3px !important; }
-  #wsGrid .wc { width: 30px; height: 39px; font-size: 17px; }
+  #skills { padding-left: 10px !important; padding-right: 10px !important; }
+  #wsGrid > div { gap: 2px !important; }
+  #wsGrid .wc { width: 26px; height: 34px; font-size: 14px; }
 }
 @media (max-width: 340px) {
   #wsGrid > div { gap: 2px !important; }
-  #wsGrid .wc { width: 26px; height: 34px; font-size: 15px; }
+  #wsGrid .wc { width: 23px; height: 30px; font-size: 13px; }
 }
 
 /* ── journal: a 940px two-page spread becomes two stacked pages ── */
@@ -287,49 +288,52 @@
 @media (max-width: 760px) {
   /* ── the work cards become a deck ───────────────────────────
      Three cards stacked one on another at slightly wrong angles, the
-     way a hand of cards sits on a table. Scrolling through the section
-     deals the top one away and brings the next forward, so the phone
-     spends one screen on each card instead of three screens scrolling
-     past them. main.js drives the transforms; everything here is the
-     stage they move on.
+     way a hand of cards sits on a table. A sideways swipe throws the
+     top one to the bottom of the pile and brings the next forward.
+     main.js drives the transforms; this is the stage they move on.
   ---------------------------------------------------------- */
-  /* #work clips its decoration with overflow:hidden, which also makes it
-     a scroll container and silently stops the deck sticking. `clip` keeps
-     the clipping and leaves sticky alone. */
-  #work { overflow: clip !important; }
-
   .proj-grid.deck {
     display: block !important;
     position: relative;
-    /* roughly four fifths of a screen of scroll per card: enough to read
-       one before the next arrives, without turning three cards into a
-       long scroll */
-    height: 340vh;
     margin: 0 auto;
+    padding-bottom: 18px;
   }
   .deck-stage {
-    position: sticky;
-    top: 86px;
-    height: 72vh;
-    min-height: 420px;
+    position: relative;
+    width: min(300px, 82vw);
+    margin: 0 auto;
+    touch-action: pan-y;
   }
   .proj-grid.deck .proj-card {
     position: absolute;
-    left: 50%;
+    left: 0;
     top: 0;
-    width: min(300px, 82vw);
-    margin-left: min(-150px, -41vw);
+    width: 100%;
     --spread-from: 0% !important;
+    transform-origin: 50% 85%;
     will-change: transform, opacity;
-    transition: none;
+    touch-action: pan-y;
+    -webkit-user-select: none;
+    user-select: none;
   }
+  .proj-grid.deck .proj-card img { -webkit-user-drag: none; user-drag: none; }
   /* the peek character rides with its own card */
   .proj-grid.deck .proj-card .peek { margin-left: -37px; }
 
+  .deck-hint {
+    position: absolute;
+    left: 0; right: 0; bottom: -4px;
+    margin: 0;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 1.8px; text-transform: uppercase;
+    color: #8A8792;
+    pointer-events: none;
+  }
   /* a hint that the stack is deeper than one card */
   .deck-count {
     position: absolute;
-    left: 0; right: 0; bottom: -34px;
+    left: 0; right: 0; bottom: -26px;
     display: flex; justify-content: center; gap: 7px;
     pointer-events: none;
   }

@@ -290,10 +290,7 @@
 
     const dodge = () => {
       dodges++;
-      if (dodges >= 15) {
-        if (winNote) winNote.style.opacity = "1";
-        return; // it stops running — they earned the click
-      }
+      if (dodges >= 15) return;   // it stops running — they earned the click
       const maxX = Math.max(0, zone.clientWidth - btn.offsetWidth - 16);
       const maxY = Math.max(0, zone.clientHeight - btn.offsetHeight - 16);
       const cur = { x: parseFloat(btn.style.left) || 0, y: parseFloat(btn.style.top) || 0 };
@@ -309,12 +306,18 @@
       paint();
     };
 
-    const caught = () => { if (caughtBox) caughtBox.style.display = "flex"; };
+    const caught = () => {
+      if (caughtBox) caughtBox.style.display = "flex";
+      // the note is the button conceding, so it arrives with the popup
+      if (winNote) winNote.style.opacity = "1";
+    };
     const dismissCaught = () => {
       if (caughtBox) caughtBox.style.display = "none";
       taps = 0;                       // put the button back for the next visitor
       btn.textContent = LABEL;
       paint();
+      // the note stays: it sits behind the popup, so closing the popup is
+      // the first moment anyone can actually read it
     };
 
     const LABEL = btn.textContent.trim();
@@ -324,7 +327,6 @@
       btn.textContent = "Try once more \u2192";
       tilt = Math.random() * 12 - 6;
       paint();
-      if (winNote && taps >= 4) winNote.style.opacity = "1";
     };
 
     btn.addEventListener("mouseenter", dodge);
@@ -460,11 +462,18 @@
   }
 
 
-  /* ── the work cards, as a deck ─────────────────────────────
-     On a phone three cards in a column means three screens of
-     scrolling past things you have already decided about. Stacked,
-     the section holds one screen per card and scrolling deals the
-     top one away — the same gesture, with something happening.
+  /* ── the work cards, as a deck you shuffle ─────────────────
+     A column of three cards on a phone is three screens of scrolling
+     past things you have already decided about. Stacked, it is one
+     card at a time and a swipe to see the next — and the deck is a
+     loop, so the card you flick away goes to the bottom rather than
+     being gone.
+
+     Swiping sideways must not fight scrolling down the page, so the
+     cards declare touch-action: pan-y and a gesture only becomes a
+     swipe once it is clearly more horizontal than vertical. A drag
+     also has to not count as a tap, or every shuffle would open a
+     case study.
 
      The desktop grid is untouched: this only runs under the mobile
      query and puts everything back when the window grows.
@@ -475,80 +484,143 @@
     const cards = Array.from(grid.querySelectorAll(".proj-card"));
     if (cards.length < 2) return;
 
-    const TILT = [-4.5, 2.8, -1.6];        // the stack is dropped, not filed
-    let stage = null, dots = null, raf = 0;
+    const TILT = [-4.5, 2.8, -1.6];      // the stack is dropped, not filed
+    const THROW = 420;                   // how far a discarded card flies
+    const COMMIT = 72;                   // px of drag that counts as a swipe
+    let stage = null, dots = null, hint = null;
+    let order = cards.map((_, i) => i);
+    let drag = null, moved = 0, busy = false;
+
+    const place = (card, pos, dx, lift) => {
+      // pos 0 is the top card, 1 is the one under it, and so on
+      const t = TILT[pos % TILT.length];
+      const off = dx || 0;
+      const rot = t + (off / 26);
+      card.style.zIndex = String(40 - pos);
+      card.style.opacity = pos > 2 ? "0" : "1";
+      card.style.transform =
+        "translate3d(" + off.toFixed(1) + "px," + (pos * 14 - (lift || 0)) + "px,0)" +
+        " rotate(" + rot.toFixed(2) + "deg)" +
+        " scale(" + (1 - pos * 0.05).toFixed(3) + ")";
+    };
+
+    const render = (animate) => {
+      order.forEach((idx, pos) => {
+        const c = cards[idx];
+        c.style.transition = animate ? "transform .42s cubic-bezier(.22,.9,.3,1), opacity .3s ease" : "none";
+        place(c, pos, 0, 0);
+      });
+      if (dots) {
+        Array.from(dots.children).forEach((el, i) => el.classList.toggle("on", i === order[0]));
+      }
+    };
+
+    const shuffle = (dir) => {
+      if (busy) return;
+      busy = true;
+      const top = cards[order[0]];
+      top.style.transition = "transform .34s ease-in, opacity .34s ease-in";
+      top.style.transform =
+        "translate3d(" + (dir * THROW) + "px,-30px,0) rotate(" + (dir * 22) + "deg) scale(.92)";
+      top.style.opacity = "0";
+      window.setTimeout(() => {
+        order.push(order.shift());            // the thrown card goes to the bottom
+        top.style.transition = "none";
+        place(top, order.length - 1, 0, 0);
+        top.style.opacity = "0";
+        // A timer, not requestAnimationFrame: rAF does not run while the
+        // tab is not painting, and clearing the busy flag inside one left
+        // the deck locked for good if a swipe landed as the page was
+        // backgrounded. Timers still fire there.
+        window.setTimeout(() => { render(true); busy = false; }, 24);
+      }, 340);
+    };
+
+    const onDown = (e) => {
+      if (busy) return;
+      // Hit-test the top card's box rather than asking whether the event
+      // landed on one of its descendants: the stage is taller than the
+      // card, and a finger near an edge can report the stage itself.
+      const card = cards[order[0]];
+      const r = card.getBoundingClientRect();
+      if (e.clientX < r.left || e.clientX > r.right ||
+          e.clientY < r.top || e.clientY > r.bottom) return;
+      drag = { x: e.clientX, y: e.clientY, id: e.pointerId };
+      moved = 0;
+      card.style.transition = "none";   // follow the finger, don't ease after it
+    };
+    const onMove = (e) => {
+      if (!drag) return;
+      const dx = e.clientX - drag.x;
+      const dy = e.clientY - drag.y;
+      if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 12) { drag = null; render(true); return; }
+      moved = Math.abs(dx);
+      place(cards[order[0]], 0, dx, Math.min(16, moved / 8));
+    };
+    const onUp = (e) => {
+      if (!drag) return;
+      const dx = e.clientX - drag.x;
+      drag = null;
+      if (Math.abs(dx) >= COMMIT) shuffle(dx < 0 ? -1 : 1);
+      else render(true);
+    };
+
+    // a drag is not a tap: stop the shuffle from opening a case study
+    const onClick = (e) => { if (moved > 10) { e.preventDefault(); e.stopPropagation(); moved = 0; } };
 
     const build = () => {
       if (stage) return;
       stage = document.createElement("div");
       stage.className = "deck-stage";
       cards.forEach((c) => stage.appendChild(c));
+
+      hint = document.createElement("p");
+      hint.className = "deck-hint";
+      hint.textContent = "swipe to shuffle";
       dots = document.createElement("div");
       dots.className = "deck-count";
       cards.forEach(() => dots.appendChild(document.createElement("i")));
+      stage.appendChild(hint);
       stage.appendChild(dots);
       grid.appendChild(stage);
       grid.classList.add("deck");
       grid.classList.add("spread-in");     // the deck owns the transforms now
+
+      stage.addEventListener("pointerdown", onDown);
+      stage.addEventListener("pointermove", onMove);
+      stage.addEventListener("pointerup", onUp);
+      stage.addEventListener("pointercancel", onUp);
+      stage.addEventListener("click", onClick, true);
+      measure();
+      render(false);
+    };
+
+    const measure = () => {
+      if (!stage) return;
+      const h = cards[order[0]].offsetHeight;
+      if (h) stage.style.height = h + 58 + "px";
     };
 
     const teardown = () => {
       if (!stage) return;
+      stage.removeEventListener("pointerdown", onDown);
+      stage.removeEventListener("pointermove", onMove);
+      stage.removeEventListener("pointerup", onUp);
+      stage.removeEventListener("pointercancel", onUp);
+      stage.removeEventListener("click", onClick, true);
+      order = cards.map((_, i) => i);
       cards.forEach((c) => {
-        c.style.transform = "";
-        c.style.opacity = "";
-        c.style.zIndex = "";
+        c.style.transform = ""; c.style.opacity = ""; c.style.zIndex = ""; c.style.transition = "";
         grid.appendChild(c);
       });
-      stage.remove(); stage = null; dots = null;
+      stage.remove(); stage = null; dots = null; hint = null;
       grid.classList.remove("deck");
     };
 
-    const paint = () => {
-      raf = 0;
-      if (!stage) return;
-      const r = grid.getBoundingClientRect();
-      const travel = r.height - window.innerHeight;
-      // 0 when the deck arrives, 1 when the last card is through
-      const p = travel <= 0 ? 0 : Math.min(1, Math.max(0, -r.top / travel));
-      const n = cards.length;
-      const t = p * n;
-      const active = Math.min(n - 1, Math.floor(t));
-      const frac = Math.min(1, Math.max(0, t - active));
-
-      cards.forEach((c, i) => {
-        const d = i - active;
-        let y, rot, scale, op, z;
-        if (d < 0) {                        // dealt away
-          y = -128; rot = TILT[i % 3] - 14; scale = 0.9; op = 0; z = 1;
-        } else if (d === 0) {               // on top, starting to lift
-          y = -frac * 26; rot = TILT[i % 3] * (1 - frac) - frac * 7;
-          scale = 1 - frac * 0.04; op = 1 - frac * 0.25; z = 30;
-        } else {                            // waiting underneath
-          const dd = d - frac;
-          y = dd * 15; rot = TILT[i % 3] + dd * 2.5;
-          scale = 1 - dd * 0.05; op = 1; z = 30 - d;
-        }
-        c.style.transform =
-          "translate3d(0," + y.toFixed(1) + "%,0) rotate(" + rot.toFixed(2) + "deg) scale(" + scale.toFixed(3) + ")";
-        c.style.opacity = op.toFixed(2);
-        c.style.zIndex = String(z);
-      });
-      if (dots) {
-        Array.from(dots.children).forEach((el, i) => el.classList.toggle("on", i === active));
-      }
-    };
-
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(paint); };
-
-    const sync = () => {
-      if (isMobile()) { build(); paint(); }
-      else teardown();
-    };
+    const sync = () => { if (isMobile()) build(); else teardown(); };
 
     sync();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", () => { sync(); onScroll(); });
+    window.addEventListener("resize", () => { sync(); measure(); });
   }
 
   // ── skills word-search game + floating pixel repel ──
@@ -587,20 +659,20 @@
     };
 
     const TALL = {
-      note: "Find these eight \u2014 three across, five down",
-      letters: ["USERFLOWS","GZDCNZPBA","FREKVZREC","PESQXQOVC","WOIPASTWE",
-                "CYGHROOQS","RJNXCRTUS","FQSQHRYII","UJYVIMPTB","XGSJTEIRI",
-                "RQTIESNPL","EGENCRGDI","SQMATTMAT","ERSBUQMRY","AZSDRPCWF",
-                "RCROENZMI","CMOTIONHP","HBRANDING"],
+      note: "Find these eight \u2014 five across, three down",
+      letters: ["DPROTOTYPING","EZUSERFLOWSI","SAUXRESEARCH","ICKGBRANDING",
+                "GCHGDJRPRTHE","NERUVQCAIAPF","SSZGQMHFKKDC","YSRMOTIONYIR",
+                "SIPGHGTCCGWR","TBOTWRECDZWX","EIGXKCCDSOCZ","MLZRDITOUYRD",
+                "SILQBYUMYSTQ","HTHSPMRXEYZM","AYBBPUEBXLYN"],
       words: [
-        { id: "flows",  r0: 0,  c0: 0, r1: 0,  c1: 8 }, // USER FLOWS
-        { id: "motion", r0: 16, c0: 1, r1: 16, c1: 6 }, // MOTION
-        { id: "brand",  r0: 17, c0: 1, r1: 17, c1: 8 }, // BRANDING
-        { id: "ux",     r0: 8,  c0: 0, r1: 17, c1: 0 }, // UX RESEARCH
-        { id: "ia",     r0: 4,  c0: 4, r1: 15, c1: 4 }, // ARCHITECTURE
-        { id: "proto",  r0: 1,  c0: 6, r1: 11, c1: 6 }, // PROTOTYPING
-        { id: "design", r0: 1,  c0: 2, r1: 13, c1: 2 }, // DESIGN SYSTEMS
-        { id: "access", r0: 1,  c0: 8, r1: 13, c1: 8 }, // ACCESSIBILITY
+        { id: "ux",     r0: 2,  c0: 2,  r1: 2,  c1: 11 }, // UX RESEARCH
+        { id: "flows",  r0: 1,  c0: 2,  r1: 1,  c1: 10 }, // USER FLOWS
+        { id: "proto",  r0: 0,  c0: 1,  r1: 0,  c1: 11 }, // PROTOTYPING
+        { id: "brand",  r0: 3,  c0: 4,  r1: 3,  c1: 11 }, // BRANDING
+        { id: "motion", r0: 7,  c0: 3,  r1: 7,  c1: 8  }, // MOTION
+        { id: "design", r0: 0,  c0: 0,  r1: 12, c1: 0  }, // DESIGN SYSTEMS
+        { id: "access", r0: 2,  c0: 1,  r1: 14, c1: 1  }, // ACCESSIBILITY
+        { id: "ia",     r0: 3,  c0: 6,  r1: 14, c1: 6  }, // ARCHITECTURE
       ],
     };
 
