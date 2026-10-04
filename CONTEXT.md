@@ -12,10 +12,21 @@ Last updated: 2 October 2026.
 A personal portfolio for **Naina Gupta — Product Designer**.
 
 - **Local path:** `/Users/nainaaa/Documents/Portfolio`
-- **Repo:** `github.com/nainaaa-aaa/naina-portfolio`, branch `main` — **private**
-  as of 3 Oct 2026. It was public until then, and the history still holds the
-  original client branding, so it must stay private unless that history is
-  rewritten.
+- **Repo:** `github.com/nainaaa-aaa/naina-portfolio`, branch `main` — **public**.
+  It was made private on 3 Oct 2026 and public again on 4 Oct, because
+  **Vercel stops building when the repo is private**: the site kept serving
+  the old build and two pushes never deployed. Nothing in the dashboard
+  announces this — the only symptom is that the live files stay at their
+  previous size. If it is made private again, Vercel's GitHub integration has
+  to be reauthorised for private repositories first.
+- **The history still holds the original client branding** — the real project
+  names and the third-party logos that were painted out of the screenshots are
+  in commits before 8a71d90. Making the working tree anonymous did not remove
+  them. Purging them needs a history rewrite and a force push.
+- **Verifying a deploy:** check a file the site actually serves, not one it
+  doesn't. A commit that only touches `CONTEXT.md` will look like a successful
+  deploy whether or not anything built, which is how the broken deploys above
+  went unnoticed.
 - **Two projects are anonymised.** Faktra and Motric are pseudonyms: neither
   product has launched, so the real names cannot appear here, and their
   screenshots have had the product wordmarks, third-party logos and named
