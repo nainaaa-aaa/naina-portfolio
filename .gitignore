@@ -1,5 +1,7 @@
 .DS_Store
-.claude/
+# The dev server and its launch config are shared; the per-machine Claude
+# Code permissions file is not.
+.claude/settings.local.json
 
 # Original full-size gallery photos live here untouched; the site serves the
 # web-optimised copies in assets/gallery/ instead.

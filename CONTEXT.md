@@ -28,17 +28,20 @@ python3 .claude/devserver.py 4173
 ```
 
 Then open http://localhost:4173. It is `http.server` with caching switched off,
-so edits show without a hard refresh. **`.claude/` is gitignored**, so a fresh
-clone does not have this file — it is in the handoff bundle. Plain
-`python3 -m http.server 4173` also works if you hard-refresh after edits.
+so edits show without a hard refresh. Only Python 3 is needed.
+
+`.claude/` and `tools/` are in the repo so a clone has everything needed to
+work, but `.vercelignore` keeps them (and this file) off the live site.
 
 ### Not in git, deliberately
 
-| Path | What | Where it lives instead |
+| Path | What | Why not |
 |---|---|---|
-| `.claude/` | dev server + Claude Code local settings | handoff bundle |
-| `assets/Gallery Images/` | full-size gallery originals | handoff bundle |
-| source design files | Figma exports, PDFs, specs the case studies came from | handoff bundle |
+| `.claude/settings.local.json` | per-machine Claude Code permissions | local by design |
+| `assets/Gallery Images/` | full-size gallery originals | phone photos can carry GPS metadata; the site uses resized copies |
+| source design files | Figma exports, PDFs, specs the case studies came from | unedited client material, and over GitHub's 100 MB file limit |
+
+The last two are in the private handoff bundle, kept off GitHub.
 
 ---
 
@@ -51,7 +54,7 @@ Neither product has launched, so their real names cannot appear on the site.
   and asset paths** (`case-study-faktra.html`, `assets/motric/`).
 - Every screenshot has had the **product wordmark, third-party bank/company
   logos and named people** painted out. Do this for every new screenshot too —
-  the tools for it are in the handoff bundle (`tools/`), see §9.
+  the tools for it are in `tools/`, see §9.
 - The resume says plainly, under Selected Projects, that two projects appear
   under anonymised names with branding removed.
 - **Never reintroduce a real name, and never write the mapping in this repo.**
@@ -198,8 +201,9 @@ parenthetical on its award.
 - **Two grids, one game.** Desktop: 15 columns × 12 rows from the markup.
   Phone: 12 columns × 15 rows, defined as `TALL` in `main.js`. Both 5 across +
   3 down. `mount()` swaps them at the breakpoint and restarts the round.
-- New grids must be **solved** so every crossing agrees — there is a solver in
-  the handoff bundle's tools. Then trace all eight words in the browser.
+- New grids must be **solved** so every crossing agrees —
+  `python3 tools/wordsearch_solve.py <cols> <rows>`. Then trace all eight
+  words in the browser.
 - **Hints (word chips) and grid sit together; the Found / timer bar is below
   the grid.** Clock starts on first drag, not on arrival. Hints are counted
   only when a chip is *clicked*, not hovered.
@@ -231,7 +235,7 @@ parenthetical on its award.
 
 ---
 
-## 9. Tools (in the handoff bundle, not the repo)
+## 9. Tools (`tools/`)
 
 No ImageMagick, ffmpeg or PIL on the original machine, so these use `sips`
 (macOS, built in) + `numpy`:

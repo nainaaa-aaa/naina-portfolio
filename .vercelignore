@@ -1,0 +1,7 @@
+# Development files. They live in the repo so a fresh clone has everything
+# needed to work on the site, but none of them is part of the site, and
+# Vercel would otherwise serve them publicly at eyedesigns.vercel.app/…
+.claude
+tools
+CONTEXT.md
+.gitignore
