@@ -3,7 +3,12 @@
 Pick-up notes for Naina Gupta's portfolio site. Written so a fresh session (or
 a different machine) can continue without re-deriving everything.
 
-Last updated: 2 October 2026.
+Last updated: 12 November 2026.
+
+> **This file is in a public repository.** It holds no credentials and no real
+> client names. Setup steps, account details, links and the source design files
+> travel separately in the private handoff bundle (`HANDOFF.md` inside it),
+> never in this repo.
 
 ---
 
@@ -11,30 +16,10 @@ Last updated: 2 October 2026.
 
 A personal portfolio for **Naina Gupta — Product Designer**.
 
-- **Local path:** `/Users/nainaaa/Documents/Portfolio`
-- **Repo:** `github.com/nainaaa-aaa/naina-portfolio`, branch `main` — **public**.
-  It was made private on 3 Oct 2026 and public again on 4 Oct, because
-  **Vercel stops building when the repo is private**: the site kept serving
-  the old build and two pushes never deployed. Nothing in the dashboard
-  announces this — the only symptom is that the live files stay at their
-  previous size. If it is made private again, Vercel's GitHub integration has
-  to be reauthorised for private repositories first.
-- **The history still holds the original client branding** — the real project
-  names and the third-party logos that were painted out of the screenshots are
-  in commits before 8a71d90. Making the working tree anonymous did not remove
-  them. Purging them needs a history rewrite and a force push.
-- **Verifying a deploy:** check a file the site actually serves, not one it
-  doesn't. A commit that only touches `CONTEXT.md` will look like a successful
-  deploy whether or not anything built, which is how the broken deploys above
-  went unnoticed.
-- **Two projects are anonymised.** Faktra and Motric are pseudonyms: neither
-  product has launched, so the real names cannot appear here, and their
-  screenshots have had the product wordmarks, third-party logos and named
-  people painted out. Do not reintroduce a real name anywhere, and do not
-  write the mapping down in this file.
-- **Live:** https://eyedesigns.vercel.app — Vercel auto-deploys from `main`
+- **Repo:** `github.com/nainaaa-aaa/naina-portfolio`, branch `main` — **public**
+- **Live:** https://eyedesigns.vercel.app — Vercel auto-deploys every push to `main`
 - **Stack:** plain HTML/CSS/vanilla JS. **No build step, no framework, no
-  package.json.** Vercel serves the files as they are.
+  package.json.** Vercel serves the files exactly as they are in the repo.
 
 ### Running it locally
 
@@ -42,41 +27,79 @@ A personal portfolio for **Naina Gupta — Product Designer**.
 python3 .claude/devserver.py 4173
 ```
 
-A no-store static server (threaded — single-threaded stalled on large files).
-Caching is off deliberately so edits show up without a hard refresh.
+Then open http://localhost:4173. It is `http.server` with caching switched off,
+so edits show without a hard refresh. **`.claude/` is gitignored**, so a fresh
+clone does not have this file — it is in the handoff bundle. Plain
+`python3 -m http.server 4173` also works if you hard-refresh after edits.
+
+### Not in git, deliberately
+
+| Path | What | Where it lives instead |
+|---|---|---|
+| `.claude/` | dev server + Claude Code local settings | handoff bundle |
+| `assets/Gallery Images/` | full-size gallery originals | handoff bundle |
+| source design files | Figma exports, PDFs, specs the case studies came from | handoff bundle |
 
 ---
 
-## 2. Pages
+## 2. Two projects are anonymised — read before touching them
 
-| File | What it is | In the nav? |
-|---|---|---|
-| `index.html` | Home — 1440×900 absolute-positioned hero stage, project cards, word search, journal, contact | Home |
-| `gallery.html` | Infinite draggable canvas of personal photos, plus two games | Gallery |
-| `resume.html` | Resume as a full site page; prints to a 2-page A4 | Resume |
-| `case-study.html` | **Compport** — org structure planning inside an enterprise HRMS | via cards |
-| `case-study-faktra.html` | **Faktra** — invoice factoring marketplace for Indian SMEs | via cards |
-| `case-study-motric.html` | **Motric** — motor insurance platform. **Local only, see §7** | not linked |
+**Faktra** (invoice factoring) and **Motric** (motor insurance) are pseudonyms.
+Neither product has launched, so their real names cannot appear on the site.
 
-### Shared components
+- Changed everywhere: page titles, cards, resume, alt text, **file names, URLs
+  and asset paths** (`case-study-faktra.html`, `assets/motric/`).
+- Every screenshot has had the **product wordmark, third-party bank/company
+  logos and named people** painted out. Do this for every new screenshot too —
+  the tools for it are in the handoff bundle (`tools/`), see §9.
+- The resume says plainly, under Selected Projects, that two projects appear
+  under anonymised names with branding removed.
+- **Never reintroduce a real name, and never write the mapping in this repo.**
+- **The git history still holds the originals.** Commits before `8a71d90`
+  contain the real names and the unedited screenshots. Anonymising the working
+  tree did not remove them; only a history rewrite + force push would. Not done
+  — it needs Naina's explicit go-ahead.
+
+### Do not make the repo private
+
+It was tried. **Vercel silently stops building when the repo is private**: the
+site keeps serving the last build and pushes simply never deploy. Nothing in
+the Vercel dashboard announces it. To go private, first reauthorise Vercel's
+GitHub integration for private repositories.
+
+---
+
+## 3. Pages and components
+
+| File | What it is |
+|---|---|
+| `index.html` | Home — hero, three work cards, word search, journal, contact/coupon |
+| `gallery.html` | Infinite draggable canvas of personal photos, plus two games |
+| `resume.html` | Resume as a full site page; prints to A4 |
+| `case-study.html` | **Compport** — org structure planning in an enterprise HRMS |
+| `case-study-faktra.html` | **Faktra** — invoice factoring marketplace for Indian SMEs |
+| `case-study-motric.html` | **Motric** — motor insurance platform for dealership networks |
+
+All three case studies are linked from the home page work cards and live.
 
 | File | Purpose |
 |---|---|
-| `nav.js` / `nav.css` | `<site-nav current="…" variant="…">` custom element. One nav for every page |
+| `nav.js` / `nav.css` | `<site-nav current="…" variant="…">` — one nav component, every page. Only whole-page links (Home, Gallery, Resume) |
 | `scroll.js` | Damped wheel scrolling, anchor-jump tweening, `[data-slow]` resistance zones |
-| `lightbox.js` / `lightbox.css` | Click any `<figure>` image for a full-size overlay |
-| `casestudy.js` | Scroll-driven figure tilt + the reading progress rail |
-| `main.js` | Homepage only — mobile hero, word search, journal, radio, coupon |
-| `gallery.js` | The generated infinite canvas and its two games |
-| `styles.css` | Homepage styles |
-| `responsive.css` | Shared small-screen layer for home + gallery |
+| `lightbox.js` / `lightbox.css` | Click any `<figure>` image for a full-size overlay. All classes `lb-` prefixed |
+| `casestudy.js` | Scroll-driven figure tilt + reading progress rail |
+| `main.js` | Home page only — hero, deck, word search, journal, radio, coupon |
+| `gallery.js` | The generated canvas, its two games, the drawn cursor |
+| `hover.js` | `data-hover="…"` inline hover styles |
+| `styles.css` | Home page styles |
+| `responsive.css` | Small-screen layer for home + gallery. Breakpoint **760px** |
 
 ---
 
-## 3. The design system
+## 4. The design system
 
-Defined in each case study's `<style>` block (and `resume.html`). Keep these
-in step — they have drifted before and it is always visible.
+Defined in each case study's `<style>` block and `resume.html`. Keep them in
+step — they have drifted before and it is always visible.
 
 ```
 --ink #17161B   --muted #5C5A63   --faint #8A8792
@@ -87,223 +110,187 @@ in step — they have drifted before and it is always visible.
 ```
 
 - **Type:** Space Grotesk (headings), DM Sans (body), IBM Plex Mono (labels),
-  Caveat (handwriting). All from Google Fonts.
-- **Column:** every content page uses **one 1080px container, 40px padding**
-  (`.wrap` and `.wide` are the same box). Prose capped at 680px inside it.
-  This was three different widths at one point; do not reintroduce that.
-- **Heading scale:** page title > stage > part, and it must hold at *every*
-  width. Measured: 60/54/25 at 1440, 34/27/20 at 375. Watch `clamp()` floors —
-  a stage floor above the h1 floor inverts the hierarchy on phones.
-- **Section rules:** 1px `var(--rule)` grey. Not accent-coloured — they
-  shouted louder than the headings they introduced.
+  Caveat (handwriting). Google Fonts.
+- **Column:** one 1080px container, 40px padding (`.wrap` and `.wide` are the
+  same box). Prose capped at 680px.
+- **Heading scale** page title > stage > part, at every width. Watch `clamp()`
+  floors — a stage floor above the h1 floor inverts it on phones.
+- **Section rules** are 1px `var(--rule)` grey, never accent-coloured.
 
-### Colour means something
-
-- **blue** — concept, decisions, important notes
-- **yellow** — people and examples
-- **green** — what gets better
-- **coral** — the problem and failures
-
-Numbered stage chips use `--accent-ink`: white on blue, ink on everything
-lighter. `:root` defaults it to `var(--ink)`; blue sections set white inline.
+**Colour means something:** blue = concepts and decisions · yellow = people and
+examples · green = what gets better · coral = problems and failures.
 
 ---
 
-## 4. Case-study structure
+## 5. Case-study structure
 
-All three follow the same model. Match it for anything new.
+All three follow one model. Match it for anything new.
 
 ```
-hero  — kicker, h1, standfirst, glimpse screen, meta <dl>, colour legend
-brief — "What is X?" plain-language intro
+hero  — kicker, h1, standfirst, glimpse image, meta <dl>, colour legend
+brief — "What is X?"
 TL;DR — dark card, 4 bullets, "Skip to the design ↓" → #design
-stages — .stage with .stage-head (number chip, h2, lede)
-         └ .part with .slabel, h3, prose
-journeys inside the Design stage, each with a .call decision block
+stages — .stage > .stage-head (number chip, h2, lede) > .part
+journeys inside Design, each with a .call decision block
 outcome — .metric card with .delta caveat
-learnings — .learn / .lrn cards
-footer — .end, cross-links to the next case study
+learnings — .learn cards
+footer — .end, cross-link to the next case study
 ```
 
-- **Stages:** Discovery, Defining, Exploration, Design, Outcome, Learnings.
-  Motric has five (no Exploration) because its content did not support one —
-  don't invent a stage to force symmetry.
-- **172px** of clear space above each stage.
-- **Decision blocks** (`.call`): considered (struck through) → chosen (green
-  arrow) → reason. Motric adds `.call .why` for the reason line.
-- **Figures:** `Fig NN` in a `.fno` span, caption as 15.5px prose (14.5px on
-  mobile). Numbered in document order.
-- **One screen per line.** `.grid2.two` pairs two only where they genuinely
-  read as a pair (a blocked state beside the screen that clears it).
-- **Screens render at their natural height.** There was a `max-height: 440px;
-  object-fit: cover` cap that hid 23–71% of the taller screenshots. Removed.
-  `img.ph` must keep `aspect-ratio: auto` or the `.ph` placeholder rule's
-  `16/10` letterboxes it.
+- **Glimpse image:** Faktra and Motric open on a photograph of the product on a
+  laptop, at its own proportions, with **no browser chrome and no crop**.
+- **Figures:** `Fig NN` in a `.fno` span, numbered in document order —
+  renumber with a script, never by hand. Motric has 15.
+- **Screens render at natural height.** `img.ph` must keep `aspect-ratio: auto`
+  or the placeholder's `16/10` letterboxes it. A height cap here once hid up to
+  71% of the taller screens.
+- **One screen per line**; `.grid2.two` only for a genuine pair.
+- **Motric flow boards** (`.flow`): three user-flow diagrams, inline SVG, one
+  before the screens of each of the first three journeys. Labelled *Flow*, not
+  *Fig*, on paper rather than tint. Below 860px they scroll sideways at 700px
+  wide rather than shrink to unreadable. Claims has no flow — the source had
+  none, and none was invented.
+- **Motric personas:** one image, four cards for five roles (the territory,
+  zonal and national managers share one card — the caption explains why).
 
 ---
 
-## 5. Content rules — these matter
+## 6. Content rules — these matter
 
-Driven by a content audit Naina wrote (`Naina-Portfolio-Content-Audit-v3.docx`
-in ~/Downloads). The goal is copy that reads as hers and not machine-made.
-
-1. **Never invent metrics.** She asked directly whether numbers could be
-   constructed; the answer was no, and fabricated figures were removed.
-   Anything unmeasured is labelled a **design target**, not a result.
-   - Compport and Faktra both carry a `.delta` caveat inside the metric card.
-   - Motric is pre-launch — the Outcome stage says so explicitly.
-2. **Em dashes are kept low** in prose. Faktra sits at 4. Use commas, colons
-   or parentheses.
-3. **No emoji** anywhere in site copy.
-4. **Titles say "Product Designer"**, not "UI/UX Designer" — one positioning
-   across the whole site. (Her resume's Title field still lists both, since
-   that is her actual job title. Her call, flagged and left.)
+1. **Never invent metrics.** Naina asked directly whether numbers could be
+   constructed; the answer was no. Unmeasured figures are labelled *design
+   targets*. Motric is pre-launch and says so.
+2. **Em dashes kept low** in prose.
+3. **No emoji** in site copy.
+4. **"Product Designer"** is the positioning everywhere.
 5. **Alt text describes the image**, written after looking at it.
-6. **Don't claim work that isn't hers.** Compport says she left before launch.
+6. **Don't claim work that isn't hers.**
+7. Resume content follows her PDF verbatim — the Compport numbers (15–20 min →
+   8–10, 70–75% → 90–95%, 20% → 8–10%) are hers, quoted as written.
 
-### Still open (her decisions, not mine)
-
-- The coupon gag on the homepage — kept, strategic call left to her.
-- Unverifiable stats (OrgChart, ContinuumCloud, Deloitte) — left in place with
-  a recommendation to link or cut. Panko 2008 is properly cited.
-- Her Behance URL — the resume's link was removed rather than guessed.
-- One `.note` caveat remains on Compport ("Both scenarios are illustrative…").
+**Open, her call:** whether Motric should appear in her resume PDF (it's on the
+site but not in the PDF's Selected Projects); Neuroverse now lives only as the
+parenthetical on its award.
 
 ---
 
-## 6. Things that will waste your time if you don't know them
+## 7. Home page specifics
 
-### The Browser pane
+### Desktop
+- Hero is a **1440×900 absolutely-positioned stage**, scaled to fit.
+- **Work cards** part from the centre on arrival (`[data-spread]`) and the page
+  resists scrolling while they are centred (`[data-slow]`).
+- **Radio** plays one YouTube track, embedded on first click only. It is not
+  connected to her YouTube Music account (no public API for that).
 
-- **rAF is frozen while the pane is hidden.** Anything driven by
-  `requestAnimationFrame` — smooth scrolling, the scroll tween, CSS smooth
-  scroll — will not advance. Scroll logic is verified with a Node harness
-  instead (see below).
-- **Mid-page screenshots come back blank.** It composites at scroll 0. Work
-  around it with `document.body.style.marginTop = '-NNNpx'` to pull content
-  up, then reset.
-- **Viewport emulation does not fire a `resize` event.** `innerWidth` changes
-  but the page is never told, so resize-driven code looks broken. Dispatch
-  `new Event('resize')` manually.
-- **The console buffer persists across navigations.** Stale errors from
-  earlier injected test scripts look live. Open a fresh tab to confirm.
-- `computer{action:"zoom"}` region crop is not supported — returns the full
-  screenshot.
+### Below 760px — rebuilt for phones
+- **Hero scatter:** `initMobileHero()` relocates the real prop nodes (not
+  clones, so handlers survive) around a centred headline. Each prop is ~3% of a
+  375×812 screen. Positions are CSS, keyed by `data-prop`. Reversible on resize.
+- **Work cards are a swipe deck** (`initCardDeck()`): stacked at wrong angles; a
+  horizontal swipe throws the top card to the **bottom** and brings the next up
+  — it loops. Hit-testing uses the card's box. A drag never counts as a tap.
+  The `busy` flag clears on a **timer, not rAF** — rAF doesn't run in a
+  background tab and the deck would lock.
+- **Journal** is open by default and can't be tapped shut.
+
+### Word search (both sizes)
+- **Two grids, one game.** Desktop: 15 columns × 12 rows from the markup.
+  Phone: 12 columns × 15 rows, defined as `TALL` in `main.js`. Both 5 across +
+  3 down. `mount()` swaps them at the breakpoint and restarts the round.
+- New grids must be **solved** so every crossing agrees — there is a solver in
+  the handoff bundle's tools. Then trace all eight words in the browser.
+- **Hints (word chips) and grid sit together; the Found / timer bar is below
+  the grid.** Clock starts on first drag, not on arrival. Hints are counted
+  only when a chip is *clicked*, not hovered.
+- 8/8 opens a "Congratulations — you know me" scoreboard with confetti.
+
+### Coupon
+- Desktop: the button dodges the cursor.
+- Click (any size): shrinks and says "Try once more", shrinking each click; the
+  7th opens the popup. "okay you win" appears **only when the popup opens**,
+  and stays after it is closed (it sits under the popup).
+
+---
+
+## 8. Gallery specifics
+
+- **Generated, not tiled.** Each cell built from a hash of its coordinates.
+  Photo choice `(i + 3j) mod N` — never repeats within two cells for N ≥ 9.
+  16 photos.
+- Cells are a spatial index, not slots; neighbours decide who gives way.
+  Measured: zero overlaps, 5–8 cards per screen.
+- **Dot-grid background** stays. Cursor is a **drawn open/closed hand**.
+- **Both games are easter eggs**: parked just past the first screen's edges
+  (`innerWidth/2 + 550`, ~4 wheel notches), level with the heading — tic-tac-toe
+  left, rock-paper-scissors right. Reserve boxes are measured off the real
+  elements so photos never overlap them.
+- **Rock-paper-scissors:** drawn hands, yellow cuffs = you, purple = computer.
+  Both fists bob three times before the reveal; the winner's side gets the
+  burst, flag and confetti.
+
+---
+
+## 9. Tools (in the handoff bundle, not the repo)
+
+No ImageMagick, ffmpeg or PIL on the original machine, so these use `sips`
+(macOS, built in) + `numpy`:
+
+- `img.py` — load/save any image via BMP round-trip through `sips`
+- `delogo.py` — find a light wordmark on a dark header and erase it by
+  interpolating each row between the pixels either side (invisible on a
+  gradient); flat-fill helper for white areas
+- `wordsearch_solve.py` — places the 8 skills in a grid of any size, all
+  crossings consistent
+
+**Always preview detection boxes before painting.** On the original screens a
+detector over-matched and flagged ordinary table content as logos; checking
+the preview is what stopped real content being erased.
+
+---
+
+## 10. Things that will waste your time
+
+### Claude Code's Browser pane
+- **rAF is frozen while the pane is hidden**, and **CSS transitions don't
+  advance inside one long-running script**. Do the click in one call and the
+  read in the next.
+- **Viewport emulation doesn't fire `resize`.** Test a breakpoint by loading
+  fresh at that width, or dispatch `new Event('resize')`.
+- **The console buffer persists across navigations** — but don't assume an
+  error is stale. One "stale" error here was a real bug; check the served file.
+- **Mid-page screenshots can come back blank** — it composites at scroll 0.
 
 ### Vercel
+- **Verify a deploy against a file the site serves.** A commit touching only
+  this file looks identical whether or not anything built — that is how two
+  failed deploys went unnoticed. Compare the live `main.js` to the local one.
+- `curl` can't check deploys (Vercel returns a challenge page). Use a browser.
+- If a deploy doesn't fire, an empty commit re-triggers it.
 
-- **`curl` cannot check whether a deploy landed.** Vercel returns
-  `x-vercel-mitigated: challenge` to curl regardless of user agent, so a
-  "200 OK" may be a challenge page. Verify through the Browser pane.
-- A deploy has silently failed to trigger once. An **empty commit** re-fires
-  the hook. There is no build step, so build failure is not the likely cause.
+### CSS traps found here
+- `overflow: hidden` on an ancestor kills `position: sticky` silently — use
+  `overflow: clip`.
+- A class selector beats the UA's `[hidden]` — overlays need
+  `.x[hidden] { display: none !important }`.
+- `[data-native-scroll]` regions must only claim the wheel when they can
+  actually scroll (`ownsWheel()` in `scroll.js`) — otherwise the page lurches.
 
-### Verifying scroll behaviour
-
-`scroll.js` is exercised by a Node harness with a stubbed DOM. Keep it in
-sync if the module's call shape changes. It covers: resistance over the work
-cards, anchor jumps landing on target, a nudge mid-jump redirecting rather
-than stranding, and upward scrolling never being held.
-
----
-
-## 7. Motric — current state
-
-Built 2 Oct 2026 from a Claude Docs artifact, **"Motric — Formal Variant"** tab:
-
-- Doc id `2708af00-f4fc-4290-9d17-60b7067ed950`, tab `463bc988-81cb`
-- Read it with the Claude Docs connector (`read`, ref
-  `{"object":"project","id":"<doc id>"}`), not by fetching the URL.
-- The other tab (`3dd67c76-0eb7`) is a less formal variant — **not** the one in
-  use.
-
-**Screens** come from `~/Downloads/CLaude portfolio rough.pdf` (153 pages,
-348MB). Thirteen pages were chosen by indexing every page's text and matching
-it to the flows. Rendered by splitting single pages out with `pypdf` and
-rasterising with `qlmanage -t -s 1440`. Assets in `assets/motric/` (~5.3MB).
-
-**Deliberately local only.** Not linked from `index.html`, not pushed. It is
-committed to `main` locally; `origin/main` does not have it.
-
-### Two unresolved contradictions between the text and the screens
-
-Flagged to Naina, not yet answered:
-
-1. The text says the IDV control is **"a draggable slider with Minimum,
-   Recommended and Maximum markers."** The actual screen is a **radio group**
-   (Minimum / Maximum / Custom IDV) with a numeric input and a Min–Max range
-   bar. The caption was softened to "a bounded control"; the body copy still
-   says slider.
-2. The text says **"eight steps"** from vehicle details to an issued policy.
-   The stepper in the screens shows **five** (Issuance Details, Quote Creation,
-   KYC Verification, Proposal Details, Checkout), and six later where Review
-   and Payment Mode split out.
-
-Also: the doc's Context section has three embedded persona images that were
-**not** used — she said to take images from the PDF, so the five roles are
-text cards. They can be pulled from the doc's blobs if she wants them.
+### Not available any more
+The Node harness that once tested `scroll.js` lived in a temporary folder and
+is gone. Verify scroll behaviour in a real browser.
 
 ---
 
-## 8. Homepage specifics
+## 11. How she works
 
-- The hero is a **1440×900 absolutely-positioned stage**, scaled to fit.
-  Below 760px `initMobileHero()` in `main.js` **relocates the real prop nodes**
-  (not clones, so handlers survive) into a stacked column. It is **reversible**
-  — `relocate()` / `teardown()`. It was one-way once and crossing the
-  breakpoint twice left the desktop stage empty.
-- **View Work** is a plain link (no button chrome) on the eyebrow's line,
-  mirroring its 206px inset from the right, pointing at `#projects`.
-  `initMobileHero` finds it **by id**, not by href — the href has moved once.
-- **Project cards** part from the centre as the section arrives (`[data-spread]`)
-  and the page resists scrolling while they are centred (`[data-slow]`): the
-  same gesture travels 1800px normally, 504px over the cards.
-- The pre-hidden state lives in the cascade behind a `js` class on `<html>`, set in
-  `<head>` — not added by JS on DOMContentLoaded, or the cards flash.
-- **The radio** plays Khalid — "Young Dumb & Broke" (`IPfJnp1guPc`) through a
-  YouTube embed, built on first click so no third-party request happens
-  otherwise. Starts at 0:20. **It is not connected to her YouTube Music
-  account** — there is no public API for a personal library, and that needs
-  OAuth she would set up herself.
-- **Word search:** 12×15 grid, 5 across + 3 down. Photo choice is
-  `(i + 3j) mod N`, which provably never repeats within two cells for N ≥ 9.
-  Chips sit **above** the grid. Keep `WORDS` in `main.js` in step with the
-  letters in the markup.
-
----
-
-## 9. Gallery specifics
-
-- **Generated, not tiled.** Each cell is built from a hash of its coordinates,
-  so a place looks the same every return without repeating on a fixed period.
-  Cells recycle as they leave the viewport.
-- A cell is a **spatial index, not a slot** — a card may sit anywhere inside
-  it, and a cell checks its neighbours (in any order, no shared state) to
-  decide which gives way. That is what stops it reading as rows and columns.
-- Cells are sized off the **largest a card can ever be** (`SCALE_MAX`), or the
-  biggest cards have no jitter room and line up in rows.
-- **Card sizes vary 0.62×–1.32×.** Identically sized cards read as a grid
-  wherever you put them.
-- Density is deliberately low (~19% coverage), modelled on
-  `plustolevel.taptop.site/content` — 12 items at 18.1% over 2528×1760.
-  Note that reference **does** repeat (3×3 lattice); ours does not.
-- **The heading and both games are pinned** — one of each, riding above the
-  field, never cloned. Naina asked for this explicitly.
-- Games: tic-tac-toe (AI blocks and wins, not random) and rock-paper-scissors
-  (inline SVG hands, not emoji).
-
----
-
-## 10. How she works
-
-- Wants **consistency across pages** above almost everything. Most sessions
-  have ended with "make it consistent throughout."
-- Prefers **subtle** over loud — grey rules over coloured bars, a link over a
-  button, "a lot of empty space."
-- Gives **short, direct corrections** and expects them applied, not debated.
-- Will say **"push to vercel"** when she wants it live. Otherwise don't.
-- Worth telling her plainly when an instruction conflicts with an earlier one
-  (e.g. "reduce the height of the screens" vs "don't cut the screens off") and
-  which way it was resolved.
-- Measure before claiming something is fixed. Several bugs here were only
-  found because a number was checked rather than eyeballed.
+- Wants **consistency across pages** above almost everything.
+- Prefers **subtle** — grey rules over coloured bars, a link over a button,
+  plenty of empty space.
+- Short, direct corrections; expects them applied, not debated.
+- Says **"push to vercel"** / "push" when she wants it live. Otherwise commit
+  locally and stop.
+- Tell her plainly when an instruction conflicts with an earlier one, and which
+  way it was resolved.
+- **Measure before claiming something is fixed.** Most bugs here were found
+  because a number was checked rather than eyeballed.
